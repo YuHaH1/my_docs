@@ -180,6 +180,6 @@ top动态地显示系统中各个进程的资源占用情况，包括 CPU 占用
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">scp</span> <span class="token parameter variable">-P</span> <span class="token number">2222</span> /home/user/file.txt user@example.com:/tmp
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>这会将本地 <code v-pre>/home/user/file.txt</code> 文件复制到远程主机 <code v-pre>example.com</code> 的 <code v-pre>/tmp</code> 目录下，并使用 <code v-pre>2222</code> 端口进行连接。</p>
 <p>注意：使用 <code v-pre>scp</code> 命令时，需要确保本地和远程主机都有 SSH 服务，并且具有正确的权限和设置。</p>
-</div></template>
+<CommentService/></div></template>
 
 

@@ -28,57 +28,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "计算机网络",
-    "headers": [],
-    "path": "/Interview/ComputerNetwork/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "node面经",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.2、垃圾回收机制",
-        "slug": "_1-2、垃圾回收机制",
-        "link": "#_1-2、垃圾回收机制",
-        "children": [
-          {
-            "level": 3,
-            "title": "1.2.1、内存分代",
-            "slug": "_1-2-1、内存分代",
-            "link": "#_1-2-1、内存分代",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "1.2.2、scavenge算法-针对于新生代",
-            "slug": "_1-2-2、scavenge算法-针对于新生代",
-            "link": "#_1-2-2、scavenge算法-针对于新生代",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "1.2.3、Mark-Sweep & Mark-Compact-针对于老生代",
-            "slug": "_1-2-3、mark-sweep-mark-compact-针对于老生代",
-            "link": "#_1-2-3、mark-sweep-mark-compact-针对于老生代",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "1.2.4、Incremental Marking-针对垃圾回收引起全停顿",
-            "slug": "_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
-            "link": "#_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
-            "children": []
-          }
-        ]
-      }
-    ],
-    "path": "/Interview/Node/node%E9%9D%A2%E7%BB%8F.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "canvas基础",
     "headers": [
       {
@@ -959,6 +908,13 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "diff",
+    "headers": [],
+    "path": "/Notes/Vue/diff.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "TypeScript内置类型",
     "headers": [],
     "path": "/Notes/TypeScript/grammar.html",
@@ -966,9 +922,53 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "diff",
+    "title": "计算机网络",
     "headers": [],
-    "path": "/Notes/Vue/diff.html",
+    "path": "/Interview/ComputerNetwork/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "node面经",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.2、垃圾回收机制",
+        "slug": "_1-2、垃圾回收机制",
+        "link": "#_1-2、垃圾回收机制",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.2.1、内存分代",
+            "slug": "_1-2-1、内存分代",
+            "link": "#_1-2-1、内存分代",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.2.2、scavenge算法-针对于新生代",
+            "slug": "_1-2-2、scavenge算法-针对于新生代",
+            "link": "#_1-2-2、scavenge算法-针对于新生代",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.2.3、Mark-Sweep & Mark-Compact-针对于老生代",
+            "slug": "_1-2-3、mark-sweep-mark-compact-针对于老生代",
+            "link": "#_1-2-3、mark-sweep-mark-compact-针对于老生代",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.2.4、Incremental Marking-针对垃圾回收引起全停顿",
+            "slug": "_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
+            "link": "#_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Interview/Node/node%E9%9D%A2%E7%BB%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -1002,16 +1002,3 @@ export const searchIndex = [
     "extraFields": []
   }
 ]
-
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept()
-  if (__VUE_HMR_RUNTIME__.updateSearchIndex) {
-    __VUE_HMR_RUNTIME__.updateSearchIndex(searchIndex)
-  }
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(({ searchIndex }) => {
-    __VUE_HMR_RUNTIME__.updateSearchIndex(searchIndex)
-  })
-}

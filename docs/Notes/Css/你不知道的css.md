@@ -16,3 +16,4 @@ user-select:none
 
 ~~~
 
+<CommentService/>

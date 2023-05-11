@@ -146,6 +146,6 @@ Ctrl + p + q
 静态网站的部署
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_6-docker需要了解的内容" tabindex="-1"><a class="header-anchor" href="#_6-docker需要了解的内容" aria-hidden="true">#</a> 6.docker需要了解的内容</h2>
 <p><strong>每一个 Docker容器都是独立和安全的应用平台（我们可以理解为，每一个docker容器都相当于在我们的服务器上占用资源然后开辟了属于自己的一个空间（也可以理解为服务器））——也就是说每个容器之间环境都是隔离的</strong>如果外部想要访问容器，那必须得让容器中的端口与宿主机的端口建立联系绑定起来，这个正式的概念叫做<code v-pre> 容器端口映射</code>。宿主机每个端口都是一个，8888端口被redis002容器绑定了，那么其他所有的容器都不可以使用8888这个端口了!!!</p>
-</div></template>
+<CommentService/></div></template>
 
 

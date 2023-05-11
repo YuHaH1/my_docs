@@ -145,6 +145,6 @@ pm2 start app.js <span class="token parameter variable">-i</span> max
 <li>可靠性：在 Fork 模式下，每个应用程序的崩溃或停止会影响整个应用程序的运行；在 Cluster 模式下，如果一个进程崩溃或停止，其他进程可以继续处理请求，以确保应用程序的连续运行。</li>
 </ol>
 <p>Fork 模式适用于单核 CPU 或需要独立管理每个应用程序的情况，而 Cluster 模式适用于多核 CPU 或需要处理更高并发请求的情况。在选择模式时，您应该根据应用程序的需求和环境来选择最适合的模式，以提高应用程序的性能、可靠性和可扩展性。</p>
-</div></template>
+<CommentService/></div></template>
 
 

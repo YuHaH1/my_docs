@@ -1,0 +1,4 @@
+import{_ as s,M as a,p as n,q as c,N as r,a1 as t}from"./framework-5866ffd3.js";const i={},d=t(`<h1 id="你不知道的css" tabindex="-1"><a class="header-anchor" href="#你不知道的css" aria-hidden="true">#</a> 你不知道的css</h1><h2 id="文字不允许选中" tabindex="-1"><a class="header-anchor" href="#文字不允许选中" aria-hidden="true">#</a> 文字不允许选中</h2><div class="language-css line-numbers-mode" data-ext="css"><pre class="language-css"><code>
+<span class="token property">user-select</span><span class="token punctuation">:</span>none
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,3);function o(l,_){const e=a("CommentService");return n(),c("div",null,[d,r(e)])}const u=s(i,[["render",o],["__file","你不知道的css.html.vue"]]);export{u as default};

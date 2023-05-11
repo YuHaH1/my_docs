@@ -422,6 +422,6 @@ server<span class="token punctuation">.</span><span class="token function">liste
 <p>在每一个阶段都有事件队列，而nextTick的在微任务中的优先级最高，如果有nextTick会先执行，然后再执行其他微任务如promise.then finally等，</p>
 <h1 id="_4-进程" tabindex="-1"><a class="header-anchor" href="#_4-进程" aria-hidden="true">#</a> 4.进程</h1>
 <p>Node使用V8引擎，JS运行在单个进程的单个线程上，好处在于没有多线程的锁、和线程同步问题，也没有操作系统调度时上下文切换的消耗。</p>
-</div></template>
+<CommentService/></div></template>
 
 

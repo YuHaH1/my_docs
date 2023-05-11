@@ -4,6 +4,8 @@ title: canvas基础
 description: 关键功能
 collapsible: true
 ---
+
+
 # canvas基础
 
 **Canvas API** 提供了一个通过[JavaScript](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript) 和 [HTML](https://developer.mozilla.org/zh-CN/docs/Web/HTML)的[``](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/canvas)元素来绘制图形的方式。它可以用于动画、游戏画面、数据可视化、图片编辑以及实时视频处理等方面。
@@ -75,30 +77,5 @@ var ctx = canvas.getContext("2d");
 
 **`CanvasRenderingContext2D.stroke()`** 是 Canvas 2D API 使用非零环绕规则，根据当前的画线样式，绘制当前或已经存在的路径的方法。
 
-~~~html
-::: demo 此处放置代码示例的描述信息，支持 `Markdown` 语法，**描述信息只支持单行**
-```html
-<template>
-  <div class="red-center-text">
-      <p>{{ message }}</p>
-      <input v-model="message" placeholder="Input something..."/>
-  </div>
-</template>
-<script>
-export default {
-  data() {
-    return {
-      message: 'Hello Vue'
-    }
-  }
-}
-</script>
-<style>
-.red-center-text { 
-  color: #ff7875;
-  text-align: center;
-}
-</style>
-` ` `  <= 删除左侧空格
-:::
-~~~
+
+<CommentService/>

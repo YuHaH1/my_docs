@@ -823,6 +823,6 @@ pseudoElt 可选
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="custom-container tip"><p class="custom-container-title">TIP</p>
 <p><strong>返回的对象与从元素的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/style" target="_blank" rel="noopener noreferrer"><code v-pre>style</code><ExternalLinkIcon/></a> 属性返回的对象具有相同的类型;然而，两个对象具有不同的目的。从<code v-pre>getComputedStyle</code>返回的对象是只读的，可以用于检查元素的样式（包括由一个<code v-pre>&lt;style&gt;</code>元素或一个外部样式表设置的那些样式）。<code v-pre>elt.style</code>对象应用于在特定元素上设置样式。</strong></p>
 </div>
-</div></template>
+<CommentService/></div></template>
 
 

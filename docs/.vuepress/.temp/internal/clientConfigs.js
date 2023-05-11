@@ -5,7 +5,9 @@ import clientConfig3 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题
 import clientConfig4 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/node_modules/.pnpm/@vuepress+plugin-nprogress@2.0.0-beta.61/node_modules/@vuepress/plugin-nprogress/lib/client/config.js'
 import clientConfig5 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/node_modules/.pnpm/@vuepress+plugin-theme-data@2.0.0-beta.61/node_modules/@vuepress/plugin-theme-data/lib/client/config.js'
 import clientConfig6 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/node_modules/.pnpm/@vuepress+theme-default@2.0.0-beta.61/node_modules/@vuepress/theme-default/lib/client/config.js'
-import clientConfig7 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/node_modules/.pnpm/@vuepress+plugin-search@2.0.0-beta.61/node_modules/@vuepress/plugin-search/lib/client/config.js'
+import clientConfig7 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/docs/.vuepress/.temp/sass-palette/load-hope.js'
+import clientConfig8 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/node_modules/.pnpm/vuepress-plugin-comment2@2.0.0-beta.209_vuepress@2.0.0-beta.61/node_modules/vuepress-plugin-comment2/lib/client/config.js'
+import clientConfig9 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/node_modules/.pnpm/@vuepress+plugin-search@2.0.0-beta.61/node_modules/@vuepress/plugin-search/lib/client/config.js'
 
 export const clientConfigs = [
   clientConfig0,
@@ -16,4 +18,6 @@ export const clientConfigs = [
   clientConfig5,
   clientConfig6,
   clientConfig7,
+  clientConfig8,
+  clientConfig9,
 ]

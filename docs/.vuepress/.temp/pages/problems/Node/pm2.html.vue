@@ -6,6 +6,6 @@
 
 pm2 start xx.js
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>关于pm2的更多详细信息看笔记 或官方地址：https://github.com/Unitech/pm2</p>
-</div></template>
+<CommentService/></div></template>
 
 

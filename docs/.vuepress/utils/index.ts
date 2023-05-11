@@ -55,7 +55,7 @@ const create_sidebar_md = (lib_array: Array<Array<string>>, dir_name: string) =>
         lib.forEach(v => {
             const file = path.resolve(__dirname, `../../${intergrate_dir_name + v}`)
             const is_exist = fs.existsSync(file)
-            const framatterString = '---\nlang: zh-CN\ntitle: ' + v.split('.')[0] + '\ndescription: 关键功能\ncollapsible: true\n---\n# ' + v.split('.')[0]
+            const framatterString = '---\nlang: zh-CN\ntitle: ' + v.split('.')[0] + '\ndescription: 关键功能\ncollapsible: true\n---\n# ' + v.split('.')[0] + '\n<CommentService/>'
             if (!is_exist) {
                 try {
                     fs.appendFile(file, framatterString, (err) => {

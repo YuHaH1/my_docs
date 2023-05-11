@@ -11,6 +11,6 @@
 <p>scp -r dist/ user@remote_host:/data</p>
 <p>其中 -r是scp的一个选项-递归复制 是<code v-pre>user</code> 是您在远程服务器上的用户名:root，<code v-pre>remote_host</code> 是远程服务器的 IP 地址或主机名。请注意，命令中的路径应该是相对于当前目录的相对路径，因此我们在路径前面添加了 <code v-pre>dist/</code>。</p>
 <p>~~~</p>
-</div></template>
+<CommentService/></div></template>
 
 
