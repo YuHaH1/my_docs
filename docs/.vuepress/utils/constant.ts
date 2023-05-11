@@ -13,7 +13,10 @@ const SUBJECTS = {
     ['服务器']: 'Server',
     linux: 'linux',
     css: 'css',
-    canvas: 'canvas'
+    canvas: 'canvas',
+    utils: {
+        vuepress: 'vuepress'
+    }
 }
 
 const Notes_Sidebar_Setting = [
@@ -32,10 +35,15 @@ const Notes_Sidebar_Setting = [
 const Interview_Sidebar_Setting = [
     [SUBJECTS.node, 'node面经.md'],
     [SUBJECTS['计算机网络'], '计算机网络.md'],
+    [SUBJECTS.js, 'js面经.md'],
+    [SUBJECTS.css, 'css面经.md'],
 ]
 const Problems_Sidebar_Setting = [
     [SUBJECTS.node, 'pm2.md'],
     [SUBJECTS['服务器'], '服务器.md'],
+]
+const Utils_Sidebar_Setting = [
+    [SUBJECTS.utils.vuepress, 'Vuepress插件.md']
 ]
 
 
@@ -47,7 +55,12 @@ const Problems_navbar_Setting = [
 ]
 const Interview_navbar_Setting = [
     SUBJECTS.node,
-    SUBJECTS['计算机网络']
+    SUBJECTS['计算机网络'],
+    SUBJECTS.js,
+    SUBJECTS.css,
+]
+const Utils_navbar_Setting = [
+    SUBJECTS.utils.vuepress
 ]
 const Notes_navbar_Setting = [
     SUBJECTS.react,
@@ -68,5 +81,7 @@ export {
     Problems_navbar_Setting,
     Interview_navbar_Setting,
     Notes_navbar_Setting,
-    my_typora_path
+    my_typora_path,
+    Utils_navbar_Setting,
+    Utils_Sidebar_Setting
 }

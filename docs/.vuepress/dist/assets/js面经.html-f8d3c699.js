@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-8b1ac762","path":"/Interview/JavaScript/js%E9%9D%A2%E7%BB%8F.html","title":"js面经","lang":"zh-CN","frontmatter":{"lang":"zh-CN","title":"js面经","description":"关键功能","collapsible":true},"headers":[],"git":{"updatedTime":null,"contributors":[]},"filePathRelative":"Interview/JavaScript/js面经.md"}');export{t as data};

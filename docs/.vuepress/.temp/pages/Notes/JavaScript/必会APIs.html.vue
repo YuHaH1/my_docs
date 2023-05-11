@@ -1,4 +1,4 @@
-<template><div><h1 id="必会apis" tabindex="-1"><a class="header-anchor" href="#必会apis" aria-hidden="true">#</a> 必会APIs</h1>
+<template><div><h1 id="js必会apis" tabindex="-1"><a class="header-anchor" href="#js必会apis" aria-hidden="true">#</a> JS必会APIs</h1>
 <h2 id="_1-intersectionobserver视口交叉状态检测" tabindex="-1"><a class="header-anchor" href="#_1-intersectionobserver视口交叉状态检测" aria-hidden="true">#</a> 1.IntersectionObserver视口交叉状态检测</h2>
 <p><code v-pre>IntersectionObserver</code>提供了一种异步观察目标元素与其祖先元素或顶级文档<a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Viewport" target="_blank" rel="noopener noreferrer">视口<ExternalLinkIcon/></a>（viewport）交叉状态的方法。其祖先元素或视口被称为根（root）。</p>
 <p>当一个 <code v-pre>IntersectionObserver</code> 对象被创建时，其被配置为监听根中一段给定比例的可见区域。一旦 <code v-pre>IntersectionObserver</code> 被创建，则无法更改其配置，所以一个给定的观察者对象只能用来监听可见区域的特定变化值；然而，你可以在同一个观察者对象中配置监听多个目标元素。</p>
@@ -786,17 +786,15 @@ takeRecords
 </li>
 </ol>
 <h2 id="_10-存储相关indexeddb" tabindex="-1"><a class="header-anchor" href="#_10-存储相关indexeddb" aria-hidden="true">#</a> 10.存储相关IndexedDB</h2>
-<p>接口是异步的且支持事务（要么全部成功 要么全部失败）</p>
-<p>前面已经说了service worker 了  这里再说一个IndexedDB  storege经常用就一笔带过了。</p>
-<p>用于在客户端存储大量的结构化数据（也包括文件/二进制大型对象（blobs））。该 API 使用索引实现对数据的高性能搜索。虽然 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API" target="_blank" rel="noopener noreferrer">Web Storage<ExternalLinkIcon/></a> 在存储较少量的数据很有用，但对于存储更大量的结构化数据来说力不从心。</p>
-<p>什么是IndexedDB？IndexedDB 是一个基于 JavaScript 的面向对象数据库。</p>
+<p>indexedDB有什么用？解决了什么问题？<strong>虽然 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API" target="_blank" rel="noopener noreferrer">Web Storage<ExternalLinkIcon/></a> 在存储较少量的数据很有用，但对于存储更大量的结构化数据来说力不从心。IndexedDB 的主要设计目标之一就是允许大量数据可以被存储以供离线使用。可以在客户端存储大量的结构化数据（也包括文件/二进制大型对象（blobs））。该 API 使用索引实现对数据的高性能搜索。</strong></p>
+<p>什么是IndexedDB？<strong>IndexedDB 是一个基于 JavaScript 的面向对象数据库。</strong></p>
+<p>有什么特点？<strong>接口是异步的且支持事务（要么全部成功 要么全部失败）</strong></p>
 <p>使用IndexedDB我们需要了解一些前置知识：</p>
-<ol>
-<li>
-<p>存储限制：</p>
-</li>
-<li>
-<p>浏览器的最大存储空间是动态的——它取决于您的硬盘大小。 <strong>全局限制</strong>为可用磁盘空间的 50％。在 Firefox 中，一个名为 Quota Manager 的内部浏览器工具会跟踪每个源用尽的磁盘空间，并在必要时删除数据。</p>
+<div class="custom-container tip"><p class="custom-container-title">TIP</p>
+<p>1.存储限制</p>
+</div>
+<p>浏览器的最大存储空间是动态的——它取决于您的硬盘大小。</p>
+<p><strong>全局限制</strong>为可用磁盘空间的 50％。在 Firefox 中，一个名为 Quota Manager 的内部浏览器工具会跟踪每个源用尽的磁盘空间，并在必要时删除数据。</p>
 <p>因此，如果您的硬盘驱动器是 500GB，那么浏览器的总存储容量为 250GB。如果超过此范围，则会发起称为<strong>源回收</strong>的过程，删除整个源的数据，直到存储量再次低于限制。删除源数据没有只删一部分的说法——因为这样可能会导致不一致的问题。</p>
 <p>还有另一个限制称为<strong>组限制</strong>——这被定义为全局限制的 20％，但它至少有 10 MB，最大为 2GB。每个源都是一组（源组）的一部分。每个 eTLD+1 域都有一个组。例如：</p>
 <ul>
@@ -806,9 +804,377 @@ takeRecords
 <li><code v-pre>firefox.com</code> ——组 2，源 4</li>
 </ul>
 <p>在这个组中，<code v-pre>mozilla.org</code>、<code v-pre>www.mozilla.org</code>和<code v-pre>joe.blogs.mozilla.org</code>可以聚合使用最多 20％的全局限制。firefox.com 单独最多使用 20％。</p>
+<p><strong>解释以下组限制</strong>：组限制实际上是对同一个域名下的多个源的存储空间进行限制，以避免其中一个源占用过多的存储空间影响其他源的正常使用。而源限制则是对每个单独的源的存储空间进行限制，以避免该源占用过多的存储空间影响自身的使用和其他源的使用。</p>
+<h3 id="如何使用" tabindex="-1"><a class="header-anchor" href="#如何使用" aria-hidden="true">#</a> 如何使用</h3>
+<ol>
+<li>
+<p>兼容性判断</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>window<span class="token punctuation">.</span>indexedDB<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    window<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available."</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>打开数据库,并创建一个对象仓库。（当你创建一个新的数据库或者增加已存在的数据库的版本号， <code v-pre>onupgradeneeded</code> 事件会被触发，<a href="https://developer.mozilla.org/en-US/docs/Web/API/IDBVersionChangeEvent" target="_blank" rel="noopener noreferrer">IDBVersionChangeEvent <ExternalLinkIcon/></a> 对象会作为参数传递给绑定在 <code v-pre>db </code>上的<code v-pre>onversionchange</code> 事件处理函数，你应该在此创建该版本需要的对象仓库）</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">//该 open 方法接受第二个参数，就是数据库的版本号。数据库的版本决定了数据库架构，即数据库的对象仓库（object store）和他的结构。如果数据库不存在，open 操作会创建该数据库，然后 onupgradeneeded 事件被触发，你需要在该事件的处理函数中创建数据库模式。如果数据库已经存在，但你指定了一个更高的数据库版本，会直接触发 onupgradeneeded 事件，允许你在处理函数中更新数据库模式。</span>
+<span class="token comment">// 打开我们的数据库open 函数的结果是一个 IDBDatabase 对象的实例 。</span>
+<span class="token keyword">const</span> request <span class="token operator">=</span> window<span class="token punctuation">.</span>indexedDB<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"MyTestDatabase"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//open 请求不会立即打开数据库或者开始一个事务。对 open() 函数的调用会返回一个我们可以作为事件来处理的包含 result（成功的话）或者错误值的 IDBOpenDBRequest  对象。在 IndexedDB 中的大部分异步方法做的都是同样的事情 - 返回一个包含 result 或错误的 IDBRequest (en-US) 对象。</span>
+
+
+<span class="token comment">// 该事件仅在较新的浏览器中实现了</span>
+request<span class="token punctuation">.</span><span class="token function-variable function">onupgradeneeded</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 保存 IDBDataBase 接口</span>
+  <span class="token keyword">const</span> db <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+
+  <span class="token comment">// 为该数据库创建一个对象仓库</span>
+  <span class="token keyword">const</span> objectStore <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">createObjectStore</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">keyPath</span><span class="token operator">:</span> <span class="token string">"myKey"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>尝试创建一个与已存在的对象仓库重名（或删除一个不存在的对象仓库）会抛出错误。如果 <code v-pre>onupgradeneeded</code>事件成功执行完成，打开数据库请求的 <code v-pre>onsuccess</code> 处理函数会被触发。</p>
+</li>
+<li>
+<p>添加成功和失败处理函数</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>db<span class="token punctuation">.</span><span class="token function-variable function">onerror</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Do something with request.errorCode!</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+request<span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            db <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>db<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>启动一个事务，并发送一个请求来执行一些数据库操作，像增加或提取数据等。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">let</span> db <span class="token operator">=</span> <span class="token keyword">null</span>
+<span class="token keyword">const</span> request <span class="token operator">=</span> indexedDB<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>dbName<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+request<span class="token punctuation">.</span><span class="token function-variable function">onupgradeneeded</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    db <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+    <span class="token keyword">var</span> objectStore <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">createObjectStore</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">keyPath</span><span class="token operator">:</span> <span class="token string">"custom_info"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+<p>简单的例子</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>        <span class="token keyword">const</span> dbName <span class="token operator">=</span> <span class="token string">"my_test_db"</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> request <span class="token operator">=</span> indexedDB<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>dbName<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> db <span class="token operator">=</span> <span class="token keyword">null</span>
+        request<span class="token punctuation">.</span><span class="token function-variable function">onerror</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 错误处理</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+        request<span class="token punctuation">.</span><span class="token function-variable function">onupgradeneeded</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            db <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+            <span class="token comment">// 建立一个对象仓库来存储我们客户的相关信息，我们选择 custom_info 作为键路径（key path）</span>
+            <span class="token comment">// 因为 ssn 可以保证是不重复的</span>
+            <span class="token keyword">var</span> objectStore <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">createObjectStore</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">keyPath</span><span class="token operator">:</span> <span class="token string">"custom_info"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// 建立一个索引来通过姓名来搜索客户。名字可能会重复，所以我们不能使用 unique 索引</span>
+            objectStore<span class="token punctuation">.</span><span class="token function">createIndex</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">unique</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// 使用邮箱建立索引，我们向确保客户的邮箱不会重复，所以我们使用 unique 索引</span>
+            objectStore<span class="token punctuation">.</span><span class="token function">createIndex</span><span class="token punctuation">(</span><span class="token string">"email"</span><span class="token punctuation">,</span> <span class="token string">"email"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">unique</span><span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// 使用事务的 oncomplete 事件确保在插入数据前对象仓库已经创建完毕</span>
+            objectStore<span class="token punctuation">.</span>transaction<span class="token punctuation">.</span><span class="token function-variable function">oncomplete</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 将数据保存到新创建的对象仓库</span>
+                <span class="token keyword">const</span> customerObjectStore <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">transaction</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">,</span> <span class="token string">"readwrite"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">objectStore</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                customerData<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">customer</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    customerObjectStore<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>customer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="custom-container tip"><p class="custom-container-title">TIP</p>
+<p><code v-pre>onupgradeneeded</code> 是我们唯一可以修改数据库结构的地方。在这里面，我们可以创建和删除对象存储空间以及构建和删除索引。但是该方法只有创建新的数据库和更新版本时才会调用。如果我们操作已存在的数据库需要在<code v-pre>onsuccess</code>事件中取<code v-pre>e.target.result</code></p>
+</div>
+<h3 id="实例方法" tabindex="-1"><a class="header-anchor" href="#实例方法" aria-hidden="true">#</a> 实例方法</h3>
+<h4 id="createobjectstore" tabindex="-1"><a class="header-anchor" href="#createobjectstore" aria-hidden="true">#</a> createObjectStore</h4>
+<p>该方法相当于创建了一张表。该方法创建并返回一个新的ObjectStore</p>
+<blockquote>
+<h6 id="参数" tabindex="-1"><a class="header-anchor" href="#参数" aria-hidden="true">#</a> 参数</h6>
+</blockquote>
+<ol>
+<li>
+<p>name</p>
+<p>被创建的 object store 的名称。name可以是空。这个name可以理解为表名</p>
+</li>
+<li>
+<p>optionalParameters（可选）</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code>optionalParameters <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment">//指定对象仓库中每个对象的主键（primary key）的名称或路径，类型为字符串或字符串数组。如果不指定，则使用自增长的整数作为主键。。</span>
+    keyPath<span class="token operator">:</span><span class="token keyword">undefined</span> <span class="token operator">|</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token comment">//指定是否使用自增长的整数作为主键。如果为 true，则表示使用自增长的整数作为主键，如果为 false，则表示不使用自增长的整数作为主键。默认为 false。</span>
+    autoIncrement<span class="token operator">:</span><span class="token builtin">boolean</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>返回值</p>
+<p>新创建的 object store 对象。表实例对象</p>
 </li>
 </ol>
-<h2 id="—样式相关apis—" tabindex="-1"><a class="header-anchor" href="#—样式相关apis—" aria-hidden="true">#</a> —样式相关APIs—</h2>
+<h4 id="deleteobjectstore" tabindex="-1"><a class="header-anchor" href="#deleteobjectstore" aria-hidden="true">#</a> deleteObjectStore</h4>
+<p><strong><code v-pre>eleteObjectStore()</code></strong> 方法从 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/IDBDatabase" target="_blank" rel="noopener noreferrer"><code v-pre>IDBDatabase</code><ExternalLinkIcon/></a> 中销毁指定名称的对象存储，及这个对象存储所包含的任何索引。</p>
+<p>参数 name</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">var</span> dbName <span class="token operator">=</span> <span class="token string">"sampleDB"</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> dbVersion <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> request <span class="token operator">=</span> indexedDB<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>dbName<span class="token punctuation">,</span> dbVersion<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+request<span class="token punctuation">.</span><span class="token function-variable function">onupgradeneeded</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> db <span class="token operator">=</span> request<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>oldVersion <span class="token operator">&lt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    db<span class="token punctuation">.</span><span class="token function">createObjectStore</span><span class="token punctuation">(</span><span class="token string">"store1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>oldVersion <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    db<span class="token punctuation">.</span><span class="token function">deleteObjectStore</span><span class="token punctuation">(</span><span class="token string">"store1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    db<span class="token punctuation">.</span><span class="token function">createObjectStore</span><span class="token punctuation">(</span><span class="token string">"store2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="transaction" tabindex="-1"><a class="header-anchor" href="#transaction" aria-hidden="true">#</a> transaction</h4>
+<p>该方法返回一个事务对象，通过该对象我们可以进行增删改查,事务提供了三种模式：<code v-pre>readonly</code>、<code v-pre>readwrite</code> 和 <code v-pre>versionchange</code>。</p>
+<blockquote>
+<h6 id="参数-1" tabindex="-1"><a class="header-anchor" href="#参数-1" aria-hidden="true">#</a> 参数</h6>
+<p>1.<code v-pre>storeNames：string | string[]</code></p>
+<p>2.<code v-pre>mode?:'readonly'|'readwrite'|'readwriteflush'</code> 默认只读</p>
+<p>3.<code v-pre>durability?:'default'|'strict'|'relaxed'</code>默认default</p>
+<p>durability 提倡用relaxed对于临时数据  strict更重视数据安全的情况下使用</p>
+</blockquote>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code>
+        <span class="token keyword">const</span> dbName <span class="token operator">=</span> <span class="token string">"my_test_db"</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> request <span class="token operator">=</span> indexedDB<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>dbName<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> db <span class="token operator">=</span> <span class="token keyword">null</span>
+        request<span class="token punctuation">.</span><span class="token function-variable function">onerror</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 错误处理</span>
+            <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        request<span class="token punctuation">.</span><span class="token function-variable function">onupgradeneeded</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            db <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+            <span class="token comment">// 建立一个对象仓库来存储我们客户的相关信息，我们选择 custom_info 作为键路径（key path）</span>
+            <span class="token comment">// 因为 ssn 可以保证是不重复的</span>
+            <span class="token keyword">var</span> objectStore <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">createObjectStore</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> keyPath<span class="token operator">:</span> <span class="token string">"custom_info"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// 建立一个索引来通过姓名来搜索客户。名字可能会重复，所以我们不能使用 unique 索引</span>
+            objectStore<span class="token punctuation">.</span><span class="token function">createIndex</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> unique<span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            objectStore<span class="token punctuation">.</span><span class="token function">createIndex</span><span class="token punctuation">(</span><span class="token string">"email"</span><span class="token punctuation">,</span> <span class="token string">"email"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> unique<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">const</span> transaction <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">transaction</span><span class="token punctuation">(</span><span class="token string">'customers'</span><span class="token punctuation">)</span>
+            <span class="token keyword">const</span> transactions <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">transaction</span><span class="token punctuation">(</span>db<span class="token punctuation">.</span>objectStoreNames<span class="token punctuation">)</span>
+            <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>transaction<span class="token punctuation">)</span>
+
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="增-删-改-查" tabindex="-1"><a class="header-anchor" href="#增-删-改-查" aria-hidden="true">#</a> 增 删 改 查</h3>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>
+    <span class="token operator">&lt;</span>script<span class="token operator">></span>
+        <span class="token keyword">const</span> dbName <span class="token operator">=</span> <span class="token string">"my_test_db"</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> request <span class="token operator">=</span> indexedDB<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>dbName<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> db <span class="token operator">=</span> <span class="token keyword">null</span>
+        request<span class="token punctuation">.</span><span class="token function-variable function">onerror</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 错误处理</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+        request<span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            db <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+            <span class="token comment">// 对象仓库  </span>
+            <span class="token keyword">const</span> customers_store <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">transaction</span><span class="token punctuation">(</span><span class="token string">'customers'</span><span class="token punctuation">,</span> <span class="token string">'readwrite'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">objectStore</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 查数据</span>
+            <span class="token keyword">const</span> get_res <span class="token operator">=</span> customers_store<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+            get_res<span class="token punctuation">.</span><span class="token function-variable function">onerror</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 错误处理！</span>
+                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'出错了'</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">;</span>
+            get_res<span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 对 request.result 做些操作！</span>
+                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>get_res<span class="token punctuation">.</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">;</span>
+            <span class="token comment">// // 插入数据</span>
+            <span class="token comment">// const add_res = customers_store.add({ email: 'xxxx@qq.com', age: 26, name: 'fancy' });</span>
+
+            <span class="token comment">// add_res.onerror = function (event) {</span>
+            <span class="token comment">//     // 错误处理！</span>
+            <span class="token comment">//     console.log('出错了', event)</span>
+            <span class="token comment">// };</span>
+            <span class="token comment">// add_res.onsuccess = function (event) {</span>
+            <span class="token comment">//     // 对 request.result 做些操作！</span>
+            <span class="token comment">//     console.log(add_res.result);</span>
+            <span class="token comment">// };</span>
+
+            <span class="token comment">// 修改数据</span>
+            <span class="token comment">// const put_res = customers_store.put({</span>
+            <span class="token comment">//     user_id: 1,</span>
+            <span class="token comment">//     email: '1074121761.163.com'</span>
+            <span class="token comment">// })</span>
+            <span class="token comment">// put_res.onerror = function (event) {</span>
+            <span class="token comment">//     // 错误处理！</span>
+            <span class="token comment">//     console.log('出错了')</span>
+            <span class="token comment">// };</span>
+            <span class="token comment">// put_res.onsuccess = function (event) {</span>
+            <span class="token comment">//     // 对 request.result 做些操作！</span>
+            <span class="token comment">//     console.log(put_res.result);</span>
+            <span class="token comment">// };</span>
+            <span class="token comment">// 删除数据</span>
+            <span class="token comment">// const delete_res = customers_store.delete(1)</span>
+            <span class="token comment">// delete_res.onerror = function (event) {</span>
+            <span class="token comment">//     // 错误处理！</span>
+            <span class="token comment">//     console.log('出错了')</span>
+            <span class="token comment">// };</span>
+            <span class="token comment">// delete_res.onsuccess = function (event) {</span>
+            <span class="token comment">//     // 对 request.result 做些操作！</span>
+            <span class="token comment">//     console.log(delete_res.result);</span>
+            <span class="token comment">// };</span>
+
+            <span class="token comment">// 在所有数据添加完毕后的处理</span>
+            customers_store<span class="token punctuation">.</span><span class="token function-variable function">oncomplete</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// alert("All done!");</span>
+            <span class="token punctuation">}</span><span class="token punctuation">;</span>
+            customers_store<span class="token punctuation">.</span><span class="token function-variable function">onerror</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 不要忘记错误处理！</span>
+                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'事务错误'</span><span class="token punctuation">,</span> event<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="add" tabindex="-1"><a class="header-anchor" href="#add" aria-hidden="true">#</a> add</h4>
+<div class="custom-container tip"><p class="custom-container-title">TIP</p>
+<p>add() 方法的调用时，对象仓库中不能存在相同键的对象。如果你想修改一个已存在的条目，或者你不关心该数据是否已存在，你可以使用 put() 方法</p>
+</div>
+<h4 id="put" tabindex="-1"><a class="header-anchor" href="#put" aria-hidden="true">#</a> put</h4>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">var</span> objectStore <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">transaction</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"customers"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">"readwrite"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">objectStore</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> request <span class="token operator">=</span> objectStore<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+request<span class="token punctuation">.</span><span class="token function-variable function">onerror</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 错误处理</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+request<span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 获取我们想要更新的数据</span>
+  <span class="token keyword">var</span> data <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+
+  <span class="token comment">// 更新你想修改的数据</span>
+  data<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 把更新过的对象放回数据库</span>
+  <span class="token keyword">var</span> requestUpdate <span class="token operator">=</span> objectStore<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   requestUpdate<span class="token punctuation">.</span><span class="token function-variable function">onerror</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     <span class="token comment">// 错误处理</span>
+   <span class="token punctuation">}</span><span class="token punctuation">;</span>
+   requestUpdate<span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     <span class="token comment">// 完成，数据已更新！</span>
+   <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="delete" tabindex="-1"><a class="header-anchor" href="#delete" aria-hidden="true">#</a> delete</h4>
+<h4 id="get" tabindex="-1"><a class="header-anchor" href="#get" aria-hidden="true">#</a> get</h4>
+<p>这里只用到一个对象仓库，你可以只传该对象仓库的名字作为参数，而不必传一个列表。并且，你只需读取数据，所以不需要 <code v-pre>readwrite</code> 事务。不指定事务模式来调用 <code v-pre>transaction</code> 你会得到一个 <code v-pre>readonly</code> 事务。另外一个微妙的地方在于你并没有保存请求对象到变量中。因为 DOM 事件把请求作为他的目标（target），你可以使用该事件来获取 <code v-pre>result</code> 属性。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>db<span class="token punctuation">.</span><span class="token function">transaction</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">objectStore</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"余瑞"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"Name for SSN 444-44-4444 is "</span> <span class="token operator">+</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="getall" tabindex="-1"><a class="header-anchor" href="#getall" aria-hidden="true">#</a> getAll</h4>
+<p>这个getALL方式和上面的游标查询结果相同。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>objectStore<span class="token punctuation">.</span><span class="token function">getAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"Got all customers: "</span> <span class="token operator">+</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="getallkeys" tabindex="-1"><a class="header-anchor" href="#getallkeys" aria-hidden="true">#</a> getAllKeys</h4>
+<p>检索对象存储中与指定参数匹配的所有对象的记录键。如果没给参数则给出所有对象的记录键。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token function">getAllKeys</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token function">getAllKeys</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span>
+<span class="token function">getAllKeys</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> count<span class="token punctuation">)</span>
+
+
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">query</td>
+<td style="text-align:left">要查询的键或IDBKeyRange。如果不传递任何信息，则默认为选择此对象存储中的所有记录的键范围。</td>
+</tr>
+<tr>
+<td style="text-align:left">count</td>
+<td style="text-align:left">指定如果找到多个值要返回的值的数量。如果它小于0或大于2^32 - 1，则会抛出TypeError异常。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="使用索引" tabindex="-1"><a class="header-anchor" href="#使用索引" aria-hidden="true">#</a> 使用索引</h4>
+<p>如果你想要通过姓名来查找一个客户，那么，你将需要在数据库中迭代所有的主键 直到你找到正确的那个。以这种方式来查找将会非常的慢，相反你可以使用索引。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">// 首先，确定你已经在 request.onupgradeneeded 中创建了索引：</span>
+<span class="token comment">// objectStore.createIndex("name", "name");</span>
+<span class="token comment">// 否则你将得到 DOMException。</span>
+<span class="token keyword">var</span> index <span class="token operator">=</span> objectStore<span class="token punctuation">.</span><span class="token function">index</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+index<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"Donna"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"Donna's SSN is "</span> <span class="token operator">+</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">.</span>ssn<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="使用游标" tabindex="-1"><a class="header-anchor" href="#使用游标" aria-hidden="true">#</a> 使用游标</h4>
+<p>使用 <code v-pre>get()</code> 要求你知道你想要检索哪一个键。如果你想要遍历对象存储空间中的所有值，那么你可以使用游标。看起来会像下面这样：</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">var</span> objectStore <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">transaction</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">objectStore</span><span class="token punctuation">(</span><span class="token string">"customers"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+objectStore<span class="token punctuation">.</span><span class="token function">openCursor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> cursor <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>cursor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Name for SSN "</span> <span class="token operator">+</span> cursor<span class="token punctuation">.</span>key <span class="token operator">+</span> <span class="token string">" is "</span> <span class="token operator">+</span> cursor<span class="token punctuation">.</span>value<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cursor<span class="token punctuation">.</span><span class="token function">continue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'遍历完毕'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>openCursor()</code> 函数需要几个参数。首先，你可以使用一个 key range 对象来限制被检索的项目的范围。第二，你可以指定你希望进行迭代的方向。在上面的示例中，我们在以升序迭代所有的对象。游标成功的回调有点特别。游标对象本身是请求的 <code v-pre>result</code> （上面我们使用的是简写形式，所以是 <code v-pre>event.target.result</code>）。然后实际的 key 和 value 可以根据游标对象的 <code v-pre>key</code> 和 <code v-pre>value</code> 属性被找到。如果你想要保持继续前行，那么你必须调用游标上的 <code v-pre>continue()</code> 。当你已经到达数据的末尾时（或者没有匹配 <code v-pre>openCursor()</code> 请求的条目）你仍然会得到一个成功回调，但是 <code v-pre>result</code> 属性是 <code v-pre>undefined</code>。</p>
+<div class="custom-container warning"><p class="custom-container-title">WARNING</p>
+<p>查看游标的 <code v-pre>value</code> 属性会带来性能消耗，因为对象是被懒生成的。</p>
+</div>
+<p>如果你需要访问带有给定 <code v-pre>name</code> 的所有的记录你可以使用一个游标。你可以在索引上打开两个不同类型的游标。一个常规游标映射索引属性到对象存储空间中的对象。一个键索引映射索引属性到用来存储对象存储空间中的对象的键。不同之处被展示如下：</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>index<span class="token punctuation">.</span><span class="token function">openCursor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> cursor <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>cursor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// cursor.key 是一个 name，就像 "Bill", 然后 cursor.value 是整个对象。</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"Name: "</span> <span class="token operator">+</span> cursor<span class="token punctuation">.</span>key <span class="token operator">+</span> <span class="token string">", SSN: "</span> <span class="token operator">+</span> cursor<span class="token punctuation">.</span>value<span class="token punctuation">.</span>ssn <span class="token operator">+</span> <span class="token string">", email: "</span> <span class="token operator">+</span> cursor<span class="token punctuation">.</span>value<span class="token punctuation">.</span>email<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cursor<span class="token punctuation">.</span><span class="token function">continue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+index<span class="token punctuation">.</span><span class="token function">openKeyCursor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> cursor <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>cursor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// cursor.key 是一个 name，就像 "Bill", 然后 cursor.value 是那个 SSN。</span>
+    <span class="token comment">// 没有办法可以得到存储对象的其余部分。</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"Name: "</span> <span class="token operator">+</span> cursor<span class="token punctuation">.</span>key <span class="token operator">+</span> <span class="token string">", SSN: "</span> <span class="token operator">+</span> cursor<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cursor<span class="token punctuation">.</span><span class="token function">continue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>指定游标的范围和方向：</p>
+<p>如果你想要限定你在游标中看到的值的范围，你可以使用一个 key range 对象然后把它作为第一个参数传给 <code v-pre>openCursor()</code> 或是 <code v-pre>openKeyCursor()</code>。你可以构造一个只允许一个单一 key 的 key range，或者一个具有下限或上限，或者一个既有上限也有下限。边界可以是“闭合的”（也就是说 key range 包含给定的值）或者是“开放的”（也就是说 key range 不包括给定的值）。这里是它如何工作的：</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">// 仅匹配 "Donna"</span>
+<span class="token keyword">var</span> singleKeyRange <span class="token operator">=</span> IDBKeyRange<span class="token punctuation">.</span><span class="token function">only</span><span class="token punctuation">(</span><span class="token string">"Donna"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 匹配所有超过“Bill”的，包括“Bill”</span>
+<span class="token keyword">var</span> lowerBoundKeyRange <span class="token operator">=</span> IDBKeyRange<span class="token punctuation">.</span><span class="token function">lowerBound</span><span class="token punctuation">(</span><span class="token string">"Bill"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 匹配所有超过“Bill”的，但不包括“Bill”</span>
+<span class="token keyword">var</span> lowerBoundOpenKeyRange <span class="token operator">=</span> IDBKeyRange<span class="token punctuation">.</span><span class="token function">lowerBound</span><span class="token punctuation">(</span><span class="token string">"Bill"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 匹配所有不超过“Donna”的，但不包括“Donna”</span>
+<span class="token keyword">var</span> upperBoundOpenKeyRange <span class="token operator">=</span> IDBKeyRange<span class="token punctuation">.</span><span class="token function">upperBound</span><span class="token punctuation">(</span><span class="token string">"Donna"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 匹配所有在“Bill”和“Donna”之间的，但不包括“Donna”</span>
+<span class="token keyword">var</span> boundKeyRange <span class="token operator">=</span> IDBKeyRange<span class="token punctuation">.</span><span class="token function">bound</span><span class="token punctuation">(</span><span class="token string">"Bill"</span><span class="token punctuation">,</span> <span class="token string">"Donna"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 使用其中的一个键范围，把它作为 openCursor()/openKeyCursor 的第一个参数</span>
+<span class="token comment">//切换方向是通过传递 prev 到 openCursor(boundKeyRange,'prev') 方法来实现的：如果你只是想改变遍历的方向，而不想对结果进行筛选，你只需要给第一个参数传入 null。</span>
+index<span class="token punctuation">.</span><span class="token function">openCursor</span><span class="token punctuation">(</span>boundKeyRange<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> cursor <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>cursor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 当匹配时进行一些操作</span>
+    cursor<span class="token punctuation">.</span><span class="token function">continue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>去重</strong>如果你想要在游标在索引迭代过程中过滤出重复的，你可以传递 <code v-pre>nextunique</code> （或 <code v-pre>prevunique</code> 如果你正在向后寻找）作为方向参数。当 <code v-pre>nextunique</code> 或是 <code v-pre>prevunique</code> 被使用时，被返回的那个总是键最小的记录。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>index<span class="token punctuation">.</span><span class="token function">openKeyCursor</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> IDBCursor<span class="token punctuation">.</span>nextunique<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">onsuccess</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> cursor <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>cursor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Do something with the entries.</span>
+    cursor<span class="token punctuation">.</span><span class="token function">continue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="—样式相关apis—" tabindex="-1"><a class="header-anchor" href="#—样式相关apis—" aria-hidden="true">#</a> —样式相关APIs—</h2>
 <h3 id="_1-getcomputedstyle" tabindex="-1"><a class="header-anchor" href="#_1-getcomputedstyle" aria-hidden="true">#</a> 1.getComputedStyle</h3>
 <p><code v-pre>Window.getComputedStyle()</code>方法返回一个对象，该对象在应用活动样式表并解析这些值可能包含的任何基本计算后报告元素的所有 CSS 属性的值。私有的 CSS 属性值可以通过对象提供的 API 或通过简单地使用 CSS 属性名称进行索引来访问。</p>
 <div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>element

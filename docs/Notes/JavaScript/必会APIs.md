@@ -1,10 +1,10 @@
 ---
 lang: zh-CN
-title: 必会APIs
+title: JS必会APIs
 description: 关键功能
 collapsible: true
 ---
-# 必会APIs
+# JS必会APIs
 
 ## 1.IntersectionObserver视口交叉状态检测
 
@@ -982,30 +982,520 @@ self.addEventListener('push', function(event) {
 
 ## 10.存储相关IndexedDB
 
-接口是异步的且支持事务（要么全部成功 要么全部失败）
+indexedDB有什么用？解决了什么问题？**虽然 [Web Storage](https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API) 在存储较少量的数据很有用，但对于存储更大量的结构化数据来说力不从心。IndexedDB 的主要设计目标之一就是允许大量数据可以被存储以供离线使用。可以在客户端存储大量的结构化数据（也包括文件/二进制大型对象（blobs））。该 API 使用索引实现对数据的高性能搜索。**
 
-前面已经说了service worker 了  这里再说一个IndexedDB  storege经常用就一笔带过了。
+什么是IndexedDB？**IndexedDB 是一个基于 JavaScript 的面向对象数据库。**
 
-用于在客户端存储大量的结构化数据（也包括文件/二进制大型对象（blobs））。该 API 使用索引实现对数据的高性能搜索。虽然 [Web Storage](https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API) 在存储较少量的数据很有用，但对于存储更大量的结构化数据来说力不从心。
-
-什么是IndexedDB？IndexedDB 是一个基于 JavaScript 的面向对象数据库。
+有什么特点？**接口是异步的且支持事务（要么全部成功 要么全部失败）**
 
 使用IndexedDB我们需要了解一些前置知识：
 
-1. 存储限制：
+::: tip
 
-2. 浏览器的最大存储空间是动态的——它取决于您的硬盘大小。 **全局限制**为可用磁盘空间的 50％。在 Firefox 中，一个名为 Quota Manager 的内部浏览器工具会跟踪每个源用尽的磁盘空间，并在必要时删除数据。
+1.存储限制
 
-   因此，如果您的硬盘驱动器是 500GB，那么浏览器的总存储容量为 250GB。如果超过此范围，则会发起称为**源回收**的过程，删除整个源的数据，直到存储量再次低于限制。删除源数据没有只删一部分的说法——因为这样可能会导致不一致的问题。
+:::
 
-   还有另一个限制称为**组限制**——这被定义为全局限制的 20％，但它至少有 10 MB，最大为 2GB。每个源都是一组（源组）的一部分。每个 eTLD+1 域都有一个组。例如：
+浏览器的最大存储空间是动态的——它取决于您的硬盘大小。 
 
-   * `mozilla.org`——组 1，源 1
-   * `www.mozilla.org`——组 1，源 2
-   * `joe.blogs.mozilla.org`——组 1，源 3
-   * `firefox.com` ——组 2，源 4
+**全局限制**为可用磁盘空间的 50％。在 Firefox 中，一个名为 Quota Manager 的内部浏览器工具会跟踪每个源用尽的磁盘空间，并在必要时删除数据。
 
-   在这个组中，`mozilla.org`、`www.mozilla.org`和`joe.blogs.mozilla.org`可以聚合使用最多 20％的全局限制。firefox.com 单独最多使用 20％。
+因此，如果您的硬盘驱动器是 500GB，那么浏览器的总存储容量为 250GB。如果超过此范围，则会发起称为**源回收**的过程，删除整个源的数据，直到存储量再次低于限制。删除源数据没有只删一部分的说法——因为这样可能会导致不一致的问题。
+
+还有另一个限制称为**组限制**——这被定义为全局限制的 20％，但它至少有 10 MB，最大为 2GB。每个源都是一组（源组）的一部分。每个 eTLD+1 域都有一个组。例如：
+
+* `mozilla.org`——组 1，源 1
+* `www.mozilla.org`——组 1，源 2
+* `joe.blogs.mozilla.org`——组 1，源 3
+* `firefox.com` ——组 2，源 4
+
+在这个组中，`mozilla.org`、`www.mozilla.org`和`joe.blogs.mozilla.org`可以聚合使用最多 20％的全局限制。firefox.com 单独最多使用 20％。
+
+**解释以下组限制**：组限制实际上是对同一个域名下的多个源的存储空间进行限制，以避免其中一个源占用过多的存储空间影响其他源的正常使用。而源限制则是对每个单独的源的存储空间进行限制，以避免该源占用过多的存储空间影响自身的使用和其他源的使用。
+
+
+
+### 如何使用
+
+1. 兼容性判断
+
+   ~~~js
+   if (!window.indexedDB) {
+       window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.")
+   }
+   ~~~
+
+   
+
+2. 打开数据库,并创建一个对象仓库。（当你创建一个新的数据库或者增加已存在的数据库的版本号， `onupgradeneeded` 事件会被触发，[IDBVersionChangeEvent ](https://developer.mozilla.org/en-US/docs/Web/API/IDBVersionChangeEvent) 对象会作为参数传递给绑定在 `db `上的`onversionchange` 事件处理函数，你应该在此创建该版本需要的对象仓库）
+
+   ~~~js
+   //该 open 方法接受第二个参数，就是数据库的版本号。数据库的版本决定了数据库架构，即数据库的对象仓库（object store）和他的结构。如果数据库不存在，open 操作会创建该数据库，然后 onupgradeneeded 事件被触发，你需要在该事件的处理函数中创建数据库模式。如果数据库已经存在，但你指定了一个更高的数据库版本，会直接触发 onupgradeneeded 事件，允许你在处理函数中更新数据库模式。
+   // 打开我们的数据库open 函数的结果是一个 IDBDatabase 对象的实例 。
+   const request = window.indexedDB.open("MyTestDatabase");
+   //open 请求不会立即打开数据库或者开始一个事务。对 open() 函数的调用会返回一个我们可以作为事件来处理的包含 result（成功的话）或者错误值的 IDBOpenDBRequest  对象。在 IndexedDB 中的大部分异步方法做的都是同样的事情 - 返回一个包含 result 或错误的 IDBRequest (en-US) 对象。
+   
+   
+   // 该事件仅在较新的浏览器中实现了
+   request.onupgradeneeded = function(event) {
+     // 保存 IDBDataBase 接口
+     const db = event.target.result;
+   
+     // 为该数据库创建一个对象仓库
+     const objectStore = db.createObjectStore("name", { keyPath: "myKey" });
+   };
+   ~~~
+
+   尝试创建一个与已存在的对象仓库重名（或删除一个不存在的对象仓库）会抛出错误。如果 `onupgradeneeded`事件成功执行完成，打开数据库请求的 `onsuccess` 处理函数会被触发。
+
+3. 添加成功和失败处理函数
+
+   ~~~js
+   db.onerror = function(event) {
+     // Do something with request.errorCode!
+   };
+   request.onsuccess = function (event) {
+               db = event.target.result;
+               console.log(db)
+   };
+   ~~~
+
+   
+
+4. 启动一个事务，并发送一个请求来执行一些数据库操作，像增加或提取数据等。
+
+   ~~~js
+   let db = null
+   const request = indexedDB.open(dbName, 2);
+   request.onupgradeneeded = function (event) {
+       db = event.target.result;
+       var objectStore = db.createObjectStore("customers", { keyPath: "custom_info" });
+   }
+   ~~~
+
+简单的例子
+
+~~~js
+        const dbName = "my_test_db";
+        var request = indexedDB.open(dbName, 2);
+        let db = null
+        request.onerror = function (event) {
+            // 错误处理
+            console.log(event)
+        };
+
+        request.onupgradeneeded = function (event) {
+            db = event.target.result;
+            // 建立一个对象仓库来存储我们客户的相关信息，我们选择 custom_info 作为键路径（key path）
+            // 因为 ssn 可以保证是不重复的
+            var objectStore = db.createObjectStore("customers", { keyPath: "custom_info" });
+
+            // 建立一个索引来通过姓名来搜索客户。名字可能会重复，所以我们不能使用 unique 索引
+            objectStore.createIndex("name", "name", { unique: false });
+
+            // 使用邮箱建立索引，我们向确保客户的邮箱不会重复，所以我们使用 unique 索引
+            objectStore.createIndex("email", "email", { unique: true });
+
+            // 使用事务的 oncomplete 事件确保在插入数据前对象仓库已经创建完毕
+            objectStore.transaction.oncomplete = function (event) {
+                // 将数据保存到新创建的对象仓库
+                const customerObjectStore = db.transaction("customers", "readwrite").objectStore("customers");
+                customerData.forEach(function (customer) {
+                    customerObjectStore.add(customer);
+                });
+            };
+        };
+~~~
+
+::: tip
+
+`onupgradeneeded` 是我们唯一可以修改数据库结构的地方。在这里面，我们可以创建和删除对象存储空间以及构建和删除索引。但是该方法只有创建新的数据库和更新版本时才会调用。如果我们操作已存在的数据库需要在`onsuccess`事件中取`e.target.result`
+
+:::
+
+### 实例方法
+
+#### createObjectStore
+
+该方法相当于创建了一张表。该方法创建并返回一个新的ObjectStore 
+
+> ###### 参数
+
+1. name
+
+   被创建的 object store 的名称。name可以是空。这个name可以理解为表名
+
+2. optionalParameters（可选）
+
+   ~~~ts
+   optionalParameters = {
+       //指定对象仓库中每个对象的主键（primary key）的名称或路径，类型为字符串或字符串数组。如果不指定，则使用自增长的整数作为主键。。
+       keyPath:undefined | string | string[]
+       //指定是否使用自增长的整数作为主键。如果为 true，则表示使用自增长的整数作为主键，如果为 false，则表示不使用自增长的整数作为主键。默认为 false。
+       autoIncrement:boolean
+   }
+   ~~~
+
+3. 返回值
+
+   新创建的 object store 对象。表实例对象
+
+
+
+#### deleteObjectStore
+
+**`eleteObjectStore()`** 方法从 [`IDBDatabase`](https://developer.mozilla.org/zh-CN/docs/Web/API/IDBDatabase) 中销毁指定名称的对象存储，及这个对象存储所包含的任何索引。
+
+参数 name
+
+~~~js
+var dbName = "sampleDB";
+var dbVersion = 2;
+var request = indexedDB.open(dbName, dbVersion);
+
+request.onupgradeneeded = function(e) {
+  var db = request.result;
+  if (e.oldVersion < 1) {
+    db.createObjectStore("store1");
+  }
+
+  if (e.oldVersion < 2) {
+    db.deleteObjectStore("store1");
+    db.createObjectStore("store2");
+  }
+
+};
+~~~
+
+#### transaction
+
+该方法返回一个事务对象，通过该对象我们可以进行增删改查,事务提供了三种模式：`readonly`、`readwrite` 和 `versionchange`。
+
+> ###### 参数
+>
+> 1.`storeNames：string | string[]`
+>
+> 2.`mode?:'readonly'|'readwrite'|'readwriteflush'` 默认只读
+>
+> 3.`durability?:'default'|'strict'|'relaxed'`默认default 
+>
+> durability 提倡用relaxed对于临时数据  strict更重视数据安全的情况下使用
+
+~~~ts
+
+        const dbName = "my_test_db";
+        var request = indexedDB.open(dbName, 2);
+        let db = null
+        request.onerror = function (event) {
+            // 错误处理
+            console.log(event)
+        };
+        request.onupgradeneeded = function (event) {
+            db = event.target.result;
+            // 建立一个对象仓库来存储我们客户的相关信息，我们选择 custom_info 作为键路径（key path）
+            // 因为 ssn 可以保证是不重复的
+            var objectStore = db.createObjectStore("customers", { keyPath: "custom_info" });
+
+            // 建立一个索引来通过姓名来搜索客户。名字可能会重复，所以我们不能使用 unique 索引
+            objectStore.createIndex("name", "name", { unique: false });
+            objectStore.createIndex("email", "email", { unique: true });
+            const transaction = db.transaction('customers')
+            const transactions = db.transaction(db.objectStoreNames)
+            console.log(transaction)
+
+        };
+~~~
+
+
+
+### 增 删 改 查
+
+~~~js
+
+    <script>
+        const dbName = "my_test_db";
+        var request = indexedDB.open(dbName, 2);
+        let db = null
+        request.onerror = function (event) {
+            // 错误处理
+            console.log(event)
+        };
+
+        request.onsuccess = function (event) {
+            db = event.target.result;
+            // 对象仓库  
+            const customers_store = db.transaction('customers', 'readwrite').objectStore("customers");
+            // 查数据
+            const get_res = customers_store.get(2)
+            get_res.onerror = function (event) {
+                // 错误处理！
+                console.log('出错了')
+            };
+            get_res.onsuccess = function (event) {
+                // 对 request.result 做些操作！
+                console.log(get_res.result);
+            };
+            // // 插入数据
+            // const add_res = customers_store.add({ email: 'xxxx@qq.com', age: 26, name: 'fancy' });
+
+            // add_res.onerror = function (event) {
+            //     // 错误处理！
+            //     console.log('出错了', event)
+            // };
+            // add_res.onsuccess = function (event) {
+            //     // 对 request.result 做些操作！
+            //     console.log(add_res.result);
+            // };
+
+            // 修改数据
+            // const put_res = customers_store.put({
+            //     user_id: 1,
+            //     email: '1074121761.163.com'
+            // })
+            // put_res.onerror = function (event) {
+            //     // 错误处理！
+            //     console.log('出错了')
+            // };
+            // put_res.onsuccess = function (event) {
+            //     // 对 request.result 做些操作！
+            //     console.log(put_res.result);
+            // };
+            // 删除数据
+            // const delete_res = customers_store.delete(1)
+            // delete_res.onerror = function (event) {
+            //     // 错误处理！
+            //     console.log('出错了')
+            // };
+            // delete_res.onsuccess = function (event) {
+            //     // 对 request.result 做些操作！
+            //     console.log(delete_res.result);
+            // };
+
+            // 在所有数据添加完毕后的处理
+            customers_store.oncomplete = function (event) {
+                // alert("All done!");
+            };
+            customers_store.onerror = function (event) {
+                // 不要忘记错误处理！
+                console.log('事务错误', event)
+            };
+        };
+    </script>
+
+
+~~~
+
+
+
+#### add
+
+::: tip
+
+add() 方法的调用时，对象仓库中不能存在相同键的对象。如果你想修改一个已存在的条目，或者你不关心该数据是否已存在，你可以使用 put() 方法
+
+:::
+
+
+
+#### put
+
+~~~js
+var objectStore = db.transaction(["customers"], "readwrite").objectStore("customers");
+var request = objectStore.get(1);
+request.onerror = function(event) {
+  // 错误处理
+};
+request.onsuccess = function(event) {
+  // 获取我们想要更新的数据
+  var data = event.target.result;
+
+  // 更新你想修改的数据
+  data.age = 42;
+
+  // 把更新过的对象放回数据库
+  var requestUpdate = objectStore.put(data);
+   requestUpdate.onerror = function(event) {
+     // 错误处理
+   };
+   requestUpdate.onsuccess = function(event) {
+     // 完成，数据已更新！
+   };
+};
+
+~~~
+
+
+
+
+
+
+
+
+
+#### delete
+
+
+
+
+
+#### get
+
+这里只用到一个对象仓库，你可以只传该对象仓库的名字作为参数，而不必传一个列表。并且，你只需读取数据，所以不需要 `readwrite` 事务。不指定事务模式来调用 `transaction` 你会得到一个 `readonly` 事务。另外一个微妙的地方在于你并没有保存请求对象到变量中。因为 DOM 事件把请求作为他的目标（target），你可以使用该事件来获取 `result` 属性。
+
+~~~js
+db.transaction("customers").objectStore("customers").get("余瑞").onsuccess = function(event) {
+  alert("Name for SSN 444-44-4444 is " + event.target.result.name);
+};
+~~~
+
+
+
+#### getAll
+
+这个getALL方式和上面的游标查询结果相同。
+
+~~~js
+objectStore.getAll().onsuccess = function(event) {
+  alert("Got all customers: " + event.target.result);
+};
+~~~
+
+
+
+
+
+
+
+#### getAllKeys
+
+检索对象存储中与指定参数匹配的所有对象的记录键。如果没给参数则给出所有对象的记录键。
+
+~~~js
+getAllKeys()
+getAllKeys(query)
+getAllKeys(query, count)
+
+
+
+~~~
+
+| 名称  | 描述                                                         |
+| :---- | :----------------------------------------------------------- |
+| query | 要查询的键或IDBKeyRange。如果不传递任何信息，则默认为选择此对象存储中的所有记录的键范围。 |
+| count | 指定如果找到多个值要返回的值的数量。如果它小于0或大于2^32 - 1，则会抛出TypeError异常。 |
+
+#### 使用索引
+
+如果你想要通过姓名来查找一个客户，那么，你将需要在数据库中迭代所有的主键 直到你找到正确的那个。以这种方式来查找将会非常的慢，相反你可以使用索引。
+
+~~~js
+// 首先，确定你已经在 request.onupgradeneeded 中创建了索引：
+// objectStore.createIndex("name", "name");
+// 否则你将得到 DOMException。
+var index = objectStore.index("name");
+
+index.get("Donna").onsuccess = function(event) {
+  alert("Donna's SSN is " + event.target.result.ssn);
+};
+
+~~~
+
+
+
+
+
+#### 使用游标
+
+使用 `get()` 要求你知道你想要检索哪一个键。如果你想要遍历对象存储空间中的所有值，那么你可以使用游标。看起来会像下面这样：
+
+~~~js
+var objectStore = db.transaction("customers").objectStore("customers");
+
+objectStore.openCursor().onsuccess = function(event) {
+  var cursor = event.target.result;
+  if (cursor) {
+    console.log("Name for SSN " + cursor.key + " is " + cursor.value.name);
+    cursor.continue();
+  }
+  else {
+    console.log('遍历完毕')
+  }
+};
+~~~
+
+`openCursor()` 函数需要几个参数。首先，你可以使用一个 key range 对象来限制被检索的项目的范围。第二，你可以指定你希望进行迭代的方向。在上面的示例中，我们在以升序迭代所有的对象。游标成功的回调有点特别。游标对象本身是请求的 `result` （上面我们使用的是简写形式，所以是 `event.target.result`）。然后实际的 key 和 value 可以根据游标对象的 `key` 和 `value` 属性被找到。如果你想要保持继续前行，那么你必须调用游标上的 `continue()` 。当你已经到达数据的末尾时（或者没有匹配 `openCursor()` 请求的条目）你仍然会得到一个成功回调，但是 `result` 属性是 `undefined`。
+
+::: warning
+
+查看游标的 `value` 属性会带来性能消耗，因为对象是被懒生成的。
+
+:::
+
+如果你需要访问带有给定 `name` 的所有的记录你可以使用一个游标。你可以在索引上打开两个不同类型的游标。一个常规游标映射索引属性到对象存储空间中的对象。一个键索引映射索引属性到用来存储对象存储空间中的对象的键。不同之处被展示如下：
+
+~~~js
+index.openCursor().onsuccess = function(event) {
+  var cursor = event.target.result;
+  if (cursor) {
+    // cursor.key 是一个 name，就像 "Bill", 然后 cursor.value 是整个对象。
+    alert("Name: " + cursor.key + ", SSN: " + cursor.value.ssn + ", email: " + cursor.value.email);
+    cursor.continue();
+  }
+};
+
+index.openKeyCursor().onsuccess = function(event) {
+  var cursor = event.target.result;
+  if (cursor) {
+    // cursor.key 是一个 name，就像 "Bill", 然后 cursor.value 是那个 SSN。
+    // 没有办法可以得到存储对象的其余部分。
+    alert("Name: " + cursor.key + ", SSN: " + cursor.value);
+    cursor.continue();
+  }
+};
+
+~~~
+
+指定游标的范围和方向：
+
+如果你想要限定你在游标中看到的值的范围，你可以使用一个 key range 对象然后把它作为第一个参数传给 `openCursor()` 或是 `openKeyCursor()`。你可以构造一个只允许一个单一 key 的 key range，或者一个具有下限或上限，或者一个既有上限也有下限。边界可以是“闭合的”（也就是说 key range 包含给定的值）或者是“开放的”（也就是说 key range 不包括给定的值）。这里是它如何工作的：
+
+~~~js
+// 仅匹配 "Donna"
+var singleKeyRange = IDBKeyRange.only("Donna");
+// 匹配所有超过“Bill”的，包括“Bill”
+var lowerBoundKeyRange = IDBKeyRange.lowerBound("Bill");
+// 匹配所有超过“Bill”的，但不包括“Bill”
+var lowerBoundOpenKeyRange = IDBKeyRange.lowerBound("Bill", true);
+// 匹配所有不超过“Donna”的，但不包括“Donna”
+var upperBoundOpenKeyRange = IDBKeyRange.upperBound("Donna", true);
+// 匹配所有在“Bill”和“Donna”之间的，但不包括“Donna”
+var boundKeyRange = IDBKeyRange.bound("Bill", "Donna", false, true);
+// 使用其中的一个键范围，把它作为 openCursor()/openKeyCursor 的第一个参数
+//切换方向是通过传递 prev 到 openCursor(boundKeyRange,'prev') 方法来实现的：如果你只是想改变遍历的方向，而不想对结果进行筛选，你只需要给第一个参数传入 null。
+index.openCursor(boundKeyRange).onsuccess = function(event) {
+  var cursor = event.target.result;
+  if (cursor) {
+    // 当匹配时进行一些操作
+    cursor.continue();
+  }
+};
+~~~
+
+**去重**如果你想要在游标在索引迭代过程中过滤出重复的，你可以传递 `nextunique` （或 `prevunique` 如果你正在向后寻找）作为方向参数。当 `nextunique` 或是 `prevunique` 被使用时，被返回的那个总是键最小的记录。
+
+~~~js
+index.openKeyCursor(null, IDBCursor.nextunique).onsuccess = function(event) {
+  var cursor = event.target.result;
+  if (cursor) {
+    // Do something with the entries.
+    cursor.continue();
+  }
+};
+~~~
+
+
+
+
 
 
 
@@ -1032,5 +1522,27 @@ let style = window.getComputedStyle(element, [pseudoElt]);
 **返回的对象与从元素的 [`style`](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/style) 属性返回的对象具有相同的类型;然而，两个对象具有不同的目的。从`getComputedStyle`返回的对象是只读的，可以用于检查元素的样式（包括由一个`<style>`元素或一个外部样式表设置的那些样式）。`elt.style`对象应用于在特定元素上设置样式。**
 
 :::
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <CommentService/>

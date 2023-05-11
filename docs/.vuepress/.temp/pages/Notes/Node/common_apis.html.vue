@@ -1,4 +1,4 @@
-<template><div><h1 id="常用apis" tabindex="-1"><a class="header-anchor" href="#常用apis" aria-hidden="true">#</a> 常用APIs</h1>
+<template><div><h1 id="node常用apis" tabindex="-1"><a class="header-anchor" href="#node常用apis" aria-hidden="true">#</a> node常用APIs</h1>
 <h2 id="文件操作相关" tabindex="-1"><a class="header-anchor" href="#文件操作相关" aria-hidden="true">#</a> 文件操作相关</h2>
 <h3 id="fs-existsync" tabindex="-1"><a class="header-anchor" href="#fs-existsync" aria-hidden="true">#</a> fs.existSync</h3>
 <p>判断文件是否存在</p>
