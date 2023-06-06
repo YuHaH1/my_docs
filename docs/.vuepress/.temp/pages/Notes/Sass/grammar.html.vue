@@ -171,6 +171,138 @@ if else if else
 <div class="language-scss line-numbers-mode" data-ext="scss"><pre v-pre class="language-scss"><code><span class="token selector"><span class="token parent important">&amp;</span>:hover</span><span class="token punctuation">{</span>
 	<span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_8-数据类型" tabindex="-1"><a class="header-anchor" href="#_8-数据类型" aria-hidden="true">#</a> 8.数据类型</h2>
+<h3 id="_8-1、数组" tabindex="-1"><a class="header-anchor" href="#_8-1、数组" aria-hidden="true">#</a> 8.1、数组</h3>
+<div class="language-scss line-numbers-mode" data-ext="scss"><pre v-pre class="language-scss"><code><span class="token property"><span class="token variable">$list</span></span><span class="token punctuation">:</span><span class="token punctuation">(</span>1px<span class="token punctuation">,</span>2px<span class="token punctuation">,</span>5px<span class="token punctuation">,</span>6px<span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><code v-pre>nth</code> 函数可以直接访问数组中的某一项；<code v-pre>join</code> 函数可以将多个数组连接在一起；<code v-pre>append</code> 函数可以在数组中添加新值；而 <code v-pre>@each</code> 指令能够遍历数组中的每一项。</p>
+<div class="language-scss line-numbers-mode" data-ext="scss"><pre v-pre class="language-scss"><code><span class="token function">nth</span><span class="token punctuation">(</span>列表<span class="token punctuation">,</span>index<span class="token punctuation">)</span>
+<span class="token property"><span class="token variable">$colors</span></span><span class="token punctuation">:</span> red<span class="token punctuation">,</span> green<span class="token punctuation">,</span> blue<span class="token punctuation">;</span>
+<span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">nth</span><span class="token punctuation">(</span><span class="token variable">$colors</span><span class="token punctuation">,</span> 2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出 green</span>
+
+
+<span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token property"><span class="token variable">$list1</span></span><span class="token punctuation">:</span> 1<span class="token punctuation">,</span> 2<span class="token punctuation">,</span> 3<span class="token punctuation">;</span>
+<span class="token property"><span class="token variable">$list2</span></span><span class="token punctuation">:</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">;</span>
+<span class="token property"><span class="token variable">$list3</span></span><span class="token punctuation">:</span> <span class="token function">join</span><span class="token punctuation">(</span><span class="token variable">$list1</span><span class="token punctuation">,</span> <span class="token variable">$list2</span><span class="token punctuation">,</span> <span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出 1-a, 2-b, 3-c如果未提供分隔符 `$separator`，则默认使用逗号作为分隔符。</span>
+
+<span class="token property"><span class="token variable">$list3</span></span><span class="token punctuation">:</span> <span class="token function">join</span><span class="token punctuation">(</span><span class="token variable">$list1</span><span class="token punctuation">,</span> <span class="token variable">$list2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出 1, 2, 3, a, b, c</span>
+
+
+<span class="token property"><span class="token variable">$colors</span></span><span class="token punctuation">:</span> red<span class="token punctuation">,</span> green<span class="token punctuation">,</span> blue<span class="token punctuation">;</span>
+<span class="token property"><span class="token variable">$font-sizes</span></span><span class="token punctuation">:</span> 12px<span class="token punctuation">,</span> 14px<span class="token punctuation">,</span> 16px<span class="token punctuation">;</span>
+
+<span class="token keyword">@each</span> <span class="token selector"><span class="token variable">$color</span> in <span class="token variable">$colors</span> </span><span class="token punctuation">{</span>
+  <span class="token keyword">@each</span> <span class="token selector"><span class="token variable">$font-size</span> in <span class="token variable">$font-sizes</span> </span><span class="token punctuation">{</span>
+    <span class="token property"><span class="token variable">$class-name</span></span><span class="token punctuation">:</span> <span class="token function">join</span><span class="token punctuation">(</span><span class="token function">nth</span><span class="token punctuation">(</span><span class="token variable">$color</span><span class="token punctuation">,</span> 1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">nth</span><span class="token punctuation">(</span><span class="token variable">$font-size</span><span class="token punctuation">,</span> 1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token selector">.<span class="token variable">#{$class-name}</span> </span><span class="token punctuation">{</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> <span class="token variable">$color</span><span class="token punctuation">;</span>
+      <span class="token property">font-size</span><span class="token punctuation">:</span> <span class="token variable">$font-size</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+结果
+ .red-12px、.red-14px 和 .red-16px，以及类似的类 .green-12px、.green-14px 和 .green-16px 和 .blue-12px、.blue-14px 和 .blue-16px。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_8-2、对象maps" tabindex="-1"><a class="header-anchor" href="#_8-2、对象maps" aria-hidden="true">#</a> 8.2、对象Maps</h3>
+<div class="language-scss line-numbers-mode" data-ext="scss"><pre v-pre class="language-scss"><code><span class="token property"><span class="token variable">$map</span></span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token property">key1</span><span class="token punctuation">:</span> value1<span class="token punctuation">,</span> <span class="token property">key2</span><span class="token punctuation">:</span> value2<span class="token punctuation">,</span> <span class="token property">key3</span><span class="token punctuation">:</span> value3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//map-get函数用于查找键值</span>
+<span class="token property"><span class="token variable">$colors</span></span><span class="token punctuation">:</span> <span class="token punctuation">(</span>
+  <span class="token property">red</span><span class="token punctuation">:</span> #ff0000<span class="token punctuation">,</span>
+  <span class="token property">green</span><span class="token punctuation">:</span> #00ff00<span class="token punctuation">,</span>
+  <span class="token property">blue</span><span class="token punctuation">:</span> #0000ff
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">map-get</span><span class="token punctuation">(</span><span class="token variable">$colors</span><span class="token punctuation">,</span> red<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出 #ff0000</span>
+
+<span class="token comment">//map-merge函数用于map和新加的键值融合</span>
+<span class="token property"><span class="token variable">$map1</span></span><span class="token punctuation">:</span> <span class="token punctuation">(</span>
+  <span class="token property">a</span><span class="token punctuation">:</span> 1<span class="token punctuation">,</span>
+  <span class="token property">b</span><span class="token punctuation">:</span> 2
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token property"><span class="token variable">$map2</span></span><span class="token punctuation">:</span> <span class="token punctuation">(</span>
+  <span class="token property">b</span><span class="token punctuation">:</span> 3<span class="token punctuation">,</span>
+  <span class="token property">c</span><span class="token punctuation">:</span> 4
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token property"><span class="token variable">$map3</span></span><span class="token punctuation">:</span> <span class="token function">merge</span><span class="token punctuation">(</span><span class="token variable">$map1</span><span class="token punctuation">,</span> <span class="token variable">$map2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出 (a: 1, b: 3, c: 4)</span>
+函数也可以将映射与其他数据类型（例如列表、字符串等）合并。
+
+<span class="token property"><span class="token variable">$map</span></span><span class="token punctuation">:</span> <span class="token punctuation">(</span>
+  <span class="token property">a</span><span class="token punctuation">:</span> 1<span class="token punctuation">,</span>
+  <span class="token property">b</span><span class="token punctuation">:</span> 2
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token property"><span class="token variable">$list</span></span><span class="token punctuation">:</span> <span class="token punctuation">(</span>3<span class="token punctuation">,</span> 4<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token property"><span class="token variable">$string</span></span><span class="token punctuation">:</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
+
+<span class="token property"><span class="token variable">$merged</span></span><span class="token punctuation">:</span> <span class="token function">merge</span><span class="token punctuation">(</span><span class="token variable">$map</span><span class="token punctuation">,</span> <span class="token variable">$list</span><span class="token punctuation">,</span> <span class="token variable">$string</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出 (a: 1, b: 2, 1: 3, 2: 4, 3: h, 4: e, 5: l, 6: l, 7: o)</span>
+
+
+<span class="token comment">//@each命令可添加样式到一个map中的每个键值对。</span>
+<span class="token property"><span class="token variable">$colors</span></span><span class="token punctuation">:</span> <span class="token punctuation">(</span>
+  <span class="token property">red</span><span class="token punctuation">:</span> #ff0000<span class="token punctuation">,</span>
+  <span class="token property">green</span><span class="token punctuation">:</span> #00ff00<span class="token punctuation">,</span>
+  <span class="token property">blue</span><span class="token punctuation">:</span> #0000ff
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token property"><span class="token variable">$font-sizes</span></span><span class="token punctuation">:</span> <span class="token punctuation">(</span>
+  <span class="token property">small</span><span class="token punctuation">:</span> 12px<span class="token punctuation">,</span>
+  <span class="token property">medium</span><span class="token punctuation">:</span> 14px<span class="token punctuation">,</span>
+  <span class="token property">large</span><span class="token punctuation">:</span> 16px
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">@each</span> <span class="token selector"><span class="token variable">$color</span>, <span class="token variable">$color-value</span> in <span class="token variable">$colors</span> </span><span class="token punctuation">{</span>
+  <span class="token keyword">@each</span> <span class="token selector"><span class="token variable">$font-size</span>, <span class="token variable">$font-size-value</span> in <span class="token variable">$font-sizes</span> </span><span class="token punctuation">{</span>
+    <span class="token property"><span class="token variable">$class-name</span></span><span class="token punctuation">:</span> <span class="token string">"#{$color}-#{$font-size}"</span><span class="token punctuation">;</span>
+    <span class="token selector">.<span class="token variable">$class-name</span> </span><span class="token punctuation">{</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> <span class="token variable">$color-value</span><span class="token punctuation">;</span>
+      <span class="token property">font-size</span><span class="token punctuation">:</span> <span class="token variable">$font-size-value</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+编译后的结果
+ .red-small、.red-medium、.red-large、.green-small、.green-medium、.green-large、.blue-small、.blue-medium 和 .blue-large。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_9-综合示例" tabindex="-1"><a class="header-anchor" href="#_9-综合示例" aria-hidden="true">#</a> 9.综合示例</h2>
+<p>①简化媒体查询</p>
+<div class="language-scss line-numbers-mode" data-ext="scss"><pre v-pre class="language-scss"><code>@<span class="token function">devices-settings</span><span class="token punctuation">(</span>
+    <span class="token string">'phone'</span><span class="token punctuation">:</span>
+        <span class="token punctuation">(</span>320px<span class="token punctuation">,</span>
+        480px<span class="token punctuation">)</span>
+    <span class="token punctuation">,</span>
+    <span class="token string">'pad'</span><span class="token punctuation">:</span>
+        <span class="token punctuation">(</span>481px<span class="token punctuation">,</span>
+        768px<span class="token punctuation">,</span><span class="token punctuation">)</span>
+    <span class="token punctuation">,</span>
+    <span class="token string">'notebook'</span><span class="token punctuation">:</span>
+        <span class="token punctuation">(</span>769px<span class="token punctuation">,</span>
+        1024px<span class="token punctuation">,</span><span class="token punctuation">)</span>
+    <span class="token punctuation">,</span>
+    <span class="token string">'desktop'</span><span class="token punctuation">:</span>
+        <span class="token punctuation">(</span>1025px<span class="token punctuation">,</span>
+        1200px<span class="token punctuation">)</span>
+    <span class="token punctuation">,</span>
+    <span class="token string">'tv'</span><span class="token punctuation">:</span>1201px
+<span class="token punctuation">)</span>
+<span class="token keyword">@mixin</span> <span class="token function">respond-to</span><span class="token punctuation">(</span><span class="token variable">$device</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token property"><span class="token variable">$device-setting</span></span> <span class="token punctuation">:</span> <span class="token function">map-get</span><span class="token punctuation">(</span><span class="token variable">$devices-settings</span><span class="token punctuation">,</span><span class="token variable">$device</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">@if</span> <span class="token function">type-of</span><span class="token punctuation">(</span><span class="token variable">$device-setting</span><span class="token punctuation">)</span> <span class="token selector">== 'list'</span><span class="token punctuation">{</span>
+    	@<span class="token property">min</span> <span class="token punctuation">:</span> <span class="token function">nth</span><span class="token punctuation">(</span><span class="token variable">$device-setting</span><span class="token punctuation">,</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        @<span class="token property">max</span> <span class="token punctuation">:</span> <span class="token function">nth</span><span class="token punctuation">(</span><span class="token variable">$device-setting</span><span class="token punctuation">,</span>2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        @<span class="token function">media</span><span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span><span class="token variable">$min</span><span class="token punctuation">)</span> <span class="token operator">and</span> <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span><span class="token variable">$max</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">@content</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">@else</span><span class="token punctuation">{</span>
+        @<span class="token function">media</span><span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span><span class="token variable">$device-setting</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">@content</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token selector">.test</span><span class="token punctuation">{</span>
+    <span class="token keyword">@include</span> <span class="token function">respond-to</span><span class="token punctuation">(</span><span class="token string">'phone'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    	<span class="token property">height</span><span class="token punctuation">:</span>50px
+	<span class="token punctuation">}</span>	
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
 
 

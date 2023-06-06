@@ -103,13 +103,22 @@ navigator<span class="token punctuation">.</span>clipboard<span class="token pun
 <span class="token keyword">const</span> clipboardData <span class="token operator">=</span> <span class="token keyword">await</span> navigator<span class="token punctuation">.</span>clipboard<span class="token punctuation">.</span><span class="token function">readText</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_3-requestanimationframe" tabindex="-1"><a class="header-anchor" href="#_3-requestanimationframe" aria-hidden="true">#</a> 3.requestAnimationFrame</h2>
 <p><strong><code v-pre>window.requestAnimationFrame()</code></strong> 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，<strong>该回调函数会在浏览器下一次重绘之前执行。</strong></p>
-<p>当 <code v-pre>requestAnimationFrame()</code> 运行在后台标签页或者隐藏的 iframe 里时，<code v-pre>requestAnimationFrame()</code> 会被暂停调用以提升性能和电池寿命。</p>
+<p>window.requestAnimationFrame() 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行。</p>
+<p>与setTimeout相比，requestAnimationFrame最大的优势是由系统来决定回调函数的执行时机。具体一点讲，如果屏幕刷新率是60Hz,那么回调函数就每16.7ms被执行一次，如果刷新率是75Hz，那么这个时间间隔就变成了1000/75=13.3ms，换句话说就是，requestAnimationFrame的步伐跟着系统的刷新步伐走。它能保证回调函数在屏幕每一次的刷新间隔中只被执行一次，这样就不会引起丢帧现象，也不会导致动画出现卡顿的问题。</p>
 <p>该方法会返回一个id可以用于<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/cancelAnimationFrame" target="_blank" rel="noopener noreferrer"><code v-pre>window.cancelAnimationFrame()</code><ExternalLinkIcon/></a>取消</p>
 <div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">const</span> id <span class="token operator">=</span> <span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span><span class="token punctuation">(</span>DOMHighResTimeStamp<span class="token operator">:</span><span class="token builtin">number</span><span class="token punctuation">)</span> <span class="token operator">=></span> id<span class="token operator">:</span><span class="token builtin">number</span><span class="token punctuation">{</span>
             <span class="token comment">// 它表示 requestAnimationFrame() 开始执行回调函数的时刻。</span>
             <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>DOMHighResTimeStamp<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_4-requestidlecallback" tabindex="-1"><a class="header-anchor" href="#_4-requestidlecallback" aria-hidden="true">#</a> 4.requestIdleCallback</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>该API的优点：</p>
+<ul>
+<li>CPU节能：使用setTimeout实现的动画，当页面被隐藏或最小化时，setTimeout 仍然在后台执行动画任务，由于此时页面处于不可见或不可用状态，刷新动画是没有意义的，完全是浪费CPU资源。而requestAnimationFrame则完全不同，当页面处理未激活的状态下，该页面的屏幕刷新任务也会被系统暂停，因此跟着系统步伐走的requestAnimationFrame也会停止渲染，当页面被激活时，动画就从上次停留的地方继续执行，有效节省了CPU开销。</li>
+<li>函数节流：在高频率事件(resize,scroll等)中，为了防止在一个刷新间隔内发生多次函数执行，使用requestAnimationFrame可保证每个刷新间隔内，函数只被执行一次，这样既能保证流畅性，也能更好的节省函数执行的开销。一个刷新间隔内函数执行多次时没有意义的，因为显示器每16.7ms刷新一次，多次绘制并不会在屏幕上体现出来。</li>
+</ul>
+<h2 id="_4-requestidlecallback" tabindex="-1"><a class="header-anchor" href="#_4-requestidlecallback" aria-hidden="true">#</a> 4.requestIdleCallback</h2>
+<p>一帧的生命周期</p>
+<p><img src="/javaScript/frame.png" alt=""></p>
+<p>假如某一帧里面要执行的任务不多，在不到16ms（1000/60)的时间内就完成了上述任务的话，那么这一帧就会有一定的空闲时间，这段时间就恰好可以用来执行requestIdleCallback的回调</p>
 <p>方法插入一个函数，这个函数将在浏览器空闲时期被调用。这使开发者能够在主事件循环上执行后台和低优先级工作，而不会影响延迟关键事件，如动画和输入响应。函数一般会按先进先调用的顺序执行，然而，如果回调函数指定了执行超时时间<code v-pre>timeout</code>，则有可能为了在超时前执行函数而打乱执行顺序。</p>
 <div class="custom-container warning"><p class="custom-container-title">WARNING</p>
 <p>如果该回调任务必须执行，需要设置timeout防止超时，因此该函数一般用于执行低优先级的任务</p>
@@ -158,7 +167,7 @@ navigator<span class="token punctuation">.</span>clipboard<span class="token pun
 </ol>
 </li>
 </ol>
-<h3 id="使用场景" tabindex="-1"><a class="header-anchor" href="#使用场景" aria-hidden="true">#</a> 使用场景</h3>
+<h4 id="使用场景" tabindex="-1"><a class="header-anchor" href="#使用场景" aria-hidden="true">#</a> 使用场景</h4>
 <ol>
 <li>。由于 Worker 不能读取本地文件，所以这个脚本必须来自网络。如果下载没有成功（比如404错误），Worker 就会默默地失败。</li>
 <li>加密数据 有些加解密的算法比较复杂，或者在加解密很多数据的时候，这会非常耗费计算资源，导致UI线程无响应，因此这是使用Web Worker的好时机，使用Worker线程可以让用户更加无缝的操作UI。 预取数据</li>
@@ -169,7 +178,7 @@ navigator<span class="token punctuation">.</span>clipboard<span class="token pun
 <p>::: warning:</p>
 <p>虽然使用worker线程不会占用主线程，但是启动worker会比较耗费资源。此外 主线程中使用XMLHttpRequest在请求过程中浏览器另开了一个异步http请求线程，但是交互过程中还是要消耗主线程资源</p>
 <p>:::</p>
-<h3 id="代码展示" tabindex="-1"><a class="header-anchor" href="#代码展示" aria-hidden="true">#</a> 代码展示</h3>
+<h4 id="代码展示" tabindex="-1"><a class="header-anchor" href="#代码展示" aria-hidden="true">#</a> 代码展示</h4>
 <p><strong>主进程代码示例</strong></p>
 <div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">const</span> worker <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Worker</span><span class="token punctuation">(</span><span class="token string">"worker.js"</span><span class="token punctuation">)</span>
 
@@ -196,7 +205,7 @@ worker<span class="token punctuation">.</span><span class="token function">postM
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'worker监听消息'</span><span class="token punctuation">,</span> ev<span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
 <span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>worker_data<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="共享worker" tabindex="-1"><a class="header-anchor" href="#共享worker" aria-hidden="true">#</a> 共享worker</h3>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="共享worker" tabindex="-1"><a class="header-anchor" href="#共享worker" aria-hidden="true">#</a> 共享worker</h4>
 <p>一个共享 worker 可以被多个脚本使用——即使这些脚本正在被不同的 window、iframe 或者 worker 访问。</p>
 <div class="custom-container danger"><p class="custom-container-title">DANGER</p>
 <ol>
@@ -206,13 +215,13 @@ worker<span class="token punctuation">.</span><span class="token function">postM
 <p>生成一个新的共享 worker 与生成一个专用 worker 非常相似，只是构造器的名字不同index.html 和 index2.html——生成共享 worker 的代码如下：</p>
 <div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>const shareWorker = new SharedWorker('worker.js');
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><u></u></p>
-<h4 id="规则-1" tabindex="-1"><a class="header-anchor" href="#规则-1" aria-hidden="true">#</a> 规则</h4>
+<h5 id="规则-1" tabindex="-1"><a class="header-anchor" href="#规则-1" aria-hidden="true">#</a> 规则</h5>
 <ol>
 <li>一个非常大的区别在于，与一个共享 worker 通信必须通过端口对象——》一个确切的打开的端口供脚本与 worker 通信（在专用 worker 中这一部分是隐式进行的）。</li>
 <li>在传递消息之前，端口连接必须被显式的打开，打开方式是使用 onmessage 事件处理函数或者 start() 方法。start() 方法的调用只在一种情况下需要，那就是消息事件addEventListener() 方法被使用。</li>
 <li>worker进程中使用 <code v-pre>onconnect</code> 事件处理函数来执行代码。</li>
 </ol>
-<h4 id="代码展示-1" tabindex="-1"><a class="header-anchor" href="#代码展示-1" aria-hidden="true">#</a> 代码展示</h4>
+<h5 id="代码展示-1" tabindex="-1"><a class="header-anchor" href="#代码展示-1" aria-hidden="true">#</a> 代码展示</h5>
 <div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>index<span class="token punctuation">.</span>html <span class="token operator">-</span> <span class="token number">1</span>
     <span class="token operator">&lt;</span>script<span class="token operator">></span>
         <span class="token comment">/*
@@ -499,7 +508,7 @@ worker<span class="token punctuation">.</span><span class="token function">postM
 <p>检查给定的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Request" target="_blank" rel="noopener noreferrer"><code v-pre>Request</code><ExternalLinkIcon/></a> 是否是 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CacheStorage" target="_blank" rel="noopener noreferrer"><code v-pre>CacheStorage</code><ExternalLinkIcon/></a> 对象跟踪的任何 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Cache" target="_blank" rel="noopener noreferrer"><code v-pre>Cache</code><ExternalLinkIcon/></a> 对象的键，并返回一个 resolve 为该匹配的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener noreferrer"><code v-pre>Promise</code><ExternalLinkIcon/></a> .</p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CacheStorage/has" target="_blank" rel="noopener noreferrer"><code v-pre>CacheStorage.has()</code><ExternalLinkIcon/></a></p>
 <p>如果存在与 <code v-pre>cacheName</code> 匹配的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Cache" target="_blank" rel="noopener noreferrer"><code v-pre>Cache</code><ExternalLinkIcon/></a> 对象，则返回一个 resolve 为 true 的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener noreferrer"><code v-pre>Promise</code><ExternalLinkIcon/></a> .</p>
-<h3 id="更新service-worker" tabindex="-1"><a class="header-anchor" href="#更新service-worker" aria-hidden="true">#</a> 更新service worker</h3>
+<h4 id="更新service-worker" tabindex="-1"><a class="header-anchor" href="#更新service-worker" aria-hidden="true">#</a> 更新service worker</h4>
 <p>我们存放在缓存名称中的版本号是这个问题的关键</p>
 <div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">var</span> cacheName <span class="token operator">=</span> <span class="token string">'js13kPWA-v1'</span><span class="token punctuation">;</span>
 
@@ -1174,7 +1183,7 @@ index<span class="token punctuation">.</span><span class="token function">openCu
     cursor<span class="token punctuation">.</span><span class="token function">continue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="—样式相关apis—" tabindex="-1"><a class="header-anchor" href="#—样式相关apis—" aria-hidden="true">#</a> —样式相关APIs—</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="—元素-样式相关apis—" tabindex="-1"><a class="header-anchor" href="#—元素-样式相关apis—" aria-hidden="true">#</a> —元素/样式相关APIs—</h2>
 <h3 id="_1-getcomputedstyle" tabindex="-1"><a class="header-anchor" href="#_1-getcomputedstyle" aria-hidden="true">#</a> 1.getComputedStyle</h3>
 <p><code v-pre>Window.getComputedStyle()</code>方法返回一个对象，该对象在应用活动样式表并解析这些值可能包含的任何基本计算后报告元素的所有 CSS 属性的值。私有的 CSS 属性值可以通过对象提供的 API 或通过简单地使用 CSS 属性名称进行索引来访问。</p>
 <div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>element
@@ -1189,6 +1198,462 @@ pseudoElt 可选
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="custom-container tip"><p class="custom-container-title">TIP</p>
 <p><strong>返回的对象与从元素的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/style" target="_blank" rel="noopener noreferrer"><code v-pre>style</code><ExternalLinkIcon/></a> 属性返回的对象具有相同的类型;然而，两个对象具有不同的目的。从<code v-pre>getComputedStyle</code>返回的对象是只读的，可以用于检查元素的样式（包括由一个<code v-pre>&lt;style&gt;</code>元素或一个外部样式表设置的那些样式）。<code v-pre>elt.style</code>对象应用于在特定元素上设置样式。</strong></p>
 </div>
-<CommentService/></div></template>
+<h3 id="_2-animate" tabindex="-1"><a class="header-anchor" href="#_2-animate" aria-hidden="true">#</a> 2.animate</h3>
+<p><code v-pre>Element</code>接口的 <strong><code v-pre>animate()</code></strong> 方法是创建一个新的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Animation" target="_blank" rel="noopener noreferrer"><code v-pre>Animation</code><ExternalLinkIcon/></a> 的便捷方法，将它应用于元素，然后运行动画。它将返回一个新建的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Animation" target="_blank" rel="noopener noreferrer"><code v-pre>Animation</code><ExternalLinkIcon/></a> 对象实例</p>
+<p><strong>①使用方式</strong></p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>某元素<span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span>keyframes<span class="token punctuation">,</span>options<span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>②参数</strong></p>
+<p><code v-pre>1.keyframes</code>一个由多个关键帧的属性和值组成的对象所构成的<code v-pre>数组</code>。这是<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/getKeyframes" target="_blank" rel="noopener noreferrer"><code v-pre>getKeyframes()</code> (en-US)<ExternalLinkIcon/></a>方法返回的规范格式。</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code>keyframes<span class="token operator">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">|</span> object
+element<span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> <span class="token comment">// from</span>
+    opacity<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    color<span class="token operator">:</span> <span class="token string">"#fff"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> <span class="token comment">// to</span>
+    opacity<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    color<span class="token operator">:</span> <span class="token string">"#000"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+element<span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">[</span> <span class="token punctuation">{</span> opacity<span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                  <span class="token punctuation">{</span> opacity<span class="token operator">:</span> <span class="token number">0.1</span><span class="token punctuation">,</span> offset<span class="token operator">:</span> <span class="token number">0.7</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                  <span class="token punctuation">{</span> opacity<span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token comment">//offset 的值必须是在 [0.0, 1.0] 这个区间内，且须升序排列。</span>
+ <span class="token comment">//并非所有的关键帧都需要设置 offset。没有指定 offset 的关键帧将与相邻的关键帧均匀间隔。 可以通过提供easing过渡来给指定关键帧之间应用过渡效果，如下所示</span>
+element<span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">[</span> <span class="token punctuation">{</span> opacity<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> easing<span class="token operator">:</span> <span class="token string">'ease-out'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                  <span class="token punctuation">{</span> opacity<span class="token operator">:</span> <span class="token number">0.1</span><span class="token punctuation">,</span> easing<span class="token operator">:</span> <span class="token string">'ease-in'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                  <span class="token punctuation">{</span> opacity<span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>对象格式关键帧</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>element<span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">opacity</span><span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>          <span class="token comment">// [ from, to ]</span>
+  <span class="token literal-property property">color</span><span class="token operator">:</span>   <span class="token punctuation">[</span> <span class="token string">"#fff"</span><span class="token punctuation">,</span> <span class="token string">"#000"</span> <span class="token punctuation">]</span> <span class="token comment">// [ from, to ]</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+element<span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">opacity</span><span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0.9</span><span class="token punctuation">,</span> <span class="token number">1</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">offset</span><span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0.8</span> <span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// [ 0, 0.8, 1 ] 的简写</span>
+  <span class="token literal-property property">easing</span><span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token string">'ease-in'</span><span class="token punctuation">,</span> <span class="token string">'ease-out'</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>2.options</code><strong>代表动画持续时间的整数</strong>（以毫秒为单位），或者一个包含一个或多个时间属性（在 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/KeyframeEffect/KeyframeEffect#%E5%8F%82%E6%95%B0" target="_blank" rel="noopener noreferrer"><code v-pre>KeyframeEffect()</code> options 参数<ExternalLinkIcon/></a>和下方列出）的对象：.</p>
+<p><code v-pre>3.id</code> 可选在 <code v-pre>animate()</code> 里可作为唯一标识的属性：一个用来引用动画的字符串。</p>
+<p>示例</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>  test<span class="token punctuation">.</span>value<span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> <span class="token literal-property property">transform</span><span class="token operator">:</span> <span class="token string">'rotate(0) scale(1)'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> <span class="token literal-property property">transform</span><span class="token operator">:</span> <span class="token string">'rotate(360deg) scale(0)'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">easing</span><span class="token operator">:</span> <span class="token string">'steps(7, end)'</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">direction</span><span class="token operator">:</span> <span class="token string">"reverse"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">duration</span><span class="token operator">:</span> <span class="token number">2000</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">playbackRate</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">iterations</span><span class="token operator">:</span> <span class="token number">Infinity</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><img src="/javaScript/animate1.gif" alt=""></p>
+<h2 id="事件api" tabindex="-1"><a class="header-anchor" href="#事件api" aria-hidden="true">#</a> 事件Api</h2>
+<h3 id="event" tabindex="-1"><a class="header-anchor" href="#event" aria-hidden="true">#</a> Event</h3>
+<p>接口表示在 DOM 中出现的事件。我们可以通过<code v-pre>Event</code>创建并返回一个 <code v-pre>Event</code> 对象。</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">interface</span> <span class="token class-name">IEventinit</span><span class="token punctuation">{</span>
+    bubbles<span class="token operator">?</span><span class="token operator">:</span><span class="token builtin">boolean</span>  默认<span class="token boolean">false</span>表示该事件是否冒泡。
+    cancelable<span class="token operator">?</span><span class="token operator">:</span><span class="token builtin">boolean</span> 默认值为 <span class="token boolean">false</span>，表示该事件能否被取消。
+    composed<span class="token operator">?</span><span class="token operator">:</span><span class="token builtin">boolean</span> 默认值为 <span class="token boolean">false</span>，指示事件是否会在影子 <span class="token constant">DOM</span> 根节点之外触发侦听器。
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> my_event <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Event</span><span class="token punctuation">(</span>typeArg<span class="token operator">:</span><span class="token string">'string'</span><span class="token punctuation">,</span>eventinit<span class="token operator">:</span>IEventinit<span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>①创建一个事件</strong></p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">const</span> ev <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Event</span><span class="token punctuation">(</span><span class="token string">'my_event'</span><span class="token punctuation">)</span>
+<span class="token comment">// 事件可以在任何元素触发</span>
+document<span class="token punctuation">.</span><span class="token function">dispatchEvent</span><span class="token punctuation">(</span>ev<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="实例属性" tabindex="-1"><a class="header-anchor" href="#实例属性" aria-hidden="true">#</a> 实例属性</h4>
+<p><code v-pre>1.bubbles</code> 返回一个布尔值，表明当前事件是否会向 DOM 树上层元素冒泡。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">var</span> bool <span class="token operator">=</span> event<span class="token punctuation">.</span>bubbles<span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><code v-pre>2.cancelable</code>表明该事件是否可以被取消，即事件是否可以像从未发生一样被阻止</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>event<span class="token punctuation">.</span>cancelbale 
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> event<span class="token punctuation">.</span>cancelable <span class="token operator">!==</span> <span class="token string">'boolean'</span> <span class="token operator">||</span> event<span class="token punctuation">.</span>cancelable<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    event<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>3.composed</code>用来指示该事件是否可以从 Shadow DOM 传递到一般的 DOM。如果返回的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Boolean" target="_blank" rel="noopener noreferrer"><code v-pre>Boolean</code><ExternalLinkIcon/></a> 值为 <code v-pre>true</code>，表明当事件到达 shadow DOM 的根节点（也就是 shadow DOM 中事件开始传播的第一个节点）时，事件可以从 shadow DOM 传递到一般 DOM。当然，事件要具有可传播性，即该事件的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/bubbles" target="_blank" rel="noopener noreferrer"><code v-pre>bubbles</code><ExternalLinkIcon/></a> 属性必须为 <code v-pre>true</code>。你也可以通过调用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/composedPath" target="_blank" rel="noopener noreferrer"><code v-pre>composedPath()</code><ExternalLinkIcon/></a> 来查看事件从 shadow DOM 传播到普通 DOM 的路径。</p>
+<p><code v-pre>4.currentTarget</code>只读属性 <strong><code v-pre>currentTarget</code></strong> 表示的，标识是当事件沿着 DOM 触发时事件的当前目标。它总是指向事件绑定的元素，而 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/target" target="_blank" rel="noopener noreferrer"><code v-pre>Event.target</code><ExternalLinkIcon/></a> 则是事件触发的元素。</p>
+<p><code v-pre>5.defaultPrevented</code>返回一个布尔值，表明当前事件是否调用了 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/preventDefault" target="_blank" rel="noopener noreferrer"><code v-pre>event.preventDefault()</code><ExternalLinkIcon/></a>方法。</p>
+<p><code v-pre>6.isTrusted</code>是一个只读属性，它是一个布尔值（<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" target="_blank" rel="noopener noreferrer"><code v-pre>Boolean</code><ExternalLinkIcon/></a>）。当事件是由用户行为生成的时候，这个属性的值为 <code v-pre>true</code> ，而当事件是由脚本创建、修改、通过 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/dispatchEvent" target="_blank" rel="noopener noreferrer"><code v-pre>EventTarget.dispatchEvent()</code><ExternalLinkIcon/></a> 派发的时候，这个属性的值为 <code v-pre>false</code> 。</p>
+<p><code v-pre>7.eventPhase</code>表示事件流当前处于哪一个阶段,<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/eventPhase#%E4%BA%8B%E4%BB%B6%E9%98%B6%E6%AE%B5%E5%B8%B8%E9%87%8F" target="_blank" rel="noopener noreferrer">事件阶段常量<ExternalLinkIcon/></a>.列出了不同的执行阶段</p>
+<h2 id="网络监控api" tabindex="-1"><a class="header-anchor" href="#网络监控api" aria-hidden="true">#</a> 网络监控API</h2>
+<h3 id="_1-navigator-connection" tabindex="-1"><a class="header-anchor" href="#_1-navigator-connection" aria-hidden="true">#</a> 1.navigator.connection</h3>
+<p><strong><code v-pre>Navigator.connection</code></strong> 是只读的，提供一个 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/NetworkInformation" target="_blank" rel="noopener noreferrer"><code v-pre>NetworkInformation</code><ExternalLinkIcon/></a> 对象来获取设备的网络连接信息。例如用户设备的当前带宽或连接是否被计量，这可以用于基于用户的连接来选择高清晰度内容或低清晰度内容。</p>
+<p>返回设备正在与网络进行通信的连接类型。它将是以下值之一：</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">// rtt延迟     donwnlink带宽</span>
+navigator<span class="token punctuation">.</span>connection
+NetworkInformation <span class="token punctuation">{</span><span class="token literal-property property">onchange</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token literal-property property">effectiveType</span><span class="token operator">:</span> <span class="token string">'4g'</span><span class="token punctuation">,</span> <span class="token literal-property property">rtt</span><span class="token operator">:</span> <span class="token number">150</span><span class="token punctuation">,</span> <span class="token literal-property property">downlink</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token literal-property property">saveData</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">}</span>
+
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>2.navigator.online</strong></p>
+<p>判断是否在线，boolean类型</p>
+<p><strong>3.事件</strong></p>
+<p><strong>online</strong> 和 <strong>offline</strong></p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">//在线-》离线会触发</span>
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'offline'</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment">//离线-》在线会触发</span>
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'online'</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment">//网络类型的改变</span>
+navigator<span class="token punctuation">.</span>connection<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'change'</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="性能监控api" tabindex="-1"><a class="header-anchor" href="#性能监控api" aria-hidden="true">#</a> 性能监控API</h2>
+<p>Performance API 提供了重要的内置指标，并能够将你自己的测量结果添加到浏览器的性能时间线（performance timeline）中。性能时间线使用高精度的时间戳，且可以在开发者工具中显示。</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Performance" target="_blank" rel="noopener noreferrer">文档地址<ExternalLinkIcon/></a></p>
+<p>对于前端监控来说需要采集的指标有</p>
+<p><strong>RUM</strong> <strong>(Real User Monitoring) 指标</strong>，包括 FP, TTI, FCP, FMP, FID, MPFID。</p>
+<p><strong>Navigation Timing</strong>，包括 DNS, TCP, DOM 解析等阶段的指标。</p>
+<p><strong>JS Error</strong>，解析后可以细分为运行时异常、以及静态资源异常。</p>
+<p><strong>请求状态码</strong>，采集上报后，可以分析请求异常等信息。</p>
+<p>Level2的指标</p>
+<p><img src="/javaScript/perform.png" alt=""></p>
+<p>对于<code v-pre>performance.timing</code>指标由于精度不够将来会废弃，</p>
+<h3 id="rum指标采集" tabindex="-1"><a class="header-anchor" href="#rum指标采集" aria-hidden="true">#</a> RUM指标采集</h3>
+<p><strong>真实用户性能指标</strong>也就是上文有所提及的 RUM 以及平台自己扩展的一些额外的指标，包括以下指标：</p>
+<ul>
+<li>
+<p><strong>首次绘制时间（</strong> <strong>FP</strong> <strong>）</strong> ：即 First Paint，为首次渲染的时间点。</p>
+</li>
+<li>
+<p><strong>首次内容绘制时间（</strong> <strong>FCP</strong> <strong>）</strong> ：即 First Contentful Paint，为首次有内容渲染的时间点。</p>
+</li>
+<li>
+<p><strong>首次有效绘制时间（</strong> <strong>FMP</strong> <strong>）</strong> ：用户启动页面加载与页面呈现首屏之间的时间。</p>
+</li>
+<li>
+<p><strong>首次交互时间（</strong> <strong>FID</strong> <strong>）</strong> ：即 First Input Delay，记录页面加载阶段，用户首次交互操作的延时时间。FID 指标影响用户对页面交互性和响应性的第一印象。</p>
+</li>
+<li>
+<p><strong>交互中最大延时（</strong> <strong>MPFID</strong> <strong>）</strong> ：页面加载阶段，用户交互操作可能遇到的最大延时时间。</p>
+</li>
+<li>
+<p><strong>完全可交互时间（TTI</strong>）：即 Time to interactive，记录从页面加载开始，到页面处于完全可交互状态所花费的时间。</p>
+</li>
+<li>
+<p><strong>首次加载</strong> <strong>跳出率</strong>：第一个页面完全加载前用户跳出率。</p>
+</li>
+<li>
+<p><strong>慢开比</strong>：完全加载耗时超过 5s 的 PV 占比。</p>
+</li>
+</ul>
+<h3 id="timing" tabindex="-1"><a class="header-anchor" href="#timing" aria-hidden="true">#</a> timing</h3>
+<p>测量TCP握手时间(connectEnd - connectStart)</p>
+<p>测量DNS查找时间(domainLookupEnd - domainLookupStart)</p>
+<p>测量重定向时间(redirectEnd - redirectStart)</p>
+<p>测量请求时间(responseStart - requestStart)</p>
+<p>测量TLS协商时间(requestStart - secureConnectionStart)</p>
+<p>测量获取时间(没有重定向)(responseEnd - fetchStart)</p>
+<p>测量ServiceWorker处理时间(fetchStart - workerStart)</p>
+<p>检查内容是否被压缩(decodedBodySize不应该是encodedBodySize)</p>
+<p>检查本地缓存是否被命中(transferSize应该是0)</p>
+<p>检查是否使用了现代和快速的协议(nextHopProtocol应该是HTTP/2或HTTP/3)</p>
+<p>检查正确的资源是否被渲染阻塞(renderBlockingStatus)</p>
+<h2 id="网络请求api" tabindex="-1"><a class="header-anchor" href="#网络请求api" aria-hidden="true">#</a> 网络请求API</h2>
+<h3 id="_1、xmlhttprequests" tabindex="-1"><a class="header-anchor" href="#_1、xmlhttprequests" aria-hidden="true">#</a> 1、XMLHttpRequests</h3>
+<p>语法-》<code v-pre>new XMLHttpRequest();</code></p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">const</span> request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span>objParameters<span class="token punctuation">)</span><span class="token punctuation">;</span>
+objParameters
+有两个属性可以设置：
+mozAnon
+布尔值：将此属性设置为 <span class="token boolean">true</span> 将使浏览器在获取资源时不暴露自身来源和用户凭据。最重要的是，这意味着只有明确添加使用 setRequestHeader 才会发送 Cookies。
+mozSystem
+布尔值：将此属性设置为 <span class="token boolean">true</span> 允许建立跨站点的连接，而无需服务器选择使用（Cross<span class="token operator">-</span>Origin Resource Sharing 跨域资源共享）<span class="token operator">*</span>。必须同时将参数 mozAnon 设置为 <span class="token boolean">true</span>，即不能与 Cookie 或其他用户凭据同时发送。仅限于在 <span class="token function">privileged</span> <span class="token punctuation">(</span>reviewed<span class="token punctuation">)</span> apps 起效（译者注：此句原文 This only works <span class="token keyword">in</span> <span class="token function">privileged</span> <span class="token punctuation">(</span>reviewed<span class="token punctuation">)</span> apps<span class="token punctuation">;</span>）；在 Firefox 上任何网页加载后不起作用（译者注：此句原文 it does not work on arbitrary webpages loaded <span class="token keyword">in</span> Firefox<span class="token punctuation">.</span>）。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="实例属性-1" tabindex="-1"><a class="header-anchor" href="#实例属性-1" aria-hidden="true">#</a> 实例属性</h4>
+<p>1.<code v-pre>readyState</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">值</th>
+<th style="text-align:left">状态</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code v-pre>0</code></td>
+<td style="text-align:left"><code v-pre>UNSENT</code></td>
+<td style="text-align:left">代理被创建，但尚未调用 open() 方法。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>1</code></td>
+<td style="text-align:left"><code v-pre>OPENED</code></td>
+<td style="text-align:left"><code v-pre>open()</code> 方法已经被调用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>2</code></td>
+<td style="text-align:left"><code v-pre>HEADERS_RECEIVED</code></td>
+<td style="text-align:left"><code v-pre>send()</code> 方法已经被调用，并且头部和状态已经可获得。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>3</code></td>
+<td style="text-align:left"><code v-pre>LOADING</code></td>
+<td style="text-align:left">下载中；<code v-pre>responseText</code> 属性已经包含部分数据。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>4</code></td>
+<td style="text-align:left"><code v-pre>DONE</code></td>
+<td style="text-align:left">下载操作已完成。</td>
+</tr>
+</tbody>
+</table>
+<p>2.status</p>
+<p>浏览器状态码，一般由服务器指定。</p>
+<p>3.response</p>
+<p>如果请求尚未完成或未成功，则取值是 <code v-pre>null</code>。因此只能在raadyState值为4时才能获取到类型</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">const</span> url <span class="token operator">=</span> <span class="token string">'somePage.html'</span><span class="token punctuation">;</span> <span class="token comment">// 一个本地页面</span>
+
+<span class="token keyword">function</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token parameter">url<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> xhr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  xhr<span class="token punctuation">.</span><span class="token function-variable function">onreadystatechange</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>xhr<span class="token punctuation">.</span>readyState <span class="token operator">===</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">callback</span><span class="token punctuation">(</span>xhr<span class="token punctuation">.</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'GET'</span><span class="token punctuation">,</span> url<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  xhr<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>4.statusText</p>
+<p>这个属性包含了返回状态对应的文本信息，例如&quot;OK&quot;或是&quot;Not Found&quot;。如果请求的状态<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/readyState" target="_blank" rel="noopener noreferrer"><code v-pre>readyState</code><ExternalLinkIcon/></a>的值为&quot;UNSENT&quot;或者&quot;OPENED&quot;，则这个属性的值将会是一个空字符串。如果服务器未明确指定一个状态文本信息，则<code v-pre>statusText</code>的值将会被自动赋值为&quot;OK&quot;。</p>
+<p>5.timeout</p>
+<p>代表着一个请求在被自动终止前所消耗的毫秒数。默认值为 0，意味着没有超时。</p>
+<p>6.upload</p>
+<p>返回一个xhrUpload对象，用来表示上传进度。</p>
+<p>可以被绑定在 upload 对象上的事件监听器如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">事件</th>
+<th style="text-align:left">相应属性的信息类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code v-pre>onloadstart</code></td>
+<td style="text-align:left">获取开始</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>onprogress</code></td>
+<td style="text-align:left">数据传输进行中</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>onabort</code></td>
+<td style="text-align:left">获取操作终止</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>onerror</code></td>
+<td style="text-align:left">获取失败</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>onload</code></td>
+<td style="text-align:left">获取成功</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>ontimeout</code></td>
+<td style="text-align:left">获取操作在用户规定的时间内未完成</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>onloadend</code></td>
+<td style="text-align:left">获取完成（不论成功与否）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="实例方法-1" tabindex="-1"><a class="header-anchor" href="#实例方法-1" aria-hidden="true">#</a> 实例方法</h4>
+<ul>
+<li>
+<p><code v-pre>abort</code>取消请求</p>
+</li>
+<li>
+<p><code v-pre>getAllResponseHeaders()</code>返回请求头</p>
+</li>
+<li>
+<p><code v-pre>open</code>初始化一个新创建的请求，或重新初始化一个请求。</p>
+<ul>
+<li>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>xhrReq<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhrReq<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> url<span class="token punctuation">,</span> async<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhrReq<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> url<span class="token punctuation">,</span> async<span class="token punctuation">,</span> user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhrReq<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> url<span class="token punctuation">,</span> async<span class="token punctuation">,</span> user<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>async一个可选的布尔参数，表示是否异步执行操作，默认为 true。如果值为 false，send() 方法直到收到答复前不会返回。如果 true，已完成事务的通知可供事件监听器使用。如果 multipart 属性为 true 则这个必须为 true，否则将引发异常。</p>
+</li>
+<li>
+<p>user可选的用户名用于认证用途；默认为 <code v-pre>null</code></p>
+</li>
+<li>
+<p>password可选的密码用于认证用途，默认为 <code v-pre>null</code>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code v-pre>send</code>用于发送 HTTP 请求。如果是异步请求（默认为异步请求），则此方法会在请求发送后立即返回；如果是同步请求，则此方法直到响应到达后才会返回。</p>
+<ul>
+<li>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>XMLHttpRequest<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div></li>
+</ul>
+</li>
+</ul>
+<h4 id="事件" tabindex="-1"><a class="header-anchor" href="#事件" aria-hidden="true">#</a> 事件</h4>
+<ul>
+<li><code v-pre>loadstart</code>当程序开始加载时，loadstart 事件将被触发。这个事件可以被 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest" target="_blank" rel="noopener noreferrer"><code v-pre>XMLHttpRequest</code><ExternalLinkIcon/></a> 调用</li>
+<li><code v-pre>load</code>请求完成的时候会触发<code v-pre>load</code> 事件</li>
+<li><code v-pre>loadend</code>在一个资源的加载进度停止之后被触发 (例如，在已经触发“error”，“abort”或“load”事件之后)</li>
+<li><code v-pre>process</code>请求接收到数据的时候被周期性触发。</li>
+<li><code v-pre>readystatechange</code>这个方法不该用于同步的 requests 对象<strong>当一个 <code v-pre>XMLHttpRequest</code> 请求被 abort() 方法取消时，其对应的 <code v-pre>readystatechange</code> 事件不会被触发。</strong></li>
+<li><code v-pre>timeout</code>超时触发</li>
+</ul>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>xhr<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'loadstart'</span><span class="token punctuation">,</span> handleEvent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhr<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">,</span> handleEvent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhr<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'loadend'</span><span class="token punctuation">,</span> handleEvent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhr<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'progress'</span><span class="token punctuation">,</span> handleEvent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhr<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'error'</span><span class="token punctuation">,</span> handleEvent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhr<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'abort'</span><span class="token punctuation">,</span> handleEvent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhr<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'readystatechange'</span><span class="token punctuation">,</span> handleEvent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhr<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'timeout'</span><span class="token punctuation">,</span> handleEvent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2、fetch" tabindex="-1"><a class="header-anchor" href="#_2、fetch" aria-hidden="true">#</a> 2、Fetch</h3>
+<h4 id="fetch" tabindex="-1"><a class="header-anchor" href="#fetch" aria-hidden="true">#</a> fetch（）</h4>
+<p>它返回一个 promise，这个 promise 会在请求响应后被 resolve，并传回 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Response" target="_blank" rel="noopener noreferrer"><code v-pre>Response</code><ExternalLinkIcon/></a> 对象。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token function">fetch</span><span class="token punctuation">(</span>input<span class="token punctuation">[</span><span class="token punctuation">,</span> init<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
+<li>一个 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank" rel="noopener noreferrer"><code v-pre>USVString</code><ExternalLinkIcon/></a> 字符串，包含要获取资源的 URL。一些浏览器会接受 <code v-pre>blob:</code> 和 <code v-pre>data:</code> 作为 schemes.</li>
+<li>一个 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Request" target="_blank" rel="noopener noreferrer"><code v-pre>Request</code><ExternalLinkIcon/></a> 对象。</li>
+</ul>
+<p><em>init</em> 可选，一个配置项对象，包括所有对请求的设置。可选的参数有：</p>
+<ul>
+<li><code v-pre>method</code>: 请求使用的方法，如 <code v-pre>GET</code>、<code v-pre>POST</code>。</li>
+<li><code v-pre>headers</code>: 请求的头信息，形式为 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Headers" target="_blank" rel="noopener noreferrer"><code v-pre>Headers</code><ExternalLinkIcon/></a> 的对象或包含 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank" rel="noopener noreferrer"><code v-pre>ByteString</code><ExternalLinkIcon/></a> 值的对象字面量。</li>
+<li><code v-pre>body</code>: 请求的 body 信息：可能是一个 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener noreferrer"><code v-pre>Blob</code><ExternalLinkIcon/></a>、<code v-pre>BufferSource</code>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FormData" target="_blank" rel="noopener noreferrer"><code v-pre>FormData</code><ExternalLinkIcon/></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams" target="_blank" rel="noopener noreferrer"><code v-pre>URLSearchParams</code><ExternalLinkIcon/></a> 或者 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank" rel="noopener noreferrer"><code v-pre>USVString</code><ExternalLinkIcon/></a> 对象。注意 GET 或 HEAD 方法的请求不能包含 body 信息。</li>
+<li><code v-pre>mode</code>: 请求的模式，如 <code v-pre>cors</code>、<code v-pre>no-cors</code> 或者 <code v-pre>same-origin</code>。</li>
+<li><code v-pre>credentials</code>: 请求的 credentials，如 <code v-pre>omit</code>、<code v-pre>same-origin</code> 或者 <code v-pre>include</code>。为了在当前域名内自动发送 cookie，必须提供这个选项，从 Chrome 50 开始，这个属性也可以接受 <code v-pre>FederatedCredential </code>实例或是一个 <code v-pre>PasswordCredential</code>实例。</li>
+<li><code v-pre>cache</code>: 请求的 cache 模式：<code v-pre>default</code>、 <code v-pre>no-store</code>、 <code v-pre>reload</code> 、 <code v-pre>no-cache</code>、 <code v-pre>force-cache</code> 或者 <code v-pre>only-if-cached</code>。</li>
+<li><code v-pre>redirect</code>: 可用的 redirect 模式：<code v-pre>follow</code> (自动重定向), <code v-pre>error</code> (如果产生重定向将自动终止并且抛出一个错误），或者 <code v-pre>manual</code> (手动处理重定向)。在 Chrome 中默认使用 <code v-pre>follow</code>（Chrome 47 之前的默认值是 <code v-pre>manual</code>）。</li>
+<li><code v-pre>referrer</code>: 一个 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank" rel="noopener noreferrer"><code v-pre>USVString</code><ExternalLinkIcon/></a> 可以是 <code v-pre>no-referrer</code>、<code v-pre>client</code> 或一个 URL。默认是 <code v-pre>client</code>。</li>
+<li><code v-pre>referrerPolicy</code>: 指定了 HTTP 头部 referer 字段的值。可能为以下值之一：<code v-pre>no-referrer</code>、 <code v-pre>no-referrer-when-downgrade</code>、<code v-pre>origin</code>、<code v-pre>origin-when-cross-origin</code>、 <code v-pre>unsafe-url</code>。</li>
+</ul>
+<h4 id="headers" tabindex="-1"><a class="header-anchor" href="#headers" aria-hidden="true">#</a> Headers</h4>
+<p><strong>Headers</strong> 接口允许对 HTTP 请求和响应头执行各种操作。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">method</span><span class="token operator">:</span><span class="token string">'post'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">body</span><span class="token operator">:</span><span class="token string">'uname=lisi&amp;pwd=123'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">headers</span><span class="token operator">:</span><span class="token punctuation">{</span>
+        <span class="token string-property property">'Content-Type'</span><span class="token operator">:</span><span class="token string">'application/x-www-form=urlencoded'</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> data<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_3、navigator-sendbeacon" tabindex="-1"><a class="header-anchor" href="#_3、navigator-sendbeacon" aria-hidden="true">#</a> 3、navigator.sendBeacon</h3>
+<p><code v-pre>navigator.sendBeacon</code>是为了解决当前页面卸载期间无法保证数据发送到服务端。</p>
+<p>在没有<code v-pre>sendBeacon</code>之前通过以下方式解决页面卸载还能传输数据。</p>
+<ul>
+<li>
+<p>页面卸载时同步使用ajxa发送请求，等服务端返回数据再卸载页面，缺点很明显，阻碍页面卸载。</p>
+</li>
+<li>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'beforeunload'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> xhr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'POST'</span><span class="token punctuation">,</span> <span class="token string">'/log'</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 第三个参数指定为 false，表示使用同步请求</span>
+  xhr<span class="token punctuation">.</span><span class="token function">setRequestHeader</span><span class="token punctuation">(</span><span class="token string">'Content-Type'</span><span class="token punctuation">,</span> <span class="token string">'application/json'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> data <span class="token operator">=</span> <span class="token punctuation">{</span> 
+    <span class="token literal-property property">userId</span><span class="token operator">:</span> <span class="token number">123</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">eventType</span><span class="token operator">:</span> <span class="token string">'pageView'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">pageUrl</span><span class="token operator">:</span> location<span class="token punctuation">.</span>href<span class="token punctuation">,</span>
+    <span class="token literal-property property">timestamp</span><span class="token operator">:</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  xhr<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>创建Image对象，将要传输的数据作为查询参数传递到服务器，服务器返回一个空白图片，这样就可以在页面卸载时异步传输数据。<strong>这种方式不会阻塞页面卸载过程，但只支持 GET 请求，且只能传输较小的数据。</strong></p>
+</li>
+<li>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">sendAnalyticsData</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  img<span class="token punctuation">.</span>src <span class="token operator">=</span> <span class="token string">'/analytics?'</span> <span class="token operator">+</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'beforeunload'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> data <span class="token operator">=</span> <span class="token punctuation">{</span> 
+    <span class="token literal-property property">userId</span><span class="token operator">:</span> <span class="token number">123</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">eventType</span><span class="token operator">:</span> <span class="token string">'pageView'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">pageUrl</span><span class="token operator">:</span> location<span class="token punctuation">.</span>href<span class="token punctuation">,</span>
+    <span class="token literal-property property">timestamp</span><span class="token operator">:</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token function">sendAnalyticsData</span><span class="token punctuation">(</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>LocalStorage：将要传输的数据存储在 LocalStorage 中，然后在下一个页面加载时读取数据并发送到服务器。这种方式可以在页面卸载时异步传输数据，但需要额外的代码维护，且只能传输较小的数据，且可能会受到 LocalStorage 容量限制。</p>
+</li>
+<li>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">sendFormData</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'formData'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'formSubmitTime'</span><span class="token punctuation">,</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'beforeunload'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> data <span class="token operator">=</span> <span class="token punctuation">{</span> 
+    <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'John Doe'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">email</span><span class="token operator">:</span> <span class="token string">'john.doe@example.com'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">message</span><span class="token operator">:</span> <span class="token string">'HelloWorld!'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token function">sendFormData</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 在下一个页面加载时发送数据</span>
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> formData <span class="token operator">=</span> localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'formData'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> formSubmitTime <span class="token operator">=</span> localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'formSubmitTime'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>formData <span class="token operator">&amp;&amp;</span> formSubmitTime<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> data <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>formData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    data<span class="token punctuation">.</span>submitTime <span class="token operator">=</span> <span class="token function">parseInt</span><span class="token punctuation">(</span>formSubmitTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">sendDataToServer</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'formData'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'formSubmitTime'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">sendDataToServer</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 发送数据到服务器的代码</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ul>
+<p>输到服务器，避免在卸载页面时丢失数据。它是基于浏览器提供的 navigator.sendBeacon() 方法实现的，支持发送一些简单的数据，如日志数据、统计数据等。</p>
+<p>使用 sendBeacon 的优点是<strong>它可以在页面卸载时异步传输数据，而且不会阻塞页面卸载过程</strong>，因此可以避免在卸载页面时因为数据传输而延迟卸载，提高用户体验。此外，sendBeacon 还可以在网络连接不稳定的情况下保证数据的可靠传输。</p>
+<p>发送数据时，需要传入一个 URL 和一个包含数据的 Blob 或 ArrayBuffer 对象。如果传入的数据太大，可能会被浏览器截断或被服务器拒绝，因此建议只传输一些简单的数据。<code v-pre>data</code> 参数是将要发送的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank" rel="noopener noreferrer"><code v-pre>ArrayBuffer</code><ExternalLinkIcon/></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" target="_blank" rel="noopener noreferrer"><code v-pre>ArrayBufferView</code><ExternalLinkIcon/></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener noreferrer"><code v-pre>Blob</code><ExternalLinkIcon/></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank" rel="noopener noreferrer"><code v-pre>DOMString</code><ExternalLinkIcon/></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FormData" target="_blank" rel="noopener noreferrer"><code v-pre>FormData</code><ExternalLinkIcon/></a> 或 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams" target="_blank" rel="noopener noreferrer"><code v-pre>URLSearchParams</code><ExternalLinkIcon/></a> 类型的数据。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">var</span> data <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"John"</span><span class="token punctuation">,</span> <span class="token literal-property property">age</span><span class="token operator">:</span> <span class="token number">30</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> blob <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Blob</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">"application/json"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+navigator<span class="token punctuation">.</span><span class="token function">sendBeacon</span><span class="token punctuation">(</span><span class="token string">"/log"</span><span class="token punctuation">,</span> blob<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="custom-container tip"><p class="custom-container-title">TIP</p>
+<p>sendBeacon 方法仅支持 POST 请求</p>
+</div>
+<h3 id="ajax和fetch区别" tabindex="-1"><a class="header-anchor" href="#ajax和fetch区别" aria-hidden="true">#</a> ajax和fetch区别</h3>
+<p><code v-pre>fetch()</code>使用 Promise，不使用回调函数，因此大大简化了写法，写起来更简洁。</p>
+<p><code v-pre>fetch()</code>采用模块化设计，API 分散在多个对象上（Response 对象、Request 对象、Headers 对象），更合理一些；相比之下，XMLHttpRequest 的 API 设计并不是很好，输入、输出、状态都在同一个接口管理，容易写出非常混乱的代码。</p>
+<p><code v-pre>fetch()</code>通过数据流（Stream 对象）处理数据，可以分块读取，有利于提高网站性能表现，减少内存占用，对于请求大文件或者网速慢的场景相当有用。XMLHTTPRequest 对象不支持数据流，所有的数据必须放在缓存里，不支持分块读取，必须等待全部拿到后，再一次性吐出来。</p>
+<h3 id="sse长连接" tabindex="-1"><a class="header-anchor" href="#sse长连接" aria-hidden="true">#</a> SSE长连接</h3>
+<p>SSE利用长连接特性，在客户端和服务端之间建立一条持久化链接，并通过这条连接实现服务器向客户端实时数据推送</p>
+<p>特点：客户端第一次发送请求后续由服务端推送消息，</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">/*configuration 可选
+为配置新连接提供选项。可选项是：
+withCredentials，默认为 false，指示 CORS 是否应包含凭据 ( credentials )。
+*/</span>
+<span class="token keyword">const</span> sse <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">EventSource</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span>configuration<span class="token punctuation">)</span>
+sse<span class="token punctuation">.</span><span class="token function">addEvenlistener</span><span class="token punctuation">(</span><span class="token string">'事件名称默认message,服务端可以设置'</span><span class="token punctuation">,</span><span class="token parameter">e</span><span class="token operator">=></span><span class="token punctuation">{</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>与 WebSocket 不同的是，服务器发送事件是单向的。数据信息只能从服务端到发送到客户端（如用户的浏览器）。当不需要以消息形式将数据从客户端发送到服务器时，这使它们成为绝佳的选择。</p>
+<p>实例身上默认有三个监听事件  <code v-pre>error message open</code> ，有一个<code v-pre>close</code>方法，有一个**<code v-pre>readyState</code>** 属性</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">const</span> evtSource <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">EventSource</span><span class="token punctuation">(</span><span class="token string">"sse.php"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">/*
+0 — connecting
+1 — open
+2 — closed
+*/</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>evtSource<span class="token punctuation">.</span>readyState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
 
 

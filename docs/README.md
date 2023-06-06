@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: hero.jpg
-heroText: Learning consistently
+heroText: 精通Vue2,Vue3,React,Angular,Nginx,Linux,nodeJs等单词拼写
 actionLink: /React/Fiber.md
 tagline: go on
 actions:

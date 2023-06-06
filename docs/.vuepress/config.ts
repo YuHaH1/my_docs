@@ -8,6 +8,12 @@ export default defineUserConfig({
     lang: 'zh-CN',
     title: 'fancy——Blog',
     theme,
+    head: [
+        // 设置 favor.ico，.vuepress/public 下
+        [
+            'link', { rel: 'icon', href: '/hero.jpg' }
+        ]
+    ],
     public: `${path.resolve(__dirname, './public')}`,
     plugins: [
         commentPlugin({
@@ -20,7 +26,6 @@ export default defineUserConfig({
             categoryId: 'DIC_kwDOJhp_Is4CWaUE',
             mapping: 'title'
         }),
-
         searchPlugin({
             locales: {
                 '/': {
@@ -31,5 +36,6 @@ export default defineUserConfig({
                 },
             },
         }),
+
     ]
 })

@@ -132,7 +132,9 @@ const clipboardData = await navigator.clipboard.readText();
 
 **`window.requestAnimationFrame()`** 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，**该回调函数会在浏览器下一次重绘之前执行。**
 
-当 `requestAnimationFrame()` 运行在后台标签页或者隐藏的 iframe 里时，`requestAnimationFrame()` 会被暂停调用以提升性能和电池寿命。
+window.requestAnimationFrame() 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行。
+
+与setTimeout相比，requestAnimationFrame最大的优势是由系统来决定回调函数的执行时机。具体一点讲，如果屏幕刷新率是60Hz,那么回调函数就每16.7ms被执行一次，如果刷新率是75Hz，那么这个时间间隔就变成了1000/75=13.3ms，换句话说就是，requestAnimationFrame的步伐跟着系统的刷新步伐走。它能保证回调函数在屏幕每一次的刷新间隔中只被执行一次，这样就不会引起丢帧现象，也不会导致动画出现卡顿的问题。
 
 该方法会返回一个id可以用于[`window.cancelAnimationFrame()`](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/cancelAnimationFrame)取消
 
@@ -143,9 +145,22 @@ const id = requestAnimationFrame((DOMHighResTimeStamp:number) => id:number{
 })
 ~~~
 
+该API的优点：
+
+* CPU节能：使用setTimeout实现的动画，当页面被隐藏或最小化时，setTimeout 仍然在后台执行动画任务，由于此时页面处于不可见或不可用状态，刷新动画是没有意义的，完全是浪费CPU资源。而requestAnimationFrame则完全不同，当页面处理未激活的状态下，该页面的屏幕刷新任务也会被系统暂停，因此跟着系统步伐走的requestAnimationFrame也会停止渲染，当页面被激活时，动画就从上次停留的地方继续执行，有效节省了CPU开销。
+* 函数节流：在高频率事件(resize,scroll等)中，为了防止在一个刷新间隔内发生多次函数执行，使用requestAnimationFrame可保证每个刷新间隔内，函数只被执行一次，这样既能保证流畅性，也能更好的节省函数执行的开销。一个刷新间隔内函数执行多次时没有意义的，因为显示器每16.7ms刷新一次，多次绘制并不会在屏幕上体现出来。
+
+
+
 
 
 ## 4.requestIdleCallback
+
+一帧的生命周期
+
+![](/javaScript/frame.png)
+
+假如某一帧里面要执行的任务不多，在不到16ms（1000/60)的时间内就完成了上述任务的话，那么这一帧就会有一定的空闲时间，这段时间就恰好可以用来执行requestIdleCallback的回调
 
 方法插入一个函数，这个函数将在浏览器空闲时期被调用。这使开发者能够在主事件循环上执行后台和低优先级工作，而不会影响延迟关键事件，如动画和输入响应。函数一般会按先进先调用的顺序执行，然而，如果回调函数指定了执行超时时间`timeout`，则有可能为了在超时前执行函数而打乱执行顺序。
 
@@ -197,7 +212,7 @@ Web Worker 为 Web 内容在后台线程中运行脚本提供了一种简单的�
 
       
 
-### 使用场景
+#### 使用场景
 
 1. 。由于 Worker 不能读取本地文件，所以这个脚本必须来自网络。如果下载没有成功（比如404错误），Worker 就会默默地失败。
 2. 加密数据 有些加解密的算法比较复杂，或者在加解密很多数据的时候，这会非常耗费计算资源，导致UI线程无响应，因此这是使用Web Worker的好时机，使用Worker线程可以让用户更加无缝的操作UI。 预取数据
@@ -213,7 +228,7 @@ Web Worker 为 Web 内容在后台线程中运行脚本提供了一种简单的�
 
 
 
-### 代码展示
+#### 代码展示
 
 **主进程代码示例**
 
@@ -251,7 +266,7 @@ onmessage = function (ev) {
 postMessage(`${JSON.stringify(worker_data)}`)
 ~~~
 
-### 共享worker
+#### 共享worker
 
 一个共享 worker 可以被多个脚本使用——即使这些脚本正在被不同的 window、iframe 或者 worker 访问。
 
@@ -269,13 +284,13 @@ const shareWorker = new SharedWorker('worker.js');
 
 <u></u>
 
-#### 规则
+##### 规则
 
 1. 一个非常大的区别在于，与一个共享 worker 通信必须通过端口对象——》一个确切的打开的端口供脚本与 worker 通信（在专用 worker 中这一部分是隐式进行的）。
 2. 在传递消息之前，端口连接必须被显式的打开，打开方式是使用 onmessage 事件处理函数或者 start() 方法。start() 方法的调用只在一种情况下需要，那就是消息事件addEventListener() 方法被使用。
 3. worker进程中使用 `onconnect` 事件处理函数来执行代码。
 
-#### 代码展示
+##### 代码展示
 
 ~~~js
 index.html - 1
@@ -636,7 +651,7 @@ https://github.com/mdn/pwa-examples/tree/main/js13kpwa缓存展示
 
 
 
-### 更新service worker
+#### 更新service worker
 
 我们存放在缓存名称中的版本号是这个问题的关键
 
@@ -1499,7 +1514,7 @@ index.openKeyCursor(null, IDBCursor.nextunique).onsuccess = function(event) {
 
 
 
-## —样式相关APIs—
+## —元素/样式相关APIs—
 
 ### 1.getComputedStyle
 
@@ -1523,6 +1538,409 @@ let style = window.getComputedStyle(element, [pseudoElt]);
 
 :::
 
+### 2.animate
+
+`Element`接口的 **`animate()`** 方法是创建一个新的 [`Animation`](https://developer.mozilla.org/zh-CN/docs/Web/API/Animation) 的便捷方法，将它应用于元素，然后运行动画。它将返回一个新建的 [`Animation`](https://developer.mozilla.org/zh-CN/docs/Web/API/Animation) 对象实例
+
+**①使用方式**
+
+~~~js
+某元素.animate(keyframes,options)
+~~~
+
+**②参数**
+
+`1.keyframes`一个由多个关键帧的属性和值组成的对象所构成的`数组`。这是[`getKeyframes()` (en-US)](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/getKeyframes)方法返回的规范格式。
+
+~~~ts
+keyframes:[] | object
+element.animate([
+  { // from
+    opacity: 0,
+    color: "#fff"
+  },
+  { // to
+    opacity: 1,
+    color: "#000"
+  }
+], 2000);
+element.animate([ { opacity: 1 },
+                  { opacity: 0.1, offset: 0.7 },
+                  { opacity: 0 } ],
+                2000);
+ //offset 的值必须是在 [0.0, 1.0] 这个区间内，且须升序排列。
+ //并非所有的关键帧都需要设置 offset。没有指定 offset 的关键帧将与相邻的关键帧均匀间隔。 可以通过提供easing过渡来给指定关键帧之间应用过渡效果，如下所示
+element.animate([ { opacity: 1, easing: 'ease-out' },
+                  { opacity: 0.1, easing: 'ease-in' },
+                  { opacity: 0 } ],
+                2000);
+
+~~~
+
+对象格式关键帧
+
+~~~js
+element.animate({
+  opacity: [ 0, 1 ],          // [ from, to ]
+  color:   [ "#fff", "#000" ] // [ from, to ]
+}, 2000);
+element.animate({
+  opacity: [ 0, 0.9, 1 ],
+  offset: [ 0, 0.8 ], // [ 0, 0.8, 1 ] 的简写
+  easing: [ 'ease-in', 'ease-out' ],
+}, 2000);
+
+~~~
+
+`2.options`**代表动画持续时间的整数**（以毫秒为单位），或者一个包含一个或多个时间属性（在 [`KeyframeEffect()` options 参数](https://developer.mozilla.org/zh-CN/docs/Web/API/KeyframeEffect/KeyframeEffect#参数)和下方列出）的对象：.
+
+`3.id` 可选在 `animate()` 里可作为唯一标识的属性：一个用来引用动画的字符串。
+
+示例
+
+~~~js
+  test.value.animate([
+  { transform: 'rotate(0) scale(1)' },
+  { transform: 'rotate(360deg) scale(0)' },
+  ], {
+  easing: 'steps(7, end)',
+  direction: "reverse",
+  duration: 2000,
+  playbackRate: 1,
+  iterations: Infinity
+})
+~~~
+
+![](/javaScript/animate1.gif)
+
+## 事件Api
+
+
+
+### Event
+
+接口表示在 DOM 中出现的事件。我们可以通过`Event`创建并返回一个 `Event` 对象。
+
+~~~ts
+interface IEventinit{
+    bubbles?:boolean  默认false表示该事件是否冒泡。
+    cancelable?:boolean 默认值为 false，表示该事件能否被取消。
+    composed?:boolean 默认值为 false，指示事件是否会在影子 DOM 根节点之外触发侦听器。
+}
+
+const my_event = new Event(typeArg:'string',eventinit:IEventinit)
+~~~
+
+**①创建一个事件**
+
+~~~ts
+const ev = new Event('my_event')
+// 事件可以在任何元素触发
+document.dispatchEvent(ev);
+
+~~~
+
+#### 实例属性
+
+`1.bubbles` 返回一个布尔值，表明当前事件是否会向 DOM 树上层元素冒泡。
+
+~~~js
+var bool = event.bubbles;
+~~~
+
+`2.cancelable`表明该事件是否可以被取消，即事件是否可以像从未发生一样被阻止
+
+~~~js
+event.cancelbale 
+if (typeof event.cancelable !== 'boolean' || event.cancelable) {
+    event.preventDefault();
+}
+~~~
+
+`3.composed`用来指示该事件是否可以从 Shadow DOM 传递到一般的 DOM。如果返回的 [`Boolean`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Boolean) 值为 `true`，表明当事件到达 shadow DOM 的根节点（也就是 shadow DOM 中事件开始传播的第一个节点）时，事件可以从 shadow DOM 传递到一般 DOM。当然，事件要具有可传播性，即该事件的 [`bubbles`](https://developer.mozilla.org/zh-CN/docs/Web/API/Event/bubbles) 属性必须为 `true`。你也可以通过调用 [`composedPath()`](https://developer.mozilla.org/zh-CN/docs/Web/API/Event/composedPath) 来查看事件从 shadow DOM 传播到普通 DOM 的路径。
+
+`4.currentTarget`只读属性 **`currentTarget`** 表示的，标识是当事件沿着 DOM 触发时事件的当前目标。它总是指向事件绑定的元素，而 [`Event.target`](https://developer.mozilla.org/zh-CN/docs/Web/API/Event/target) 则是事件触发的元素。
+
+`5.defaultPrevented`返回一个布尔值，表明当前事件是否调用了 [`event.preventDefault()`](https://developer.mozilla.org/zh-CN/docs/Web/API/Event/preventDefault)方法。
+
+`6.isTrusted`是一个只读属性，它是一个布尔值（[`Boolean`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)）。当事件是由用户行为生成的时候，这个属性的值为 `true` ，而当事件是由脚本创建、修改、通过 [`EventTarget.dispatchEvent()`](https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/dispatchEvent) 派发的时候，这个属性的值为 `false` 。
+
+`7.eventPhase`表示事件流当前处于哪一个阶段,[事件阶段常量](https://developer.mozilla.org/zh-CN/docs/Web/API/Event/eventPhase#事件阶段常量).列出了不同的执行阶段
+
+## 网络监控API
+
+### 1.navigator.connection
+
+**`Navigator.connection`** 是只读的，提供一个 [`NetworkInformation`](https://developer.mozilla.org/zh-CN/docs/Web/API/NetworkInformation) 对象来获取设备的网络连接信息。例如用户设备的当前带宽或连接是否被计量，这可以用于基于用户的连接来选择高清晰度内容或低清晰度内容。
+
+返回设备正在与网络进行通信的连接类型。它将是以下值之一：
+
+~~~js
+// rtt延迟     donwnlink带宽
+navigator.connection
+NetworkInformation {onchange: null, effectiveType: '4g', rtt: 150, downlink: 10, saveData: false}
+
+
+~~~
+
+**2.navigator.online**
+
+判断是否在线，boolean类型
+
+**3.事件**
+
+**online** 和 **offline**
+
+~~~js
+//在线-》离线会触发
+window.addEventListener('offline',()=>{})
+//离线-》在线会触发
+window.addEventListener('online',()=>{})
+//网络类型的改变
+navigator.connection.addEventListener('change',()=>{})
+~~~
+
+
+
+
+
+## 性能监控API
+
+Performance API 提供了重要的内置指标，并能够将你自己的测量结果添加到浏览器的性能时间线（performance timeline）中。性能时间线使用高精度的时间戳，且可以在开发者工具中显示。
+
+[文档地址](https://developer.mozilla.org/zh-CN/docs/Web/API/Performance)
+
+对于前端监控来说需要采集的指标有
+
+**RUM** **(Real User Monitoring) 指标**，包括 FP, TTI, FCP, FMP, FID, MPFID。
+
+**Navigation Timing**，包括 DNS, TCP, DOM 解析等阶段的指标。
+
+**JS Error**，解析后可以细分为运行时异常、以及静态资源异常。
+
+**请求状态码**，采集上报后，可以分析请求异常等信息。
+
+Level2的指标
+
+![](/javaScript/perform.png)
+
+对于`performance.timing`指标由于精度不够将来会废弃，
+
+### RUM指标采集
+
+**真实用户性能指标**也就是上文有所提及的 RUM 以及平台自己扩展的一些额外的指标，包括以下指标：
+
+* **首次绘制时间（** **FP** **）** ：即 First Paint，为首次渲染的时间点。
+
+* **首次内容绘制时间（** **FCP** **）** ：即 First Contentful Paint，为首次有内容渲染的时间点。
+
+* **首次有效绘制时间（** **FMP** **）** ：用户启动页面加载与页面呈现首屏之间的时间。
+
+* **首次交互时间（** **FID** **）** ：即 First Input Delay，记录页面加载阶段，用户首次交互操作的延时时间。FID 指标影响用户对页面交互性和响应性的第一印象。
+
+* **交互中最大延时（** **MPFID** **）** ：页面加载阶段，用户交互操作可能遇到的最大延时时间。
+
+* **完全可交互时间（TTI**）：即 Time to interactive，记录从页面加载开始，到页面处于完全可交互状态所花费的时间。
+
+* **首次加载** **跳出率**：第一个页面完全加载前用户跳出率。
+
+* **慢开比**：完全加载耗时超过 5s 的 PV 占比。
+
+### timing
+
+测量TCP握手时间(connectEnd - connectStart)
+
+测量DNS查找时间(domainLookupEnd - domainLookupStart)
+
+测量重定向时间(redirectEnd - redirectStart)
+
+测量请求时间(responseStart - requestStart)
+
+测量TLS协商时间(requestStart - secureConnectionStart)
+
+测量获取时间(没有重定向)(responseEnd - fetchStart)
+
+测量ServiceWorker处理时间(fetchStart - workerStart)
+
+检查内容是否被压缩(decodedBodySize不应该是encodedBodySize)
+
+检查本地缓存是否被命中(transferSize应该是0)
+
+检查是否使用了现代和快速的协议(nextHopProtocol应该是HTTP/2或HTTP/3)
+
+检查正确的资源是否被渲染阻塞(renderBlockingStatus)
+
+
+
+## 网络请求API
+
+### 1、XMLHttpRequests
+
+语法-》`new XMLHttpRequest();`
+
+~~~js
+const request = new XMLHttpRequest(objParameters);
+objParameters
+有两个属性可以设置：
+mozAnon
+布尔值：将此属性设置为 true 将使浏览器在获取资源时不暴露自身来源和用户凭据。最重要的是，这意味着只有明确添加使用 setRequestHeader 才会发送 Cookies。
+mozSystem
+布尔值：将此属性设置为 true 允许建立跨站点的连接，而无需服务器选择使用（Cross-Origin Resource Sharing 跨域资源共享）*。必须同时将参数 mozAnon 设置为 true，即不能与 Cookie 或其他用户凭据同时发送。仅限于在 privileged (reviewed) apps 起效（译者注：此句原文 This only works in privileged (reviewed) apps;）；在 Firefox 上任何网页加载后不起作用（译者注：此句原文 it does not work on arbitrary webpages loaded in Firefox.）。
+~~~
+
+#### 实例属性
+
+1.`readyState`
+
+| 值   | 状态               | 描述                                                |
+| :--- | :----------------- | :-------------------------------------------------- |
+| `0`  | `UNSENT`           | 代理被创建，但尚未调用 open() 方法。                |
+| `1`  | `OPENED`           | `open()` 方法已经被调用。                           |
+| `2`  | `HEADERS_RECEIVED` | `send()` 方法已经被调用，并且头部和状态已经可获得。 |
+| `3`  | `LOADING`          | 下载中；`responseText` 属性已经包含部分数据。       |
+| `4`  | `DONE`             | 下载操作已完成。                                    |
+
+2.status
+
+浏览器状态码，一般由服务器指定。
+
+3.response
+
+如果请求尚未完成或未成功，则取值是 `null`。因此只能在raadyState值为4时才能获取到类型
+
+~~~js
+const url = 'somePage.html'; // 一个本地页面
+
+function load(url, callback) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4) {
+      callback(xhr.response);
+    }
+  }
+  xhr.open('GET', url, true);
+  xhr.send('');
+}
+~~~
+
+4.statusText
+
+这个属性包含了返回状态对应的文本信息，例如"OK"或是"Not Found"。如果请求的状态[`readyState`](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/readyState)的值为"UNSENT"或者"OPENED"，则这个属性的值将会是一个空字符串。如果服务器未明确指定一个状态文本信息，则`statusText`的值将会被自动赋值为"OK"。
+
+5.timeout
+
+代表着一个请求在被自动终止前所消耗的毫秒数。默认值为 0，意味着没有超时。
+
+6.upload
+
+返回一个xhrUpload对象，用来表示上传进度。
+
+可以被绑定在 upload 对象上的事件监听器如下：
+
+| 事件          | 相应属性的信息类型               |
+| :------------ | :------------------------------- |
+| `onloadstart` | 获取开始                         |
+| `onprogress`  | 数据传输进行中                   |
+| `onabort`     | 获取操作终止                     |
+| `onerror`     | 获取失败                         |
+| `onload`      | 获取成功                         |
+| `ontimeout`   | 获取操作在用户规定的时间内未完成 |
+| `onloadend`   | 获取完成（不论成功与否）         |
+
+#### 实例方法
+
+* `abort`取消请求
+
+* `getAllResponseHeaders()`返回请求头
+
+* `open`初始化一个新创建的请求，或重新初始化一个请求。
+
+  * ~~~js
+    xhrReq.open(method, url);
+    xhrReq.open(method, url, async);
+    xhrReq.open(method, url, async, user);
+    xhrReq.open(method, url, async, user, password);
+    ~~~
+
+  * async一个可选的布尔参数，表示是否异步执行操作，默认为 true。如果值为 false，send() 方法直到收到答复前不会返回。如果 true，已完成事务的通知可供事件监听器使用。如果 multipart 属性为 true 则这个必须为 true，否则将引发异常。
+
+  * user可选的用户名用于认证用途；默认为 `null`
+
+  * password可选的密码用于认证用途，默认为 `null`。
+
+* `send`用于发送 HTTP 请求。如果是异步请求（默认为异步请求），则此方法会在请求发送后立即返回；如果是同步请求，则此方法直到响应到达后才会返回。
+
+  * ~~~js
+    XMLHttpRequest.send(body)
+    ~~~
+
+
+
+#### 事件
+
+* `loadstart`当程序开始加载时，loadstart 事件将被触发。这个事件可以被 [`XMLHttpRequest`](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest) 调用
+* `load`请求完成的时候会触发`load` 事件
+* `loadend`在一个资源的加载进度停止之后被触发 (例如，在已经触发“error”，“abort”或“load”事件之后)
+* `process`请求接收到数据的时候被周期性触发。
+*  `readystatechange`这个方法不该用于同步的 requests 对象**当一个 `XMLHttpRequest` 请求被 abort() 方法取消时，其对应的 `readystatechange` 事件不会被触发。**
+* `timeout`超时触发
+
+~~~js
+xhr.addEventListener('loadstart', handleEvent);
+xhr.addEventListener('load', handleEvent);
+xhr.addEventListener('loadend', handleEvent);
+xhr.addEventListener('progress', handleEvent);
+xhr.addEventListener('error', handleEvent);
+xhr.addEventListener('abort', handleEvent);
+xhr.addEventListener('readystatechange', handleEvent);
+xhr.addEventListener('timeout', handleEvent);
+~~~
+
+### 2、Fetch
+
+#### fetch（）
+
+它返回一个 promise，这个 promise 会在请求响应后被 resolve，并传回 [`Response`](https://developer.mozilla.org/zh-CN/docs/Web/API/Response) 对象。
+
+~~~js
+fetch(input[, init]);
+~~~
+
+* 一个 [`USVString`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String) 字符串，包含要获取资源的 URL。一些浏览器会接受 `blob:` 和 `data:` 作为 schemes.
+* 一个 [`Request`](https://developer.mozilla.org/zh-CN/docs/Web/API/Request) 对象。
+
+*init* 可选，一个配置项对象，包括所有对请求的设置。可选的参数有：
+
+* `method`: 请求使用的方法，如 `GET`、`POST`。
+* `headers`: 请求的头信息，形式为 [`Headers`](https://developer.mozilla.org/zh-CN/docs/Web/API/Headers) 的对象或包含 [`ByteString`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String) 值的对象字面量。
+* `body`: 请求的 body 信息：可能是一个 [`Blob`](https://developer.mozilla.org/zh-CN/docs/Web/API/Blob)、`BufferSource`、[`FormData`](https://developer.mozilla.org/zh-CN/docs/Web/API/FormData)、[`URLSearchParams`](https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams) 或者 [`USVString`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String) 对象。注意 GET 或 HEAD 方法的请求不能包含 body 信息。
+* `mode`: 请求的模式，如 `cors`、`no-cors` 或者 `same-origin`。
+* `credentials`: 请求的 credentials，如 `omit`、`same-origin` 或者 `include`。为了在当前域名内自动发送 cookie，必须提供这个选项，从 Chrome 50 开始，这个属性也可以接受 `FederatedCredential `实例或是一个 `PasswordCredential`实例。
+* `cache`: 请求的 cache 模式：`default`、 `no-store`、 `reload` 、 `no-cache`、 `force-cache` 或者 `only-if-cached`。
+* `redirect`: 可用的 redirect 模式：`follow` (自动重定向), `error` (如果产生重定向将自动终止并且抛出一个错误），或者 `manual` (手动处理重定向)。在 Chrome 中默认使用 `follow`（Chrome 47 之前的默认值是 `manual`）。
+* `referrer`: 一个 [`USVString`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String) 可以是 `no-referrer`、`client` 或一个 URL。默认是 `client`。
+* `referrerPolicy`: 指定了 HTTP 头部 referer 字段的值。可能为以下值之一：`no-referrer`、 `no-referrer-when-downgrade`、`origin`、`origin-when-cross-origin`、 `unsafe-url`。
+
+
+
+#### Headers
+
+**Headers** 接口允许对 HTTP 请求和响应头执行各种操作。
+
+~~~js
+fetch(url, {
+    method:'post',
+    body:'uname=lisi&pwd=123',
+    headers:{
+        'Content-Type':'application/x-www-form=urlencoded'
+    }
+}).then(function(data){
+    return data.text();
+}).then(function(data){
+    console.log(data);
+})
+~~~
 
 
 
@@ -1532,14 +1950,142 @@ let style = window.getComputedStyle(element, [pseudoElt]);
 
 
 
+### 3、navigator.sendBeacon
+
+`navigator.sendBeacon`是为了解决当前页面卸载期间无法保证数据发送到服务端。
+
+在没有`sendBeacon`之前通过以下方式解决页面卸载还能传输数据。
+
+* 页面卸载时同步使用ajxa发送请求，等服务端返回数据再卸载页面，缺点很明显，阻碍页面卸载。
+
+* ~~~js
+  window.addEventListener('beforeunload', function() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/log', false); // 第三个参数指定为 false，表示使用同步请求
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    var data = { 
+      userId: 123,
+      eventType: 'pageView',
+      pageUrl: location.href,
+      timestamp: Date.now()
+    };
+    xhr.send(JSON.stringify(data));
+  });
+  ~~~
+
+* 创建Image对象，将要传输的数据作为查询参数传递到服务器，服务器返回一个空白图片，这样就可以在页面卸载时异步传输数据。**这种方式不会阻塞页面卸载过程，但只支持 GET 请求，且只能传输较小的数据。**
+
+* ~~~js
+  function sendAnalyticsData(data) {
+    var img = new Image();
+    img.src = '/analytics?' + encodeURIComponent(data);
+  }
+  window.addEventListener('beforeunload', function() {
+    var data = { 
+      userId: 123,
+      eventType: 'pageView',
+      pageUrl: location.href,
+      timestamp: Date.now()
+    };
+    sendAnalyticsData(JSON.stringify(data));
+  });
+  ~~~
+
+* LocalStorage：将要传输的数据存储在 LocalStorage 中，然后在下一个页面加载时读取数据并发送到服务器。这种方式可以在页面卸载时异步传输数据，但需要额外的代码维护，且只能传输较小的数据，且可能会受到 LocalStorage 容量限制。
+
+* ~~~js
+  function sendFormData(data) {
+    localStorage.setItem('formData', JSON.stringify(data));
+    localStorage.setItem('formSubmitTime', Date.now());
+  }
+  
+  window.addEventListener('beforeunload', function() {
+    var data = { 
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      message: 'HelloWorld!'
+    };
+    sendFormData(data);
+  });
+  
+  // 在下一个页面加载时发送数据
+  window.addEventListener('load', function() {
+    var formData = localStorage.getItem('formData');
+    var formSubmitTime = localStorage.getItem('formSubmitTime');
+    if (formData && formSubmitTime) {
+      var data = JSON.parse(formData);
+      data.submitTime = parseInt(formSubmitTime);
+      sendDataToServer(data);
+      localStorage.removeItem('formData');
+      localStorage.removeItem('formSubmitTime');
+    }
+  });
+  
+  function sendDataToServer(data) {
+    // 发送数据到服务器的代码
+  }
+  ~~~
+
+  
+
+输到服务器，避免在卸载页面时丢失数据。它是基于浏览器提供的 navigator.sendBeacon() 方法实现的，支持发送一些简单的数据，如日志数据、统计数据等。
+
+使用 sendBeacon 的优点是**它可以在页面卸载时异步传输数据，而且不会阻塞页面卸载过程**，因此可以避免在卸载页面时因为数据传输而延迟卸载，提高用户体验。此外，sendBeacon 还可以在网络连接不稳定的情况下保证数据的可靠传输。
+
+发送数据时，需要传入一个 URL 和一个包含数据的 Blob 或 ArrayBuffer 对象。如果传入的数据太大，可能会被浏览器截断或被服务器拒绝，因此建议只传输一些简单的数据。`data` 参数是将要发送的 [`ArrayBuffer`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer)、[`ArrayBufferView`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypedArray)、[`Blob`](https://developer.mozilla.org/zh-CN/docs/Web/API/Blob)、[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String)、[`FormData`](https://developer.mozilla.org/zh-CN/docs/Web/API/FormData) 或 [`URLSearchParams`](https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams) 类型的数据。
+
+~~~js
+var data = { name: "John", age: 30 };
+var blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+navigator.sendBeacon("/log", blob);
+~~~
+
+::: tip
+
+sendBeacon 方法仅支持 POST 请求
+
+:::
 
 
 
+### ajax和fetch区别
 
+`fetch()`使用 Promise，不使用回调函数，因此大大简化了写法，写起来更简洁。
 
+`fetch()`采用模块化设计，API 分散在多个对象上（Response 对象、Request 对象、Headers 对象），更合理一些；相比之下，XMLHttpRequest 的 API 设计并不是很好，输入、输出、状态都在同一个接口管理，容易写出非常混乱的代码。
 
+`fetch()`通过数据流（Stream 对象）处理数据，可以分块读取，有利于提高网站性能表现，减少内存占用，对于请求大文件或者网速慢的场景相当有用。XMLHTTPRequest 对象不支持数据流，所有的数据必须放在缓存里，不支持分块读取，必须等待全部拿到后，再一次性吐出来。
 
+### SSE长连接
 
+SSE利用长连接特性，在客户端和服务端之间建立一条持久化链接，并通过这条连接实现服务器向客户端实时数据推送
+
+特点：客户端第一次发送请求后续由服务端推送消息，
+
+~~~js
+/*configuration 可选
+为配置新连接提供选项。可选项是：
+withCredentials，默认为 false，指示 CORS 是否应包含凭据 ( credentials )。
+*/
+const sse = new EventSource(url,configuration)
+sse.addEvenlistener('事件名称默认message,服务端可以设置',e=>{
+	console.log(e.data)
+})
+~~~
+
+与 WebSocket 不同的是，服务器发送事件是单向的。数据信息只能从服务端到发送到客户端（如用户的浏览器）。当不需要以消息形式将数据从客户端发送到服务器时，这使它们成为绝佳的选择。
+
+实例身上默认有三个监听事件  `error message open` ，有一个`close`方法，有一个**`readyState`** 属性
+
+~~~js
+const evtSource = new EventSource("sse.php");
+/*
+0 — connecting
+1 — open
+2 — closed
+*/
+console.log(evtSource.readyState);
+~~~
 
 
 

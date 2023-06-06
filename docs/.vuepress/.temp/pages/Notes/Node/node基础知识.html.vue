@@ -24,6 +24,22 @@
 <li>使用命令node --max-old-space-size=1700 test.js //单位为MB  老生代的内存空间</li>
 <li>node --max-new-space-size=1700 test.js//单位KB  新生代的内存空间</li>
 </ol>
+<h2 id="_1-2、隐藏类" tabindex="-1"><a class="header-anchor" href="#_1-2、隐藏类" aria-hidden="true">#</a> 1.2、隐藏类</h2>
+<p>V8将解释后的js代码编译为机器码时会利用“隐藏类”。V8会将创建的对象和隐藏类关联起来追踪他们的属性特征。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">Obj</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'xx'</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> a1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Obj</span><span class="token punctuation">(</span><span class="token string">'x1'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> a2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Obj</span><span class="token punctuation">(</span><span class="token string">'x2'</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>v8会在后台配置，让这两个实例共享相同的隐藏类，因为这两个实例共享同一个构造函数和原型。</p>
+<p>对于共享隐藏类前提是不能动态控制属性,如下</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">Obj</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'xx'</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> a1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Obj</span><span class="token punctuation">(</span><span class="token string">'x1'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> a2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Obj</span><span class="token punctuation">(</span><span class="token string">'x2'</span><span class="token punctuation">)</span>
+a1<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">18</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>此时Obj实例对应不同的隐藏类，在可能的情况下我们要避免先创建再补充的动态属性赋值方式。</p>
 <h1 id="_2-进程" tabindex="-1"><a class="header-anchor" href="#_2-进程" aria-hidden="true">#</a> 2.进程</h1>
 <blockquote>
 <h1 id="单线程的好处" tabindex="-1"><a class="header-anchor" href="#单线程的好处" aria-hidden="true">#</a> 单线程的好处</h1>

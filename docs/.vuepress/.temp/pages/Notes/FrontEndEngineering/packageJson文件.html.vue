@@ -1,0 +1,179 @@
+<template><div><h1 id="packagejson文件" tabindex="-1"><a class="header-anchor" href="#packagejson文件" aria-hidden="true">#</a> packageJson文件</h1>
+<p>你了解package.json文件吗？跟着我的步伐gogogo</p>
+<h2 id="package-json文件是什么-有什么用" tabindex="-1"><a class="header-anchor" href="#package-json文件是什么-有什么用" aria-hidden="true">#</a> package.json文件是什么？有什么用？</h2>
+<p>package.json 文件是 Node.js 应用程序中的一个重要文件，它用于描述应用程序的元数据和依赖关系。它的作用主要包括以下几个方面：</p>
+<ol>
+<li>定义应用程序的元数据：包括应用程序的名称、版本号、作者、描述等信息，以及许可证和仓库等其它信息。</li>
+<li>管理应用程序的依赖关系：包括应用程序所依赖的 Node.js 模块、第三方库和插件等，以及它们的版本号。</li>
+<li>管理应用程序的脚本和命令：包括应用程序启动时需要执行的脚本和命令，以及测试、构建、部署等其它命令。</li>
+<li>管理应用程序的脚本钩子：包括应用程序在执行某些命令前或后需要执行的脚本，例如在构建前需要执行代码检查、在测试后需要执行静态分析等。</li>
+<li>便于应用程序的部署和升级：通过 package.json 文件中定义的依赖关系，可以快速地安装和升级应用程序所需的模块和库。</li>
+</ol>
+<p>总体来说，package.json 文件是 Node.js 应用程序中重要的元数据文件，它提供了应用程序所需的各种信息和依赖关系管理，方便了应用程序的开发、测试、部署和升级。</p>
+<h2 id="_2-属性配置介绍" tabindex="-1"><a class="header-anchor" href="#_2-属性配置介绍" aria-hidden="true">#</a> 2.属性配置介绍</h2>
+<h3 id="_2-1、description" tabindex="-1"><a class="header-anchor" href="#_2-1、description" aria-hidden="true">#</a> 2.1、Description</h3>
+<p>在 Description 字段中，可以简要地描述应用程序或模块的主要用途和功能，帮助用户快速了解该应用程序或模块的作用。在发布应用程序或模块时，Description 可以作为关键词的一部分被搜索引擎索引，提高应用程序或模块的搜索排名。</p>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-2、name、version、keyword、homepage" tabindex="-1"><a class="header-anchor" href="#_2-2、name、version、keyword、homepage" aria-hidden="true">#</a> 2.2、name、version、keyword、homepage</h3>
+<p>如果你计划发布你的包，那么包json中最重要的东西就是<strong>名称</strong>和<strong>版本字段</strong>，因为它们是必需的。<strong>名称和版本一起构成一个标识符</strong>，假定它是完全唯一的。对包的更改应该伴随着版本的更改。如果不打算发布包，则名称和版本字段是可选的。</p>
+<p>名称定义的规则:</p>
+<ol>
+<li>名称必须小于等于214个字符。</li>
+<li>名称不能以点或下划线开头。</li>
+<li>新包的名称中不能有大写字母。该名称最终成为URL、命令行参数和文件夹名称的一部分。因此，名称不能包含任何非url安全的字符。</li>
+</ol>
+<p><code v-pre>keyword</code>数组，帮助大家在npm搜索到你的包</p>
+<p><code v-pre>homepage</code>：主页的地址</p>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Blog"</span><span class="token punctuation">,</span>
+  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span>
+  <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"这是一个包的描述"</span><span class="token punctuation">,</span>
+  <span class="token property">"main"</span><span class="token operator">:</span> <span class="token string">"index.js"</span><span class="token punctuation">,</span>
+  <span class="token property">"keywords"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"fancy_fish"</span><span class="token punctuation">,</span><span class="token string">"fish"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+	
+<span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-3、bugs" tabindex="-1"><a class="header-anchor" href="#_2-3、bugs" aria-hidden="true">#</a> 2.3、bugs</h3>
+<p>提供url-》让别人能够提Issu的地址，和联系你的邮箱</p>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token punctuation">{</span> 
+    <span class="token property">"url"</span> <span class="token operator">:</span> <span class="token string">"https://github.com/owner/project/issues"</span><span class="token punctuation">,</span> 
+    <span class="token property">"email"</span> <span class="token operator">:</span> <span class="token string">"project@hostname.com"</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-4、license" tabindex="-1"><a class="header-anchor" href="#_2-4、license" aria-hidden="true">#</a> 2.4、license</h3>
+<p>用于描述应用程序或模块的许可证类型。它的作用包括以下几个方面：</p>
+<ol>
+<li>明确应用程序或模块的使用条件：通过指定许可证，可以明确应用程序或模块的使用条件，例如允许或禁止商业使用、修改、再分发等。</li>
+<li>保护应用程序或模块的知识产权：许可证可以保护应用程序或模块的知识产权，防止他人未经授权使用、修改、再分发等。</li>
+<li>促进开源社区的发展：通过选择合适的开源许可证，可以促进开源社区的发展和贡献，使开源软件的生态更加健康和活跃。</li>
+<li>方便应用程序或模块的集成和分发：通过指定开源许可证，可以方便应用程序或模块的集成和分发，使其更容易被其他开发者和组织使用和改进。</li>
+</ol>
+<p>以下是一些常见的开源许可证：</p>
+<ol>
+<li>MIT 许可证：适用于几乎所有类型的软件，允许软件在商业和非商业场景下自由使用、复制、修改和分发，只要在软件和文档中包含原始许可证声明和版权声明即可。</li>
+<li>Apache 许可证：适用于大多数类型的软件，允许软件在商业和非商业场景下自由使用、复制、修改和分发，但要求在修改后的代码中包含原始许可证声明和版权声明，并提供额外的专利授权。</li>
+<li>GNU GPL 许可证：适用于自由软件和开源软件，要求软件和任何基于软件的派生作品都必须使用 GPL 许可证开源，并允许在商业和非商业场景下自由使用、复制、修改和分发。</li>
+<li>BSD 许可证：适用于各种类型的软件，允许软件在商业和非商业场景下自由使用、复制、修改和分发，但要求在软件和文档中包含原始许可证声明和版权声明。</li>
+<li>Mozilla Public License（MPL）许可证：适用于自由软件和开源软件，要求软件和任何基于软件的派生作品都必须使用 MPL 许可证开源，并允许在商业和非商业场景下自由使用、复制、修改和分发。</li>
+</ol>
+<h3 id="_2-5、files" tabindex="-1"><a class="header-anchor" href="#_2-5、files" aria-hidden="true">#</a> 2.5、files</h3>
+<p>可选的files字段是一个文件模式数组，描述包作为依赖项安装时要包含的项。文件模式遵循与<code v-pre>.Gitignore</code>相似，省略该字段将使其默认为[&quot;*&quot;]，这意味着它将包含所有文件。当 npm 发布一个包时，它会优先考虑 .npmignore 文件的设置，根据这个文件中的规则来确定哪些文件可以被忽略，不应该包含在 npm 包中。然后，npm 再根据 package.json 文件中的 files 字段指定的文件列表来确定应该包含哪些文件。因此，<u>如果一个文件在 .npmignore 文件中被指定为忽略，即使它在 package.json 文件的 files 字段中被包含，它也不会被发布到 npm 包中。</u></p>
+<p>下面的文件无论如何设置都会包含：</p>
+<ul>
+<li><code v-pre>package.json</code></li>
+<li><code v-pre>README</code></li>
+<li><code v-pre>CHANGES</code> / <code v-pre>CHANGELOG</code> / <code v-pre>HISTORY</code>
+<ul>
+<li>包含应用程序或模块的版本记录和更新日志，记录应用程序或模块的版本变化、bug 修复、功能新增等信息。它是开源软件项目中常见的文件之一，有助于用户了解应用程序或模块的发展历程。</li>
+</ul>
+</li>
+<li><code v-pre>LICENSE</code> / <code v-pre>LICENCE</code></li>
+<li><code v-pre>NOTICE</code>
+<ul>
+<li>包含应用程序或模块的版权和作者信息，以及第三方库或组件的许可证和版权信息。它是开源软件项目中常见的文件之一，有助于维护知识产权和版权的合法性。</li>
+</ul>
+</li>
+<li>The file in the &quot;main&quot; field</li>
+</ul>
+<p>下面的文件默认被忽略</p>
+<h3 id="_2-6、main" tabindex="-1"><a class="header-anchor" href="#_2-6、main" aria-hidden="true">#</a> 2.6、main</h3>
+<p>main是一个模块ID，它是程序的主要入口点，并用于 CommonJS 模块规范。。也就是说，如果您的包命名为foo，并且用户安装了它，然后执行Require (&quot; foo&quot;)，则返回主模块的导出对象。这应该是一个相对于包文件夹根目录的模块ID。对于大多数模块来说，最合理的做法是只使用一个主脚本，而不使用其他脚本。</p>
+<h3 id="_2-7、browser" tabindex="-1"><a class="header-anchor" href="#_2-7、browser" aria-hidden="true">#</a> 2.7、browser</h3>
+<p>如果您的模块打算在客户端使用，则应该使用浏览器字段而不是主字段。这有助于提示用户它不能用在Nodejs模块中。</p>
+<h3 id="_2-8、bin" tabindex="-1"><a class="header-anchor" href="#_2-8、bin" aria-hidden="true">#</a> 2.8、bin</h3>
+<p>许多包都有一个或多个可执行文件，它们希望将这些文件安装到PATH中。当 npm 全局安装一个包时，这些文件会被添加到系统的 PATH 中，从而可以在命令行中直接调用这些工具或文件。要使用此功能，请在包中提供bin字段。Json，它是命令名称到本地文件名的映射。在安装时，npm会将该文件符号链接到前缀/bin中，用于全局安装，或者。/node_modules/。Bin /用于本地安装。</p>
+<div class="custom-container tip"><p class="custom-container-title">TIP</p>
+<p>请确保您在bin中引用的文件以#!/usr/bin/env，否则脚本将在没有节点可执行文件的情况下启动!</p>
+</div>
+<p>有两种定义方式</p>
+<p><strong>①字符串方式</strong>：将一个可执行文件的路径指定为字符串，这将会把 &quot;./bin/my-tool.js&quot; 添加到 PATH 中，并且在命令行中可以直接使用 &quot;my-tool&quot; 命令来调用该文件。</p>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token property">"bin"</span><span class="token operator">:</span> <span class="token string">"./bin/my-tool.js"</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>②对象方式</strong>：将一个或多个命令名和可执行文件路径的键值对指定为对象，在命令行中可以直接使用 &quot;my-tool&quot; 和 &quot;my-other-tool&quot; 命令来调用这些文件。</p>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token property">"bin"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+<span class="token property">"my-tool"</span><span class="token operator">:</span> <span class="token string">"./bin/my-tool.js"</span><span class="token punctuation">,</span>
+<span class="token property">"my-other-tool"</span><span class="token operator">:</span> <span class="token string">"./bin/my-other-tool.js"</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-9、repository" tabindex="-1"><a class="header-anchor" href="#_2-9、repository" aria-hidden="true">#</a> 2.9、repository</h3>
+<p>如果你做开源代码需要别人的贡献就需要该字段指明仓库地址，通过npm docs可以找到</p>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token property">"repository"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"type"</span> <span class="token operator">:</span> <span class="token string">"git"</span><span class="token punctuation">,</span>
+  <span class="token property">"url"</span> <span class="token operator">:</span> <span class="token string">"https://github.com/npm/cli.git"</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>URL应该是一个公开可用的(可能是只读的)URL，可以直接传递给VCS程序而不需要任何修改。它不应该是你放在浏览器中的html项目页面的url。是给电脑用的。对于GitHub、GitHub gist、Bitbucket或GitLab存储库</p>
+<h3 id="_2-10、script" tabindex="-1"><a class="header-anchor" href="#_2-10、script" aria-hidden="true">#</a> 2.10、script</h3>
+<p>“scripts”属性是一个字典，包含在包的生命周期中不同时间运行的脚本命令。关键字是生命周期事件，而值是在该点运行的命令。</p>
+<p>这个就不用多说了通过npm xxx就能执行</p>
+<h3 id="_2-11、dependencies-devdependencies" tabindex="-1"><a class="header-anchor" href="#_2-11、dependencies-devdependencies" aria-hidden="true">#</a> 2.11、dependencies/devDependencies</h3>
+<p>用于指定项目的生产环境依赖项，即在项目运行时必须安装和使用的依赖项。这些依赖项通常是在生产环境中运行应用程序所必需的库、框架和工具等。</p>
+<p>在 npm 安装包时，如果 package.json 文件中指定了 &quot;dependencies&quot; 字段，npm 会自动下载并安装这些依赖项，以满足应用程序的运行需求。这些依赖项会被保存在项目的 &quot;node_modules&quot; 文件夹中，并且会自动添加到应用程序的 &quot;package-lock.json&quot; 文件中，以确保在不同的环境中运行应用程序时使用相同的依赖项版本。</p>
+<p>&quot;dependencies&quot; 字段通常采用以下格式：</p>
+<p><strong>直接 <code v-pre>npm install</code>默认会下载到生产依赖</strong></p>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"library-name"</span><span class="token operator">:</span> <span class="token string">"version"</span><span class="token punctuation">,</span>
+  <span class="token property">"another-library"</span><span class="token operator">:</span> <span class="token string">"version"</span><span class="token punctuation">,</span>
+  ...
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>devDependencies</strong>使用 <code v-pre>npm install -D</code>就会安装到开发依赖</p>
+<p>用于指定项目的开发环境依赖项，即在开发项目时需要安装和使用的依赖项。这些依赖项通常是在开发环境中使用的库、框架和工具等。</p>
+<p>与 &quot;dependencies&quot; 字段不同的是，&quot;devDependencies&quot; 字段中指定的依赖项只会在开发期间使用，而不会在生产环境中使用。在应用程序部署时，这些依赖项不会被安装和使用，从而减小了应用程序的大小和运行时依赖项的数量。</p>
+<h3 id="_2-12、engines" tabindex="-1"><a class="header-anchor" href="#_2-12、engines" aria-hidden="true">#</a> 2.12、engines</h3>
+<p>用于指定应用程序或模块所需要的 Node.js 运行时版本或其他特定的运行环境。这个字段通常在发布应用程序或模块时使用，以确保应用程序或模块在特定的运行环境中能够正常运行。</p>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token property">"engines"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"node"</span><span class="token operator">:</span> <span class="token string">"version"</span><span class="token punctuation">,</span>
+  <span class="token property">"npm"</span><span class="token operator">:</span> <span class="token string">"version"</span><span class="token punctuation">,</span>
+  ...
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-13、exports" tabindex="-1"><a class="header-anchor" href="#_2-13、exports" aria-hidden="true">#</a> 2.13、exports</h3>
+<p>用于指定模块的导出方式。这个字段可以让开发者更灵活地定义模块的导出方式，以适应不同的使用场景和编译环境。</p>
+<p><strong>①对象格式</strong>：其中，每个键值对表示一个导出规则，键是导出的模块名称，值是对应的模块文件路径。</p>
+<ul>
+<li>&quot;node&quot; 属性指定了在 Node.js 环境下的导入路径，该路径为 &quot;./index.mjs&quot;。</li>
+<li>&quot;default&quot; 属性指定了在 ES Modules 环境下的默认导入路径，该路径为 &quot;./index.esm.js&quot;。</li>
+</ul>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token property">"exports"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"./lib.js"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+	<span class="token property">"types"</span><span class="token operator">:</span><span class="token string">"./dist/index.d.ts"</span>
+     <span class="token property">"import"</span><span class="token operator">:</span><span class="token punctuation">{</span>
+    	<span class="token property">"node"</span><span class="token operator">:</span><span class="token string">"./index.mjs"</span><span class="token punctuation">,</span>
+      	<span class="token property">"default"</span><span class="token operator">:</span><span class="token string">"./index.esm.js"</span>
+  	<span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token property">"./module"</span><span class="token operator">:</span> <span class="token string">"./src/module.js"</span><span class="token punctuation">,</span>
+  ...
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>**②字符串格式：**这个格式表示整个模块都导出了 &quot;./src/index.js&quot; 这个文件。</p>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token property">"exports"</span><span class="token operator">:</span> <span class="token string">"./src/index.js"</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>在使用 &quot;exports&quot; 字段时，需要注意以下几点：</p>
+<ul>
+<li>&quot;exports&quot; 字段只在 ES Modules 模式下生效，并且需要在代码中使用 import 或 import() 语句来导入模块。</li>
+<li>&quot;exports&quot; 字段不会影响 CommonJS 模式下的模块导入方式，也不会影响直接在 HTML 中使用 <code v-pre>script</code> 标签导入模块的方式。</li>
+<li>&quot;exports&quot; 字段中的路径是相对于 package.json 文件所在的目录的路径。</li>
+<li>&quot;exports&quot; 字段中的路径可以是一个相对路径或一个绝对路径，也可以是一个指向默认导出的符号名称的字符串。</li>
+</ul>
+<h3 id="_2-14、types" tabindex="-1"><a class="header-anchor" href="#_2-14、types" aria-hidden="true">#</a> 2.14、types</h3>
+<p>用于指定一个 npm 包的 TypeScript 类型定义文件的路径。当其他开发者使用这个包时，他们可以直接在 TypeScript 项目中导入该包，并获得类型支持。</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> SomeType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'some-package'</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><div class="custom-container tip"><p class="custom-container-title">TIP</p>
+<ul>
+<li>&quot;types&quot; 字段只在 TypeScript 项目中生效。</li>
+<li>如果一个包没有提供 &quot;types&quot; 字段，TypeScript 编译器会尝试寻找同名的 &quot;.d.ts&quot; 文件。例如 &quot;some-package&quot; 的类型定义文件应该命名为 &quot;some-package.d.ts&quot;。</li>
+<li>如果一个包既提供了 &quot;types&quot; 字段又提供了同名的 &quot;.d.ts&quot; 文件，那么 TypeScript 编译器会优先使用 &quot;types&quot; 字段中指定的类型定义文件。</li>
+</ul>
+</div>
+<h3 id="_2-15、module" tabindex="-1"><a class="header-anchor" href="#_2-15、module" aria-hidden="true">#</a> 2.15、module</h3>
+<p>&quot;module&quot;: 模块入口文件的路径，用于 ES6 模块规范。</p>
+<h2 id="总结" tabindex="-1"><a class="header-anchor" href="#总结" aria-hidden="true">#</a> 总结</h2>
+<p>常用重要的属性：</p>
+<ol>
+<li>name  包名</li>
+<li>version 版本 name+version就相当于身份证</li>
+<li>keyword相当于SEO的优化条件</li>
+<li>main模块的入口commenjs规范</li>
+<li>files如果你要发布包，指定只发布哪些文件，<strong>.npmignore权重高于files</strong></li>
+<li>types对于ts项目才有用，指定从哪里找ts类型定义文件</li>
+<li>module esm规范，如果同时指定了 &quot;module&quot; 和 &quot;main&quot; 字段，则现代打包工具会优先使用 &quot;module&quot; 字段，而旧版打包工具和 Node.js 运行时会优先使用 &quot;main&quot; 字段。</li>
+</ol>
+<CommentService/></div></template>
+
+

@@ -1,0 +1,158 @@
+<template><div><h1 id="webpack必懂知识" tabindex="-1"><a class="header-anchor" href="#webpack必懂知识" aria-hidden="true">#</a> webpack必懂知识</h1>
+<h2 id="_1-打包原理" tabindex="-1"><a class="header-anchor" href="#_1-打包原理" aria-hidden="true">#</a> 1.打包原理</h2>
+<p><img src="/Webpack/webpack1.png" alt=""></p>
+<p>打包的步骤</p>
+<p>1.初始化阶段：</p>
+<ol>
+<li><strong>初始化参数</strong>：从配置文件、 配置对象、Shell 参数中读取，与默认配置结合得出最终的参数</li>
+<li><strong>创建编译器对象</strong>：用上一步得到的参数创建 <code v-pre>Compiler</code> 对象</li>
+<li><strong>初始化编译环境</strong>：包括注入内置插件、注册各种模块工厂、初始化 RuleSet 集合、加载配置的插件等</li>
+<li><strong>开始编译</strong>：执行 <code v-pre>compiler</code> 对象的 <code v-pre>run</code> 方法</li>
+<li><strong>确定入口</strong>：根据配置中的 <code v-pre>entry</code> 找出所有的入口文件，调用 <code v-pre>compilition.addEntry</code> 将入口文件转换为 <code v-pre>dependence</code> 对象</li>
+</ol>
+<p>2.构建阶段：</p>
+<ol>
+<li><strong>编译模块(make)</strong>：根据 <code v-pre>entry</code> 对应的 <code v-pre>dependence</code> 创建 <code v-pre>module</code> 对象，调用 <code v-pre>loader</code> 将模块转译为标准 JS 内容，调用 JS 解释器将内容转换为 AST 对象，从中找出该模块依赖的模块，再 递归 本步骤直到所有入口依赖的文件都经过了本步骤的处理</li>
+<li><strong>完成模块编译</strong>：上一步递归处理所有能触达到的模块后，得到了每个模块被翻译后的内容以及它们之间的 <strong>依赖关系图</strong></li>
+</ol>
+<p>3.生成阶段：</p>
+<ol>
+<li><strong>输出资源(seal)</strong>：根据入口和模块之间的依赖关系，组装成一个个包含多个模块的 <code v-pre>Chunk</code>，再把每个 <code v-pre>Chunk</code> 转换成一个单独的文件加入到输出列表，这步是可以修改输出内容的最后机会</li>
+<li><strong>写入文件系统(emitAssets)</strong>：在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统</li>
+</ol>
+<div class="custom-container tip"><p class="custom-container-title">TIP</p>
+<p><code v-pre>Entry</code>：编译入口，webpack 编译的起点</p>
+<p><code v-pre>Compiler</code>：编译管理器，webpack 启动后会创建 <code v-pre>compiler</code> 对象，该对象一直存活知道结束退出</p>
+<p><code v-pre>Compilation</code>：单次编辑过程的管理器，比如 <code v-pre>watch = true</code> 时，运行过程中只有一个 <code v-pre>compiler</code> 但每次文件变更触发重新编译时，都会创建一个新的 <code v-pre>compilation</code> 对象</p>
+<p><code v-pre>Dependence</code>：依赖对象，webpack 基于该类型记录模块间依赖关系</p>
+<p><code v-pre>Module</code>：webpack 内部所有资源都会以“module”对象形式存在，所有关于资源的操作、转译、合并都是以 “module” 为基本单位进行的</p>
+<p><code v-pre>Chunk</code>：编译完成准备输出时，webpack 会将 <code v-pre>module</code> 按特定的规则组织成一个一个的 <code v-pre>chunk</code>，这些 <code v-pre>chunk</code> 某种程度上跟最终输出一一对应</p>
+<p><code v-pre>Loader</code>：资源内容转换器，其实就是实现从内容 A 转换 B 的转换器</p>
+<p><code v-pre>Plugin</code>：webpack构建过程中，会在特定的时机广播对应的事件，插件监听这些事件，在特定时间点介入编译过程</p>
+</div>
+<h3 id="_1-1、初始化阶段" tabindex="-1"><a class="header-anchor" href="#_1-1、初始化阶段" aria-hidden="true">#</a> 1.1、初始化阶段</h3>
+<p>初始化阶段会做哪些？</p>
+<p>将 <code v-pre>process.args + webpack.config.js</code> 合并成用户配置</p>
+<p>调用 <code v-pre>validateSchema</code> 校验配置</p>
+<p>调用 <code v-pre>getNormalizedWebpackOptions + applyWebpackOptionsBaseDefaults</code> 合并出最终配置</p>
+<p>创建 <code v-pre>compiler</code> 对象</p>
+<p>遍历用户定义的 <code v-pre>plugins</code> 集合，执行插件的 <code v-pre>apply</code> 方法</p>
+<p>调用 <code v-pre>new WebpackOptionsApply().process</code> 方法，加载各种内置插件</p>
+<h3 id="_1-2、构建阶段" tabindex="-1"><a class="header-anchor" href="#_1-2、构建阶段" aria-hidden="true">#</a> 1.2、构建阶段</h3>
+<p>构建阶段从 <code v-pre>entry</code> 开始递归解析资源与资源的依赖，在 <code v-pre>compilation</code> 对象内逐步构建出 <code v-pre>module</code> 集合以及 <code v-pre>module</code> 之间的依赖关系</p>
+<p>调用 <code v-pre>handleModuleCreate</code> ，根据文件类型构建 <code v-pre>module</code> 子类</p>
+<p>调用 <a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Floader-runner" target="_blank" rel="noopener noreferrer">loader-runner<ExternalLinkIcon/></a> 仓库的 <code v-pre>runLoaders</code> 转译 <code v-pre>module</code> 内容，通常是从各类资源类型转译为 JavaScript 文本</p>
+<p>调用 <a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Facorn" target="_blank" rel="noopener noreferrer">acorn<ExternalLinkIcon/></a> 将 JS 文本解析为AST</p>
+<p>遍历 AST，触发各种钩子</p>
+<ol>
+<li>在 <code v-pre>HarmonyExportDependencyParserPlugin</code> 插件监听 <code v-pre>exportImportSpecifier</code> 钩子，解读 JS 文本对应的资源依赖</li>
+<li>调用 <code v-pre>module</code> 对象的 <code v-pre>addDependency</code> 将依赖对象加入到 <code v-pre>module</code> 依赖列表中</li>
+</ol>
+<p>AST 遍历完毕后，调用 <code v-pre>module.handleParseResult</code> 处理模块依赖</p>
+<p>对于 <code v-pre>module</code> 新增的依赖，调用 <code v-pre>handleModuleCreate</code> ，控制流回到第一步</p>
+<p>所有依赖都解析完毕后，构建阶段结束</p>
+<p>总结如下-》</p>
+<ul>
+<li>构建阶段会读取源码，解析为 AST 集合。</li>
+<li>Webpack 读出 AST 之后仅遍历 AST 集合；babel 则对源码做等价转换</li>
+<li>Webpack 遍历 AST 集合过程中，识别 <code v-pre>require/ import</code> 之类的导入语句，确定模块对其他资源的依赖关系</li>
+</ul>
+<h3 id="_1-3、生成阶段" tabindex="-1"><a class="header-anchor" href="#_1-3、生成阶段" aria-hidden="true">#</a> 1.3、生成阶段</h3>
+<p>开始执行 <code v-pre>compilation.seal</code> 函数：完成从 <code v-pre>module</code> 到 <code v-pre>chunks</code> 的转化</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>javascript复制代码<span class="token comment">// 取自 webpack/lib/compiler.js </span>
+<span class="token function">compile</span><span class="token punctuation">(</span><span class="token parameter">callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> params <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">newCompilationParams</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>hooks<span class="token punctuation">.</span>beforeCompile<span class="token punctuation">.</span><span class="token function">callAsync</span><span class="token punctuation">(</span>params<span class="token punctuation">,</span> <span class="token parameter">err</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token comment">// ...</span>
+      <span class="token keyword">const</span> compilation <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">newCompilation</span><span class="token punctuation">(</span>params<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>hooks<span class="token punctuation">.</span>make<span class="token punctuation">.</span><span class="token function">callAsync</span><span class="token punctuation">(</span>compilation<span class="token punctuation">,</span> <span class="token parameter">err</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token comment">// ...</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>hooks<span class="token punctuation">.</span>finishMake<span class="token punctuation">.</span><span class="token function">callAsync</span><span class="token punctuation">(</span>compilation<span class="token punctuation">,</span> <span class="token parameter">err</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+          <span class="token comment">// ...</span>
+          process<span class="token punctuation">.</span><span class="token function">nextTick</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+            compilation<span class="token punctuation">.</span><span class="token function">finish</span><span class="token punctuation">(</span><span class="token parameter">err</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+              <span class="token operator">**</span>compilation<span class="token punctuation">.</span>seal<span class="token operator">**</span><span class="token punctuation">(</span><span class="token parameter">err</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_2-如何实现的分包" tabindex="-1"><a class="header-anchor" href="#_2-如何实现的分包" aria-hidden="true">#</a> 2.如何实现的分包</h2>
+<h2 id="_3-webpack的缓存机制" tabindex="-1"><a class="header-anchor" href="#_3-webpack的缓存机制" aria-hidden="true">#</a> 3.webpack的缓存机制</h2>
+<h2 id="_3-loader和plugin" tabindex="-1"><a class="header-anchor" href="#_3-loader和plugin" aria-hidden="true">#</a> 3.loader和plugin</h2>
+<h3 id="_3-1、plugin" tabindex="-1"><a class="header-anchor" href="#_3-1、plugin" aria-hidden="true">#</a> 3.1、plugin</h3>
+<p>插件通常是一个带有 <code v-pre>apply</code> 函数的类：<code v-pre>apply</code> 函数运行时会得到参数 <code v-pre>compiler</code> ，以此为起点可以调用 <code v-pre>hook</code> 对象注册各种钩子回调，例如： <code v-pre>compiler.hooks.make.tapAsync</code> ，这里面 <code v-pre>make</code> 是钩子名称，<code v-pre>tapAsync</code> 定义了钩子的调用方式，webpack 的插件架构基于这种模式构建而成，插件开发者可以使用这种模式在钩子回调中，插入特定代码。webpack 各种内置对象都带有 <code v-pre>hooks</code> 属性，比如 <code v-pre>compilation</code> 对象：</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">class</span> <span class="token class-name">SomePlugin</span> <span class="token punctuation">{</span>
+    <span class="token function">apply</span><span class="token punctuation">(</span><span class="token parameter">compiler</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>常用的钩子</p>
+<p><code v-pre>compiler.hooks.compilation</code> ：</p>
+<ul>
+<li>时机：启动编译创建出 compilation 对象后触发</li>
+<li>参数：当前编译的 compilation 对象</li>
+<li>示例：很多插件基于此事件获取 compilation 实例</li>
+</ul>
+<p><code v-pre>compiler.hooks.make</code>：</p>
+<ul>
+<li>时机：正式开始编译时触发</li>
+<li>参数：同样是当前编译的 <code v-pre>compilation</code> 对象</li>
+<li>示例：webpack 内置的 <code v-pre>EntryPlugin</code> 基于此钩子实现 <code v-pre>entry</code> 模块的初始化</li>
+</ul>
+<p><code v-pre>compilation.hooks.optimizeChunks</code> ：</p>
+<ul>
+<li>时机： <code v-pre>seal</code> 函数中，<code v-pre>chunk</code> 集合构建完毕后触发</li>
+<li>参数：<code v-pre>chunks</code> 集合与 <code v-pre>chunkGroups</code> 集合</li>
+<li>示例： <code v-pre>SplitChunksPlugin</code> 插件基于此钩子实现 <code v-pre>chunk</code> 拆分优化</li>
+</ul>
+<p><code v-pre>compiler.hooks.done</code>：</p>
+<ul>
+<li>时机：编译完成后触发</li>
+<li>参数： <code v-pre>stats</code> 对象，包含编译过程中的各类统计信息</li>
+<li>示例： <code v-pre>webpack-bundle-analyzer</code> 插件基于此钩子实现打包分析</li>
+</ul>
+<h3 id="_3-2、loader" tabindex="-1"><a class="header-anchor" href="#_3-2、loader" aria-hidden="true">#</a> 3.2、loader</h3>
+<p>loader 用于对模块的源代码进行转换。loader 可以使你在 <code v-pre>import</code> 或 &quot;load(加载)&quot; 模块时预处理文件。因此，loader 类似于其他构建工具中“任务(task)”，并提供了处理前端构建步骤的得力方式。loader 可以将文件从不同的语言（如 TypeScript）转换为 JavaScript 或将内联图像转换为 data URL。loader 甚至允许你直接在 JavaScript 模块中 <code v-pre>import</code> CSS 文件！</p>
+<p>loader 的职责不外乎是将内容 A 转化为内容 B，但是在具体用法层面还挺多讲究的，有 pitch、pre、post、inline 等概念用于应对各种场景。</p>
+<p><strong>1.loader的配置</strong></p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">module</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">rules</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span> <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">.ts$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span> <span class="token literal-property property">use</span><span class="token operator">:</span> <span class="token string">'ts-loader'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>2.loader的执行顺序</strong></p>
+<ul>
+<li>相同优先级的 loader 执行顺序为：<code v-pre>从右到左，从下到上</code>。</li>
+</ul>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">module</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">rules</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span> <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">.less$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span> <span class="token literal-property property">use</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'style-loader'</span><span class="token punctuation">,</span><span class="token string">'css-loader'</span><span class="token punctuation">,</span><span class="token string">'less-loader'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>3.loader结构</strong></p>
+<p>当只有一个 loader 应用于资源文件时，它接收源码作为参数，输出转换后的 js 代码。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token function">loader</span> <span class="token punctuation">(</span><span class="token parameter">source</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> source<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="pitch" tabindex="-1"><a class="header-anchor" href="#pitch" aria-hidden="true">#</a> pitch</h4>
+<p><code v-pre>pitch</code> 是 loader 上的一个方法，它的作用是阻断 loader 链。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">// loaders/simple-loader-with-pitch.js</span>
+<span class="token keyword">const</span> <span class="token function-variable function">loader</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">source</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'normal excution'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
+    <span class="token keyword">return</span> source<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+loader<span class="token punctuation">.</span><span class="token function-variable function">pitch</span> <span class="token operator">=</span>  <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'pitching graph'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// loader上的pitch方法，非必须</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> loader
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>webpack 会先从左到右执行 loader 链中的每个 loader 上的 pitch 方法（如果有），然后再从右到左执行 loader 链中的每个 loader 上的普通 loader 方法。在这个过程中如果任何 pitch 有返回值，则 loader 链被阻断。webpack 会跳过后面所有的的 pitch 和 loader，直接进入上一个 loader 去执行。</p>
+<p><img src="/Webpack/loader.png" alt=""></p>
+<CommentService/></div></template>
+
+

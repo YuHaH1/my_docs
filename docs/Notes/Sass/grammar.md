@@ -239,6 +239,172 @@ each相当于for in，能够遍历一个列表。
 }
 ~~~
 
+## 8.数据类型
+
+### 8.1、数组
+
+~~~scss
+$list:(1px,2px,5px,6px)
+~~~
+
+`nth` 函数可以直接访问数组中的某一项；`join` 函数可以将多个数组连接在一起；`append` 函数可以在数组中添加新值；而 `@each` 指令能够遍历数组中的每一项。
+
+~~~scss
+nth(列表,index)
+$colors: red, green, blue;
+background-color: nth($colors, 2); // 输出 green
+
+
+join()
+$list1: 1, 2, 3;
+$list2: a, b, c;
+$list3: join($list1, $list2, "-"); // 输出 1-a, 2-b, 3-c如果未提供分隔符 `$separator`，则默认使用逗号作为分隔符。
+
+$list3: join($list1, $list2); // 输出 1, 2, 3, a, b, c
+
+
+$colors: red, green, blue;
+$font-sizes: 12px, 14px, 16px;
+
+@each $color in $colors {
+  @each $font-size in $font-sizes {
+    $class-name: join(nth($color, 1), nth($font-size, 1), "-");
+    .#{$class-name} {
+      color: $color;
+      font-size: $font-size;
+    }
+  }
+}
+结果
+ .red-12px、.red-14px 和 .red-16px，以及类似的类 .green-12px、.green-14px 和 .green-16px 和 .blue-12px、.blue-14px 和 .blue-16px。
+~~~
+
+
+
+### 8.2、对象Maps
+
+~~~scss
+$map: (key1: value1, key2: value2, key3: value3);
+
+//map-get函数用于查找键值
+$colors: (
+  red: #ff0000,
+  green: #00ff00,
+  blue: #0000ff
+);
+
+background-color: map-get($colors, red); // 输出 #ff0000
+
+//map-merge函数用于map和新加的键值融合
+$map1: (
+  a: 1,
+  b: 2
+);
+
+$map2: (
+  b: 3,
+  c: 4
+);
+
+$map3: merge($map1, $map2); // 输出 (a: 1, b: 3, c: 4)
+函数也可以将映射与其他数据类型（例如列表、字符串等）合并。
+
+$map: (
+  a: 1,
+  b: 2
+);
+$list: (3, 4);
+$string: "hello";
+
+$merged: merge($map, $list, $string); // 输出 (a: 1, b: 2, 1: 3, 2: 4, 3: h, 4: e, 5: l, 6: l, 7: o)
+
+
+//@each命令可添加样式到一个map中的每个键值对。
+$colors: (
+  red: #ff0000,
+  green: #00ff00,
+  blue: #0000ff
+);
+
+$font-sizes: (
+  small: 12px,
+  medium: 14px,
+  large: 16px
+);
+
+@each $color, $color-value in $colors {
+  @each $font-size, $font-size-value in $font-sizes {
+    $class-name: "#{$color}-#{$font-size}";
+    .$class-name {
+      color: $color-value;
+      font-size: $font-size-value;
+    }
+  }
+}
+编译后的结果
+ .red-small、.red-medium、.red-large、.green-small、.green-medium、.green-large、.blue-small、.blue-medium 和 .blue-large。
+~~~
+
+
+
+
+
+
+
+
+
+## 9.综合示例
+
+①简化媒体查询
+
+~~~scss
+@devices-settings(
+    'phone':
+        (320px,
+        480px)
+    ,
+    'pad':
+        (481px,
+        768px,)
+    ,
+    'notebook':
+        (769px,
+        1024px,)
+    ,
+    'desktop':
+        (1025px,
+        1200px)
+    ,
+    'tv':1201px
+)
+@mixin respond-to($device){
+    $device-setting : map-get($devices-settings,$device);
+    @if type-of($device-setting) == 'list'{
+    	@min : nth($device-setting,1);
+        @max : nth($device-setting,2);
+        @media(min-width:$min) and (max-width:$max){
+            @content
+        }
+    }
+    @else{
+        @media(min-width:$device-setting){
+            @content
+        }
+    }
+}
+.test{
+    @include respond-to('phone'){
+    	height:50px
+	}	
+}
+~~~
+
+
+
+
+
+
+
 
 
 <CommentService/>

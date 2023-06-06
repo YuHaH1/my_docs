@@ -131,8 +131,10 @@ const { stat } = require('fs');
 
 stat('./.gitignore', (err, stats) => {
     console.log(err, stats)
+    stats.isDirectory()
 })
-
+  const stats = fs.statSync(url)
+  return stats.isDirectory()
 null Stats {
   dev: 2891526651,
   mode: 33206,
