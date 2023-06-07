@@ -1700,7 +1700,23 @@ window.addEventListener('online',()=>{})
 navigator.connection.addEventListener('change',()=>{})
 ~~~
 
+### 如何判断强网和弱网环境？
 
+~~~js
+navigator.connection
+//结果
+NetworkInformation {onchange: null, effectiveType: '4g', rtt: 100, downlink: 3.35, saveData: false}
+downlink: 3.35 
+effectiveType: "4g"
+onchange: null
+rtt: 100
+saveData: false
+~~~
+
+* `downlink` 当前网络连接的估计下行速度 （单位Mbps）
+* `effectiveType` 速度类型与设备无关（slow-2g，2g，3g，4g）
+* `rtt` 当前网络的估计往返时间
+* `saveData` 是否处于数据节省模式
 
 
 

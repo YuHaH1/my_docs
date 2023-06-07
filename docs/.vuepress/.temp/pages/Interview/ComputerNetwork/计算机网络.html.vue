@@ -329,6 +329,8 @@ tcp服务端在发送连接释放报文后进入LAST-ACK状态，客户端在收
 <p>token验证，在请求中放入攻击者所不能伪造的信息，并且该信息不存在于 Cookie 之中。可以在 HTTP 请求中以参数的形式加入一个随机产生的 token，并在服务器端建立一个拦截器来验证这个 token，如果请求中没有 token 或者 token 内容不正确，则认为可能是    CSRF 攻击而拒绝该请求。</p>
 </li>
 </ul>
+<h2 id="四、网络结构" tabindex="-1"><a class="header-anchor" href="#四、网络结构" aria-hidden="true">#</a> 四、网络结构</h2>
+<p><img src="/Networker/structure.png" alt=""></p>
 <CommentService/></div></template>
 
 

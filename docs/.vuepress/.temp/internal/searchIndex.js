@@ -188,6 +188,13 @@ export const searchIndex = [
             "children": []
           }
         ]
+      },
+      {
+        "level": 2,
+        "title": "四、网络结构",
+        "slug": "四、网络结构",
+        "link": "#四、网络结构",
+        "children": []
       }
     ],
     "path": "/Interview/ComputerNetwork/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html",
@@ -274,6 +281,13 @@ export const searchIndex = [
         "title": "6.为什么typeof null是对象",
         "slug": "_6-为什么typeof-null是对象",
         "link": "#_6-为什么typeof-null是对象",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "7.类class",
+        "slug": "_7-类class",
+        "link": "#_7-类class",
         "children": []
       }
     ],
@@ -381,6 +395,138 @@ export const searchIndex = [
       }
     ],
     "path": "/Interview/Vue/Vue%E9%9D%A2%E7%BB%8F.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "js中遇到的问题",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.字符串表情问题",
+        "slug": "_1-字符串表情问题",
+        "link": "#_1-字符串表情问题",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.如何记录用户信息-canvas",
+        "slug": "_2-如何记录用户信息-canvas",
+        "link": "#_2-如何记录用户信息-canvas",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.Ajax和fetch取消请求的方式",
+        "slug": "_3-ajax和fetch取消请求的方式",
+        "link": "#_3-ajax和fetch取消请求的方式",
+        "children": [
+          {
+            "level": 3,
+            "title": "3.1、fetch取消",
+            "slug": "_3-1、fetch取消",
+            "link": "#_3-1、fetch取消",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.2、Ajax取消",
+            "slug": "_3-2、ajax取消",
+            "link": "#_3-2、ajax取消",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "4、页面更新自动刷新页面",
+        "slug": "_4、页面更新自动刷新页面",
+        "link": "#_4、页面更新自动刷新页面",
+        "children": []
+      }
+    ],
+    "path": "/Problems/JavaScript/js%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "埋点",
+    "headers": [
+      {
+        "level": 2,
+        "title": "初始化项目",
+        "slug": "初始化项目",
+        "link": "#初始化项目",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "生成.d.ts文件",
+        "slug": "生成-d-ts文件",
+        "link": "#生成-d-ts文件",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "代码展示",
+        "slug": "代码展示",
+        "link": "#代码展示",
+        "children": []
+      }
+    ],
+    "path": "/Problems/JavaScript/%E5%9F%8B%E7%82%B9.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "pm2",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.问题描述",
+        "slug": "_1-问题描述",
+        "link": "#_1-问题描述",
+        "children": []
+      }
+    ],
+    "path": "/Problems/Node/pm2.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "项目中得到的问题",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.埋点API多平台调用",
+        "slug": "_1-埋点api多平台调用",
+        "link": "#_1-埋点api多平台调用",
+        "children": []
+      }
+    ],
+    "path": "/Problems/Project/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BE%97%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "服务器",
+    "headers": [
+      {
+        "level": 2,
+        "title": "服务器搭建流程",
+        "slug": "服务器搭建流程",
+        "link": "#服务器搭建流程",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "浏览器报错",
+        "slug": "浏览器报错",
+        "link": "#浏览器报错",
+        "children": []
+      }
+    ],
+    "path": "/Problems/Server/%E6%9C%8D%E5%8A%A1%E5%99%A8.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -936,6 +1082,99 @@ export const searchIndex = [
             "children": []
           }
         ]
+      },
+      {
+        "level": 2,
+        "title": "4.性能分析工具",
+        "slug": "_4-性能分析工具",
+        "link": "#_4-性能分析工具",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "5、性能优化之开发环境性能",
+        "slug": "_5、性能优化之开发环境性能",
+        "link": "#_5、性能优化之开发环境性能",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.持久化缓存",
+            "slug": "_1-持久化缓存",
+            "link": "#_1-持久化缓存",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.并行构建",
+            "slug": "_2-并行构建",
+            "link": "#_2-并行构建",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.懒编译",
+            "slug": "_3-懒编译",
+            "link": "#_3-懒编译",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "4.开发模式禁用产物优化",
+            "slug": "_4-开发模式禁用产物优化",
+            "link": "#_4-开发模式禁用产物优化",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "5.搜小watch监控返回",
+            "slug": "_5-搜小watch监控返回",
+            "link": "#_5-搜小watch监控返回",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "6.source-map",
+            "slug": "_6-source-map",
+            "link": "#_6-source-map",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "6、性能优化之生产环境性能",
+        "slug": "_6、性能优化之生产环境性能",
+        "link": "#_6、性能优化之生产环境性能",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.分包",
+            "slug": "_1-分包",
+            "link": "#_1-分包",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.压缩",
+            "slug": "_2-压缩",
+            "link": "#_2-压缩",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "7.sourcemap",
+        "slug": "_7-sourcemap",
+        "link": "#_7-sourcemap",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "8.原理",
+        "slug": "_8-原理",
+        "link": "#_8-原理",
+        "children": []
       }
     ],
     "path": "/Notes/FrontEndEngineering/webpack%E5%BF%85%E6%87%82%E7%9F%A5%E8%AF%86.html",
@@ -1636,6 +1875,13 @@ export const searchIndex = [
             "slug": "_1-navigator-connection",
             "link": "#_1-navigator-connection",
             "children": []
+          },
+          {
+            "level": 3,
+            "title": "如何判断强网和弱网环境？",
+            "slug": "如何判断强网和弱网环境",
+            "link": "#如何判断强网和弱网环境",
+            "children": []
           }
         ]
       },
@@ -1706,143 +1952,6 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/JavaScript/%E5%BF%85%E4%BC%9AAPIs.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "linux常用指令",
-    "headers": [
-      {
-        "level": 2,
-        "title": "文件相关命令",
-        "slug": "文件相关命令",
-        "link": "#文件相关命令",
-        "children": [
-          {
-            "level": 3,
-            "title": "切换目录、",
-            "slug": "切换目录、",
-            "link": "#切换目录、",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "查看目录",
-            "slug": "查看目录",
-            "link": "#查看目录",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "创建目录",
-            "slug": "创建目录",
-            "link": "#创建目录",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "删除文件/目录",
-            "slug": "删除文件-目录",
-            "link": "#删除文件-目录",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "移动文件/重命名",
-            "slug": "移动文件-重命名",
-            "link": "#移动文件-重命名",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "复制文件",
-            "slug": "复制文件",
-            "link": "#复制文件",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "cat命令",
-            "slug": "cat命令",
-            "link": "#cat命令",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "查找文件",
-            "slug": "查找文件",
-            "link": "#查找文件",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "解压和压缩",
-            "slug": "解压和压缩",
-            "link": "#解压和压缩",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "进程相关命令",
-        "slug": "进程相关命令",
-        "link": "#进程相关命令",
-        "children": [
-          {
-            "level": 3,
-            "title": "查看进程状态",
-            "slug": "查看进程状态",
-            "link": "#查看进程状态",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "杀进程",
-            "slug": "杀进程",
-            "link": "#杀进程",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "网络操作",
-        "slug": "网络操作",
-        "link": "#网络操作",
-        "children": [
-          {
-            "level": 3,
-            "title": "ping：测试与另一台主机的网络连接。",
-            "slug": "ping-测试与另一台主机的网络连接。",
-            "link": "#ping-测试与另一台主机的网络连接。",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "ssh：远程登录到另一台主机。",
-            "slug": "ssh-远程登录到另一台主机。",
-            "link": "#ssh-远程登录到另一台主机。",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "wget 或 curl：下载网络资源。",
-            "slug": "wget-或-curl-下载网络资源。",
-            "link": "#wget-或-curl-下载网络资源。",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "scp：远程复制文件。",
-            "slug": "scp-远程复制文件。",
-            "link": "#scp-远程复制文件。",
-            "children": []
-          }
-        ]
-      }
-    ],
-    "path": "/Notes/Linux/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -2214,6 +2323,143 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "linux常用指令",
+    "headers": [
+      {
+        "level": 2,
+        "title": "文件相关命令",
+        "slug": "文件相关命令",
+        "link": "#文件相关命令",
+        "children": [
+          {
+            "level": 3,
+            "title": "切换目录、",
+            "slug": "切换目录、",
+            "link": "#切换目录、",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "查看目录",
+            "slug": "查看目录",
+            "link": "#查看目录",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "创建目录",
+            "slug": "创建目录",
+            "link": "#创建目录",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "删除文件/目录",
+            "slug": "删除文件-目录",
+            "link": "#删除文件-目录",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "移动文件/重命名",
+            "slug": "移动文件-重命名",
+            "link": "#移动文件-重命名",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "复制文件",
+            "slug": "复制文件",
+            "link": "#复制文件",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "cat命令",
+            "slug": "cat命令",
+            "link": "#cat命令",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "查找文件",
+            "slug": "查找文件",
+            "link": "#查找文件",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "解压和压缩",
+            "slug": "解压和压缩",
+            "link": "#解压和压缩",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "进程相关命令",
+        "slug": "进程相关命令",
+        "link": "#进程相关命令",
+        "children": [
+          {
+            "level": 3,
+            "title": "查看进程状态",
+            "slug": "查看进程状态",
+            "link": "#查看进程状态",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "杀进程",
+            "slug": "杀进程",
+            "link": "#杀进程",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "网络操作",
+        "slug": "网络操作",
+        "link": "#网络操作",
+        "children": [
+          {
+            "level": 3,
+            "title": "ping：测试与另一台主机的网络连接。",
+            "slug": "ping-测试与另一台主机的网络连接。",
+            "link": "#ping-测试与另一台主机的网络连接。",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "ssh：远程登录到另一台主机。",
+            "slug": "ssh-远程登录到另一台主机。",
+            "link": "#ssh-远程登录到另一台主机。",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "wget 或 curl：下载网络资源。",
+            "slug": "wget-或-curl-下载网络资源。",
+            "link": "#wget-或-curl-下载网络资源。",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "scp：远程复制文件。",
+            "slug": "scp-远程复制文件。",
+            "link": "#scp-远程复制文件。",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Notes/Linux/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "diff",
     "headers": [],
     "path": "/Notes/React/diff.html",
@@ -2292,8 +2538,57 @@ export const searchIndex = [
             "slug": "usestate",
             "link": "#usestate",
             "children": []
+          },
+          {
+            "level": 3,
+            "title": "useEffect",
+            "slug": "useeffect",
+            "link": "#useeffect",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "useLayout",
+            "slug": "uselayout",
+            "link": "#uselayout",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "useRef和useImperativeHandle",
+            "slug": "useref和useimperativehandle",
+            "link": "#useref和useimperativehandle",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "useMemo和useCallback",
+            "slug": "usememo和usecallback",
+            "link": "#usememo和usecallback",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "useReducer",
+            "slug": "usereducer",
+            "link": "#usereducer",
+            "children": []
           }
         ]
+      },
+      {
+        "level": 2,
+        "title": "组件通信",
+        "slug": "组件通信",
+        "link": "#组件通信",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "样式私有化方案",
+        "slug": "样式私有化方案",
+        "link": "#样式私有化方案",
+        "children": []
       }
     ],
     "path": "/Notes/React/%E5%9F%BA%E7%A1%80.html",
@@ -2859,6 +3154,80 @@ export const searchIndex = [
             "children": []
           }
         ]
+      },
+      {
+        "level": 2,
+        "title": "2.Vue3",
+        "slug": "_2-vue3",
+        "link": "#_2-vue3",
+        "children": [
+          {
+            "level": 3,
+            "title": "Effect",
+            "slug": "effect",
+            "link": "#effect",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "3.computed原理",
+        "slug": "_3-computed原理",
+        "link": "#_3-computed原理",
+        "children": [
+          {
+            "level": 3,
+            "title": "ComputedRefImpl源码",
+            "slug": "computedrefimpl源码",
+            "link": "#computedrefimpl源码",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "triggerRefValue",
+            "slug": "triggerrefvalue",
+            "link": "#triggerrefvalue",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "4.watch原理",
+        "slug": "_4-watch原理",
+        "link": "#_4-watch原理",
+        "children": [
+          {
+            "level": 3,
+            "title": "doWatch",
+            "slug": "dowatch",
+            "link": "#dowatch",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "traverse遍历函数",
+            "slug": "traverse遍历函数",
+            "link": "#traverse遍历函数",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "ReactiveEffect",
+        "slug": "reactiveeffect",
+        "link": "#reactiveeffect",
+        "children": [
+          {
+            "level": 3,
+            "title": "依赖方法",
+            "slug": "依赖方法",
+            "link": "#依赖方法",
+            "children": []
+          }
+        ]
       }
     ],
     "path": "/Notes/Vue/%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86.html",
@@ -2891,116 +3260,6 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/Vue/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "js中遇到的问题",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.字符串表情问题",
-        "slug": "_1-字符串表情问题",
-        "link": "#_1-字符串表情问题",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.如何记录用户信息-canvas",
-        "slug": "_2-如何记录用户信息-canvas",
-        "link": "#_2-如何记录用户信息-canvas",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.Ajax和fetch取消请求的方式",
-        "slug": "_3-ajax和fetch取消请求的方式",
-        "link": "#_3-ajax和fetch取消请求的方式",
-        "children": [
-          {
-            "level": 3,
-            "title": "3.1、fetch取消",
-            "slug": "_3-1、fetch取消",
-            "link": "#_3-1、fetch取消",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "3.2、Ajax取消",
-            "slug": "_3-2、ajax取消",
-            "link": "#_3-2、ajax取消",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "4、页面更新自动刷新页面",
-        "slug": "_4、页面更新自动刷新页面",
-        "link": "#_4、页面更新自动刷新页面",
-        "children": []
-      }
-    ],
-    "path": "/Problems/JavaScript/js%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "埋点",
-    "headers": [
-      {
-        "level": 2,
-        "title": "初始化项目",
-        "slug": "初始化项目",
-        "link": "#初始化项目",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "生成.d.ts文件",
-        "slug": "生成-d-ts文件",
-        "link": "#生成-d-ts文件",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "代码展示",
-        "slug": "代码展示",
-        "link": "#代码展示",
-        "children": []
-      }
-    ],
-    "path": "/Problems/JavaScript/%E5%9F%8B%E7%82%B9.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "pm2",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.问题描述",
-        "slug": "_1-问题描述",
-        "link": "#_1-问题描述",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Node/pm2.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "项目中得到的问题",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.埋点API多平台调用",
-        "slug": "_1-埋点api多平台调用",
-        "link": "#_1-埋点api多平台调用",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Project/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BE%97%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -3074,28 +3333,6 @@ export const searchIndex = [
       }
     ],
     "path": "/Utils/Vuepress/Vuepress%E6%8F%92%E4%BB%B6.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "服务器",
-    "headers": [
-      {
-        "level": 2,
-        "title": "服务器搭建流程",
-        "slug": "服务器搭建流程",
-        "link": "#服务器搭建流程",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "浏览器报错",
-        "slug": "浏览器报错",
-        "link": "#浏览器报错",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Server/%E6%9C%8D%E5%8A%A1%E5%99%A8.html",
     "pathLocale": "/",
     "extraFields": []
   },

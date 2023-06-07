@@ -683,6 +683,8 @@ module.exports = {
 
 ### 2.压缩
 
+#### js压缩
+
 Webpack5.0 后默认使用 Terser 作为 JavaScript 代码压缩器，简单用法只需通过 `optimization.minimize` 配置项开启压缩功能即可。
 
 Terser 支持许多压缩 [配置](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fterser%2Fterser%23compress-options)：
@@ -721,6 +723,171 @@ module.exports = {
 提示：示例中的 `minimize` 用于控制是否开启压缩，只有 `minimize = true'` 时才会调用 `minimizer` 声明的压缩器数组（没错，这是数组形式）执行压缩操作。
 
 :::
+
+[terser-webpack-plugin](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fwebpack-contrib%2Fterser-webpack-plugin) 插件并不只是 Terser 的简单包装，它更像是一个代码压缩功能骨架，底层还支持使用 SWC、UglifyJS、ESBuild 作为压缩器，使用时只需要通过 `minify` 参数切换即可，例如：
+
+~~~js
+module.exports = {
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        minify: TerserPlugin.swcMinify,
+        // `terserOptions` 将被传递到 `swc` (`@swc/core`) 工具
+        // 具体配置参数可参考：https://swc.rs/docs/config-js-minify
+        terserOptions: {},
+      }),
+    ],
+  },
+};
+TerserPlugin 内置如下压缩器：
+
+TerserPlugin.terserMinify：依赖于 terser 库；
+TerserPlugin.uglifyJsMinify：依赖于 uglify-js，需要手动安装 yarn add -D uglify-js；
+TerserPlugin.swcMinify：依赖于 @swc/core，需要手动安装 yarn add -D @swc/core；
+TerserPlugin.esbuildMinify：依赖于 esbuild，需要手动安装 yarn add -D esbuild。
+另外，terserOptions 配置也不仅仅专供 terser 使用，而是会透传给具体的 minifier，因此使用不同压缩器时支持的配置选项也会不同。
+~~~
+
+
+
+#### css压缩
+
+ CssMinimizerWebpackPlugin
+
+1. 安装依赖：
+
+```bash
+yarn add -D css-minimizer-webpack-plugin
+```
+
+1. 修改 Webpack 配置：
+
+```js
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        test: /.css$/,
+        // 注意，这里用的是 `MiniCssExtractPlugin.loader` 而不是 `style-loader`
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+    ],
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      // Webpack5 之后，约定使用 `'...'` 字面量保留默认 `minimizer` 配置
+      "...",
+      new CssMinimizerPlugin(),
+    ],
+  },
+  // 需要使用 `mini-css-extract-plugin` 将 CSS 代码抽取为单独文件
+  // 才能命中 `css-minimizer-webpack-plugin` 默认的 `test` 规则
+  plugins: [new MiniCssExtractPlugin()],
+};
+```
+
+这里的配置逻辑，一是使用 `mini-css-extract-plugin` 将 CSS 代码抽取为单独的 CSS 产物文件，这样才能命中 `css-minimizer-webpack-plugin` 默认的 `test` 逻辑；二是使用 `css-minimizer-webpack-plugin` 压缩 CSS 代码
+
+* `CssMinimizerPlugin.cssnanoMinify`：默认值，使用 [cssnano](https://link.juejin.cn/?target=https%3A%2F%2Fcssnano.co%2F) 压缩代码，不需要额外安装依赖；
+* `CssMinimizerPlugin.cssoMinify`：使用 [csso](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fcss%2Fcsso) 压缩代码，需要手动安装依赖 `yarn add -D csso`；
+* `CssMinimizerPlugin.cleanCssMinify`：使用 [clean-css](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fclean-css%2Fclean-css) 压缩代码，需要手动安装依赖 `yarn add -D clean-css`；
+* `CssMinimizerPlugin.esbuildMinify`：使用 [ESBuild](https://link.juejin.cn/?target=https%3A%2F%2Fesbuild.github.io%2F) 压缩代码，需要手动安装依赖 `yarn add -D esbuild`；
+* `CssMinimizerPlugin.parcelCssMinify`：使用 [parcel-css](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fparcel-bundler%2Fparcel-css) 压缩代码，需要手动安装依赖 `yarn add -D` `@parcel/css`。
+* 其中 `parcel-css` 与 `ESBuild` 压缩性能相对较佳
+
+#### HTML压缩
+
+[html-minimizer-plugin](https://github.com/terser/html-minifier-terser#options-quick-reference)
+
+[HtmlMinimizerWebpackPlugin](https://webpack.js.org/plugins/html-minimizer-webpack-plugin/)
+
+现代 Web 应用大多会选择使用 React、Vue 等 MVVM 框架，这衍生出来的一个副作用是原生 HTML 的开发需求越来越少，HTML 代码占比越来越低，所以大多数现代 Web 项目中其实并不需要考虑为 HTML 配置代码压缩工作流。不过凡事都有例外，某些场景如 SSG 或官网一类偏静态的应用中就存在大量可被优化的 HTML 代码，为此社区也提供了一些相关的工程化工具，例如 `html-minifier-terser`。
+
+1. 安装依赖：
+
+```csharp
+yarn add -D html-minimizer-webpack-plugin
+```
+
+1. 修改 Webpack 配置，如：
+
+```js
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+
+module.exports = {
+  // ...
+  optimization: {
+    minimize: true,
+    minimizer: [
+      // Webpack5 之后，约定使用 `'...'` 字面量保留默认 `minimizer` 配置
+      "...",
+      new HtmlMinimizerPlugin({
+        minimizerOptions: {
+          // 折叠 Boolean 型属性
+          collapseBooleanAttributes: true,
+          // 使用精简 `doctype` 定义
+          useShortDoctype: true,
+          // ...
+        },
+      }),
+    ],
+  },
+  plugins: [
+    // 简单起见，这里我们使用 `html-webpack-plugin` 自动生成 HTML 演示文件
+    new HtmlWebpackPlugin({
+      templateContent: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+        <title>webpack App</title>
+      </head>
+      <body>
+        <input readonly="readonly"/>
+        <!-- comments -->
+        <script src="index_bundle.js"></script>
+      </body>
+    </html>`,
+    }),
+  ],
+};
+```
+
+
+
+## 7.sourcemap
+
+[Sourcemap 协议](https://link.juejin.cn/?target=https%3A%2F%2Fdocs.google.com%2Fdocument%2Fd%2F1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k%2Fedit%23heading%3Dh.qz3o9nc69um5) 最初由 Google 设计并率先在 Closure Inspector 实现，它的主要作用就是将经过压缩、混淆、合并的产物代码还原回未打包的原始形态，帮助开发者在生产环境中精确定位问题发生的行列位置
+
+在 Webpack 内部，这段生成 Sourcemap 映射数据的逻辑并不复杂，一句话总结：在 [processAssets](https://link.juejin.cn/?target=https%3A%2F%2Fwebpack.js.org%2Fapi%2Fcompilation-hooks%2F%23processassets) 钩子遍历产物文件 `assets` 数组，调用 `webpack-sources` 提供的 `map` 方法，最终计算出 `asset` 与源码 `originSource` 之间的映射关系。
+
+这个过程真正的难点在于 「如何计算映射关系」，因此本文会展开详细讲解 Sourcemap 映射结构与 VLQ 编码规则，以及 Webpack 提供的 `devtool` 配置项的详细用法。
+
+Sourcemap 最初版本生成的 `.map` 文件非常大，体积大概为编译产物的 10 倍；V2 之后引入 Base64 编码等算法，将之减少 20% ~ 30%；而最新版本 V3 又在 V2 基础上引入 VLQ 算法，体积进一步压缩了 50%。
+
+这一系列进化造就了一个效率极高的 Sourcemap 体系，但伴随而来的则是较为复杂的 `mappings` 编码规则。V3 版本 Sourcemap 文件由三部分组成:
+
+* 开发者编写的原始代码；
+* 经过 Webpack 压缩、转化、合并后的产物，且产物中必须包含指向 Sourcemap 文件地址的 `//# sourceMappingURL=https://xxxx/bundle.js.map` 指令；
+* 记录原始代码与经过工程化处理代码之间位置映射关系 Map 文件。
+
+页面初始运行时只会加载编译构建产物，直到特定事件发生 —— 例如在 Chrome 打开 Devtool 面板时，才会根据 `//# sourceMappingURL` 内容自动加载 Map 文件，并按 Sourcemap 协议约定的映射规则将代码重构还原回原始形态，这既能保证终端用户的性能体验，又能帮助开发者快速还原现场，提升线上问题的定位与调试效率。
+
+
+
+
+
+## 8.原理
+
+Webpack 之所以能够应对 Web 场景下极度复杂、多样的构建需求，关键就在于其健壮、扩展性极强的插件架构，而插件架构的精髓又在于其灵活多变的 Hook 体系。Webpack 的插件体系是一种基于 [Tapable](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Ftapable) 实现的强耦合架构，它在特定时机触发钩子时会附带上足够的上下文信息，插件定义的钩子回调中，能也只能与这些上下文背后的数据结构、接口交互产生 side effect，进而影响到编译状态和后续流程。
+
+
 
 
 

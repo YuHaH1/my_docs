@@ -61,8 +61,13 @@ new DefinePlugin<span class="token punctuation">(</span><span class="token punct
 <span class="token function">pnpm</span> <span class="token function">add</span> css-loader style-loader sass-loader node-sass
 <span class="token comment"># 解析ts </span>
 <span class="token function">pnpm</span> <span class="token function">add</span> typescript ts-loader
-
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_4-配置webpack-config-js" tabindex="-1"><a class="header-anchor" href="#_4-配置webpack-config-js" aria-hidden="true">#</a> 4.配置webpack.config.js</h2>
+<span class="token comment"># postcss</span>
+<span class="token function">pnpm</span> <span class="token function">add</span> <span class="token parameter variable">-D</span> postcss postcss-loader autoprefixer
+<span class="token comment"># 图片压缩</span>
+<span class="token function">pnpm</span> <span class="token function">add</span> <span class="token parameter variable">-D</span> image-webpack-loader
+<span class="token comment"># babel</span>
+<span class="token function">pnpm</span> <span class="token function">add</span> <span class="token parameter variable">-D</span> @babel/core @babel/preset-env babel-loader @babel/preset-typescript
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_4-配置webpack-config-js" tabindex="-1"><a class="header-anchor" href="#_4-配置webpack-config-js" aria-hidden="true">#</a> 4.配置webpack.config.js</h2>
 <div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">const</span> <span class="token punctuation">{</span> Configuration<span class="token punctuation">,</span> DefinePlugin <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack'</span><span class="token punctuation">)</span>
 <span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span>
 <span class="token comment">// plugins</span>

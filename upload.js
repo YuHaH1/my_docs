@@ -8,7 +8,7 @@ const uploadToServer = () => {
     const serverUserName = 'root'
     const server_IP = '123.60.104.225:'
     const command = `scp -r ${originPath} ${serverUserName}@${server_IP}${targetPath}`
-    console.log(command, '命令开始执行----------')
+    console.log(command, '命令开始执行----------🚀🚀🚀🚀🚀🚀')
     const ls = exec(command, {
         shell: false,// 不打开新的命令行
         cwd: process.cwd()
@@ -20,7 +20,7 @@ const uploadToServer = () => {
             console.log(`运行错误${stderr}`)
         }
         console.log(stdout)
-        console.log(command, '命令执行完成-------------')
+        console.log(command, '命令执行完成-------------🔚🔚🔚🔚🔚🔚🔚')
     })
 }
 

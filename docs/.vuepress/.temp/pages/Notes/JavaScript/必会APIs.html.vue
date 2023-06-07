@@ -1298,7 +1298,22 @@ window<span class="token punctuation">.</span><span class="token function">addEv
 window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'online'</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token comment">//网络类型的改变</span>
 navigator<span class="token punctuation">.</span>connection<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'change'</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="性能监控api" tabindex="-1"><a class="header-anchor" href="#性能监控api" aria-hidden="true">#</a> 性能监控API</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="如何判断强网和弱网环境" tabindex="-1"><a class="header-anchor" href="#如何判断强网和弱网环境" aria-hidden="true">#</a> 如何判断强网和弱网环境？</h3>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>navigator<span class="token punctuation">.</span>connection
+<span class="token comment">//结果</span>
+NetworkInformation <span class="token punctuation">{</span><span class="token literal-property property">onchange</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token literal-property property">effectiveType</span><span class="token operator">:</span> <span class="token string">'4g'</span><span class="token punctuation">,</span> <span class="token literal-property property">rtt</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token literal-property property">downlink</span><span class="token operator">:</span> <span class="token number">3.35</span><span class="token punctuation">,</span> <span class="token literal-property property">saveData</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">}</span>
+<span class="token literal-property property">downlink</span><span class="token operator">:</span> <span class="token number">3.35</span> 
+<span class="token literal-property property">effectiveType</span><span class="token operator">:</span> <span class="token string">"4g"</span>
+<span class="token literal-property property">onchange</span><span class="token operator">:</span> <span class="token keyword">null</span>
+<span class="token literal-property property">rtt</span><span class="token operator">:</span> <span class="token number">100</span>
+<span class="token literal-property property">saveData</span><span class="token operator">:</span> <span class="token boolean">false</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li><code v-pre>downlink</code> 当前网络连接的估计下行速度 （单位Mbps）</li>
+<li><code v-pre>effectiveType</code> 速度类型与设备无关（slow-2g，2g，3g，4g）</li>
+<li><code v-pre>rtt</code> 当前网络的估计往返时间</li>
+<li><code v-pre>saveData</code> 是否处于数据节省模式</li>
+</ul>
+<h2 id="性能监控api" tabindex="-1"><a class="header-anchor" href="#性能监控api" aria-hidden="true">#</a> 性能监控API</h2>
 <p>Performance API 提供了重要的内置指标，并能够将你自己的测量结果添加到浏览器的性能时间线（performance timeline）中。性能时间线使用高精度的时间戳，且可以在开发者工具中显示。</p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Performance" target="_blank" rel="noopener noreferrer">文档地址<ExternalLinkIcon/></a></p>
 <p>对于前端监控来说需要采集的指标有</p>

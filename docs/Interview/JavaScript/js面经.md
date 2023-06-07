@@ -446,4 +446,31 @@ function test(){
 
 
 
+## 7.类class
+
+~~~js
+class A {
+    constructor() {}
+    toString() {}
+    toValue() {}
+    test = ()=>{}
+}
+// 等同于
+function A () {
+    // constructor
+};
+const a = new A()
+A.prototype.toString = function() {};
+A.prototype.toValue = function() {};
+a.test = ()=>{}
+~~~
+
+
+
+
+
+
+
+
+
 <CommentService/>
