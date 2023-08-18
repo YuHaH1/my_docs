@@ -8,6 +8,18 @@ export default [
     create_navbar_md(Problems_navbar_Setting, 'Problems', '问题记录'),
     create_navbar_md(Interview_navbar_Setting, 'Interview', '面经'),
     create_navbar_md(Utils_navbar_Setting, 'Utils', '不错的工具'),
-    
+    {
+        text: '个人信息',
+        children: [
+            {
+                text: 'github',
+                link: 'https://github.com/YuHaH1',
+            },
+            {
+                text: 'CSDN',
+                link:'https://blog.csdn.net/m0_47195133?type=blog'
+            }
+        ]
+    }
 ]
 

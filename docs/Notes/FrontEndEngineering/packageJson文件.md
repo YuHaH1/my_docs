@@ -218,11 +218,26 @@ URL应该是一个公开可用的(可能是只读的)URL，可以直接传递给
     	"node":"./index.mjs",
       	"default":"./index.esm.js"
   	}
-  }
+  },
+
   "./module": "./src/module.js",
   ...
 }
 ~~~
+
+~~~json
+{
+  "name": "my-cool-package",
+  "exports": {
+    ".": {
+      "require": "./index.cjs", // CJS
+      "import": "./index.mjs" // ESM
+    }
+  }
+}
+~~~
+
+
 
 **②字符串格式：**这个格式表示整个模块都导出了 "./src/index.js" 这个文件。
 

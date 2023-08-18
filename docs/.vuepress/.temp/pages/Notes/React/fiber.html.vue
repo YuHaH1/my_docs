@@ -91,6 +91,9 @@
 <p>在协调阶段时间片如果用完就会让出控制权给浏览器。</p>
 </li>
 </ol>
+<h3 id="双缓存" tabindex="-1"><a class="header-anchor" href="#双缓存" aria-hidden="true">#</a> 双缓存</h3>
+<p><img src="/React/fiber_tree.png" alt=""></p>
+<p>拿当前树和workInProgress树对比，对比完成后将workInProgressTree交付</p>
 <h3 id="提出问题" tabindex="-1"><a class="header-anchor" href="#提出问题" aria-hidden="true">#</a> 提出问题</h3>
 <ol>
 <li>为什么Vue不需要要引入Fiber呢？

@@ -1,4 +1,57 @@
 <template><div><h1 id="基础" tabindex="-1"><a class="header-anchor" href="#基础" aria-hidden="true">#</a> 基础</h1>
+<h2 id="react哲学" tabindex="-1"><a class="header-anchor" href="#react哲学" aria-hidden="true">#</a> React哲学</h2>
+<p>资源加载的瓶颈是什么？</p>
+<hr>
+<p>资源加载方面</p>
+<ul>
+<li>一次请求太多资源</li>
+<li>网络请求慢</li>
+<li>资源加载失败</li>
+</ul>
+<p>解决方案</p>
+<ul>
+<li><code v-pre>React.lazy</code></li>
+<li><code v-pre>React.Suspense</code></li>
+<li><code v-pre>ErrorBoundary</code></li>
+</ul>
+<hr>
+<p>浏览器线程执行方面</p>
+<ul>
+<li>js执行（如果js执行超过16ms即超过了渲染帧，就没有时间布局和样式绘制）</li>
+<li>浏览器计算样式布局</li>
+<li>UI绘制</li>
+</ul>
+<p>解决方案</p>
+<ul>
+<li>异步更新</li>
+<li>时间切片</li>
+<li><code v-pre>React Fiber</code></li>
+</ul>
+<h2 id="react更新流程" tabindex="-1"><a class="header-anchor" href="#react更新流程" aria-hidden="true">#</a> React更新流程</h2>
+<p><img src="/React/react_update.png" alt=""></p>
+<p>react更新依赖三大部分</p>
+<ol>
+<li>Scheduler调度器
+<ul>
+<li>维护时间切片-requestidleCallback</li>
+<li>优先级调度</li>
+<li>浏览器任务调度</li>
+</ul>
+</li>
+<li>Reconciler协调器
+<ul>
+<li>jsx转成Fiber</li>
+<li>Fiber树比对（双缓存）</li>
+<li>确认本次更新Fiber</li>
+</ul>
+</li>
+<li>Renderer渲染器
+<ul>
+<li>渲染用于管理一个React树</li>
+<li>根据底层平台进行不同调用</li>
+</ul>
+</li>
+</ol>
 <h2 id="react事件" tabindex="-1"><a class="header-anchor" href="#react事件" aria-hidden="true">#</a> React事件</h2>
 <p>1.react处理事件时将匹配的<code v-pre>onXX</code>事件绑定到元素身上，在根元素#root身上进行事件委托</p>
 <p>2.通过e.path能获取事件捕获、冒泡的路径</p>
@@ -20,6 +73,7 @@ root<span class="token punctuation">.</span><span class="token function">addEven
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="hook" tabindex="-1"><a class="header-anchor" href="#hook" aria-hidden="true">#</a> Hook</h2>
 <p><a href="https://react.dev/reference/react" target="_blank" rel="noopener noreferrer">文档地址<ExternalLinkIcon/></a></p>
 <p>函数组件每次渲染都是函数重新执行，会产生一个全新的私有上下文</p>
+<p><img src="/React/hooks.png" alt=""></p>
 <h3 id="usestate" tabindex="-1"><a class="header-anchor" href="#usestate" aria-hidden="true">#</a> useState</h3>
 <p>函数组件每次渲染都是函数重新执行，会产生一个全新的私有上下文，重新执行函数那么如何能保证useState获取最新的状态值？</p>
 <p>利用闭包，用一个变量保存最新修改的值，每次调用setState，都会更新这个变量</p>
@@ -487,6 +541,28 @@ root<span class="token punctuation">.</span><span class="token function">addEven
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// { age: 42 }</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>nextState<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// { age: 43 }</span>
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div>
+<h3 id="hooks调用顺序" tabindex="-1"><a class="header-anchor" href="#hooks调用顺序" aria-hidden="true">#</a> Hooks调用顺序</h3>
+<p><strong>不要把hooks写在条件判断中</strong></p>
+<p>React如何知道那个state对应哪个useState？这里依靠hooks调用顺序</p>
+<div class="language-react line-numbers-mode" data-ext="react"><pre v-pre class="language-react"><code>function Form(){
+    const [name,setName] = useState('jery') //1
+    const firstRender = useRef(true)//2
+    if(firstRender.current){❌
+		firstRender.current = false
+        useEffect(()=&gt;{//3 在第二次就不会执行了
+     localStorage.setItem('formData',name)
+        })
+    }
+    const [surname,setSurname] = useState('Poppins')//4
+    useEffect(()=&gt;{//5
+        document.title = name + '' +surname
+    })
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="hooks闭包过期问题" tabindex="-1"><a class="header-anchor" href="#hooks闭包过期问题" aria-hidden="true">#</a> Hooks闭包过期问题</h3>
+<p><img src="/React/hooks_delay.png" alt=""></p>
+<p>解决办法，加入依赖</p>
+<h2 id="react常用api" tabindex="-1"><a class="header-anchor" href="#react常用api" aria-hidden="true">#</a> React常用API</h2>
+<p><img src="/React/APIS.png" alt=""></p>
 <h2 id="组件通信" tabindex="-1"><a class="header-anchor" href="#组件通信" aria-hidden="true">#</a> 组件通信</h2>
 <p>①props</p>
 <p>②ref</p>
@@ -543,10 +619,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>使用的时候当对象用</p>
 <div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> style <span class="token keyword">from</span> <span class="token string">'./xxx.module.css'</span>
 <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token punctuation">{</span>style<span class="token punctuation">.</span>id<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token keyword">return</span> <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token punctuation">{</span>style<span class="token punctuation">.</span>id<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>w
 <span class="token punctuation">}</span>
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>③CSS IN JS</p>
-<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">add</span> react-jss
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">add</span> react-css
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>④styled-components</p>
 <p><a href="https://styled-components.com/" target="_blank" rel="noopener noreferrer">文档地址<ExternalLinkIcon/></a></p>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">install</span> styled-components
@@ -563,6 +639,48 @@ console<span class="token punctuation">.</span><span class="token function">log<
 		}
 	}
 </span><span class="token template-punctuation string">`</span></span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="react元素挂载位置" tabindex="-1"><a class="header-anchor" href="#react元素挂载位置" aria-hidden="true">#</a> React元素挂载位置</h2>
+<div class="custom-container tip"><p class="custom-container-title">TIP</p>
+<p>一个从 createPortal内触发的事件，会冒泡到包含React树的祖先，而不是DOM树.当你使用createPortal创建的组件触发一个事件时，事件将遵循React的事件冒泡机制，而不是DOM的事件冒泡机制,事件会沿着React组件树向上冒泡，直到到达包含这个createPortal组件的祖先组件。这意味着即使组件在DOM树中的不同位置，事件仍然可以冒泡到包含React树的祖先组件。</p>
+</div>
+<p><img src="/React/poratal.png" alt=""></p>
+<div class="language-react line-numbers-mode" data-ext="react"><pre v-pre class="language-react"><code>import { createPortal } from 'react-dom'
+
+function Wrapper(){
+    const  [visible ,setVisible] = useState(false)
+    useEffect(()=&gt;{
+        setVisible(true)
+    },[])
+    const wrapperRef = useRef()
+    return (
+    	&lt;div&gt;
+            &lt;div style{{background:'red'}}&gt;
+            {visible &amp;&amp; (&lt;CustomDiv container={()=&gt;wrapperRef.current} color='black'&gt;&lt;/CustomDiv&gt; )}
+            &lt;/div&gt;
+            &lt;div ref={wrapperRef}&gt;
+                &lt;CustomDiv color=&quot;green&quot;&gt;&lt;/CustomDiv&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    )
+}
+
+
+
+function CustomDiv(props){
+    const { container ,color } = props
+    const MyButton = &lt;Button&gt;{color}-按钮&lt;/Button&gt;;
+    
+    const containerElem = useMemo(()=&gt;{
+           return container?.()
+    },[container])
+    if(containerEle){
+        return createPortal(MyButton,containerElem)
+    }
+    return MyButton
+}
+
+
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
 
 

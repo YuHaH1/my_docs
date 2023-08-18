@@ -8,6 +8,14 @@ collapsible: true
 
 https://cn.vitejs.dev/guide/文档地址
 
+## Vite生命周期
+
+![](/Vite/life.png)
+
+![](/Vite/vite_structure.png)
+
+生产环境不用esbuild原因是 esbuild不支持类型检查（因此Vite在生产构建要调用一次tsc），语法降级无法降级到es5
+
 ## 1.Vite的优势
 
 相对于webpack来说，当冷启动开发服务器时，基于打包器的方式启动必须优先抓取并构建你的整个应用，然后才能提供服务。**也就是说打包器要先构建整个应用然后在通过devserver将构建后的js、css、html提供给浏览器**。

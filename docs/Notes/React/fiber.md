@@ -128,6 +128,14 @@ Fiber 包含的属性可以划分为 5 个部分:
 
    
 
+### 双缓存
+
+![](/React/fiber_tree.png)
+
+拿当前树和workInProgress树对比，对比完成后将workInProgressTree交付
+
+
+
 ### 提出问题
 
 1. 为什么Vue不需要要引入Fiber呢？

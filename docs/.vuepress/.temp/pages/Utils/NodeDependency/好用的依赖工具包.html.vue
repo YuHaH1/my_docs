@@ -47,6 +47,71 @@
     <span class="token punctuation">]</span><span class="token punctuation">,</span>
     outdir<span class="token operator">:</span> <span class="token string">"dist"</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_5-postcss-px-to-vw移动端适配" tabindex="-1"><a class="header-anchor" href="#_5-postcss-px-to-vw移动端适配" aria-hidden="true">#</a> 5.postcss-px-to-vw移动端适配</h2>
+<p>1.rem</p>
+<p>我们将rem设置为100px的换算关系，例如750px设计稿  100px = （100/750）= 0.13333 * 100 = 13.3vw    rem = 13.3vw 这样我们只需要按照设计稿尺寸，然后小数点前移两位即可不需要任何插件</p>
+<p>2.postcsspxtovw</p>
+<p><a href="https://github.com/evrone/postcss-px-to-viewport" target="_blank" rel="noopener noreferrer">文档地址<ExternalLinkIcon/></a></p>
+<h2 id="_6-轻量级请求库alova" tabindex="-1"><a class="header-anchor" href="#_6-轻量级请求库alova" aria-hidden="true">#</a> 6.轻量级请求库alova</h2>
+<p><a href="https://alova.js.org/zh-CN/" target="_blank" rel="noopener noreferrer">文档地址<ExternalLinkIcon/></a></p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createAlova <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'alova'</span>
+<span class="token keyword">import</span> GlobalFetch <span class="token keyword">from</span> <span class="token string">'alova/GlobalFetch'</span>
+<span class="token keyword">import</span> VueHook <span class="token keyword">from</span> <span class="token string">'alova/vue'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> ElMessage <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'element-plus'</span>
+
+<span class="token keyword">function</span> <span class="token function">getToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> tempToken <span class="token operator">=</span> <span class="token string">''</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>tempToken<span class="token punctuation">)</span> <span class="token keyword">return</span> tempToken
+    <span class="token keyword">const</span> token <span class="token operator">=</span> localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'TOKEN'</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>token<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      tempToken <span class="token operator">=</span> token
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> tempToken
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> token <span class="token operator">=</span> <span class="token function">getToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> alovaIns <span class="token operator">=</span> <span class="token function">createAlova</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment">// 假设我们需要与这个域名的服务器交互</span>
+  baseURL<span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+
+  <span class="token comment">// 在vue项目下引入VueHook，它可以帮我们用vue的ref函数创建请求相关的，可以被alova管理的状态</span>
+  statesHook<span class="token operator">:</span> VueHook<span class="token punctuation">,</span>
+
+  <span class="token comment">// 请求适配器，这里我们使用fetch请求适配器</span>
+  requestAdapter<span class="token operator">:</span> <span class="token function">GlobalFetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+  <span class="token comment">// 设置全局的请求拦截器，与axios相似</span>
+  <span class="token function">beforeRequest</span><span class="token punctuation">(</span><span class="token punctuation">{</span> config <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 假设我们需要添加token到请求头</span>
+    config<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>Authorization <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Bearer </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">token</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span>
+
+    config<span class="token punctuation">.</span>headers<span class="token punctuation">[</span><span class="token string">'Content-Type'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'application/json; charset=utf-8'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment">// 响应拦截器，也与axios类似</span>
+  <span class="token function-variable function">responsed</span><span class="token operator">:</span> <span class="token keyword">async</span> <span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> json <span class="token operator">=</span> <span class="token keyword">await</span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span>status <span class="token operator">!==</span> <span class="token number">200</span> <span class="token operator">||</span> <span class="token operator">!</span>json<span class="token punctuation">.</span>success<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 这边抛出错误时，将会进入请求失败拦截器内</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>json<span class="token punctuation">.</span>errMsg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 空 token 且 状态码 401 不弹提示</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">token</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> response<span class="token punctuation">.</span>status <span class="token operator">===</span> <span class="token number">401</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">//</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          ElMessage<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>json<span class="token punctuation">.</span>errMsg<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span>json<span class="token punctuation">.</span>errMsg<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span>json<span class="token punctuation">.</span>message<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> json<span class="token punctuation">.</span>data
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
 
 

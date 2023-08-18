@@ -197,6 +197,12 @@ imgs<span class="token punctuation">.</span><span class="token function">forEach
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token function">addLoadEvent</span><span class="token punctuation">(</span>preloader<span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_3-核心web指标" tabindex="-1"><a class="header-anchor" href="#_3-核心web指标" aria-hidden="true">#</a> 3.核心Web指标</h2>
+<ol>
+<li>LCP（Largest Contentful Paint）最大内容绘制。2.5s以内最好</li>
+<li>FID（First Input Delay）首次输入延迟，测量交互性。100ms内</li>
+<li>CLS（Cumlative Layout Shift）累计布局偏移，测量视觉稳定性。0.1以内</li>
+</ol>
+<CommentService/></div></template>
 
 

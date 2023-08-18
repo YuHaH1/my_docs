@@ -138,11 +138,21 @@
     	<span class="token property">"node"</span><span class="token operator">:</span><span class="token string">"./index.mjs"</span><span class="token punctuation">,</span>
       	<span class="token property">"default"</span><span class="token operator">:</span><span class="token string">"./index.esm.js"</span>
   	<span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
   <span class="token property">"./module"</span><span class="token operator">:</span> <span class="token string">"./src/module.js"</span><span class="token punctuation">,</span>
   ...
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>**②字符串格式：**这个格式表示整个模块都导出了 &quot;./src/index.js&quot; 这个文件。</p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"my-cool-package"</span><span class="token punctuation">,</span>
+  <span class="token property">"exports"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"."</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">"require"</span><span class="token operator">:</span> <span class="token string">"./index.cjs"</span><span class="token punctuation">,</span> <span class="token comment">// CJS</span>
+      <span class="token property">"import"</span><span class="token operator">:</span> <span class="token string">"./index.mjs"</span> <span class="token comment">// ESM</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>**②字符串格式：**这个格式表示整个模块都导出了 &quot;./src/index.js&quot; 这个文件。</p>
 <div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token property">"exports"</span><span class="token operator">:</span> <span class="token string">"./src/index.js"</span>
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>在使用 &quot;exports&quot; 字段时，需要注意以下几点：</p>
 <ul>

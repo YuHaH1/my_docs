@@ -287,18 +287,51 @@ tcp服务端在发送连接释放报文后进入LAST-ACK状态，客户端在收
 <p>​	2.对于应用的输入和输出没有做校验</p>
 <p><strong>分类</strong></p>
 <p>​	1.反射型</p>
-<p>​		攻击者将恶意代码放到url中诱惑用户点击，如果url中携带有js而已代码例如<code v-pre>&lt;script&gt;document.cookie&lt;/script&gt;</code>，又或请求其他服务器，就会把一些信息发给恶意服务器</p>
-<p>​		特点只执行一次，因此也成为非持久性XSS</p>
-<p>​	2.存储型</p>
+<p>​		攻击者将恶意代码放到url中诱惑用户点击，如果url中携带有js而已代码例如<code v-pre>https://www/baidu.com?param=&lt;script&gt;document.cookie&lt;/script&gt;</code>，又或请求其他服务器，就会把一些信息发给恶意服务器</p>
+<p>​		<strong>特点</strong>:只执行一次，因此也成为非持久性XSS</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">render</span><span class="token punctuation">(</span><span class="token parameter">ctx</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> param <span class="token punctuation">}</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>query
+    ctx<span class="token punctuation">.</span>status <span class="token operator">=</span> <span class="token number">200</span>
+    ctx<span class="token punctuation">.</span>body <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>param<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div></span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>​	2.存储型</p>
 <p>​		存储型 XSS 会把用户输入的数据 &quot;存储&quot; 在服务器端，当浏览器请求数据时，脚本从服务器上传回并执行。这种 XSS 攻击具有很强的稳定性。比较常见的一个场景是攻击者在社区或论坛上写下一篇包含恶意 JavaScript 代码的文章或评论，文章或评论发表后，所有访问该文章或评论的用户，都会在他们的浏览器中执行这段恶意的 JavaScript 代码。</p>
-<p>​	3.dom型</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">submit</span><span class="token punctuation">(</span><span class="token parameter">ctx</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span>content<span class="token punctuation">,</span>id<span class="token punctuation">}</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>request<span class="token punctuation">.</span>body
+<span class="token comment">//没有对用户提交的内容进行过滤就存入数据库</span>
+    <span class="token keyword">await</span> db<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">{</span>content<span class="token punctuation">,</span>id<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span>content<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> db<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token literal-property property">id</span><span class="token operator">:</span>ctx<span class="token punctuation">.</span>query<span class="token punctuation">.</span>id<span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token comment">//没有过滤content</span>
+    ctx<span class="token punctuation">.</span>body <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>content<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div></span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">}</span>
+客户端提交
+<span class="token function">fecth</span><span class="token punctuation">(</span><span class="token string">'/submit'</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    <span class="token literal-property property">body</span><span class="token operator">:</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token literal-property property">id</span><span class="token operator">:</span><span class="token string">"22"</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">contnet</span><span class="token operator">:</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;script>xxx&lt;/script></span><span class="token template-punctuation string">`</span></span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>​	3.dom型</p>
 <p>​		基于 DOM 的 XSS 攻击是指通过恶意脚本修改页面的 DOM 结构，是纯粹发生在客户端的攻击。</p>
 <p>如何预防？</p>
 <ul>
 <li>正则校验</li>
 <li>如果使用的cookie则要设置<code v-pre>HttpOnly</code></li>
 </ul>
-<h3 id="_2、csrf" tabindex="-1"><a class="header-anchor" href="#_2、csrf" aria-hidden="true">#</a> 2、CSRF</h3>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token literal-property property">https</span><span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token operator">/</span>baidu<span class="token punctuation">.</span>com<span class="token operator">?</span>param<span class="token operator">=</span><span class="token operator">&lt;</span>script<span class="token operator">></span>document<span class="token punctuation">.</span>cookie<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+<span class="token keyword">const</span> content <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">(</span>location<span class="token punctuation">.</span>href<span class="token punctuation">)</span><span class="token punctuation">.</span>searchParams<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"param"</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> div <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">)</span>
+div<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> content
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>反射型和DOM型都通过url实现攻击，不同在于反射型恶意脚本是服务器注入，而反射型是客户端注入恶意脚本</strong></p>
+<p>​	4.Mutation-based Xss</p>
+<p>这种攻击方式利用浏览器渲染DOM特性，不同浏览器会有区别。这种攻击方式会按浏览器进行攻击。</p>
+<div class="language-html line-numbers-mode" data-ext="html"><pre v-pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>noscript</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">title="&lt;</span>/<span class="token attr-name">noscript</span><span class="token punctuation">></span><span class="token attr-name">&lt;img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span>x</span> <span class="token special-attr"><span class="token attr-name">onerror</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token value javascript language-javascript"><span class="token function">alert</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span></span></span></span><span class="token punctuation">></span><span class="token attr-name">"</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>noscript</span><span class="token punctuation">></span></span>
+// p标签title中的字符串会被当做正常html片段渲染，由于src不符合规范就会触发onerror事件，当事件触发就完成了恶意脚本注入
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2、csrf" tabindex="-1"><a class="header-anchor" href="#_2、csrf" aria-hidden="true">#</a> 2、CSRF</h3>
 <p>跨站请求伪造：CSRF 攻击是攻击者借助受害者的 Cookie 骗取服务器的信任，可以在受害者毫不知情的情况下以受害者名义伪造请求发送给受攻击服务器，从而在并未授权的情况下执行在权限保护之下的操作。</p>
 <ol>
 <li>
@@ -319,18 +352,92 @@ tcp服务端在发送连接释放报文后进入LAST-ACK状态，客户端在收
 </ol>
 <p>预防方法</p>
 <ul>
-<li>
-<p>验证码被认为是对抗 CSRF 攻击最简洁而有效的防御方法。验证码会强制用户必须与应用进行交互，才能完成最终请求。因为通常情况下，验证码能够很好地遏制 CSRF 攻击。</p>
-</li>
-<li>
-<p>Referer Check，在 HTTP 头中有一个字段叫 Referer，它记录了该 HTTP 请求的来源地址。通过 Referer Check，可以检查请求是否来自合法的&quot;源&quot;。</p>
-</li>
-<li>
-<p>token验证，在请求中放入攻击者所不能伪造的信息，并且该信息不存在于 Cookie 之中。可以在 HTTP 请求中以参数的形式加入一个随机产生的 token，并在服务器端建立一个拦截器来验证这个 token，如果请求中没有 token 或者 token 内容不正确，则认为可能是    CSRF 攻击而拒绝该请求。</p>
-</li>
+<li>验证码被认为是对抗 CSRF 攻击最简洁而有效的防御方法。验证码会强制用户必须与应用进行交互，才能完成最终请求。因为通常情况下，验证码能够很好地遏制 CSRF 攻击。</li>
+<li>Referer Check，在 HTTP 头中有一个字段叫 Referer，它记录了该 HTTP 请求的来源地址。通过 Referer Check，可以检查请求是否来自合法的&quot;源&quot;。</li>
+<li>token验证，在请求中放入攻击者所不能伪造的信息，并且该信息不存在于 Cookie 之中。可以在 HTTP 请求中以参数的形式加入一个随机产生的 token，并在服务器端建立一个拦截器来验证这个 token，如果请求中没有 token 或者 token 内容不正确，则认为可能是    CSRF 攻击而拒绝该请求。</li>
 </ul>
+<h3 id="_3-sql注入" tabindex="-1"><a class="header-anchor" href="#_3-sql注入" aria-hidden="true">#</a> 3.SQL注入</h3>
+<p>如果用户输入的是 * 攻击者会得到所有用户信息</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">async</span> <span class="token function">renderForm</span><span class="token punctuation">(</span><span class="token parameter">ctx</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span>username<span class="token punctuation">,</span>form_id<span class="token punctuation">}</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>query
+    <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> sql<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+    	SELECT q,w,e FROM USERS
+    	WHERE username = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>username<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+    	AND form_id = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>form_id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+    </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+    ctx<span class="token punctuation">.</span>body <span class="token operator">=</span> <span class="token function">rederForm</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_4-脚本执行" tabindex="-1"><a class="header-anchor" href="#_4-脚本执行" aria-hidden="true">#</a> 4.脚本执行</h3>
+<p>服务端一旦执行直接删库跑路咯</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'test'</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    <span class="token literal-property property">method</span><span class="token operator">:</span><span class="token string">"POST"</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">body</span><span class="token operator">:</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token literal-property property">options</span><span class="token operator">:</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">'&amp;&amp; rm -rf xxx'</span><span class="token template-punctuation string">`</span></span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_5-读取-修改" tabindex="-1"><a class="header-anchor" href="#_5-读取-修改" aria-hidden="true">#</a> 5.读取+修改</h3>
+<p>如果攻击者可以读取服务器的文件并修改，尤其是对于nginx配置，就能做到流量转发等</p>
+<h3 id="_6-ddos" tabindex="-1"><a class="header-anchor" href="#_6-ddos" aria-hidden="true">#</a> 6.DDOS</h3>
+<p>攻击者发起最大连接数的TCP连接，但不回复ACK，一直占用资源，导致新的请求无法被响应</p>
+<h2 id="四、web安全防御" tabindex="-1"><a class="header-anchor" href="#四、web安全防御" aria-hidden="true">#</a> 四、WEB安全防御</h2>
+<p>永远不相信用户提交的内容没</p>
+<p>永远不将用户提交的内容转成DOM</p>
+<ol>
+<li>
+<p><strong>主要对string做转义，</strong></p>
+</li>
+<li>
+<p><strong>包括对svg文件扫描，</strong></p>
+</li>
+<li>
+<p><strong>对自定义样式中的url做过滤</strong></p>
+</li>
+<li>
+<p><strong>CSP防御策略指定哪些域名被认为安全 ，来自安全源的脚本可以执行否则报错，对<code v-pre>eval</code>和内联script拒绝或报错</strong>可以针对csrf</p>
+<ol>
+<li>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>服务器响应头部
+content-Security-Policy:script-src <span class="token string">'self'</span>
+浏览器meta
+<span class="token operator">&lt;</span>meta http-equiv<span class="token operator">=</span><span class="token string">'content-Security-Policy'</span> <span class="token assign-left variable">content</span><span class="token operator">=</span><span class="token string">'script-src self'</span><span class="token operator">></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+</li>
+<li>
+<p>token 可以针对csrf</p>
+</li>
+<li>
+<p>X-Frame-Options:DENY/SAMEORIGIN避免scrf——iframe攻击</p>
+</li>
+<li>
+<p>SameSite Cookie属性  domain不是同源的cookie会被限制</p>
+</li>
+<li>
+<p>对于注入攻击，跟寻最小权限原则，简历允许名单+过滤，对URL类型参数进行协议、域名、ip限制</p>
+</li>
+<li>
+<p>防DOS攻击，不要写 贪婪的正则</p>
+</li>
+<li>
+<p>DDOS攻击，负载均衡、API网关、所有流量到CDN，快速扩容承载流量，非核心服务降级</p>
+</li>
+</ol>
 <h2 id="四、网络结构" tabindex="-1"><a class="header-anchor" href="#四、网络结构" aria-hidden="true">#</a> 四、网络结构</h2>
 <p><img src="/Networker/structure.png" alt=""></p>
+<h2 id="五、sso单点登陆" tabindex="-1"><a class="header-anchor" href="#五、sso单点登陆" aria-hidden="true">#</a> 五、SSO单点登陆</h2>
+<p><img src="/Networker/sso.png" alt=""></p>
+<ol>
+<li>
+<p>先访问A站点看是否有登录态。</p>
+<ol>
+<li>若没有则跳转sso站点询问有没有登录态</li>
+<li>假设SSO站点也没有登录态,则在SSO站点登陆。SSO登陆成功后sso的服务器会会在SSO站点下种下cookie。然后SSO站点会发起重定向请求，并携带有效信息到A站点下，A站点此时会种下cookie。</li>
+</ol>
+</li>
+<li>
+<p>访问B站点时，此时B站点没有cookie，于是去SSO站点看是否有cookie，SSO站点有cookie，SSO站点会直接携带信息重定向到B站点</p>
+</li>
+</ol>
 <CommentService/></div></template>
 
 

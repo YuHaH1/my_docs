@@ -1,5 +1,9 @@
 <template><div><h1 id="vite必懂知识" tabindex="-1"><a class="header-anchor" href="#vite必懂知识" aria-hidden="true">#</a> vite必懂知识</h1>
 <p>https://cn.vitejs.dev/guide/文档地址</p>
+<h2 id="vite生命周期" tabindex="-1"><a class="header-anchor" href="#vite生命周期" aria-hidden="true">#</a> Vite生命周期</h2>
+<p><img src="/Vite/life.png" alt=""></p>
+<p><img src="/Vite/vite_structure.png" alt=""></p>
+<p>生产环境不用esbuild原因是 esbuild不支持类型检查（因此Vite在生产构建要调用一次tsc），语法降级无法降级到es5</p>
 <h2 id="_1-vite的优势" tabindex="-1"><a class="header-anchor" href="#_1-vite的优势" aria-hidden="true">#</a> 1.Vite的优势</h2>
 <p>相对于webpack来说，当冷启动开发服务器时，基于打包器的方式启动必须优先抓取并构建你的整个应用，然后才能提供服务。<strong>也就是说打包器要先构建整个应用然后在通过devserver将构建后的js、css、html提供给浏览器</strong>。</p>
 <p>Vite 通过在一开始将应用中的模块区分为 <strong>依赖</strong> 和 <strong>源码</strong> 两类，改进了开发服务器启动时间。</p>

@@ -300,6 +300,10 @@ export default proxyUpdater
 
 
 
+## 5.用户输入法按enter会触发提交事件
+
+[参考文章](https://www.zhangxinxu.com/wordpress/2023/02/js-enter-submit-compositionupdate/)
+
 
 
 

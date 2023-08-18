@@ -29,12 +29,12 @@ const SUBJECTS = {
 }
 
 const Notes_Sidebar_Setting = [
-    [SUBJECTS.react, 'fiber.md', 'diff.md','基础.md'],
-    [SUBJECTS.vue, 'diff.md', 'vueRouter.md', 'vue3.3版本.md', 'pinia.md','响应式原理.md','编译原理.md','vue-loader初探.md','Vue3异步更新.md','Vue内置组件.md'],
+    [SUBJECTS.react, 'fiber.md', 'diff.md','基础.md','React状态管理.md'],
+    [SUBJECTS.vue, 'diff.md', 'vueRouter.md', 'vue3.3版本.md', 'pinia.md','响应式原理.md','编译原理.md','vue-loader初探.md','Vue3异步更新.md','Vue内置组件.md','Vue生命周期.md'],
     [SUBJECTS.sass, 'grammar.md'],
-    [SUBJECTS.ts, 'grammar.md'],
+    [SUBJECTS.ts, 'grammar.md','类型体操.md'],
     [SUBJECTS.node, 'node基础知识.md', 'common_apis.md', 'pm2.md'],
-    [SUBJECTS.js, '必会APIs.md','js进阶.md'],
+    [SUBJECTS.js, '必会APIs.md','js进阶.md','设计模式.md'],
     [SUBJECTS.docker, 'docker基础知识.md'],
     [SUBJECTS.linux, 'linux常用指令.md'],
     [SUBJECTS.css, '你不知道的css.md'],
@@ -48,7 +48,9 @@ const Notes_Sidebar_Setting = [
         '包管理器的相关知识.md',
         '微前端.md',
         '小程序架构.md',
-        '项目初始化.md'
+        '项目初始化.md',
+        'rollup.md',
+        '单元测试.md'
     ],
     [SUBJECTS.optimize, '性能优化.md'],
     [SUBJECTS.git, 'Git基础.md'],
@@ -73,7 +75,7 @@ const Problems_Sidebar_Setting = [
     [SUBJECTS['服务器'], '服务器.md'],
     [SUBJECTS.js, '埋点.md', 'js中遇到的问题.md'],
     [SUBJECTS.project, '项目中得到的问题.md'],
-
+    [SUBJECTS.css,'CSS相关问题.md'] 
     
 ]
 const Utils_Sidebar_Setting = [
@@ -90,7 +92,8 @@ const Problems_navbar_Setting = [
     SUBJECTS['服务器'],
     SUBJECTS.js,
     SUBJECTS.project,
-    SUBJECTS.node
+    SUBJECTS.node,
+    SUBJECTS.css
 
 ]
 const Interview_navbar_Setting = [
