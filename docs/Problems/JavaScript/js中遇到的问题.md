@@ -310,6 +310,26 @@ export default proxyUpdater
 
 
 
+## Vuepress展示数学公式
+
+在`config.js`中配置如下
+
+~~~js
+import katex from 'markdown-it-katex'
+export default defineUserConfig({
+    head: [
+        ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css' }],
+        ['link', { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" }]
+    ],
+    extendsMarkdown(md) {
+        md.set({ html: true });
+        md.use(katex);
+    },
+})
+~~~
+
+
+
 
 
 <CommentService/>

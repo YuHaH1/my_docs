@@ -467,6 +467,44 @@ a.test = ()=>{}
 
 
 
+## 深拷贝
+
+
+
+~~~js
+ function deepClone(target) {
+            const map = new WeakMap()
+            const obj = {}
+            function _deepClone(target) {
+                if (typeof target !== 'object' || target === null) {
+                    return target
+                }
+                let result = Array.isArray(target) ? [] : {}
+                map.set(target, result)
+                function obj_arr(target) {
+                    for (let key in target) {
+                        if (target.hasOwnProperty(key)) {
+                            result[key] = _deepClone(target[key])
+                        }
+                    }
+                }
+                const typeDeal = {
+                    'Object': obj_arr,
+                    'RegExp': (reg) => result = new RegExp(reg),
+                    'Date': (date) => result = new Date(date),
+                    'Array': obj_arr,
+                    'function': function () {
+                        return target.call(this, arguments)
+                    }
+                }
+                const type = Object.prototype.toString.call(target).slice(8, -1)
+                typeDeal[type](target)
+                return result
+            }
+            return _deepClone(target)
+        }
+~~~
+
 
 
 

@@ -89,25 +89,104 @@
 <p><strong>阶段二：多仓库多模块应用</strong>，于是将项目拆解成多个业务模块，并在多个 Git 仓库管理，模块解耦，降低了巨石应用的复杂度，每个模块都可以独立编码、测试、发版，代码管理变得简化，构建效率也得以提升，这种代码管理方式称之为 MultiRepo。</p>
 <p><strong>阶段三：单仓库多模块应用</strong>，随着业务复杂度的提升，模块仓库越来越多，MultiRepo这种方式虽然从业务上解耦了，但增加了项目工程管理的难度，随着模块仓库达到一定数量级，会有几个问题：跨仓库代码难共享；分散在单仓库的模块依赖管理复杂（底层模块升级后，其他上层依赖需要及时更新，否则有问题）；增加了构建耗时。于是将多个项目集成到一个仓库下，共享工程配置，同时又快捷地共享模块代码，成为趋势，这种代码管理方式称之为 MonoRepo。</p>
 <h3 id="使用方式" tabindex="-1"><a class="header-anchor" href="#使用方式" aria-hidden="true">#</a> 使用方式</h3>
-<p><strong>①创建pnpm-workspace.yaml</strong></p>
-<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token key atrule">packages</span><span class="token punctuation">:</span>
-	<span class="token punctuation">-</span> <span class="token string">'packages/*'</span>
-	<span class="token punctuation">-</span> <span class="token string">'api'</span>
-	<span class="token punctuation">-</span> <span class="token string">'supabase'</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>②给package.json中的name命名</strong></p>
-<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token punctuation">{</span>
-	name<span class="token operator">:</span><span class="token string">"@test"</span>
+<ol>
+<li>
+<p><code v-pre>pnpm init</code></p>
+</li>
+<li>
+<p>在<code v-pre>package.json</code>中加入</p>
+<ol>
+<li>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token string-property property">"script"</span><span class="token operator">:</span><span class="token punctuation">{</span>
+    <span class="token string-property property">"preinstall"</span><span class="token operator">:</span><span class="token string">"npx only-allow pnpm"</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>③在别的项目中引用</strong></p>
+<span class="token string-property property">"private"</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token comment">// 防止最外层的包发出去</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+</li>
+<li>
+<p>创建pnpm-workspace.yaml</p>
+<ol>
+<li>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token literal-property property">packages</span><span class="token operator">:</span>
+	<span class="token operator">-</span> <span class="token string">'packages/*'</span>
+	<span class="token operator">-</span> <span class="token string">'api'</span>
+	<span class="token operator">-</span> <span class="token string">'supabase'</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+</li>
+<li>
+<p>创建<code v-pre>packages</code>文件夹，并在下面创建子包,进入子包进行初始化</p>
+<ol>
+<li>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">mkdir</span> packages 
+<span class="token builtin class-name">cd</span> packages
+<span class="token function">mkdir</span> children_test
+<span class="token builtin class-name">cd</span> children_test
+<span class="token function">pnpm</span> init
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+</li>
+<li>
+<p>修改子包的<code v-pre>package.json</code></p>
+<ol>
+<li>
 <div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token punctuation">{</span>
-    <span class="token property">"dependencies"</span><span class="token operator">:</span><span class="token punctuation">{</span>
-        <span class="token property">"@test"</span><span class="token operator">:</span><span class="token string">"workspace:*"</span> <span class="token comment">//*代表当前版本</span>
+    <span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"@yu/children_test"</span><span class="token comment">//这里必须要改名，建议@后的名字与外层目录名保持一致</span>
+    <span class="token property">"publishConfig"</span><span class="token operator">:</span><span class="token punctuation">{</span>
+		<span class="token property">"access"</span><span class="token operator">:</span><span class="token string">"public"</span><span class="token comment">//因为外层的包private设置为true了，如果这里不设置。发包的时候会被作为私有包发布</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>④安装包</strong></p>
-<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">install</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>然后通过命令可以查看</p>
-<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>ll node_modules/@test
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+</li>
+<li>
+<p>在<code v-pre>packages</code>下创建第二个子包，重复第5步</p>
+<ol>
+<li>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token builtin class-name">cd</span> packages
+<span class="token function">mkdir</span> children_test2
+<span class="token builtin class-name">cd</span> children_test2
+<span class="token function">pnpm</span> init
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token punctuation">{</span>
+    <span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"@yu/children_test2"</span><span class="token comment">//这里必须要改名，建议@后的名字与外层目录名保持一致</span>
+    <span class="token property">"publishConfig"</span><span class="token operator">:</span><span class="token punctuation">{</span>
+		<span class="token property">"access"</span><span class="token operator">:</span><span class="token string">"public"</span><span class="token comment">//因为外层的包private设置为true了，如果这里不设置。发包的时候会被作为私有包发布</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+</li>
+<li>
+<p>执行<code v-pre>pnpm -F @yu/children_test add @yu/children_test2</code>加入依赖,然后可以在<code v-pre>children_test</code>中引用<code v-pre>children_test2</code>包中暴露的方法。</p>
+</li>
+<li>
+<p><code v-pre>npm login</code>登陆，然后安装<code v-pre>@changesets/cli</code>，这个是发<code v-pre>monorepo</code>包的工具(子包如果有多个，一个一个发很麻烦，该包可以帮我们批量发版)</p>
+<ol>
+<li>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">install</span> @changesets/cli <span class="token parameter variable">-w</span> --save-dev
+<span class="token comment"># pnpm changeset init会生成一个.changeset文件</span>
+<span class="token function">pnpm</span> changeset init
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>预发布</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> changeset pre enter beta版本
+<span class="token function">pnpm</span> changeset
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>正式发布</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token comment"># 执行后 选择要发布的包，然后选择要发布的版本，然后写发版的备注，最后消耗掉这个版本即可 </span>
+<span class="token function">pnpm</span> changeset
+<span class="token punctuation">..</span>.
+<span class="token function">pnpm</span> changeset version
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+</li>
+<li></li>
+</ol>
+<p>​</p>
+<CommentService/></div></template>
 
 

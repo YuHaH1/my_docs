@@ -32,7 +32,7 @@ const watchDist = () => {
         if (timer) clearTimeout(timer)
         timer = setTimeout(() => {
             uploadToServer()
-        }, 5000);
+        }, 10000);
     })
 }
 watchDist()

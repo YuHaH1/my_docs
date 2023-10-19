@@ -79,6 +79,14 @@ collapsible: true
 </html>
 ~~~
 
+在chrome上使用，创建书签，网址内容如下，只要支持API即可
+
+~~~js
+javascript:function getColor() {            return new Promise((resolve, reject) => {                async function createColorer() {                    if (!window.EyeDropper) {                        resultElement.textContent = "你的浏览器不支持 EyeDropper API";                        return;                    }                    const eyeDropper = new EyeDropper();                    eyeDropper                        .open()                        .then(async (result) => {                            navigator.clipboard.writeText(result.sRGBHex);                            const clipboardData = await navigator.clipboard.readText();                        })                        .catch((e) => {                            console.log(e)                        }).finally(resolve(() => { document.removeEventListener('click', createColorer) }))                }                document.addEventListener('click', createColorer)            })        };getColor().then(res => { res() })
+~~~
+
+
+
 
 
 ## web视频会议

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .flip .card2 {
+            transform: rotateX(0);
+        }
+
+        .flip .card3 {
+            transform: rotateX(-180deg);
+        }
+
+        .card3 {
+            line-height: 200px;
+            transform-origin: center bottom;
+            backface-visibility: hidden;
+            z-index: 2
+        }
+
+        .card4 {
+            top: 50%;
+            line-height: 0
+        }
+
+        .card2 {
+            z-index: 2;
+            top: 50%;
+            line-height: 0;
+            /* 变换原点为上边的中部 */
+            transform-origin: center top;
+            /* 对折 180 度 */
+            transform: rotateX(180deg);
+            /* 通过这个属性让元素的背面隐藏 */
+            backface-visibility: hidden;
+        }
+
+        .card2 {
+            top: 50%;
+        }
+
+        /* 因为所有的数字都有公共部分，我们提取出来 */
+        .card-item {
+            position: absolute;
+            width: 100%;
+            /* 因为每个卡片只有半个数字，所以高度只有百分之50 */
+            height: 50%;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+            background: #2c292c;
+        }
+
+        .card1 {
+            line-height: 200px
+        }
+
+        .card-container {
+            background: #2c292c;
+            width: 200px;
+            height: 200px;
+            position: relative;
+            perspective: 500px;
+        }
+
+        .card-container::before {
+            z-index: 99;
+            content: " ";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            background: #120f12;
+            width: 100%;
+            height: 6px;
+            margin-top: -3px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- data-number 用于存储上一次的时间，来和即将改变的时间对比 -->
+    <div class="card-container flip" id="card-h" data-number="00">
+        <div class="card1 card-item">00</div>
+        <div class="card2 card-item">00</div>
+        <div class="card3 card-item">00</div>
+        <div class="card4 card-item">00</div>
+    </div>
+    <div class="card-container flip" id="card-m" data-number="00">
+        <div class="card1 card-item">00</div>
+        <div class="card2 card-item">00</div>
+        <div class="card3 card-item">00</div>
+        <div class="card4 card-item">00</div>
+    </div>
+    <div class="card-container flip" id="card-s" data-number="00">
+        <div class="card1 card-item">00</div>
+        <div class="card2 card-item">00</div>
+        <div class="card3 card-item">00</div>
+        <div class="card4 card-item">00</div>
+    </div>
+
+    <script>
+        // 获取 dom
+        const hour = document.getElementById("card-h");
+        const minute = document.getElementById("card-m");
+        const second = document.getElementById("card-s");
+
+        function setHTML(dom, time) {
+            // 下一次要显示的时间
+            const nextValue = time.toString().padStart(2, "0");
+            // 上一次的时间
+            const curValue = dom.dataset.number;
+            // 如果下次要显示的时间和上一次的一样，直接退出。比如在同一分钟或同一小时内。
+            if (nextValue === curValue) {
+                return;
+            }
+            // 重置时分秒的 dom
+            dom.innerHTML = `<div class="card1 card-item">${nextValue}</div>
+    <div class="card2 card-item">${nextValue}</div>
+    <div class="card3 card-item">${curValue}</div>
+    <div class="card4 card-item">${curValue}</div>`;
+            // 移除 flip 属性再次添加以触发过渡再次执行
+            dom.classList.remove("flip");
+            dom.clientHeight;
+            dom.classList.add("flip");
+            // 时间不同时重置 dataset.number
+            dom.dataset.number = nextValue;
+        }
+
+        // 获取时分秒并分别设置
+        function setNumbers() {
+            var now = new Date();
+            var h = now.getHours();
+            var m = now.getMinutes();
+            var s = now.getSeconds();
+            setHTML(hour, h);
+            setHTML(minute, m);
+            setHTML(second, s);
+        }
+
+        setNumbers();
+
+        setInterval(setNumbers, 1000);
+
+    </script>
+</body>
+
+</html>

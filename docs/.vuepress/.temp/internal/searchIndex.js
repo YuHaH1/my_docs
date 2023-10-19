@@ -72,6 +72,21 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "css面经",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.隐藏元素的方法",
+        "slug": "_1-隐藏元素的方法",
+        "link": "#_1-隐藏元素的方法",
+        "children": []
+      }
+    ],
+    "path": "/Interview/Css/css%E9%9D%A2%E7%BB%8F.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "计算机网络",
     "headers": [
       {
@@ -244,21 +259,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "css面经",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.隐藏元素的方法",
-        "slug": "_1-隐藏元素的方法",
-        "link": "#_1-隐藏元素的方法",
-        "children": []
-      }
-    ],
-    "path": "/Interview/Css/css%E9%9D%A2%E7%BB%8F.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "js面经",
     "headers": [
       {
@@ -330,6 +330,13 @@ export const searchIndex = [
         "title": "7.类class",
         "slug": "_7-类class",
         "link": "#_7-类class",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "深拷贝",
+        "slug": "深拷贝",
+        "link": "#深拷贝",
         "children": []
       }
     ],
@@ -417,6 +424,13 @@ export const searchIndex = [
             "slug": "进程之间如何通信",
             "link": "#进程之间如何通信",
             "children": []
+          },
+          {
+            "level": 3,
+            "title": "孤儿进程和僵尸进程",
+            "slug": "孤儿进程和僵尸进程",
+            "link": "#孤儿进程和僵尸进程",
+            "children": []
           }
         ]
       }
@@ -441,163 +455,96 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "CSS相关问题",
+    "title": "数据结构",
     "headers": [
       {
         "level": 2,
-        "title": "1.多行文本溢出",
-        "slug": "_1-多行文本溢出",
-        "link": "#_1-多行文本溢出",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Css/CSS%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "js中遇到的问题",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.字符串表情问题",
-        "slug": "_1-字符串表情问题",
-        "link": "#_1-字符串表情问题",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.如何记录用户信息-canvas",
-        "slug": "_2-如何记录用户信息-canvas",
-        "link": "#_2-如何记录用户信息-canvas",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.Ajax和fetch取消请求的方式",
-        "slug": "_3-ajax和fetch取消请求的方式",
-        "link": "#_3-ajax和fetch取消请求的方式",
+        "title": "树",
+        "slug": "树",
+        "link": "#树",
         "children": [
           {
             "level": 3,
-            "title": "3.1、fetch取消",
-            "slug": "_3-1、fetch取消",
-            "link": "#_3-1、fetch取消",
+            "title": "二叉树的一些性质",
+            "slug": "二叉树的一些性质",
+            "link": "#二叉树的一些性质",
             "children": []
           },
           {
             "level": 3,
-            "title": "3.2、Ajax取消",
-            "slug": "_3-2、ajax取消",
-            "link": "#_3-2、ajax取消",
+            "title": "森林和二叉树转换",
+            "slug": "森林和二叉树转换",
+            "link": "#森林和二叉树转换",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "哈夫曼树",
+            "slug": "哈夫曼树",
+            "link": "#哈夫曼树",
             "children": []
           }
         ]
       },
       {
         "level": 2,
-        "title": "4、页面更新自动刷新页面",
-        "slug": "_4、页面更新自动刷新页面",
-        "link": "#_4、页面更新自动刷新页面",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "5.用户输入法按enter会触发提交事件",
-        "slug": "_5-用户输入法按enter会触发提交事件",
-        "link": "#_5-用户输入法按enter会触发提交事件",
-        "children": []
+        "title": "排序",
+        "slug": "排序",
+        "link": "#排序",
+        "children": [
+          {
+            "level": 3,
+            "title": "冒泡排序",
+            "slug": "冒泡排序",
+            "link": "#冒泡排序",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "快排",
+            "slug": "快排",
+            "link": "#快排",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "直接插入排序",
+            "slug": "直接插入排序",
+            "link": "#直接插入排序",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "选择排序（堆排序）",
+            "slug": "选择排序-堆排序",
+            "link": "#选择排序-堆排序",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "基数排序",
+            "slug": "基数排序",
+            "link": "#基数排序",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "归并排序",
+            "slug": "归并排序",
+            "link": "#归并排序",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "希尔排序",
+            "slug": "希尔排序",
+            "link": "#希尔排序",
+            "children": []
+          }
+        ]
       }
     ],
-    "path": "/Problems/JavaScript/js%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "埋点",
-    "headers": [
-      {
-        "level": 2,
-        "title": "初始化项目",
-        "slug": "初始化项目",
-        "link": "#初始化项目",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "生成.d.ts文件",
-        "slug": "生成-d-ts文件",
-        "link": "#生成-d-ts文件",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "代码展示",
-        "slug": "代码展示",
-        "link": "#代码展示",
-        "children": []
-      }
-    ],
-    "path": "/Problems/JavaScript/%E5%9F%8B%E7%82%B9.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "pm2",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.问题描述",
-        "slug": "_1-问题描述",
-        "link": "#_1-问题描述",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Node/pm2.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "项目中得到的问题",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.埋点API多平台调用",
-        "slug": "_1-埋点api多平台调用",
-        "link": "#_1-埋点api多平台调用",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.高度自动过度",
-        "slug": "_2-高度自动过度",
-        "link": "#_2-高度自动过度",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Project/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BE%97%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "服务器",
-    "headers": [
-      {
-        "level": 2,
-        "title": "服务器搭建流程",
-        "slug": "服务器搭建流程",
-        "link": "#服务器搭建流程",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "浏览器报错",
-        "slug": "浏览器报错",
-        "link": "#浏览器报错",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Server/%E6%9C%8D%E5%8A%A1%E5%99%A8.html",
+    "path": "/Notes/Algorithms/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -687,8 +634,44 @@ export const searchIndex = [
             "slug": "三数之和",
             "link": "#三数之和",
             "children": []
+          },
+          {
+            "level": 3,
+            "title": "无重复字符的最长子串",
+            "slug": "无重复字符的最长子串",
+            "link": "#无重复字符的最长子串",
+            "children": []
           }
         ]
+      },
+      {
+        "level": 2,
+        "title": "算法技巧",
+        "slug": "算法技巧",
+        "link": "#算法技巧",
+        "children": [
+          {
+            "level": 3,
+            "title": "数组前缀和和差分",
+            "slug": "数组前缀和和差分",
+            "link": "#数组前缀和和差分",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "回溯算法",
+            "slug": "回溯算法",
+            "link": "#回溯算法",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "美团笔试题",
+        "slug": "美团笔试题",
+        "link": "#美团笔试题",
+        "children": []
       }
     ],
     "path": "/Notes/Algorithms/%E7%AE%97%E6%B3%95.html",
@@ -792,35 +775,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "英语单词",
-    "headers": [
-      {
-        "level": 2,
-        "title": "A",
-        "slug": "a",
-        "link": "#a",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "高平词汇和词组",
-        "slug": "高平词汇和词组",
-        "link": "#高平词汇和词组",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "特色词汇",
-        "slug": "特色词汇",
-        "link": "#特色词汇",
-        "children": []
-      }
-    ],
-    "path": "/Notes/English/%E8%8B%B1%E8%AF%AD%E5%8D%95%E8%AF%8D.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "docker基础知识",
     "headers": [
       {
@@ -867,6 +821,35 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/Docker/docker%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "英语单词",
+    "headers": [
+      {
+        "level": 2,
+        "title": "A",
+        "slug": "a",
+        "link": "#a",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "高平词汇和词组",
+        "slug": "高平词汇和词组",
+        "link": "#高平词汇和词组",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "特色词汇",
+        "slug": "特色词汇",
+        "link": "#特色词汇",
+        "children": []
+      }
+    ],
+    "path": "/Notes/English/%E8%8B%B1%E8%AF%AD%E5%8D%95%E8%AF%8D.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -1552,28 +1535,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "小程序架构",
-    "headers": [
-      {
-        "level": 2,
-        "title": "前置知识",
-        "slug": "前置知识",
-        "link": "#前置知识",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.执行环境",
-        "slug": "_2-执行环境",
-        "link": "#_2-执行环境",
-        "children": []
-      }
-    ],
-    "path": "/Notes/FrontEndEngineering/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%9E%B6%E6%9E%84.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "微前端",
     "headers": [
       {
@@ -1621,6 +1582,121 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/FrontEndEngineering/%E5%BE%AE%E5%89%8D%E7%AB%AF.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "跨端开发",
+    "headers": [
+      {
+        "level": 2,
+        "title": "Webview",
+        "slug": "webview",
+        "link": "#webview",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.1小程序的架构",
+            "slug": "_1-1小程序的架构",
+            "link": "#_1-1小程序的架构",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.2小程序逻辑层",
+            "slug": "_1-2小程序逻辑层",
+            "link": "#_1-2小程序逻辑层",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.3小程序渲染层",
+            "slug": "_1-3小程序渲染层",
+            "link": "#_1-3小程序渲染层",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.1渲染层和逻辑层的通信JSBridge",
+            "slug": "_2-1渲染层和逻辑层的通信jsbridge",
+            "link": "#_2-1渲染层和逻辑层的通信jsbridge",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.2通信url scheme拦截",
+            "slug": "_2-2通信url-scheme拦截",
+            "link": "#_2-2通信url-scheme拦截",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.3Native调用JS方法",
+            "slug": "_2-3native调用js方法",
+            "link": "#_2-3native调用js方法",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.4小程序的通信",
+            "slug": "_1-4小程序的通信",
+            "link": "#_1-4小程序的通信",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.5小程序的编译",
+            "slug": "_1-5小程序的编译",
+            "link": "#_1-5小程序的编译",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.6小程序基础库",
+            "slug": "_1-6小程序基础库",
+            "link": "#_1-6小程序基础库",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.1 webview的本质",
+            "slug": "_3-1-webview的本质",
+            "link": "#_3-1-webview的本质",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.2webview的优/缺点",
+            "slug": "_3-2webview的优-缺点",
+            "link": "#_3-2webview的优-缺点",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.3Native原生渲染",
+            "slug": "_3-3native原生渲染",
+            "link": "#_3-3native原生渲染",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "RN",
+        "slug": "rn",
+        "link": "#rn",
+        "children": [
+          {
+            "level": 3,
+            "title": "RN应用的引擎",
+            "slug": "rn应用的引擎",
+            "link": "#rn应用的引擎",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Notes/FrontEndEngineering/%E8%B7%A8%E7%AB%AF%E5%BC%80%E5%8F%91.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -1848,6 +1924,259 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/Git/Git%E5%9F%BA%E7%A1%80.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "golang",
+    "headers": [
+      {
+        "level": 2,
+        "title": "变量作用域",
+        "slug": "变量作用域",
+        "link": "#变量作用域",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "类型断言",
+        "slug": "类型断言",
+        "link": "#类型断言",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "错误处理",
+        "slug": "错误处理",
+        "link": "#错误处理",
+        "children": [
+          {
+            "level": 3,
+            "title": "自定义错误",
+            "slug": "自定义错误",
+            "link": "#自定义错误",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "流程控制的细节",
+        "slug": "流程控制的细节",
+        "link": "#流程控制的细节",
+        "children": [
+          {
+            "level": 3,
+            "title": "switch",
+            "slug": "switch",
+            "link": "#switch",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "函数",
+        "slug": "函数",
+        "link": "#函数",
+        "children": [
+          {
+            "level": 3,
+            "title": "init函数",
+            "slug": "init函数",
+            "link": "#init函数",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "defer关键字",
+            "slug": "defer关键字",
+            "link": "#defer关键字",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "打印操作",
+        "slug": "打印操作",
+        "link": "#打印操作",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "new和make的区别",
+        "slug": "new和make的区别",
+        "link": "#new和make的区别",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "结构体",
+        "slug": "结构体",
+        "link": "#结构体",
+        "children": [
+          {
+            "level": 3,
+            "title": "定义结构体方法",
+            "slug": "定义结构体方法",
+            "link": "#定义结构体方法",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "结构体的实例化",
+            "slug": "结构体的实例化",
+            "link": "#结构体的实例化",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "结构体的初始化",
+            "slug": "结构体的初始化",
+            "link": "#结构体的初始化",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "结构体标签（Tag）",
+            "slug": "结构体标签-tag",
+            "link": "#结构体标签-tag",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "JSON操作",
+        "slug": "json操作",
+        "link": "#json操作",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "日期操作",
+        "slug": "日期操作",
+        "link": "#日期操作",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "切片",
+        "slug": "切片",
+        "link": "#切片",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "文件操作",
+        "slug": "文件操作",
+        "link": "#文件操作",
+        "children": [
+          {
+            "level": 3,
+            "title": "文件、目录是否存在",
+            "slug": "文件、目录是否存在",
+            "link": "#文件、目录是否存在",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "关于cap",
+            "slug": "关于cap",
+            "link": "#关于cap",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "Go并发编程",
+        "slug": "go并发编程",
+        "link": "#go并发编程",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.1协程之间通信Channel",
+            "slug": "_1-1协程之间通信channel",
+            "link": "#_1-1协程之间通信channel",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.2通道-通信共享内存",
+            "slug": "_1-2通道-通信共享内存",
+            "link": "#_1-2通道-通信共享内存",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.3通信-共享内存",
+            "slug": "_1-3通信-共享内存",
+            "link": "#_1-3通信-共享内存",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "依赖管理",
+        "slug": "依赖管理",
+        "link": "#依赖管理",
+        "children": [
+          {
+            "level": 3,
+            "title": "GOPATH",
+            "slug": "gopath",
+            "link": "#gopath",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "Go Vendor",
+            "slug": "go-vendor",
+            "link": "#go-vendor",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "Go Module",
+            "slug": "go-module",
+            "link": "#go-module",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "依赖分发Proxy",
+            "slug": "依赖分发proxy",
+            "link": "#依赖分发proxy",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "反射",
+        "slug": "反射",
+        "link": "#反射",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "go项目初始化",
+        "slug": "go项目初始化",
+        "link": "#go项目初始化",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "Redis",
+        "slug": "redis",
+        "link": "#redis",
+        "children": []
+      }
+    ],
+    "path": "/Notes/Golang/golang.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -2260,139 +2589,31 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "linux常用指令",
+    "title": "性能优化",
     "headers": [
       {
         "level": 2,
-        "title": "文件相关命令",
-        "slug": "文件相关命令",
-        "link": "#文件相关命令",
-        "children": [
-          {
-            "level": 3,
-            "title": "切换目录、",
-            "slug": "切换目录、",
-            "link": "#切换目录、",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "查看目录",
-            "slug": "查看目录",
-            "link": "#查看目录",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "创建目录",
-            "slug": "创建目录",
-            "link": "#创建目录",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "删除文件/目录",
-            "slug": "删除文件-目录",
-            "link": "#删除文件-目录",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "移动文件/重命名",
-            "slug": "移动文件-重命名",
-            "link": "#移动文件-重命名",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "复制文件",
-            "slug": "复制文件",
-            "link": "#复制文件",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "cat命令",
-            "slug": "cat命令",
-            "link": "#cat命令",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "查找文件",
-            "slug": "查找文件",
-            "link": "#查找文件",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "解压和压缩",
-            "slug": "解压和压缩",
-            "link": "#解压和压缩",
-            "children": []
-          }
-        ]
+        "title": "1.如何提升首屏加载速度",
+        "slug": "_1-如何提升首屏加载速度",
+        "link": "#_1-如何提升首屏加载速度",
+        "children": []
       },
       {
         "level": 2,
-        "title": "进程相关命令",
-        "slug": "进程相关命令",
-        "link": "#进程相关命令",
-        "children": [
-          {
-            "level": 3,
-            "title": "查看进程状态",
-            "slug": "查看进程状态",
-            "link": "#查看进程状态",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "杀进程",
-            "slug": "杀进程",
-            "link": "#杀进程",
-            "children": []
-          }
-        ]
+        "title": "2.图片性能优化",
+        "slug": "_2-图片性能优化",
+        "link": "#_2-图片性能优化",
+        "children": []
       },
       {
         "level": 2,
-        "title": "网络操作",
-        "slug": "网络操作",
-        "link": "#网络操作",
-        "children": [
-          {
-            "level": 3,
-            "title": "ping：测试与另一台主机的网络连接。",
-            "slug": "ping-测试与另一台主机的网络连接。",
-            "link": "#ping-测试与另一台主机的网络连接。",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "ssh：远程登录到另一台主机。",
-            "slug": "ssh-远程登录到另一台主机。",
-            "link": "#ssh-远程登录到另一台主机。",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "wget 或 curl：下载网络资源。",
-            "slug": "wget-或-curl-下载网络资源。",
-            "link": "#wget-或-curl-下载网络资源。",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "scp：远程复制文件。",
-            "slug": "scp-远程复制文件。",
-            "link": "#scp-远程复制文件。",
-            "children": []
-          }
-        ]
+        "title": "3.核心Web指标",
+        "slug": "_3-核心web指标",
+        "link": "#_3-核心web指标",
+        "children": []
       }
     ],
-    "path": "/Notes/Linux/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4.html",
+    "path": "/Notes/Optimize/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -2742,6 +2963,367 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "sequelize",
+    "headers": [
+      {
+        "level": 2,
+        "title": "安装",
+        "slug": "安装",
+        "link": "#安装",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "连接数据库",
+        "slug": "连接数据库",
+        "link": "#连接数据库",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "数据类型",
+        "slug": "数据类型",
+        "link": "#数据类型",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "模型定义",
+        "slug": "模型定义",
+        "link": "#模型定义",
+        "children": [
+          {
+            "level": 3,
+            "title": "模型的创建",
+            "slug": "模型的创建",
+            "link": "#模型的创建",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "创建模型属性参数",
+            "slug": "创建模型属性参数",
+            "link": "#创建模型属性参数",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "创建模型的options参数",
+            "slug": "创建模型的options参数",
+            "link": "#创建模型的options参数",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "模型同步",
+            "slug": "模型同步",
+            "link": "#模型同步",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "模型删除",
+            "slug": "模型删除",
+            "link": "#模型删除",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "安全检查",
+            "slug": "安全检查",
+            "link": "#安全检查",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "属性设置",
+            "slug": "属性设置",
+            "link": "#属性设置",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Notes/Node/sequelize.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "linux常用指令",
+    "headers": [
+      {
+        "level": 2,
+        "title": "文件相关命令",
+        "slug": "文件相关命令",
+        "link": "#文件相关命令",
+        "children": [
+          {
+            "level": 3,
+            "title": "切换目录、",
+            "slug": "切换目录、",
+            "link": "#切换目录、",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "查看目录",
+            "slug": "查看目录",
+            "link": "#查看目录",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "创建目录",
+            "slug": "创建目录",
+            "link": "#创建目录",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "删除文件/目录",
+            "slug": "删除文件-目录",
+            "link": "#删除文件-目录",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "移动文件/重命名",
+            "slug": "移动文件-重命名",
+            "link": "#移动文件-重命名",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "复制文件",
+            "slug": "复制文件",
+            "link": "#复制文件",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "cat命令",
+            "slug": "cat命令",
+            "link": "#cat命令",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "查找文件",
+            "slug": "查找文件",
+            "link": "#查找文件",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "解压和压缩",
+            "slug": "解压和压缩",
+            "link": "#解压和压缩",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "进程相关命令",
+        "slug": "进程相关命令",
+        "link": "#进程相关命令",
+        "children": [
+          {
+            "level": 3,
+            "title": "查看进程状态",
+            "slug": "查看进程状态",
+            "link": "#查看进程状态",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "杀进程",
+            "slug": "杀进程",
+            "link": "#杀进程",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "网络操作",
+        "slug": "网络操作",
+        "link": "#网络操作",
+        "children": [
+          {
+            "level": 3,
+            "title": "ping：测试与另一台主机的网络连接。",
+            "slug": "ping-测试与另一台主机的网络连接。",
+            "link": "#ping-测试与另一台主机的网络连接。",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "ssh：远程登录到另一台主机。",
+            "slug": "ssh-远程登录到另一台主机。",
+            "link": "#ssh-远程登录到另一台主机。",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "wget 或 curl：下载网络资源。",
+            "slug": "wget-或-curl-下载网络资源。",
+            "link": "#wget-或-curl-下载网络资源。",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "scp：远程复制文件。",
+            "slug": "scp-远程复制文件。",
+            "link": "#scp-远程复制文件。",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Notes/Linux/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "shell脚本",
+    "headers": [
+      {
+        "level": 2,
+        "title": "变量",
+        "slug": "变量",
+        "link": "#变量",
+        "children": [
+          {
+            "level": 3,
+            "title": "变量的声明",
+            "slug": "变量的声明",
+            "link": "#变量的声明",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "变量的类型",
+            "slug": "变量的类型",
+            "link": "#变量的类型",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "数组",
+            "slug": "数组",
+            "link": "#数组",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "运算符",
+        "slug": "运算符",
+        "link": "#运算符",
+        "children": [
+          {
+            "level": 3,
+            "title": "算术运算符",
+            "slug": "算术运算符",
+            "link": "#算术运算符",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "关系运算符",
+            "slug": "关系运算符",
+            "link": "#关系运算符",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "布尔运算符",
+            "slug": "布尔运算符",
+            "link": "#布尔运算符",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "逻辑运算符",
+            "slug": "逻辑运算符",
+            "link": "#逻辑运算符",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "字符串运算符",
+            "slug": "字符串运算符",
+            "link": "#字符串运算符",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "文件运算符",
+            "slug": "文件运算符",
+            "link": "#文件运算符",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "流程控制",
+        "slug": "流程控制",
+        "link": "#流程控制",
+        "children": [
+          {
+            "level": 3,
+            "title": "条件判断",
+            "slug": "条件判断",
+            "link": "#条件判断",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "循环",
+            "slug": "循环",
+            "link": "#循环",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "函数",
+        "slug": "函数",
+        "link": "#函数",
+        "children": [
+          {
+            "level": 3,
+            "title": "函数参数",
+            "slug": "函数参数",
+            "link": "#函数参数",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "模块化",
+        "slug": "模块化",
+        "link": "#模块化",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "Shell脚本参数",
+        "slug": "shell脚本参数",
+        "link": "#shell脚本参数",
+        "children": []
+      }
+    ],
+    "path": "/Notes/Linux/shell%E8%84%9A%E6%9C%AC.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "diff",
     "headers": [],
     "path": "/Notes/React/diff.html",
@@ -2823,16 +3405,16 @@ export const searchIndex = [
         "children": [
           {
             "level": 3,
-            "title": "使用方式",
-            "slug": "使用方式",
-            "link": "#使用方式",
+            "title": "Redux基本使用",
+            "slug": "redux基本使用",
+            "link": "#redux基本使用",
             "children": []
           },
           {
             "level": 3,
-            "title": "异步代码",
-            "slug": "异步代码",
-            "link": "#异步代码",
+            "title": "Redux-Toolkit",
+            "slug": "redux-toolkit",
+            "link": "#redux-toolkit",
             "children": []
           }
         ]
@@ -2842,7 +3424,15 @@ export const searchIndex = [
         "title": "Mobx",
         "slug": "mobx",
         "link": "#mobx",
-        "children": []
+        "children": [
+          {
+            "level": 3,
+            "title": "基本使用",
+            "slug": "基本使用",
+            "link": "#基本使用",
+            "children": []
+          }
+        ]
       },
       {
         "level": 2,
@@ -2999,31 +3589,82 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "性能优化",
+    "title": "正则表达式",
     "headers": [
       {
         "level": 2,
-        "title": "1.如何提升首屏加载速度",
-        "slug": "_1-如何提升首屏加载速度",
-        "link": "#_1-如何提升首屏加载速度",
-        "children": []
+        "title": "基础",
+        "slug": "基础",
+        "link": "#基础",
+        "children": [
+          {
+            "level": 3,
+            "title": "元字符",
+            "slug": "元字符",
+            "link": "#元字符",
+            "children": []
+          }
+        ]
       },
       {
         "level": 2,
-        "title": "2.图片性能优化",
-        "slug": "_2-图片性能优化",
-        "link": "#_2-图片性能优化",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.核心Web指标",
-        "slug": "_3-核心web指标",
-        "link": "#_3-核心web指标",
-        "children": []
+        "title": "正则高级部分",
+        "slug": "正则高级部分",
+        "link": "#正则高级部分",
+        "children": [
+          {
+            "level": 3,
+            "title": "$1… $n匹配分组（原子组）",
+            "slug": "_1-n匹配分组-原子组",
+            "link": "#_1-n匹配分组-原子组",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "原子组别名",
+            "slug": "原子组别名",
+            "link": "#原子组别名",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "不记录原子",
+            "slug": "不记录原子",
+            "link": "#不记录原子",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "正向肯定预查",
+            "slug": "正向肯定预查",
+            "link": "#正向肯定预查",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "正向否定预查",
+            "slug": "正向否定预查",
+            "link": "#正向否定预查",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "反向肯定预查",
+            "slug": "反向肯定预查",
+            "link": "#反向肯定预查",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "反向否定预查",
+            "slug": "反向否定预查",
+            "link": "#反向否定预查",
+            "children": []
+          }
+        ]
       }
     ],
-    "path": "/Notes/Optimize/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html",
+    "path": "/Notes/Reg/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -3144,6 +3785,49 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "Nginx",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.常用命令",
+        "slug": "_1-常用命令",
+        "link": "#_1-常用命令",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.nginx的配置文件",
+        "slug": "_2-nginx的配置文件",
+        "link": "#_2-nginx的配置文件",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.反向代理",
+        "slug": "_3-反向代理",
+        "link": "#_3-反向代理",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "4.history路由404",
+        "slug": "_4-history路由404",
+        "link": "#_4-history路由404",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "5.负载均衡",
+        "slug": "_5-负载均衡",
+        "link": "#_5-负载均衡",
+        "children": []
+      }
+    ],
+    "path": "/Notes/Server/Nginx.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "TypeScript内置类型",
     "headers": [],
     "path": "/Notes/TypeScript/grammar.html",
@@ -3190,49 +3874,6 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/TypeScript/%E7%B1%BB%E5%9E%8B%E4%BD%93%E6%93%8D.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "Nginx",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.常用命令",
-        "slug": "_1-常用命令",
-        "link": "#_1-常用命令",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.nginx的配置文件",
-        "slug": "_2-nginx的配置文件",
-        "link": "#_2-nginx的配置文件",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.反向代理",
-        "slug": "_3-反向代理",
-        "link": "#_3-反向代理",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "4.history路由404",
-        "slug": "_4-history路由404",
-        "link": "#_4-history路由404",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "5.负载均衡",
-        "slug": "_5-负载均衡",
-        "link": "#_5-负载均衡",
-        "children": []
-      }
-    ],
-    "path": "/Notes/Server/Nginx.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -3754,6 +4395,297 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "Web3",
+    "headers": [
+      {
+        "level": 2,
+        "title": "以太网虚拟机 EVM",
+        "slug": "以太网虚拟机-evm",
+        "link": "#以太网虚拟机-evm",
+        "children": [
+          {
+            "level": 3,
+            "title": "账户",
+            "slug": "账户",
+            "link": "#账户",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "交易",
+            "slug": "交易",
+            "link": "#交易",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "Gas",
+            "slug": "gas",
+            "link": "#gas",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "存储，内存和栈",
+            "slug": "存储-内存和栈",
+            "link": "#存储-内存和栈",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "消息调用",
+            "slug": "消息调用",
+            "link": "#消息调用",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "失效和自毁",
+            "slug": "失效和自毁",
+            "link": "#失效和自毁",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "以太坊Ethereum",
+        "slug": "以太坊ethereum",
+        "link": "#以太坊ethereum",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "Solidity",
+        "slug": "solidity",
+        "link": "#solidity",
+        "children": [
+          {
+            "level": 3,
+            "title": "Solidity编译器",
+            "slug": "solidity编译器",
+            "link": "#solidity编译器",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "关键字",
+            "slug": "关键字",
+            "link": "#关键字",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "模块化",
+            "slug": "模块化",
+            "link": "#模块化",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "合约结构",
+            "slug": "合约结构",
+            "link": "#合约结构",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Notes/Web3/Web3.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "CSS相关问题",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.多行文本溢出",
+        "slug": "_1-多行文本溢出",
+        "link": "#_1-多行文本溢出",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.移动端适配解决方案",
+        "slug": "_2-移动端适配解决方案",
+        "link": "#_2-移动端适配解决方案",
+        "children": [
+          {
+            "level": 3,
+            "title": "rem",
+            "slug": "rem",
+            "link": "#rem",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "viewport",
+            "slug": "viewport",
+            "link": "#viewport",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Problems/Css/CSS%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "js中遇到的问题",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.字符串表情问题",
+        "slug": "_1-字符串表情问题",
+        "link": "#_1-字符串表情问题",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.如何记录用户信息-canvas",
+        "slug": "_2-如何记录用户信息-canvas",
+        "link": "#_2-如何记录用户信息-canvas",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.Ajax和fetch取消请求的方式",
+        "slug": "_3-ajax和fetch取消请求的方式",
+        "link": "#_3-ajax和fetch取消请求的方式",
+        "children": [
+          {
+            "level": 3,
+            "title": "3.1、fetch取消",
+            "slug": "_3-1、fetch取消",
+            "link": "#_3-1、fetch取消",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.2、Ajax取消",
+            "slug": "_3-2、ajax取消",
+            "link": "#_3-2、ajax取消",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "4、页面更新自动刷新页面",
+        "slug": "_4、页面更新自动刷新页面",
+        "link": "#_4、页面更新自动刷新页面",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "5.用户输入法按enter会触发提交事件",
+        "slug": "_5-用户输入法按enter会触发提交事件",
+        "link": "#_5-用户输入法按enter会触发提交事件",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "Vuepress展示数学公式",
+        "slug": "vuepress展示数学公式",
+        "link": "#vuepress展示数学公式",
+        "children": []
+      }
+    ],
+    "path": "/Problems/JavaScript/js%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "埋点",
+    "headers": [
+      {
+        "level": 2,
+        "title": "初始化项目",
+        "slug": "初始化项目",
+        "link": "#初始化项目",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "生成.d.ts文件",
+        "slug": "生成-d-ts文件",
+        "link": "#生成-d-ts文件",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "代码展示",
+        "slug": "代码展示",
+        "link": "#代码展示",
+        "children": []
+      }
+    ],
+    "path": "/Problems/JavaScript/%E5%9F%8B%E7%82%B9.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "pm2",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.问题描述",
+        "slug": "_1-问题描述",
+        "link": "#_1-问题描述",
+        "children": []
+      }
+    ],
+    "path": "/Problems/Node/pm2.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "项目中得到的问题",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.埋点API多平台调用",
+        "slug": "_1-埋点api多平台调用",
+        "link": "#_1-埋点api多平台调用",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.高度自动过度",
+        "slug": "_2-高度自动过度",
+        "link": "#_2-高度自动过度",
+        "children": []
+      }
+    ],
+    "path": "/Problems/Project/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BE%97%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "服务器",
+    "headers": [
+      {
+        "level": 2,
+        "title": "服务器搭建流程",
+        "slug": "服务器搭建流程",
+        "link": "#服务器搭建流程",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "浏览器报错",
+        "slug": "浏览器报错",
+        "link": "#浏览器报错",
+        "children": []
+      }
+    ],
+    "path": "/Problems/Server/%E6%9C%8D%E5%8A%A1%E5%99%A8.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "好用的依赖工具包",
     "headers": [
       {
@@ -3848,3 +4780,16 @@ export const searchIndex = [
     "extraFields": []
   }
 ]
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updateSearchIndex) {
+    __VUE_HMR_RUNTIME__.updateSearchIndex(searchIndex)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ searchIndex }) => {
+    __VUE_HMR_RUNTIME__.updateSearchIndex(searchIndex)
+  })
+}

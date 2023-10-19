@@ -61,8 +61,9 @@ const create_sidebar_md = (lib_array: Array<Array<string>>, dir_name: string) =>
                     fs.appendFile(file, framatterString, (err) => {
                         if (err) throw err;
                         console.log('The "data to append" was appended to file!');
+                        exec_typora(file)
                     });
-                    exec_typora(file)
+
                 } catch (error) {
                     console.log(error)
                 }
@@ -77,7 +78,6 @@ const create_sidebar_md = (lib_array: Array<Array<string>>, dir_name: string) =>
                 children: lib.map(v => intergrate_dir_name + v)
             }
         ]
-        // console.log(sidebar_obj);
         return sidebar_obj
     })
     return sidebar

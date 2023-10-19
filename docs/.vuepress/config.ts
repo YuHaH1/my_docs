@@ -3,7 +3,7 @@ import { searchPlugin } from '@vuepress/plugin-search'
 import theme from './theme.config'
 import path from 'path'
 import { commentPlugin } from "vuepress-plugin-comment2";
-
+import katex from 'markdown-it-katex'
 export default defineUserConfig({
     lang: 'zh-CN',
     title: 'fancy——Blog',
@@ -12,7 +12,9 @@ export default defineUserConfig({
         // 设置 favor.ico，.vuepress/public 下
         [
             'link', { rel: 'icon', href: '/hero.jpg' }
-        ]
+        ],
+        ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css' }],
+        ['link', { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" }]
     ],
     public: `${path.resolve(__dirname, './public')}`,
     plugins: [
@@ -37,5 +39,9 @@ export default defineUserConfig({
             },
         }),
 
-    ]
+    ],
+    extendsMarkdown(md) {
+        md.set({ html: true });
+        md.use(katex);
+    },
 })
