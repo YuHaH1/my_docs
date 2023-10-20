@@ -1,14 +1,16 @@
 <template>
-    <div class="container">
-        最近浏览记录<span class="arrow down"></span>
-        <div class="rencent-content-container">
-            <div class="rencent-content" v-for="item in storageInfo">
-                <div :class="['content', hightLight(item)]" @click="gotoLastRead(item)">
-                    {{ item.title }}
+    <ClientOnly>
+        <div class="container">
+            最近浏览记录<span class="arrow down"></span>
+            <div class="rencent-content-container">
+                <div class="rencent-content" v-for="item in storageInfo">
+                    <div :class="['content', hightLight(item)]" @click="gotoLastRead(item)">
+                        {{ item.title }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </ClientOnly>
 </template>
 <script lang="ts">
 export default {
@@ -17,16 +19,13 @@ export default {
 </script>
 <script setup lang="ts">
 import {useRouteLocale} from '@vuepress/client';
-import {computed, defineComponent, h, ref, toRefs} from 'vue';
+import {computed} from 'vue';
 import {useRouter} from 'vue-router';
 import useLastRead from './composables/useLRU';
 const router = useRouter();
 const routeLocale = useRouteLocale();
-
-const {storageInfo, gotoLastRead} = useLastRead(router, routeLocale);
-const hightLight = item => {
-    return computed(() => (item.currentPath === router.currentRoute.value.fullPath ? 'high-light' : '')).value;
-};
+console.log(routeLocale);
+const {storageInfo, gotoLastRead, hightLight} = useLastRead(router);
 </script>
 
 <style lang="scss" scoped>
@@ -78,7 +77,7 @@ const hightLight = item => {
             }
             flex-direction: column;
             background-color: #f2f2f2;
-            border-bottom: 1px solid #6fcf97;
+            border-bottom: 1px solid #d9d9d9;
             &:hover {
                 background-color: #d9d9d9;
             }

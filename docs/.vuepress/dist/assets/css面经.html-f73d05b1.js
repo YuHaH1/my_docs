@@ -1,0 +1,7 @@
+import{_ as n,M as a,p as e,q as i,N as t,a1 as c}from"./framework-a97ca956.js";const o={},p=c(`<h1 id="css面经" tabindex="-1"><a class="header-anchor" href="#css面经" aria-hidden="true">#</a> css面经</h1><h2 id="_1-隐藏元素的方法" tabindex="-1"><a class="header-anchor" href="#_1-隐藏元素的方法" aria-hidden="true">#</a> 1.隐藏元素的方法</h2><div class="language-css line-numbers-mode" data-ext="css"><pre class="language-css"><code><span class="token punctuation">{</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span>
+    <span class="token property">visibility</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+    <span class="token property">display</span><span class="token punctuation">:</span>none<span class="token punctuation">;</span>
+    transform移出视口
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>opacity和visibility都只是隐藏元素，元素依旧占位；<strong>1.visibility隐藏的元素仍能够响应点击事件，而opacity的元素无法响应鼠标事件。2.Opacity属性可以被子元素继承，而Visibility属性不会被子元素继承。</strong></p><p>display元素已经不占位了</p>`,5);function l(r,d){const s=a("CommentService");return e(),i("div",null,[p,t(s)])}const v=n(o,[["render",l],["__file","css面经.html.vue"]]);export{v as default};

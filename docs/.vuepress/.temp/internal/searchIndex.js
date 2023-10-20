@@ -28,6 +28,50 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "浏览器相关面经",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.如何解决跨域",
+        "slug": "_1-如何解决跨域",
+        "link": "#_1-如何解决跨域",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.JSONP",
+            "slug": "_1-jsonp",
+            "link": "#_1-jsonp",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.后端设置CORS",
+            "slug": "_2-后端设置cors",
+            "link": "#_2-后端设置cors",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.proxy代理",
+            "slug": "_3-proxy代理",
+            "link": "#_3-proxy代理",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "4.nginx代理",
+            "slug": "_4-nginx代理",
+            "link": "#_4-nginx代理",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Interview/Browser/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E9%9D%A2%E7%BB%8F.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "计算机网络",
     "headers": [
       {
@@ -308,46 +352,46 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "浏览器相关面经",
+    "title": "node面经",
     "headers": [
       {
         "level": 2,
-        "title": "1.如何解决跨域",
-        "slug": "_1-如何解决跨域",
-        "link": "#_1-如何解决跨域",
+        "title": "1.2、垃圾回收机制",
+        "slug": "_1-2、垃圾回收机制",
+        "link": "#_1-2、垃圾回收机制",
         "children": [
           {
             "level": 3,
-            "title": "1.JSONP",
-            "slug": "_1-jsonp",
-            "link": "#_1-jsonp",
+            "title": "1.2.1、内存分代",
+            "slug": "_1-2-1、内存分代",
+            "link": "#_1-2-1、内存分代",
             "children": []
           },
           {
             "level": 3,
-            "title": "2.后端设置CORS",
-            "slug": "_2-后端设置cors",
-            "link": "#_2-后端设置cors",
+            "title": "1.2.2、scavenge算法-针对于新生代",
+            "slug": "_1-2-2、scavenge算法-针对于新生代",
+            "link": "#_1-2-2、scavenge算法-针对于新生代",
             "children": []
           },
           {
             "level": 3,
-            "title": "3.proxy代理",
-            "slug": "_3-proxy代理",
-            "link": "#_3-proxy代理",
+            "title": "1.2.3、Mark-Sweep & Mark-Compact-针对于老生代",
+            "slug": "_1-2-3、mark-sweep-mark-compact-针对于老生代",
+            "link": "#_1-2-3、mark-sweep-mark-compact-针对于老生代",
             "children": []
           },
           {
             "level": 3,
-            "title": "4.nginx代理",
-            "slug": "_4-nginx代理",
-            "link": "#_4-nginx代理",
+            "title": "1.2.4、Incremental Marking-针对垃圾回收引起全停顿",
+            "slug": "_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
+            "link": "#_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
             "children": []
           }
         ]
       }
     ],
-    "path": "/Interview/Browser/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E9%9D%A2%E7%BB%8F.html",
+    "path": "/Interview/Node/node%E9%9D%A2%E7%BB%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -399,50 +443,6 @@ export const searchIndex = [
       }
     ],
     "path": "/Interview/OS/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "node面经",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.2、垃圾回收机制",
-        "slug": "_1-2、垃圾回收机制",
-        "link": "#_1-2、垃圾回收机制",
-        "children": [
-          {
-            "level": 3,
-            "title": "1.2.1、内存分代",
-            "slug": "_1-2-1、内存分代",
-            "link": "#_1-2-1、内存分代",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "1.2.2、scavenge算法-针对于新生代",
-            "slug": "_1-2-2、scavenge算法-针对于新生代",
-            "link": "#_1-2-2、scavenge算法-针对于新生代",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "1.2.3、Mark-Sweep & Mark-Compact-针对于老生代",
-            "slug": "_1-2-3、mark-sweep-mark-compact-针对于老生代",
-            "link": "#_1-2-3、mark-sweep-mark-compact-针对于老生代",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "1.2.4、Incremental Marking-针对垃圾回收引起全停顿",
-            "slug": "_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
-            "link": "#_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
-            "children": []
-          }
-        ]
-      }
-    ],
-    "path": "/Interview/Node/node%E9%9D%A2%E7%BB%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -745,21 +745,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "你不知道的css",
-    "headers": [
-      {
-        "level": 2,
-        "title": "文字不允许选中",
-        "slug": "文字不允许选中",
-        "link": "#文字不允许选中",
-        "children": []
-      }
-    ],
-    "path": "/Notes/Css/%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84css.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "canvas基础",
     "headers": [
       {
@@ -778,6 +763,21 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/Canvas/canvas%E5%9F%BA%E7%A1%80.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "你不知道的css",
+    "headers": [
+      {
+        "level": 2,
+        "title": "文字不允许选中",
+        "slug": "文字不允许选中",
+        "link": "#文字不允许选中",
+        "children": []
+      }
+    ],
+    "path": "/Notes/Css/%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84css.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -3302,35 +3302,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "性能优化",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.如何提升首屏加载速度",
-        "slug": "_1-如何提升首屏加载速度",
-        "link": "#_1-如何提升首屏加载速度",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.图片性能优化",
-        "slug": "_2-图片性能优化",
-        "link": "#_2-图片性能优化",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.核心Web指标",
-        "slug": "_3-核心web指标",
-        "link": "#_3-核心web指标",
-        "children": []
-      }
-    ],
-    "path": "/Notes/Optimize/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "diff",
     "headers": [],
     "path": "/Notes/React/diff.html",
@@ -3592,6 +3563,35 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/React/%E5%9F%BA%E7%A1%80.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "性能优化",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.如何提升首屏加载速度",
+        "slug": "_1-如何提升首屏加载速度",
+        "link": "#_1-如何提升首屏加载速度",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.图片性能优化",
+        "slug": "_2-图片性能优化",
+        "link": "#_2-图片性能优化",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.核心Web指标",
+        "slug": "_3-核心web指标",
+        "link": "#_3-核心web指标",
+        "children": []
+      }
+    ],
+    "path": "/Notes/Optimize/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -4844,16 +4844,3 @@ export const searchIndex = [
     "extraFields": []
   }
 ]
-
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept()
-  if (__VUE_HMR_RUNTIME__.updateSearchIndex) {
-    __VUE_HMR_RUNTIME__.updateSearchIndex(searchIndex)
-  }
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(({ searchIndex }) => {
-    __VUE_HMR_RUNTIME__.updateSearchIndex(searchIndex)
-  })
-}
