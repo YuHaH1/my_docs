@@ -39,6 +39,223 @@ btn<span class="token punctuation">.</span><span class="token function-variable 
     content<span class="token punctuation">.</span>style<span class="token punctuation">.</span>height <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
     content<span class="token punctuation">.</span>style<span class="token punctuation">.</span>transition <span class="token operator">=</span> <span class="token string">'.3s'</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_3-seo" tabindex="-1"><a class="header-anchor" href="#_3-seo" aria-hidden="true">#</a> 3.SEO</h2>
+<h3 id="预渲染" tabindex="-1"><a class="header-anchor" href="#预渲染" aria-hidden="true">#</a> 预渲染</h3>
+<p>Vue项目<code v-pre>@dreysolano/prerender-spa-plugin</code></p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token keyword">new</span> <span class="token class-name">PrerenderSPAPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+     <span class="token comment">// 生成文件的路径，要与webpakc打包输出的路径的一致。</span>
+     <span class="token comment">// 这个目录只能有一级，如果目录层次大于一级，在生成的时候不会有任何错误提示，在预渲染的时候会卡着不动。</span>
+     <span class="token literal-property property">staticDir</span><span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span><span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+     <span class="token comment">// 对应自己的路由文件，比如a有参数，就需要写成 /a/param1。</span>
+     <span class="token literal-property property">routes</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token string">'/product'</span><span class="token punctuation">,</span><span class="token string">'/about'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+     <span class="token comment">// 这个很重要，如果没有配置这段，也不会进行预编译</span>
+     <span class="token literal-property property">minify</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">minifyCSS</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">// css压缩</span>
+        <span class="token literal-property property">removeComments</span><span class="token operator">:</span> <span class="token boolean">true</span> <span class="token comment">// 移除注释</span>
+     <span class="token punctuation">}</span><span class="token punctuation">,</span>
+     <span class="token literal-property property">renderer</span><span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">Renderer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      	<span class="token comment">// __PRERENDER_INJECTED这个属性名会添加到window对象上，作为inject的内容</span>
+      	<span class="token literal-property property">injectProperty</span><span class="token operator">:</span> <span class="token string">'__PRERENDER_INJECTED'</span><span class="token punctuation">,</span>
+      	<span class="token literal-property property">inject</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+       		<span class="token literal-property property">foo</span><span class="token operator">:</span> <span class="token string">'bar'</span>
+      	<span class="token punctuation">}</span><span class="token punctuation">,</span>
+      	<span class="token literal-property property">headless</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><span class="token comment">//渲染时显示到浏览器窗口用于调试</span>
+      	<span class="token comment">// 在 main.js 中 document.dispatchEvent(new Event('custom-render-trigger'))，两者的事件名称要对应上。</span>
+      	<span class="token literal-property property">renderAfterDocumentEvent</span><span class="token operator">:</span> <span class="token string">'custom-render-trigger'</span><span class="token punctuation">,</span>
+      	<span class="token comment">//等到document.querSelector('my-app-element')检查到该元素开始渲染</span>
+      	<span class="token literal-property property">renderAfterElementExists</span><span class="token operator">:</span><span class="token string">'my-app-element'</span>
+     <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+   <span class="token punctuation">]</span><span class="token punctuation">,</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>原理，<code v-pre>prerender-spa-plugin</code> 利用了 <code v-pre>Puppeteer</code>的爬取页面的功能。 <code v-pre>Puppeteer</code> 是一个 <code v-pre>Chrome</code>官方出品的 <code v-pre>headlessChromenode</code> 库。它提供了一系列的 API, 可以在无 UI 的情况下调用 <code v-pre>Chrome</code> 的功能, 适用于爬虫、自动化处理等各种场景。它很强大，所以很简单就能将运行时的 <code v-pre>HTML</code> 打包到文件中。原理是在 <code v-pre>Webpack</code> 构建阶段的最后，在本地启动一个 <code v-pre>Puppeteer</code> 的服务，访问配置了预渲染的路由，预渲染插件会创建一个虚拟的浏览器环境，然后使用 Vue 的 <code v-pre>renderToString</code> 方法将组件渲染为字符串形式的 HTML,然后将 <code v-pre>Puppeteer</code> 中渲染的页面输出到 <code v-pre>HTML</code> 文件中，并建立路由对应的目录。使用预渲染的方式生成静态 HTML 文件后，你的应用在浏览器中加载时将不再是典型的单页面应用（SPA）。相反，每个路由路径都会有对应的独立的 HTML 文件。</p>
+<h3 id="meta标签配置" tabindex="-1"><a class="header-anchor" href="#meta标签配置" aria-hidden="true">#</a> META标签配置</h3>
+<p>meta标签的<code v-pre>属性</code>有两种：<code v-pre>name</code>和<code v-pre>http- equiv</code>。</p>
+<p><strong>&quot;name&quot;属性有以下配置项：</strong></p>
+<ul>
+<li>Keywords(关键词，现在不再重要了)：逗号分隔的关键词列表（告诉搜索引擎页面是与什么相关的）；</li>
+<li>description(网站内容描述，很重要)：页面描述。搜索引擎会把这个描述显示在搜索结果中；</li>
+<li>format-detection：格式检测，比如禁止识别电话，邮箱等；</li>
+<li>author：作者的名字；</li>
+<li>Robots：用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引；</li>
+<li>theme-color：网站主题色；</li>
+</ul>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string">"keywords"</span> content<span class="token operator">=</span><span class="token string">"掘金,稀土,Vue.js,前端面试题,Kotlin,ReactNative,Python"</span><span class="token operator">></span>
+
+<span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string">"description"</span> content<span class="token operator">=</span><span class="token string">"掘金是面向全球中文开发者的技术内容分享与交流平台。我们通过技术文章、沸点、课程、直播等产品和服务，打造一个激发开发者创作灵感，激励开发者沉淀分享，陪伴开发者成长的综合类技术社区。"</span><span class="token operator">></span>
+
+<span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string">"format-detection"</span> content<span class="token operator">=</span><span class="token string">"telephone=no"</span><span class="token operator">></span>
+
+<span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string">"author"</span> content<span class="token operator">=</span><span class="token string">"cece"</span><span class="token operator">></span>
+
+<span class="token operator">&lt;</span>Meta name<span class="token operator">=</span><span class="token string">"Robots"</span> Content<span class="token operator">=</span><span class="token string">"Nofollow"</span><span class="token operator">></span>
+<span class="token doc-comment comment">/** 
+all：文件将被检索，且页面上的链接可以被查询；  
+none：文件将不被检索，且页面上的链接不可以被查询；(和 "noindex, no follow" 起相同作用)  
+index：文件将被检索；（让robot/spider登录）  
+follow：页面上的链接可以被查询；  
+noindex：文件将不被检索，但页面上的链接可以被查询；(不让robot/spider登录)  
+nofollow：文件将不被检索，页面上的链接可以被查询。(不让robot/spider顺着此页的连接往下探找)
+*/</span>
+
+<span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string">"theme-color"</span> content<span class="token operator">=</span><span class="token string">"#4285f4"</span> <span class="token operator">/</span><span class="token operator">></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>（一） <code v-pre>keywords</code></p>
+<p>上面我们也提到了，现在 <code v-pre>keywords</code> 关键词已经被各大搜索引擎降低了权重，所以可以设置也可以不设置，但我认为它仍然有他存在的价值。</p>
+<p>如果你决定配置网站关键词，需要注意以下几点：</p>
+<ul>
+<li>keywords 关键词数量控制在1-4个左右，避免关键词堆砌；</li>
+<li>合理选择长尾关键词（长尾关键词一般是2-3个词组成。例如，目标关键词是服装，其长尾关键词可以是男士服装、冬装等），长尾关键词虽然相对核心关键词的搜索量小很多，但是它带来的流量精准度非常高，后期的转化效果更好；</li>
+<li>避免使用过于专业的词汇。过于专业的词汇的搜索量较低；</li>
+<li>减少使用热门关键词，要选择合适的关键词（搜索量大、转化率高、定位精准）。</li>
+</ul>
+<p>（二）<code v-pre>Description</code></p>
+<ul>
+<li><code v-pre>Description</code>（页面描述）的长度最好控制在120~200个字符；</li>
+<li><code v-pre>Description</code>要让用户知道将从页面中获得什么；</li>
+<li>在<code v-pre>Description</code>中合理使用行动号召（CTA）用语（例如“了解更多”、“立即获取”、“免费试用”等等……）；</li>
+<li><code v-pre>Description</code>应该包含页面的核心关键字；</li>
+<li>为每个页面创建独一无二的<code v-pre>Description</code>；</li>
+</ul>
+<p>HTML语义化</p>
+<h3 id="robots文件" tabindex="-1"><a class="header-anchor" href="#robots文件" aria-hidden="true">#</a> robots文件</h3>
+<p>蜘蛛在访问一个网站时，会首先会检查该网站的根域下是否有一个叫做 robots.txt的纯文本文件，这个文件用于指定spider在您网站上的抓取范围。</p>
+<p>如果你有哪些页面不想被蜘蛛访问，则可以通过robots文件告诉蜘蛛不想被搜索引擎收录的部分或者指定搜索引擎只收录特定的部分。</p>
+<p>robots文件内容语法：
+此文件主要由两种键值对组成：</p>
+<ol>
+<li><strong>User-agent:</strong>  该项的值用于描述搜索引擎蜘蛛的名字。如果该项的值设为*，则该协议对任何机器人均有效。</li>
+<li><strong>Disallow:</strong>  该项的值用于描述不希望被访问到的一个URL，一个目录或者整个网站。以Disallow 开头的URL 均不会被搜索引擎蜘蛛访问到。任何一条Disallow 记录为空，说明该网站的所有部分都允许被访问。</li>
+</ol>
+<p>掘金的robots.txt</p>
+<div class="language-txt line-numbers-mode" data-ext="txt"><pre v-pre class="language-txt"><code>User-agent: *
+
+Disallow: /subscribe/subscribed
+Disallow: /user/settings
+Disallow: /drafts
+Disallow: /news-drafts
+Disallow: /editor
+Disallow: /oauth-result
+Disallow: /search
+Disallow: /equation
+Disallow: /book/order
+Disallow: /books/payment
+Disallow: /appview
+Disallow: /creator
+Disallow: /notification
+Disallow: /translate
+Disallow: /zhuanlan
+Disallow: /spost
+
+Sitemap: https://juejin.cn/sitemap/posts/index.xml
+Sitemap: https://juejin.cn/sitemap/user/index.xml
+Sitemap: https://juejin.cn/sitemap/news/index.xml
+Sitemap: https://juejin.cn/sitemap/columns/index.xml
+Sitemap: https://juejin.cn/sitemap/tag/index.xml
+Sitemap: https://juejin.cn/sitemap/pin/index.xml
+Sitemap: https://juejin.cn/sitemap/collections/index.xml
+Sitemap: https://juejin.cn/sitemap/keywords/index.xml
+Sitemap: https://juejin.cn/sitemap/user_posts/index.xml
+Sitemap: https://juejin.cn/sitemap/user_pins/index.xml
+
+/*
+*网站目录下所有文件均能被所有搜索引擎蜘蛛访问*
+User-agent: *
+Disallow:
+
+*禁止所有搜索引擎蜘蛛访问网站的任何部分*
+User-agent: *
+Disallow: /
+
+*禁止所有的搜索引擎蜘蛛访问网站的几个目录*
+User-agent: *
+Disallow: /a/
+Disallow: /b/
+
+*只允许某个搜索引擎蜘蛛访问*
+User-agent: Googlebot
+Disallow: 
+*/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="sitemap站点地图" tabindex="-1"><a class="header-anchor" href="#sitemap站点地图" aria-hidden="true">#</a> sitemap站点地图</h3>
+<p>Sitemap，即站点地图，它是一个网站的全部URL列表，同时可以列出每个网址的其他元数据（上次更新的时间、更改的频率以及相对于网站上其他网址的重要程度为何等）。它可以为搜索引擎的蜘蛛进行导航，更快的找到全站中的所有链接，更全面的获取网站信息。为了保证链接的全面性和准确性，应该自动不定期更新sitemap站点地图。</p>
+<p>一般网站的sitemap文件都会有以下两种格式：</p>
+<p>sitemap.xml，这是大部分搜索引擎所使用的用于提交网站网址的XML文件；
+sitemap.html，这是可直接放在网站上用于用户访问或搜索引擎快速找到全站链接的页面（每页最多500条，自动分页）；</p>
+<p>sitemap.xml 文件内容格式大致如下：</p>
+<div class="language-xml line-numbers-mode" data-ext="xml"><pre v-pre class="language-xml"><code><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>urlset</span>
+        <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.sitemaps.org/schemas/sitemap/0.9<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.sitemaps.org/schemas/sitemap/0.9
+           http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd<span class="token punctuation">"</span></span>
+    <span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>url</span><span class="token punctuation">></span></span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>loc</span><span class="token punctuation">></span></span>https://www.cece.com/<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>loc</span><span class="token punctuation">></span></span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>priority</span><span class="token punctuation">></span></span>0.3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>priority</span><span class="token punctuation">></span></span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>lastmod</span><span class="token punctuation">></span></span>2023-05-17<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>lastmod</span><span class="token punctuation">></span></span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>changefreq</span><span class="token punctuation">></span></span>weekly<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>changefreq</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>url</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>urlset</span><span class="token punctuation">></span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>网上有很多生成sitemap文件的站长工具，例如：
+<a href="https://link.juejin.cn?target=https%3A%2F%2Fsitemap.zhetao.com%2F" target="_blank" rel="noopener noreferrer">sitemap.zhetao.com/<ExternalLinkIcon/></a>
+<a href="https://link.juejin.cn?target=http%3A%2F%2Ftools.bugscaner.com%2Fsitemapspider" target="_blank" rel="noopener noreferrer">tools.bugscaner.com/sitemapspid…<ExternalLinkIcon/></a></p>
+<p>生成的sitemap文件一般放在项目根目录下，然后可以在各个搜索引擎的站点平台提交sitemap.xml文件。</p>
+<h3 id="内链和外链" tabindex="-1"><a class="header-anchor" href="#内链和外链" aria-hidden="true">#</a> 内链和外链</h3>
+<p>尤其是外链的建设对权重影响大。 先来区分下网站内链和外链：</p>
+<p><strong>内链</strong>：从自己网站的一个页面指向另外一个页面。通过内链让网站内部形成网状结构，让蜘蛛的广度和深度达到最大化。</p>
+<p><strong>外链</strong>：在别的网站导入自己网站的链接。通过外链提升网站权重，提高网站流量。外链有以下几个好处：</p>
+<ul>
+<li>提升网站权重</li>
+<li>能够吸引蜘蛛来抓取网站</li>
+<li>提升关键词排名</li>
+<li>提升网址或品牌的曝光度</li>
+<li>给网站带来流量</li>
+</ul>
+<p>外链能够为我们的网站带来流量，所以外链数量越多越好是必然的。但是，<strong>一定要注意外链的质量</strong>，例如对方网站没有被搜索引擎收录，对方网站性能过差，死链等，这些低质量的外链反而会影响到本站的排名。</p>
+<p>另外，在添加内链外链的过程中，要注意在 a 标签中对 <code v-pre>nofollow</code> 和·<code v-pre>external</code> 属性的使用。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">//带有rel=nofollow 属性的链接会告诉搜索引擎忽略这个链接。阻止搜索引擎对该页面进行追踪。从而避免权重分散。这个属性只对搜索引擎有效，这是一个纯粹的SEO优化标签。</span>
+<span class="token comment">//使用场景：</span>
+	<span class="token comment">//屏蔽一些垃圾链接，比如网站上面评论里面的站外链接，论坛里面用户留下的链接等；</span>
+	<span class="token comment">//外链的内容与本站无关时，建议使用nofollow；</span>
+	<span class="token comment">//外链站点不稳定，性能较差时，建议使用nofollow；</span>
+	<span class="token comment">//友链一般作为网站交换链接，互惠互利，是不会设置nofollow的，所以在交换友链之前，一定要对对方的网站质量进行审核；</span>
+	<span class="token comment">//内部链接密度过大，页面重要性不高时，可以使用nofoolw，例如很多网站常有的“关于我们”页面，比如掘金的：</span>
+<span class="token operator">&lt;</span>a rel<span class="token operator">=</span><span class="token string">"nofollow"</span> href<span class="token operator">=</span><span class="token string">"http://www.baidu.com/"</span><span class="token operator">></span>百度<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span>
+
+external字面意思是“外部的”，a 标签加上这个属性代表这个链接是外部链接，非本站链接，点击时会在新窗口中打开，它和target<span class="token operator">=</span><span class="token string">"_blank"</span>效果一样。external 可以告诉搜索引擎这是一个外部链接，非本站的链接。
+<span class="token operator">&lt;</span>a rel<span class="token operator">=</span><span class="token string">"external"</span> href<span class="token operator">=</span><span class="token string">"http://www.baidu.com/"</span><span class="token operator">></span>百度<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="网址规范" tabindex="-1"><a class="header-anchor" href="#网址规范" aria-hidden="true">#</a> 网址规范</h3>
+<p>什么是网址规范？简单举个例子：
+<a href="https://juejin.cn" target="_blank" rel="noopener noreferrer">juejin.cn<ExternalLinkIcon/></a>
+<a href="https://www.juejin.cn" target="_blank" rel="noopener noreferrer">www.juejin.cn<ExternalLinkIcon/></a>
+<a href="https://www.juejin.cn/index.html" target="_blank" rel="noopener noreferrer">www.juejin.cn/index.html<ExternalLinkIcon/></a>
+这几个网址虽然url不同，搜索引擎也确实把他当作不同的网址，但是其实这些网址返回的都是同一个页面，这就是不规范网址。</p>
+<p><strong>网页规范化的两个好处：</strong></p>
+<ul>
+<li>解决网站由于网站url链接不一样，但网页内容是一样而造成搜索引擎重复收录的问题；</li>
+<li>有利于URL权重集中。</li>
+</ul>
+<p><strong>解决方法：</strong>
+在页面的<code v-pre>head</code> 标签中，加入以下canonical标签，指定规范化网址。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>bash复制代码<span class="token operator">&lt;</span>head<span class="token operator">></span>
+  <span class="token operator">&lt;</span>link <span class="token assign-left variable">rel</span><span class="token operator">=</span><span class="token string">"canonical"</span> <span class="token assign-left variable">href</span><span class="token operator">=</span><span class="token string">"href="</span>https://juejin.cn"/<span class="token operator">></span>
+<span class="token operator">&lt;</span>/head<span class="token operator">></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>例如掘金的规范化网址：<code v-pre>&lt;link data-n-head=&quot;ssr&quot; rel=&quot;canonical&quot; href=&quot;https://juejin.cn&quot;&gt;</code></p>
+<p>虽然<code v-pre>canonical标签</code>可以规范化网址，但是以下四种情况必须配置301重定向：</p>
+<ol>
+<li>网站替换域名后，通过301永久重定向旧域名重定向到新域名，弥补流量损失和SEO;</li>
+<li>如果删除掉网站中的一些页面，但是这个页面有一定的流量和权重，可以利用301重定向到合适的页面避免流量流失；</li>
+<li>网站改版或因为其他原因导致页面地址发生变化，为避免出现死链接，可以通过 301 重定向来解决；</li>
+<li>如果您有多个空闲的域名需要指向相同的站点，则可以使用301永久重定向；</li>
+</ol>
+<h3 id="_301重定向" tabindex="-1"><a class="header-anchor" href="#_301重定向" aria-hidden="true">#</a> 301重定向</h3>
+<p>301/302重定向是 SEO优化中一种重要的自动转向技术。301重定向是当搜索引擎向网站服务器发出访问请求时，服务返回的HTTP数据流中头信息(header)部分状态码的一种，表示本网址永久性转移到另一个地址。302重定向则表示暂时转移。</p>
+<p>301重定向与上一点所说的网址规范化有着类似的作用，与此同时，它还具有以下作用：</p>
+<ul>
+<li>集中域名权重，301 网址跳转其实是对域名权重进行转移，比如 <code v-pre>www.juejin.cn</code> 重定向到 <code v-pre>juejin.cn</code>，其实是把 <code v-pre>www.juejin.cn</code> 的权重转移到了 <code v-pre>juejin.cn</code>，从而增加 <code v-pre>juejin.cn</code> 域名的权重；</li>
+<li>避免重复收录；</li>
+<li>网页PR（PageRank-网页级别）是用来评估一个网站页面相对于网站其他页面重要性的一个算法，301定向跳转有利于网站PR的传递；</li>
+<li>优化用户体验，网址规范化可以让用户更好地记住我们的网站，可以将域名统一重定向到某一个域名，增加网站的记忆度，获取更好的用户体验。</li>
+</ul>
+<CommentService/></div></template>
 
 

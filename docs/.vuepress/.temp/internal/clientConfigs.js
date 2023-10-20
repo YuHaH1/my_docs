@@ -8,6 +8,7 @@ import clientConfig6 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题
 import clientConfig7 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/docs/.vuepress/.temp/sass-palette/load-hope.js'
 import clientConfig8 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/node_modules/.pnpm/vuepress-plugin-comment2@2.0.0-beta.209_vuepress@2.0.0-beta.61/node_modules/vuepress-plugin-comment2/lib/client/config.js'
 import clientConfig9 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/node_modules/.pnpm/@vuepress+plugin-search@2.0.0-beta.61/node_modules/@vuepress/plugin-search/lib/client/config.js'
+import clientConfig10 from 'E:/360MoveData/Users/YR/Desktop/前端必会手写题/my_docs/docs/.vuepress/client.ts'
 
 export const clientConfigs = [
   clientConfig0,
@@ -20,4 +21,5 @@ export const clientConfigs = [
   clientConfig7,
   clientConfig8,
   clientConfig9,
+  clientConfig10,
 ]

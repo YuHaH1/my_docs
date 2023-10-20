@@ -4,6 +4,7 @@ import theme from './theme.config'
 import path from 'path'
 import { commentPlugin } from "vuepress-plugin-comment2";
 import katex from 'markdown-it-katex'
+
 export default defineUserConfig({
     lang: 'zh-CN',
     title: 'fancy——Blog',

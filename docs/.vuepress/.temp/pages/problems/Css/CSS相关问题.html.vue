@@ -105,11 +105,40 @@
 <li><code v-pre>minimum-scale=1</code>: 表示用户无法通过手势进行缩小操作，将禁用缩放。</li>
 <li><code v-pre>user-scalable=no</code>: 表示用户无法通过手势进行放大缩小操作，将禁用缩放。</li>
 </ul>
-<p>viewport方案即是使用vw/vh作为样式单位。vw、vh将viewport分成了一百等份，1vw等于视口1%的宽度，1vh等于视口1%的高度。当我们的设计稿是750px时，1vw就等于7.5px。还是用之前那个例子，750px设计稿下，divA的宽度为50px，使用vw作为样式单位，divA的宽度是多少vw呢？还是将divA的宽度设置x vw，代入x:50 = 1:7.5，得到x≈6.67vw。 可以感受到，自行计算的过程相当影响开发进度。所以我们引入了postcss-px-to-viewport插件。</p>
-<p>作者：T_macOne
-链接：https://juejin.cn/post/7277875605538226195
-来源：稀土掘金
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-<CommentService/></div></template>
+<p>viewport方案即是使用vw/vh作为样式单位。vw、vh将viewport分成了一百等份，1vw等于视口1%的宽度，1vh等于视口1%的高度。当我们的设计稿是750px时，1vw就等于7.5px。</p>
+<p>例如：<code v-pre>750px</code>设计稿，如果设置某个div大小为<code v-pre>80px</code>大小，那转化为vw是多少呢？，<code v-pre>80/7.5=10.67vw</code>,开发中不可能每个大小有我们自己计算，因此需要使用插件自动帮我们做转换</p>
+<p><code v-pre>postcss-px-to-viewport</code></p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">//该插件常用默认的配置选项</span>
+<span class="token punctuation">{</span>
+  <span class="token literal-property property">unitToConvert</span><span class="token operator">:</span> <span class="token string">'px'</span><span class="token punctuation">,</span><span class="token comment">// 需要被转换的单位</span>
+  <span class="token literal-property property">viewportWidth</span><span class="token operator">:</span> <span class="token number">320</span><span class="token punctuation">,</span><span class="token comment">//视口宽度</span>
+  <span class="token literal-property property">unitPrecision</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span><span class="token comment">// vw最大单位 </span>
+  <span class="token literal-property property">propList</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'*'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token comment">//如果不匹配属性前面加！例如 ['*', '!letter-spacing']字间距将不会转换</span>
+  <span class="token literal-property property">viewportUnit</span><span class="token operator">:</span> <span class="token string">'vw'</span><span class="token punctuation">,</span><span class="token comment">// 期望单位</span>
+  <span class="token literal-property property">fontViewportUnit</span><span class="token operator">:</span> <span class="token string">'vw'</span><span class="token punctuation">,</span><span class="token comment">// 字体的期望单位</span>
+  <span class="token literal-property property">selectorBlackList</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token comment">//忽略该列表内的选择器，不做转换</span>
+  <span class="token literal-property property">minPixelValue</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token comment">// 最小像素边界</span>
+  <span class="token literal-property property">mediaQuery</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><span class="token comment">//媒体查询中是否替换px</span>
+  <span class="token literal-property property">exclude</span><span class="token operator">:</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span><span class="token comment">//哪些文件不做转换[/\/src\/node_modules/],正则或数组正则</span>
+  <span class="token literal-property property">include</span><span class="token operator">:</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span><span class="token comment">//哪些文件做转换include: /\/src\/mobile\//,正则或数组正则</span>
+
+<span class="token punctuation">}</span>
+module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> file <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> vwUnit <span class="token operator">=</span> file <span class="token operator">&amp;&amp;</span> file<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'vant'</span><span class="token punctuation">)</span> <span class="token operator">!==</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">?</span> <span class="token number">375</span> <span class="token operator">:</span> <span class="token number">750</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">'postcss-px-to-viewport'</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">viewportWidth</span><span class="token operator">:</span> vwUnit<span class="token punctuation">,</span> <span class="token comment">// 设计稿的宽度</span>
+        <span class="token literal-property property">unitPrecision</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token comment">// 转换后的位数，即小数点位数</span>
+        <span class="token literal-property property">viewportUnit</span><span class="token operator">:</span> <span class="token string">'vw'</span><span class="token punctuation">,</span> <span class="token comment">// 转换成的视窗单位</span>
+        <span class="token literal-property property">propList</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'*'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 要进行转换的属性，如果某个属性不进行转换，只需在其前加个“!”即可</span>
+        <span class="token literal-property property">selectorBlackList</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 不进行转换的选择器</span>
+        <span class="token literal-property property">minPixelValue</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">// 小于或等于1px则不进行转换</span>
+        <span class="token literal-property property">mediaQuery</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">// 是否在媒体查询的css代码中也进行转换，默认false</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
 
 
