@@ -139,6 +139,164 @@ module<span class="token punctuation">.</span><span class="token function-variab
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="原子化css" tabindex="-1"><a class="header-anchor" href="#原子化css" aria-hidden="true">#</a> 原子化CSS</h2>
+<h3 id="原子化css原理" tabindex="-1"><a class="header-anchor" href="#原子化css原理" aria-hidden="true">#</a> 原子化css原理</h3>
+<p>参考：https://antfu.me/posts/reimagine-atomic-css-zh</p>
+<p>制作原子化 CSS 的传统方案其实就是提供所有你可能需要用到的 CSS 工具。例如，你可能会用预处理器（这里选用的是 SCSS）生成如下代码：</p>
+<div class="language-scss line-numbers-mode" data-ext="scss"><pre v-pre class="language-scss"><code><span class="token comment">// .scss</span>
+<span class="token keyword">@for</span> <span class="token variable">$i</span> <span class="token keyword">from</span> 1 <span class="token keyword">through</span> <span class="token selector">10 </span><span class="token punctuation">{</span>
+  <span class="token selector">.m-<span class="token variable">#{$i}</span> </span><span class="token punctuation">{</span>
+    <span class="token property">margin</span><span class="token punctuation">:</span> <span class="token variable">$i</span> <span class="token operator">/</span> 4 rem<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//编译结果</span>
+<span class="token selector">.m-1 </span><span class="token punctuation">{</span> <span class="token property">margin</span><span class="token punctuation">:</span> 0.25 rem<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token selector">.m-2 </span><span class="token punctuation">{</span> <span class="token property">margin</span><span class="token punctuation">:</span> 0.5 rem<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token comment">/* ... */</span>
+<span class="token selector">.m-10 </span><span class="token punctuation">{</span> <span class="token property">margin</span><span class="token punctuation">:</span> 2.5 rem<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>用这种方法的情况下，你不能使用除了 1 到 10 之外的边距，而且，即使你只使用了其中一条 CSS 规则，但还是要为其余几条规则的文件体积买单。如果之后你还想支持不同的 margin 方向，使用比如 <code v-pre>mt</code> 代表 <code v-pre>margin-top</code>，<code v-pre>mb</code> 代表 <code v-pre>margin-bottom</code> 等，加上这 4 个方向以后，你的 CSS 大小会变成原来的 5 倍。如果再有使用到像 <code v-pre>:hover</code> 和 <code v-pre>:focus</code> 这样的伪类时，体积还会得更变大。以此类推，每多加一个工具类，往往意味着你 CSS 文件的大小也会随之增加。这也就是为什么传统的 Tailwind 生成的 CSS 文件会有数 MB 的大小。</p>
+<p>为了解决这个问题，Tailwind 通过使用 <a href="https://purgecss.com/" target="_blank" rel="noopener noreferrer">PurgeCSS<ExternalLinkIcon/></a> 来扫描你的大包产物并删除你不需要的规则。<strong>可以理解为css的tree shaking</strong>这得以使其在生产环境中 CSS 文件缩减为几 KB。然而，请注意，这个清除操作仅在生成构建下有效，而开发环境下仍要使用包含了所有规则巨大的 CSS 文件。这在<code v-pre>Webpack </code>中表现可能并不明显，但在 Vite 中却有着巨大的影响，毕竟其他内容的加载都非常迅捷。既然生成再清除的方法存在局限性，那是否有更好的解决方案？</p>
+<h4 id="按需生成" tabindex="-1"><a class="header-anchor" href="#按需生成" aria-hidden="true">#</a> 按需生成</h4>
+<p>传统方案流程图</p>
+<p><img src="/CSS/unocss.png" alt=""></p>
+<p>传统方案，会先生成一大堆css代码，然后再扫描我们代码，之后使用<code v-pre>PurgeCss</code>进行<code v-pre>Tree shaking</code>，可以看出来，明显的缺点就是产生了扫描代码和treeshaking的消耗。</p>
+<p>按需分配的流程图</p>
+<p><img src="/CSS/unocss1.png" alt=""></p>
+<p>这种方法可以为你节省浪费的计算开销和传输成本，同时可以灵活地实现预生成无法实现的动态需求,并可以同时在开发和生产中使用，提供了一致的开发体验，使得 HMR (热更新) 更加高效。</p>
+<p>步骤：</p>
+<p>①先扫描我们的源代码，vue，html</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> promises <span class="token keyword">as</span> fs <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'node:fs'</span>
+<span class="token keyword">import</span> glob <span class="token keyword">from</span> <span class="token string">'fast-glob'</span>
+
+<span class="token comment">// 通常这个是可以配置的</span>
+<span class="token keyword">const</span> include <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'src/**/*.{jsx,tsx,vue,html}'</span><span class="token punctuation">]</span>
+
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">scan</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> files <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">glob</span><span class="token punctuation">(</span>include<span class="token punctuation">)</span>
+
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> file <span class="token keyword">of</span> files<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> content <span class="token operator">=</span> <span class="token keyword">await</span> fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span>file<span class="token punctuation">,</span> <span class="token string">'utf8'</span><span class="token punctuation">)</span>
+    <span class="token comment">// 将文件内容传递给生成器并配对 class 的使用情况</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">await</span> <span class="token function">scan</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">// 扫描会在构建/服务器启动前完成</span>
+<span class="token keyword">await</span> <span class="token function">buildOrStartDevServer</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>②为了实现HMR开启一个文件监听器，监听文件是否变化，当发生变化就将新的内容传递给生成器，并触发HMR事件，通过Webscoket拿到最新代码</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> chokidar <span class="token keyword">from</span> <span class="token string">'chokidar'</span>
+chokidar<span class="token punctuation">.</span><span class="token function">watch</span><span class="token punctuation">(</span>include<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'change'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event<span class="token punctuation">,</span> path</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// 重新读取文件</span>
+  <span class="token keyword">const</span> content <span class="token operator">=</span> <span class="token keyword">await</span> fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span>file<span class="token punctuation">,</span> <span class="token string">'utf8'</span><span class="token punctuation">)</span>
+  <span class="token comment">// 将新的内容重新传递给生成器</span>
+  <span class="token comment">// 清除 CSS 模块的缓存并触发 HMR 事件</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="tailwindcss打包体积大" tabindex="-1"><a class="header-anchor" href="#tailwindcss打包体积大" aria-hidden="true">#</a> TailwindCSS打包体积大</h3>
+<p><code v-pre>TailwindCSS</code>提供了大量的工具类（utility classes）。这些工具类涵盖了广泛的样式需求，例如布局、颜色、字体、边框等等。然而，这种设计方式也导致了生成的CSS文件相对较大的问题。因为<code v-pre>TwindCSS</code>会将所有的工具类都编译进最终的CSS文件中，无论你是否实际使用了它们。这意味着即使你只使用了其中几个工具类，也会包含所有的工具类定义，从而增加了文件的大小。</p>
+<h4 id="tailwindcss原理" tabindex="-1"><a class="header-anchor" href="#tailwindcss原理" aria-hidden="true">#</a> Tailwindcss原理</h4>
+<p>它基于 postcss 来扫描 CSS 文件，生成 AST（抽象语法树）再通过一系列的转换，最后构建出一份完整的工具类 CSS。在开发的时候，Tailwind 其实不知道你会写出什么样的工具类，比如这个页面你突然发现要加一个 <code v-pre>mr-8</code>，总不能每次保存文件的时候重新生成样式，所以目前 Tailwind 是先全量生成一份完整的 CSS，包含了 <code v-pre>mr-1</code> - <code v-pre>mr-8</code> 供你使用的。</p>
+<h4 id="tailwindcss的配置" tabindex="-1"><a class="header-anchor" href="#tailwindcss的配置" aria-hidden="true">#</a> TailwindCSS的配置</h4>
+<p>参考文档https://tailwindcss.com/docs/guides/vite</p>
+<p>①安装</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">install</span> <span class="token parameter variable">-D</span> tailwindcss postcss autoprefixer
+npx tailwindcss init <span class="token parameter variable">-p</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>②配置<code v-pre>tailwind.config.js</code></p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token doc-comment comment">/** <span class="token keyword">@type</span> <span class="token class-name"><span class="token punctuation">{</span><span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'tailwindcss'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Config<span class="token punctuation">}</span></span> */</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">content</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"./index.html"</span><span class="token punctuation">,</span>
+    <span class="token string">"./src/**/*.{vue,js,ts,jsx,tsx}"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">theme</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">extend</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>③在全局css文件中，为每个Tailwind的图层添加“tailwind”指令到你的主CSS文件。</p>
+<div class="language-css line-numbers-mode" data-ext="css"><pre v-pre class="language-css"><code><span class="token atrule"><span class="token rule">@tailwind</span> base<span class="token punctuation">;</span></span>
+<span class="token atrule"><span class="token rule">@tailwind</span> components<span class="token punctuation">;</span></span>
+<span class="token atrule"><span class="token rule">@tailwind</span> utilities<span class="token punctuation">;</span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>④运行CLI工具扫描模板文件中的类并构建CSS。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>npx tailwindcss <span class="token parameter variable">-i</span> ./src/input.css <span class="token parameter variable">-o</span> ./dist/output.css <span class="token parameter variable">--watch</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="压缩" tabindex="-1"><a class="header-anchor" href="#压缩" aria-hidden="true">#</a> 压缩</h4>
+<p>在<code v-pre>tailwind.config.js</code>中进行压缩</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">purge</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"./src/**/*.html"</span><span class="token punctuation">,</span> <span class="token string">"./src/**/*.vue"</span><span class="token punctuation">,</span> <span class="token string">"./src/**/*.jsx"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>官网也有提到，这项名为 <code v-pre>purge CSS</code> 的功能，底层是使用了 purgecss[5] 这个库。</p>
+<p>这个库并不是只供 Tailwind CSS 使用，它最简单的使用只需要提供一个 <code v-pre>html</code> 入口，还有一份样式文件，就会自动帮你找出项目中使用到的那部分 CSS的结果。</p>
+<p>尝试一下这个库，先写一个 <code v-pre>index.html</code>，里面只使用 <code v-pre>hello</code> 这个样式：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>&lt;!DOCTYPE html>
+&lt;html lang="en">
+  &lt;body>
+    &lt;div class="hello">Hello&lt;/div>
+  &lt;/body>
+&lt;/html>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>再写一个 <code v-pre>index.css</code>，里面故意多写一个没用的 <code v-pre>useless</code> 类：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>.hello {
+  text-align: center;
+}
+
+.useless {
+  margin: 8px;
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>然后根据 Github 里的用法，写一段构建脚本：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>const PurgeCSS = require("purgecss").default;
+
+(async () => {
+  const purgeCSSResults = await new PurgeCSS().purge({
+    content: ["index.html"],
+    css: ["index.css"],
+  });
+
+  console.log(purgeCSSResults);
+})();
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>控制台打印出如下结果：</p>
+<div class="language-text line-numbers-mode" data-ext="text"><pre v-pre class="language-text"><code>[{ css: ".hello {\n  text-align: center;\n}", file: "index.css" }];
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>完美的清除掉了 <code v-pre>useless</code> 类。它的设计和框架无关，所以各个框架也可以基于这个工具封装自己的上层工具。比如 vue-cli-plugin-purgecss，可以用来在 Vue 中清理你没有使用到的样式。</p>
+<p>而它的实现也不复杂，只是在 <code v-pre>postcss</code> 配置中加了一个 plugin，再配合 <code v-pre>purgeCSS</code> 提供的自定义提取功能把 <code v-pre>.vue</code> 文件中的 <code v-pre>&lt;style&gt;&lt;/style&gt;</code> 整个删除掉，这样就可以找到使用到了哪些样式。<code v-pre>/templates/postcss.config.js</code>:</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">const</span> <span class="token constant">IN_PRODUCTION</span> <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">===</span> <span class="token string">"production"</span><span class="token punctuation">;</span>
+cosnt pure <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"@fullhuman/postcss-purgecss"</span><span class="token punctuation">)</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token constant">IN_PRODUCTION</span> <span class="token operator">&amp;&amp;</span>
+      <span class="token function">pure</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token comment">// Vue 项目中，样式一般都出现在 .vue 文件里</span>
+        <span class="token literal-property property">content</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">./public/**/*.html</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">./src/**/*.vue</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token function">defaultExtractor</span><span class="token punctuation">(</span><span class="token parameter">content</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">// 排除 &lt;style> 标签中匹配的样式</span>
+          <span class="token keyword">const</span> contentWithoutStyleBlocks <span class="token operator">=</span> content<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span>
+            <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">&lt;style[^]+?&lt;\/style></span><span class="token regex-delimiter">/</span><span class="token regex-flags">gi</span></span><span class="token punctuation">,</span>
+            <span class="token string">""</span>
+          <span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            contentWithoutStyleBlocks<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>
+              <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+</span><span class="token regex-delimiter">/</span><span class="token regex-flags">g</span></span>
+            <span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+          <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>先用正则去除掉 <code v-pre>style</code> 标签里写的样式，排除干扰，再从剩余部分提取可能用到的类名。</p>
+<h3 id="unocss" tabindex="-1"><a class="header-anchor" href="#unocss" aria-hidden="true">#</a> Unocss</h3>
+<p>css原子化引擎</p>
+<h4 id="配置" tabindex="-1"><a class="header-anchor" href="#配置" aria-hidden="true">#</a> 配置</h4>
+<p>①安装</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">add</span> <span class="token parameter variable">-D</span> unocss
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>②在<code v-pre>vite.config.js</code>中配置</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">// vite.config.ts</span>
+<span class="token keyword">import</span> UnoCSS <span class="token keyword">from</span> <span class="token string">'unocss/vite'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> defineConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vite'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">defineConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token function">UnoCSS</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>③在主文件入口中引入</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">// main.ts</span>
+<span class="token keyword">import</span> <span class="token string">'virtual:uno.css'</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
 
 

@@ -1,1 +1,0 @@
-import{_ as e,p as n,q as c,R as t,t as r}from"./framework-a97ca956.js";const o={},i=t("h1",{id:"contributing-md",tabindex:"-1"},[t("a",{class:"header-anchor",href:"#contributing-md","aria-hidden":"true"},"#"),r(" contributing.md")],-1),a=[i];function s(d,_){return n(),c("div",null,a)}const h=e(o,[["render",s],["__file","contributing.html.vue"]]);export{h as default};

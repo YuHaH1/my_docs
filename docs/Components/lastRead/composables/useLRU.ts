@@ -1,72 +1,67 @@
-import {watch,ref,computed  } from 'vue'
-interface lastReadInfo{
-    currentPath:string
-    isChildrenDir:boolean
-    title:string
-}
-interface Res{
-    storageInfo:lastReadInfo[]
-    gotoLastRead:()=>void
-    hightLight:()=>boolean
-}
-export default function useLastRead(router):Res{
-   
-    const lastReadInfo = ref<lastReadInfo>({
-        currentPath:'',
-        isChildrenDir:false,
-        childrenDir:'',
-        title:''
-    })
-    const storageInfo = ref(null)
-    
-    function gotoLastRead(item){
-        item.currentPath && router.push(item.currentPath)
-    }
-    const hightLight = item => {
-        return computed(() => (item.currentPath === router.currentRoute.value.fullPath ? 'high-light' : '')).value;
-    };
+import { watch, ref, Ref, computed, ComputedRef } from 'vue'
+interface lastReadInfo {
+    currentPath: string
+    hash: string
+    title: string
 
-        watch(()=>router.currentRoute.value,(newV)=>{
-        const childData = newV.fullPath.split('#')
-        lastReadInfo.value.isChildrenDir = childData.length>1
-        lastReadInfo.value.currentPath = newV.fullPath
+}
+interface Res {
+    storageInfo: Ref<lastReadInfo[] | null>
+    gotoLastRead: (item: lastReadInfo) => void
+    hasData: ComputedRef<boolean>
+    hightLight: (item: lastReadInfo) => string
+}
+export default function useLastRead(router): Res {
+    const lastReadInfo = ref<lastReadInfo>({
+        currentPath: '',
+        hash: '',
+        title: ''
+    })
+    const storageInfo = ref<lastReadInfo[] | null>(null)
+    watch(() => router.currentRoute.value, (newV) => {
+        lastReadInfo.value.hash = newV.hash
+        lastReadInfo.value.currentPath = newV.path
         lastReadInfo.value.title = newV?.meta?.title || '';
         setLastReadInfo(lastReadInfo)
         storageInfo.value = getStorage()
-        },{
-            immediate: true
-        })
-
+    }, {
+        immediate: true
+    })
+    function gotoLastRead(item: lastReadInfo) {
+        item.currentPath && router.push(item.currentPath + item.hash)
+    }
+    const hasData = computed(() => storageInfo.value!.length >= 1)
+    const hightLight = item => {
+        const cur_path = router.currentRoute.value.path
+        return computed(() => (item.currentPath === cur_path ? 'high-light' : '')).value;
+    };
     return {
         storageInfo,
         gotoLastRead,
+        hasData,
         hightLight
     }
 }
-function setLastReadInfo(lastReadInfo:lastReadInfo){
-    if(lastReadInfo.value.currentPath=='/') return 
+function setLastReadInfo(lastReadInfo: Ref<lastReadInfo>) {
+    if (typeof window === 'undefined') return
+    if (lastReadInfo.value.currentPath == '/') return
     const readInfo = getStorage()
-    if(readInfo?.length===6){
-        readInfo.pop()
-    }
-    if (typeof window == "undefined") {
-        return
-    }
-    if(!readInfo){
-        localStorage.setItem('lastReadInfo',JSON.stringify([{...lastReadInfo.value}]))
-    }else{
-        const noRepeat = readInfo.every(v=>v.currentPath !==lastReadInfo.value.currentPath)
-        if(noRepeat){
-            readInfo.unshift({...lastReadInfo.value})
-            localStorage.setItem('lastReadInfo',JSON.stringify(readInfo))
+    if (!readInfo) {
+        localStorage.setItem('lastReadInfo', JSON.stringify([{ ...lastReadInfo.value }]))
+    } else {
+        if (readInfo?.length > 6) {
+            console.log(readInfo?.length)
+            readInfo.pop()
         }
+        const index = readInfo.findIndex(v => v.currentPath == lastReadInfo.value.currentPath)
+        index !== -1 && readInfo.splice(index, 1)
+        readInfo.unshift({ ...lastReadInfo.value })
+        localStorage.setItem('lastReadInfo', JSON.stringify(readInfo))
     }
 }
-function getStorage():lastReadInfo[]{
-    if (typeof window == "undefined") {
-        return
-    }
+function getStorage(): lastReadInfo[] {
+    if (typeof window === 'undefined') return []
     const value = localStorage.getItem('lastReadInfo')
-    const lastReadInfo = value && JSON.parse(localStorage.getItem('lastReadInfo'))
+    const lastReadInfo = value && JSON.parse(localStorage.getItem('lastReadInfo') as string)
     return lastReadInfo
 }

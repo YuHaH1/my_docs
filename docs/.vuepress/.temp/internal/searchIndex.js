@@ -14,13 +14,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "记录面经",
-    "headers": [],
-    "path": "/Interview/",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "记录遇到的问题",
     "headers": [],
     "path": "/Problems/",
@@ -28,436 +21,285 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "浏览器相关面经",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.如何解决跨域",
-        "slug": "_1-如何解决跨域",
-        "link": "#_1-如何解决跨域",
-        "children": [
-          {
-            "level": 3,
-            "title": "1.JSONP",
-            "slug": "_1-jsonp",
-            "link": "#_1-jsonp",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "2.后端设置CORS",
-            "slug": "_2-后端设置cors",
-            "link": "#_2-后端设置cors",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "3.proxy代理",
-            "slug": "_3-proxy代理",
-            "link": "#_3-proxy代理",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "4.nginx代理",
-            "slug": "_4-nginx代理",
-            "link": "#_4-nginx代理",
-            "children": []
-          }
-        ]
-      }
-    ],
-    "path": "/Interview/Browser/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E9%9D%A2%E7%BB%8F.html",
+    "title": "记录面经",
+    "headers": [],
+    "path": "/Interview/",
     "pathLocale": "/",
     "extraFields": []
   },
   {
-    "title": "计算机网络",
+    "title": "CSS相关问题",
     "headers": [
       {
         "level": 2,
-        "title": "一、http",
-        "slug": "一、http",
-        "link": "#一、http",
+        "title": "1.多行文本溢出",
+        "slug": "_1-多行文本溢出",
+        "link": "#_1-多行文本溢出",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.移动端适配解决方案",
+        "slug": "_2-移动端适配解决方案",
+        "link": "#_2-移动端适配解决方案",
         "children": [
           {
             "level": 3,
-            "title": "1.缓存",
-            "slug": "_1-缓存",
-            "link": "#_1-缓存",
+            "title": "rem",
+            "slug": "rem",
+            "link": "#rem",
             "children": []
           },
           {
             "level": 3,
-            "title": "2.缓存验证 （协商缓存/强缓存）",
-            "slug": "_2-缓存验证-协商缓存-强缓存",
-            "link": "#_2-缓存验证-协商缓存-强缓存",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "3.缓存位置",
-            "slug": "_3-缓存位置",
-            "link": "#_3-缓存位置",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "2.http1.0-3.0区别",
-            "slug": "_2-http1-0-3-0区别",
-            "link": "#_2-http1-0-3-0区别",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "2.0仍然存在的问题",
-            "slug": "_2-0仍然存在的问题",
-            "link": "#_2-0仍然存在的问题",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "http/3.0",
-            "slug": "http-3-0",
-            "link": "#http-3-0",
+            "title": "viewport",
+            "slug": "viewport",
+            "link": "#viewport",
             "children": []
           }
         ]
       },
       {
         "level": 2,
-        "title": "https协议",
-        "slug": "https协议",
-        "link": "#https协议",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "二、TCP",
-        "slug": "二、tcp",
-        "link": "#二、tcp",
+        "title": "原子化CSS",
+        "slug": "原子化css",
+        "link": "#原子化css",
         "children": [
           {
             "level": 3,
-            "title": "流量控制",
-            "slug": "流量控制-1",
-            "link": "#流量控制-1",
+            "title": "原子化css原理",
+            "slug": "原子化css原理",
+            "link": "#原子化css原理",
             "children": []
           },
           {
             "level": 3,
-            "title": "拥塞控制",
-            "slug": "拥塞控制-1",
-            "link": "#拥塞控制-1",
+            "title": "TailwindCSS打包体积大",
+            "slug": "tailwindcss打包体积大",
+            "link": "#tailwindcss打包体积大",
             "children": []
           },
           {
             "level": 3,
-            "title": "tcp的建立",
-            "slug": "tcp的建立",
-            "link": "#tcp的建立",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "tcp的连接释放",
-            "slug": "tcp的连接释放",
-            "link": "#tcp的连接释放",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "保活计时器",
-            "slug": "保活计时器",
-            "link": "#保活计时器",
+            "title": "Unocss",
+            "slug": "unocss",
+            "link": "#unocss",
             "children": []
           }
         ]
-      },
-      {
-        "level": 2,
-        "title": "三、网络攻击",
-        "slug": "三、网络攻击",
-        "link": "#三、网络攻击",
-        "children": [
-          {
-            "level": 3,
-            "title": "1、XSS跨站脚本攻击",
-            "slug": "_1、xss跨站脚本攻击",
-            "link": "#_1、xss跨站脚本攻击",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "2、CSRF",
-            "slug": "_2、csrf",
-            "link": "#_2、csrf",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "3.SQL注入",
-            "slug": "_3-sql注入",
-            "link": "#_3-sql注入",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "4.脚本执行",
-            "slug": "_4-脚本执行",
-            "link": "#_4-脚本执行",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "5.读取+修改",
-            "slug": "_5-读取-修改",
-            "link": "#_5-读取-修改",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "6.DDOS",
-            "slug": "_6-ddos",
-            "link": "#_6-ddos",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "四、WEB安全防御",
-        "slug": "四、web安全防御",
-        "link": "#四、web安全防御",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "四、网络结构",
-        "slug": "四、网络结构",
-        "link": "#四、网络结构",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "五、SSO单点登陆",
-        "slug": "五、sso单点登陆",
-        "link": "#五、sso单点登陆",
-        "children": []
       }
     ],
-    "path": "/Interview/ComputerNetwork/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html",
+    "path": "/Problems/Css/CSS%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html",
     "pathLocale": "/",
     "extraFields": []
   },
   {
-    "title": "css面经",
+    "title": "js中遇到的问题",
     "headers": [
       {
         "level": 2,
-        "title": "1.隐藏元素的方法",
-        "slug": "_1-隐藏元素的方法",
-        "link": "#_1-隐藏元素的方法",
-        "children": []
-      }
-    ],
-    "path": "/Interview/Css/css%E9%9D%A2%E7%BB%8F.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "js面经",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.为什么0.1+0.2不等于0.3",
-        "slug": "_1-为什么0-1-0-2不等于0-3",
-        "link": "#_1-为什么0-1-0-2不等于0-3",
+        "title": "1.字符串表情问题",
+        "slug": "_1-字符串表情问题",
+        "link": "#_1-字符串表情问题",
         "children": []
       },
       {
         "level": 2,
-        "title": "2.如何跨页通讯",
-        "slug": "_2-如何跨页通讯",
-        "link": "#_2-如何跨页通讯",
+        "title": "2.如何记录用户信息-canvas",
+        "slug": "_2-如何记录用户信息-canvas",
+        "link": "#_2-如何记录用户信息-canvas",
         "children": []
       },
       {
         "level": 2,
-        "title": "3.promise、生成器和async、awiat",
-        "slug": "_3-promise、生成器和async、awiat",
-        "link": "#_3-promise、生成器和async、awiat",
+        "title": "3.Ajax和fetch取消请求的方式",
+        "slug": "_3-ajax和fetch取消请求的方式",
+        "link": "#_3-ajax和fetch取消请求的方式",
         "children": [
           {
             "level": 3,
-            "title": "手写标准promise",
-            "slug": "手写标准promise",
-            "link": "#手写标准promise",
+            "title": "3.1、fetch取消",
+            "slug": "_3-1、fetch取消",
+            "link": "#_3-1、fetch取消",
             "children": []
           },
           {
             "level": 3,
-            "title": "模拟实现async await",
-            "slug": "模拟实现async-await",
-            "link": "#模拟实现async-await",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "并发控制",
-            "slug": "并发控制",
-            "link": "#并发控制",
+            "title": "3.2、Ajax取消",
+            "slug": "_3-2、ajax取消",
+            "link": "#_3-2、ajax取消",
             "children": []
           }
         ]
       },
       {
         "level": 2,
-        "title": "4.使用void 0代替 undefined",
-        "slug": "_4-使用void-0代替-undefined",
-        "link": "#_4-使用void-0代替-undefined",
+        "title": "4、页面更新自动刷新页面",
+        "slug": "_4、页面更新自动刷新页面",
+        "link": "#_4、页面更新自动刷新页面",
         "children": []
       },
       {
         "level": 2,
-        "title": "5.如何检查是否发生内存泄漏",
-        "slug": "_5-如何检查是否发生内存泄漏",
-        "link": "#_5-如何检查是否发生内存泄漏",
+        "title": "5.用户输入法按enter会触发提交事件",
+        "slug": "_5-用户输入法按enter会触发提交事件",
+        "link": "#_5-用户输入法按enter会触发提交事件",
         "children": []
       },
       {
         "level": 2,
-        "title": "6.为什么typeof null是对象",
-        "slug": "_6-为什么typeof-null是对象",
-        "link": "#_6-为什么typeof-null是对象",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "7.类class",
-        "slug": "_7-类class",
-        "link": "#_7-类class",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "深拷贝",
-        "slug": "深拷贝",
-        "link": "#深拷贝",
+        "title": "Vuepress展示数学公式",
+        "slug": "vuepress展示数学公式",
+        "link": "#vuepress展示数学公式",
         "children": []
       }
     ],
-    "path": "/Interview/JavaScript/js%E9%9D%A2%E7%BB%8F.html",
+    "path": "/Problems/JavaScript/js%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
     "pathLocale": "/",
     "extraFields": []
   },
   {
-    "title": "node面经",
+    "title": "埋点",
     "headers": [
       {
         "level": 2,
-        "title": "1.2、垃圾回收机制",
-        "slug": "_1-2、垃圾回收机制",
-        "link": "#_1-2、垃圾回收机制",
+        "title": "初始化项目",
+        "slug": "初始化项目",
+        "link": "#初始化项目",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "生成.d.ts文件",
+        "slug": "生成-d-ts文件",
+        "link": "#生成-d-ts文件",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "代码展示",
+        "slug": "代码展示",
+        "link": "#代码展示",
+        "children": []
+      }
+    ],
+    "path": "/Problems/JavaScript/%E5%9F%8B%E7%82%B9.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "pm2",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.问题描述",
+        "slug": "_1-问题描述",
+        "link": "#_1-问题描述",
+        "children": []
+      }
+    ],
+    "path": "/Problems/Node/pm2.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "项目中得到的问题",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.埋点API多平台调用",
+        "slug": "_1-埋点api多平台调用",
+        "link": "#_1-埋点api多平台调用",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.高度自动过度",
+        "slug": "_2-高度自动过度",
+        "link": "#_2-高度自动过度",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.SEO",
+        "slug": "_3-seo",
+        "link": "#_3-seo",
         "children": [
           {
             "level": 3,
-            "title": "1.2.1、内存分代",
-            "slug": "_1-2-1、内存分代",
-            "link": "#_1-2-1、内存分代",
+            "title": "预渲染",
+            "slug": "预渲染",
+            "link": "#预渲染",
             "children": []
           },
           {
             "level": 3,
-            "title": "1.2.2、scavenge算法-针对于新生代",
-            "slug": "_1-2-2、scavenge算法-针对于新生代",
-            "link": "#_1-2-2、scavenge算法-针对于新生代",
+            "title": "META标签配置",
+            "slug": "meta标签配置",
+            "link": "#meta标签配置",
             "children": []
           },
           {
             "level": 3,
-            "title": "1.2.3、Mark-Sweep & Mark-Compact-针对于老生代",
-            "slug": "_1-2-3、mark-sweep-mark-compact-针对于老生代",
-            "link": "#_1-2-3、mark-sweep-mark-compact-针对于老生代",
+            "title": "robots文件",
+            "slug": "robots文件",
+            "link": "#robots文件",
             "children": []
           },
           {
             "level": 3,
-            "title": "1.2.4、Incremental Marking-针对垃圾回收引起全停顿",
-            "slug": "_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
-            "link": "#_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
+            "title": "sitemap站点地图",
+            "slug": "sitemap站点地图",
+            "link": "#sitemap站点地图",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "内链和外链",
+            "slug": "内链和外链",
+            "link": "#内链和外链",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "网址规范",
+            "slug": "网址规范",
+            "link": "#网址规范",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "301重定向",
+            "slug": "_301重定向",
+            "link": "#_301重定向",
             "children": []
           }
         ]
       }
     ],
-    "path": "/Interview/Node/node%E9%9D%A2%E7%BB%8F.html",
+    "path": "/Problems/Project/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BE%97%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
     "pathLocale": "/",
     "extraFields": []
   },
   {
-    "title": "操作系统",
+    "title": "服务器",
     "headers": [
       {
         "level": 2,
-        "title": "1、进程相关",
-        "slug": "_1、进程相关",
-        "link": "#_1、进程相关",
-        "children": [
-          {
-            "level": 3,
-            "title": "线程",
-            "slug": "线程",
-            "link": "#线程",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "进程如何运行的",
-            "slug": "进程如何运行的",
-            "link": "#进程如何运行的",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "进程调度算法",
-            "slug": "进程调度算法",
-            "link": "#进程调度算法",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "进程之间如何通信",
-            "slug": "进程之间如何通信",
-            "link": "#进程之间如何通信",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "孤儿进程和僵尸进程",
-            "slug": "孤儿进程和僵尸进程",
-            "link": "#孤儿进程和僵尸进程",
-            "children": []
-          }
-        ]
-      }
-    ],
-    "path": "/Interview/OS/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "Vue面经",
-    "headers": [
+        "title": "服务器搭建流程",
+        "slug": "服务器搭建流程",
+        "link": "#服务器搭建流程",
+        "children": []
+      },
       {
         "level": 2,
-        "title": "",
-        "slug": "",
-        "link": "#",
+        "title": "浏览器报错",
+        "slug": "浏览器报错",
+        "link": "#浏览器报错",
         "children": []
       }
     ],
-    "path": "/Interview/Vue/Vue%E9%9D%A2%E7%BB%8F.html",
+    "path": "/Problems/Server/%E6%9C%8D%E5%8A%A1%E5%99%A8.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -3302,6 +3144,115 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "性能优化",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.如何提升首屏加载速度",
+        "slug": "_1-如何提升首屏加载速度",
+        "link": "#_1-如何提升首屏加载速度",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.图片性能优化",
+        "slug": "_2-图片性能优化",
+        "link": "#_2-图片性能优化",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.核心Web指标",
+        "slug": "_3-核心web指标",
+        "link": "#_3-核心web指标",
+        "children": []
+      }
+    ],
+    "path": "/Notes/Optimize/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "正则表达式",
+    "headers": [
+      {
+        "level": 2,
+        "title": "基础",
+        "slug": "基础",
+        "link": "#基础",
+        "children": [
+          {
+            "level": 3,
+            "title": "元字符",
+            "slug": "元字符",
+            "link": "#元字符",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "正则高级部分",
+        "slug": "正则高级部分",
+        "link": "#正则高级部分",
+        "children": [
+          {
+            "level": 3,
+            "title": "$1… $n匹配分组（原子组）",
+            "slug": "_1-n匹配分组-原子组",
+            "link": "#_1-n匹配分组-原子组",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "原子组别名",
+            "slug": "原子组别名",
+            "link": "#原子组别名",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "不记录原子",
+            "slug": "不记录原子",
+            "link": "#不记录原子",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "正向肯定预查",
+            "slug": "正向肯定预查",
+            "link": "#正向肯定预查",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "正向否定预查",
+            "slug": "正向否定预查",
+            "link": "#正向否定预查",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "反向肯定预查",
+            "slug": "反向肯定预查",
+            "link": "#反向肯定预查",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "反向否定预查",
+            "slug": "反向否定预查",
+            "link": "#反向否定预查",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Notes/Reg/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "diff",
     "headers": [],
     "path": "/Notes/React/diff.html",
@@ -3563,115 +3514,6 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/React/%E5%9F%BA%E7%A1%80.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "性能优化",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.如何提升首屏加载速度",
-        "slug": "_1-如何提升首屏加载速度",
-        "link": "#_1-如何提升首屏加载速度",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.图片性能优化",
-        "slug": "_2-图片性能优化",
-        "link": "#_2-图片性能优化",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.核心Web指标",
-        "slug": "_3-核心web指标",
-        "link": "#_3-核心web指标",
-        "children": []
-      }
-    ],
-    "path": "/Notes/Optimize/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "正则表达式",
-    "headers": [
-      {
-        "level": 2,
-        "title": "基础",
-        "slug": "基础",
-        "link": "#基础",
-        "children": [
-          {
-            "level": 3,
-            "title": "元字符",
-            "slug": "元字符",
-            "link": "#元字符",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "正则高级部分",
-        "slug": "正则高级部分",
-        "link": "#正则高级部分",
-        "children": [
-          {
-            "level": 3,
-            "title": "$1… $n匹配分组（原子组）",
-            "slug": "_1-n匹配分组-原子组",
-            "link": "#_1-n匹配分组-原子组",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "原子组别名",
-            "slug": "原子组别名",
-            "link": "#原子组别名",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "不记录原子",
-            "slug": "不记录原子",
-            "link": "#不记录原子",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "正向肯定预查",
-            "slug": "正向肯定预查",
-            "link": "#正向肯定预查",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "正向否定预查",
-            "slug": "正向否定预查",
-            "link": "#正向否定预查",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "反向肯定预查",
-            "slug": "反向肯定预查",
-            "link": "#反向肯定预查",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "反向否定预查",
-            "slug": "反向否定预查",
-            "link": "#反向否定预查",
-            "children": []
-          }
-        ]
-      }
-    ],
-    "path": "/Notes/Reg/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -4305,49 +4147,33 @@ export const searchIndex = [
             "slug": "effect",
             "link": "#effect",
             "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "3.computed原理",
-        "slug": "_3-computed原理",
-        "link": "#_3-computed原理",
-        "children": [
+          },
           {
             "level": 3,
-            "title": "ComputedRefImpl源码",
-            "slug": "computedrefimpl源码",
-            "link": "#computedrefimpl源码",
+            "title": "Ref",
+            "slug": "ref",
+            "link": "#ref",
             "children": []
           },
           {
             "level": 3,
-            "title": "triggerRefValue",
-            "slug": "triggerrefvalue",
-            "link": "#triggerrefvalue",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "4.watch原理",
-        "slug": "_4-watch原理",
-        "link": "#_4-watch原理",
-        "children": [
-          {
-            "level": 3,
-            "title": "doWatch",
-            "slug": "dowatch",
-            "link": "#dowatch",
+            "title": "Reactive",
+            "slug": "reactive",
+            "link": "#reactive",
             "children": []
           },
           {
             "level": 3,
-            "title": "traverse遍历函数",
-            "slug": "traverse遍历函数",
-            "link": "#traverse遍历函数",
+            "title": "3.computed原理",
+            "slug": "_3-computed原理",
+            "link": "#_3-computed原理",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "4.watch原理",
+            "slug": "_4-watch原理",
+            "link": "#_4-watch原理",
             "children": []
           }
         ]
@@ -4503,249 +4329,436 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "CSS相关问题",
+    "title": "浏览器相关面经",
     "headers": [
       {
         "level": 2,
-        "title": "1.多行文本溢出",
-        "slug": "_1-多行文本溢出",
-        "link": "#_1-多行文本溢出",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.移动端适配解决方案",
-        "slug": "_2-移动端适配解决方案",
-        "link": "#_2-移动端适配解决方案",
+        "title": "1.如何解决跨域",
+        "slug": "_1-如何解决跨域",
+        "link": "#_1-如何解决跨域",
         "children": [
           {
             "level": 3,
-            "title": "rem",
-            "slug": "rem",
-            "link": "#rem",
+            "title": "1.JSONP",
+            "slug": "_1-jsonp",
+            "link": "#_1-jsonp",
             "children": []
           },
           {
             "level": 3,
-            "title": "viewport",
-            "slug": "viewport",
-            "link": "#viewport",
+            "title": "2.后端设置CORS",
+            "slug": "_2-后端设置cors",
+            "link": "#_2-后端设置cors",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.proxy代理",
+            "slug": "_3-proxy代理",
+            "link": "#_3-proxy代理",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "4.nginx代理",
+            "slug": "_4-nginx代理",
+            "link": "#_4-nginx代理",
             "children": []
           }
         ]
       }
     ],
-    "path": "/Problems/Css/CSS%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html",
+    "path": "/Interview/Browser/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E9%9D%A2%E7%BB%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
   {
-    "title": "js中遇到的问题",
+    "title": "计算机网络",
     "headers": [
       {
         "level": 2,
-        "title": "1.字符串表情问题",
-        "slug": "_1-字符串表情问题",
-        "link": "#_1-字符串表情问题",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.如何记录用户信息-canvas",
-        "slug": "_2-如何记录用户信息-canvas",
-        "link": "#_2-如何记录用户信息-canvas",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.Ajax和fetch取消请求的方式",
-        "slug": "_3-ajax和fetch取消请求的方式",
-        "link": "#_3-ajax和fetch取消请求的方式",
+        "title": "一、http",
+        "slug": "一、http",
+        "link": "#一、http",
         "children": [
           {
             "level": 3,
-            "title": "3.1、fetch取消",
-            "slug": "_3-1、fetch取消",
-            "link": "#_3-1、fetch取消",
+            "title": "1.缓存",
+            "slug": "_1-缓存",
+            "link": "#_1-缓存",
             "children": []
           },
           {
             "level": 3,
-            "title": "3.2、Ajax取消",
-            "slug": "_3-2、ajax取消",
-            "link": "#_3-2、ajax取消",
+            "title": "2.缓存验证 （协商缓存/强缓存）",
+            "slug": "_2-缓存验证-协商缓存-强缓存",
+            "link": "#_2-缓存验证-协商缓存-强缓存",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.缓存位置",
+            "slug": "_3-缓存位置",
+            "link": "#_3-缓存位置",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.http1.0-3.0区别",
+            "slug": "_2-http1-0-3-0区别",
+            "link": "#_2-http1-0-3-0区别",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.0仍然存在的问题",
+            "slug": "_2-0仍然存在的问题",
+            "link": "#_2-0仍然存在的问题",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "http/3.0",
+            "slug": "http-3-0",
+            "link": "#http-3-0",
             "children": []
           }
         ]
       },
       {
         "level": 2,
-        "title": "4、页面更新自动刷新页面",
-        "slug": "_4、页面更新自动刷新页面",
-        "link": "#_4、页面更新自动刷新页面",
+        "title": "https协议",
+        "slug": "https协议",
+        "link": "#https协议",
         "children": []
       },
       {
         "level": 2,
-        "title": "5.用户输入法按enter会触发提交事件",
-        "slug": "_5-用户输入法按enter会触发提交事件",
-        "link": "#_5-用户输入法按enter会触发提交事件",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "Vuepress展示数学公式",
-        "slug": "vuepress展示数学公式",
-        "link": "#vuepress展示数学公式",
-        "children": []
-      }
-    ],
-    "path": "/Problems/JavaScript/js%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "埋点",
-    "headers": [
-      {
-        "level": 2,
-        "title": "初始化项目",
-        "slug": "初始化项目",
-        "link": "#初始化项目",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "生成.d.ts文件",
-        "slug": "生成-d-ts文件",
-        "link": "#生成-d-ts文件",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "代码展示",
-        "slug": "代码展示",
-        "link": "#代码展示",
-        "children": []
-      }
-    ],
-    "path": "/Problems/JavaScript/%E5%9F%8B%E7%82%B9.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "pm2",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.问题描述",
-        "slug": "_1-问题描述",
-        "link": "#_1-问题描述",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Node/pm2.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "项目中得到的问题",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.埋点API多平台调用",
-        "slug": "_1-埋点api多平台调用",
-        "link": "#_1-埋点api多平台调用",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.高度自动过度",
-        "slug": "_2-高度自动过度",
-        "link": "#_2-高度自动过度",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.SEO",
-        "slug": "_3-seo",
-        "link": "#_3-seo",
+        "title": "二、TCP",
+        "slug": "二、tcp",
+        "link": "#二、tcp",
         "children": [
           {
             "level": 3,
-            "title": "预渲染",
-            "slug": "预渲染",
-            "link": "#预渲染",
+            "title": "流量控制",
+            "slug": "流量控制-1",
+            "link": "#流量控制-1",
             "children": []
           },
           {
             "level": 3,
-            "title": "META标签配置",
-            "slug": "meta标签配置",
-            "link": "#meta标签配置",
+            "title": "拥塞控制",
+            "slug": "拥塞控制-1",
+            "link": "#拥塞控制-1",
             "children": []
           },
           {
             "level": 3,
-            "title": "robots文件",
-            "slug": "robots文件",
-            "link": "#robots文件",
+            "title": "tcp的建立",
+            "slug": "tcp的建立",
+            "link": "#tcp的建立",
             "children": []
           },
           {
             "level": 3,
-            "title": "sitemap站点地图",
-            "slug": "sitemap站点地图",
-            "link": "#sitemap站点地图",
+            "title": "tcp的连接释放",
+            "slug": "tcp的连接释放",
+            "link": "#tcp的连接释放",
             "children": []
           },
           {
             "level": 3,
-            "title": "内链和外链",
-            "slug": "内链和外链",
-            "link": "#内链和外链",
+            "title": "保活计时器",
+            "slug": "保活计时器",
+            "link": "#保活计时器",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "三、网络攻击",
+        "slug": "三、网络攻击",
+        "link": "#三、网络攻击",
+        "children": [
+          {
+            "level": 3,
+            "title": "1、XSS跨站脚本攻击",
+            "slug": "_1、xss跨站脚本攻击",
+            "link": "#_1、xss跨站脚本攻击",
             "children": []
           },
           {
             "level": 3,
-            "title": "网址规范",
-            "slug": "网址规范",
-            "link": "#网址规范",
+            "title": "2、CSRF",
+            "slug": "_2、csrf",
+            "link": "#_2、csrf",
             "children": []
           },
           {
             "level": 3,
-            "title": "301重定向",
-            "slug": "_301重定向",
-            "link": "#_301重定向",
+            "title": "3.SQL注入",
+            "slug": "_3-sql注入",
+            "link": "#_3-sql注入",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "4.脚本执行",
+            "slug": "_4-脚本执行",
+            "link": "#_4-脚本执行",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "5.读取+修改",
+            "slug": "_5-读取-修改",
+            "link": "#_5-读取-修改",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "6.DDOS",
+            "slug": "_6-ddos",
+            "link": "#_6-ddos",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "四、WEB安全防御",
+        "slug": "四、web安全防御",
+        "link": "#四、web安全防御",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "四、网络结构",
+        "slug": "四、网络结构",
+        "link": "#四、网络结构",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "五、SSO单点登陆",
+        "slug": "五、sso单点登陆",
+        "link": "#五、sso单点登陆",
+        "children": []
+      }
+    ],
+    "path": "/Interview/ComputerNetwork/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "css面经",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.隐藏元素的方法",
+        "slug": "_1-隐藏元素的方法",
+        "link": "#_1-隐藏元素的方法",
+        "children": []
+      }
+    ],
+    "path": "/Interview/Css/css%E9%9D%A2%E7%BB%8F.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "js面经",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.为什么0.1+0.2不等于0.3",
+        "slug": "_1-为什么0-1-0-2不等于0-3",
+        "link": "#_1-为什么0-1-0-2不等于0-3",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.如何跨页通讯",
+        "slug": "_2-如何跨页通讯",
+        "link": "#_2-如何跨页通讯",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.promise、生成器和async、awiat",
+        "slug": "_3-promise、生成器和async、awiat",
+        "link": "#_3-promise、生成器和async、awiat",
+        "children": [
+          {
+            "level": 3,
+            "title": "手写标准promise",
+            "slug": "手写标准promise",
+            "link": "#手写标准promise",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "模拟实现async await",
+            "slug": "模拟实现async-await",
+            "link": "#模拟实现async-await",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "并发控制",
+            "slug": "并发控制",
+            "link": "#并发控制",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "4.使用void 0代替 undefined",
+        "slug": "_4-使用void-0代替-undefined",
+        "link": "#_4-使用void-0代替-undefined",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "5.如何检查是否发生内存泄漏",
+        "slug": "_5-如何检查是否发生内存泄漏",
+        "link": "#_5-如何检查是否发生内存泄漏",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "6.为什么typeof null是对象",
+        "slug": "_6-为什么typeof-null是对象",
+        "link": "#_6-为什么typeof-null是对象",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "7.类class",
+        "slug": "_7-类class",
+        "link": "#_7-类class",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "深拷贝",
+        "slug": "深拷贝",
+        "link": "#深拷贝",
+        "children": []
+      }
+    ],
+    "path": "/Interview/JavaScript/js%E9%9D%A2%E7%BB%8F.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "node面经",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.2、垃圾回收机制",
+        "slug": "_1-2、垃圾回收机制",
+        "link": "#_1-2、垃圾回收机制",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.2.1、内存分代",
+            "slug": "_1-2-1、内存分代",
+            "link": "#_1-2-1、内存分代",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.2.2、scavenge算法-针对于新生代",
+            "slug": "_1-2-2、scavenge算法-针对于新生代",
+            "link": "#_1-2-2、scavenge算法-针对于新生代",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.2.3、Mark-Sweep & Mark-Compact-针对于老生代",
+            "slug": "_1-2-3、mark-sweep-mark-compact-针对于老生代",
+            "link": "#_1-2-3、mark-sweep-mark-compact-针对于老生代",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.2.4、Incremental Marking-针对垃圾回收引起全停顿",
+            "slug": "_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
+            "link": "#_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
             "children": []
           }
         ]
       }
     ],
-    "path": "/Problems/Project/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BE%97%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
+    "path": "/Interview/Node/node%E9%9D%A2%E7%BB%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
   {
-    "title": "服务器",
+    "title": "操作系统",
     "headers": [
       {
         "level": 2,
-        "title": "服务器搭建流程",
-        "slug": "服务器搭建流程",
-        "link": "#服务器搭建流程",
-        "children": []
-      },
+        "title": "1、进程相关",
+        "slug": "_1、进程相关",
+        "link": "#_1、进程相关",
+        "children": [
+          {
+            "level": 3,
+            "title": "线程",
+            "slug": "线程",
+            "link": "#线程",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "进程如何运行的",
+            "slug": "进程如何运行的",
+            "link": "#进程如何运行的",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "进程调度算法",
+            "slug": "进程调度算法",
+            "link": "#进程调度算法",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "进程之间如何通信",
+            "slug": "进程之间如何通信",
+            "link": "#进程之间如何通信",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "孤儿进程和僵尸进程",
+            "slug": "孤儿进程和僵尸进程",
+            "link": "#孤儿进程和僵尸进程",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Interview/OS/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "Vue面经",
+    "headers": [
       {
         "level": 2,
-        "title": "浏览器报错",
-        "slug": "浏览器报错",
-        "link": "#浏览器报错",
+        "title": "",
+        "slug": "",
+        "link": "#",
         "children": []
       }
     ],
-    "path": "/Problems/Server/%E6%9C%8D%E5%8A%A1%E5%99%A8.html",
+    "path": "/Interview/Vue/Vue%E9%9D%A2%E7%BB%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
