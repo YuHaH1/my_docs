@@ -238,6 +238,101 @@
     <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_4-js原理-v8" tabindex="-1"><a class="header-anchor" href="#_4-js原理-v8" aria-hidden="true">#</a> 4.JS原理-V8</h2>
+<p>JS使用运行时编译（Just In Time Compliation），这种方式是在运行过程中生成机器代码，而不是提前编译生成。而将JS转成机器语言并执行的就是JS引擎。AOT与JIT刚好相反，AOT先生成机器码在运行</p>
+<p>这些引擎都是先通过解析器（parser）解析成抽象语法AST，然后通过解释器（interpreter）将AST编译成字节码，字节码是跨平台的中间表示（字节码与平台无关，能在不同操作系统上运行），字节码通过编译器（Compiler）生成机器代码。</p>
+<p>总结：</p>
+<ul>
+<li>解析器负责将代码解析成AST</li>
+<li>解释器负责将AST编译成字节码并执行</li>
+<li>编译器负责编译运行更高效的机器码</li>
+</ul>
+<h3 id="v8" tabindex="-1"><a class="header-anchor" href="#v8" aria-hidden="true">#</a> V8</h3>
+<p>V8是一个接收js代码，编译代码然后执行的C++程序，编译后的代码可以再多种操作系统多种处理器上运行。</p>
+<p>V8主要做以下工作</p>
+<ul>
+<li>编译执行JS代码，处理调用栈</li>
+<li>内存分配</li>
+<li>垃圾回收</li>
+</ul>
+<p>V8 @version5.9版本没有解释器（不编译为字节码），使用两个编译器。执行流程如下：</p>
+<ul>
+<li>js解析器解析生成AST</li>
+<li>Full-codegen编译器1直接使用AS编译出机器码（Full-codegen是一个基准编译器，它生成的机器码是未被优化的机器码）</li>
+<li>然后运行过程中通过Crankshaft优化编译器2来做代码优化，需要优化的代码重新解析生成AST，然后Crankshaft通过优化好的AST生成优化好的机器码</li>
+</ul>
+<div class="custom-container tip"><p class="custom-container-title">TIP</p>
+<p>这样设计有优缺点</p>
+<p>优点如下：</p>
+<ul>
+<li>没有了AST到字节码的转换时间，一定程度上提高浏览器执行JS的性能</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>生成的机器码会占用大量内存。</li>
+<li>缺少中间层机器码，无法实现一些优化策略。</li>
+<li>这些编译器无法很好支持和优化JS新语法特性。</li>
+</ul>
+</div>
+<p>V8新版本执行流程如下：</p>
+<ul>
+<li>解析器生成AST</li>
+<li>使用Igniton基准解析器，生成字节码（此时清除AST释放内存空间）</li>
+<li>生成的字节码直接作为基准执行模型，（在代码不断运行过程中解释器收集可以优化代码的信息【例如变量类型、函数使用频率】）</li>
+<li>优化编译器TruboFan根据上面收集的优化信息来编译出经过优化的机器码</li>
+<li>如果收集了错误信息，会逆向将机器码回退成字节码，然后由解释器解释执行（例如sum函数求两数之和多次调用，用整型a,b，突然传入字符串和对象相加这时候机器码不知道如何处理就会进行deoptimizetion回退成字节码，由解释器解释执行）</li>
+</ul>
+<div class="custom-container tip"><p class="custom-container-title">TIP</p>
+<p>新版本的优点：</p>
+<ul>
+<li>字节码生成速度远高于机器码，所以网页解析执行js速度更快。</li>
+<li>生成优化机器码时，不需要重新编译。</li>
+</ul>
+</div>
+<p><strong>V8使用的优化策略如下</strong></p>
+<ul>
+<li>函数声明但未使用不会解析生成为AST</li>
+<li>如果函数只被调用一次，则字节码直接被解释执行，不会对其进行优化编译</li>
+<li>函数被调用多次，可能被标记为热点函数，可能会被编译成优化后的机器代码</li>
+</ul>
+<h3 id="解释型语言和编译型语言的区别" tabindex="-1"><a class="header-anchor" href="#解释型语言和编译型语言的区别" aria-hidden="true">#</a> 解释型语言和编译型语言的区别</h3>
+<p>解释型语言和编译型语言是两种不同的编程语言类型，它们在代码<strong>执行方式和性能方面</strong>有所区别。</p>
+<p><strong>解释型语言</strong>：</p>
+<ul>
+<li>解释型语言的代码在运行之前不需要经过编译器的处理。代码逐行地由解释器读取并执行。</li>
+<li>解释型语言的代码是一行一行地解释执行的，每行代码都会在运行时被解释器翻译成机器代码并立即执行。</li>
+<li>解释型语言的优点是开发过程中更加灵活，可以快速进行开发和调试，因为无需等待编译过程。</li>
+<li>但是，解释型语言在执行时需要实时翻译和解释代码，因此通常比编译型语言的执行速度较慢。</li>
+</ul>
+<p><strong>型语言</strong>：</p>
+<ul>
+<li>编译型语言的代码在运行之前需要经过编译器的处理。编译器将源代码一次性地转换成机器代码（或称为目标代码）。</li>
+<li>编译过程将源代码转换成机器代码的输出文件，可以在以后的执行中直接被计算机处理，无需重新翻译。</li>
+<li>编译型语言的执行速度通常比解释型语言更快，因为代码在运行之前已经被完全转换成机器代码。</li>
+<li>编译型语言的缺点是开发过程中相对不够灵活，因为每次修改代码后都需要重新编译才能运行。</li>
+</ul>
+<p>总结：</p>
+<ul>
+<li>解释型语言在运行时逐行解释执行代码，开发灵活但执行速度相对较慢。</li>
+<li>编译型语言在运行之前将代码转换成机器代码，执行速度较快但开发过程相对不够灵活。</li>
+<li>选择使用哪种类型的语言取决于项目的需求，包括开发速度、执行速度和可移植性等方面的考虑。</li>
+</ul>
+<h3 id="字节码和机器码" tabindex="-1"><a class="header-anchor" href="#字节码和机器码" aria-hidden="true">#</a> 字节码和机器码</h3>
+<p><strong>字节码：</strong></p>
+<p>字节码（Bytecode）是一种中间表示形式，位于源代码和机器码之间。它是一种由特定虚拟机（如Java虚拟机）执行的低级指令集。</p>
+<p>字节码通常是由源代码经过编译器转换生成的，它是一种平台无关的形式，可以在不同的硬件和操作系统上执行。字节码使用一组指令来描述源代码的操作和逻辑，并以二进制形式存储。</p>
+<p>字节码相比于源代码和机器码更接近于高级编程语言，它的指令通常比机器码更简单易懂。字节码指令可以执行诸如赋值、算术运算、条件判断、循环等基本操作，以及调用函数、创建对象等高级操作。</p>
+<p>字节码需要通过解释器或即时编译器（Just-In-Time Compiler）在运行时逐条解释或编译成机器码来执行。解释器逐条解释字节码指令并执行相应的操作，而即时编译器将字节码编译成机器码，然后执行编译后的机器码。字节码的执行方式取决于所使用的虚拟机及其实现。</p>
+<p>字节码在跨平台和动态性方面具有优势。由于字节码是平台无关的，在不同的操作系统和硬件上都可以执行。此外，字节码的中间表示形式使得一些动态特性成为可能，例如动态类型检查、反射和动态加载等。</p>
+<p>Java 虚拟机（JVM）是一个广为人知的使用字节码的例子。Java 源代码首先被编译为字节码，然后由 JVM 的解释器或即时编译器将字节码解释或编译成机器码，最终由计算机硬件执行。这种方式使得 Java 程序具有跨平台的能力。</p>
+<p><strong>机器码：</strong></p>
+<p>机器码（Machine Code）是一种由计算机硬件直接可以识别和执行的二进制指令集。它是最底层的指令形式，由CPU（中央处理器）直接执行。</p>
+<p>机器码是特定于硬件平台的，不同的处理器和操作系统有不同的机器码格式。每个处理器都有其特定的指令集架构，机器码是按照该指令集架构编码的指令序列。</p>
+<p>机器码指令是由一系列二进制位组成的，每个位对应于特定的硬件操作。例如，一个机器码指令可能用于将两个寄存器中的值相加，或者将数据从内存加载到寄存器中。</p>
+<p>机器码的执行是由CPU直接执行的，CPU会按照指令的编码解析每条机器码指令，并执行相应的操作。CPU根据指令的操作码（opcode）来确定执行的具体操作，使用指令中的操作数（operand）来获取操作所需的数据。</p>
+<p>由于机器码是直接操作底层硬件资源的指令集，它提供了最高的执行效率。机器码的执行速度较快，因为它是硬件平台的本地指令，可以直接与底层硬件交互。</p>
+<p>机器码通常是由汇编器将汇编语言程序转换生成的。汇编语言是一种与机器码一一对应的文本表示形式，使用助记符和符号来代表不同的机器码指令。汇编器将汇编语言程序转换成机器码，使得程序可以直接在计算机硬件上执行。</p>
+<p>总结起来，机器码是计算机硬件直接可以识别和执行的二进制指令集，它是最底层的指令形式。与高级编程语言和字节码相比，机器码更接近硬件操作，提供了最高的执行效率。</p>
+<CommentService/></div></template>
 
 

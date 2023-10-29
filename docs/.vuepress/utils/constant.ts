@@ -3,10 +3,8 @@ const SUBJECTS = {
     vue: 'vue',
     sass: 'sass',
     ts: 'typeScript',
-    node: 'node',
     js: 'javaScript',
     docker: 'docker',
-    go: 'golang',
     npm: 'packageManager',
     vite: 'vite',
     engineering: 'FrontEndEngineering',
@@ -15,6 +13,7 @@ const SUBJECTS = {
     linux: 'linux',
     shell: 'shell',
     css: 'css',
+    node: 'node',
     canvas: 'canvas',
     utils: {
         node: 'nodeDependency',
@@ -33,12 +32,10 @@ const SUBJECTS = {
 }
 
 const Notes_Sidebar_Setting = [
-    [SUBJECTS.go, 'golang.md'],
     [SUBJECTS.react, 'fiber.md', 'diff.md', '基础.md', 'React状态管理.md'],
     [SUBJECTS.vue, 'diff.md', 'vueRouter.md', 'vue3.3版本.md', 'pinia.md', '响应式原理.md', '编译原理.md', 'vue-loader初探.md', 'Vue3异步更新.md', 'Vue内置组件.md', 'Vue生命周期.md'],
     [SUBJECTS.sass, 'grammar.md'],
     [SUBJECTS.ts, 'grammar.md', '类型体操.md'],
-    [SUBJECTS.node, 'node基础知识.md', 'common_apis.md', 'pm2.md', 'sequelize.md'],
     [SUBJECTS.js, '必会APIs.md', 'js进阶.md', '设计模式.md'],
     [SUBJECTS.docker, 'docker基础知识.md'],
     [SUBJECTS.linux, 'linux常用指令.md', 'shell脚本.md'],
@@ -55,14 +52,15 @@ const Notes_Sidebar_Setting = [
         '项目初始化.md',
         'rollup.md',
         '单元测试.md',
-        '跨端开发.md'
+        '跨端开发.md',
+        // 'CI-CD.md'
     ],
     [SUBJECTS.optimize, '性能优化.md'],
     [SUBJECTS.git, 'Git基础.md'],
     [SUBJECTS.English, '英语单词.md'],
     [SUBJECTS.browser, '浏览器必备知识.md'],
     [SUBJECTS.algorithms, '算法.md', '数据结构.md'],
-    [SUBJECTS['服务器'], 'Nginx.md'],
+    [SUBJECTS['服务器'], 'Nginx.md', 'node基础知识.md', 'common_apis.md', 'pm2.md', 'sequelize.md', 'golang.md', 'Nest.md',],
     [SUBJECTS.web3, 'Web3.md'],
     [SUBJECTS.reg, '正则表达式.md']
 
@@ -121,7 +119,6 @@ const Notes_navbar_Setting = [
     SUBJECTS.vue,
     SUBJECTS.sass,
     SUBJECTS.ts,
-    SUBJECTS.node,
     SUBJECTS.js,
     SUBJECTS.docker,
     SUBJECTS.linux,
@@ -134,7 +131,6 @@ const Notes_navbar_Setting = [
     SUBJECTS.browser,
     SUBJECTS.algorithms,
     SUBJECTS['服务器'],
-    SUBJECTS.go,
     SUBJECTS.web3,
     SUBJECTS.reg
 ]
