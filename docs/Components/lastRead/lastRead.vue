@@ -1,16 +1,16 @@
 <template>
-    <div class="container">
+    <div class="container" ref="containerRef">
         <span class="des">
             {{ hasData ? '最近浏览' : '暂无记录' }}
             <span class="arrow down"></span>
         </span>
 
-        <div class="rencent-content-container">
+        <div class="rencent-content-container" ref="contentRef">
             <div class="rencent-content" v-for="item in storageInfo">
                 <span class="min_screen_tip"
                     ><em>{{ item.title + item.hash }}</em>
                 </span>
-                <div :class="['content', hightLight(item)]" @click="gotoLastRead(item)">
+                <div :class="['content', hightLight(item)]" @click.self="gotoLastRead(item)">
                     {{ item.title }}
                 </div>
             </div>
@@ -23,13 +23,17 @@ export default {
 };
 </script>
 <script setup lang="ts">
+import {ref} from 'vue';
 import {useRouteLocale} from '@vuepress/client';
 import {useRouter} from 'vue-router';
 import useLastRead from './composables/useLRU';
+import useDrag from './composables/useDrag';
 const router = useRouter();
 const routeLocale = useRouteLocale();
-
 const {storageInfo, gotoLastRead, hasData, hightLight} = useLastRead(router);
+const containerRef = ref<HTMLElement>();
+const contentRef = ref<HTMLElement>();
+const drag = useDrag(containerRef);
 </script>
 
 <style lang="scss" scoped>
@@ -48,7 +52,6 @@ const {storageInfo, gotoLastRead, hasData, hightLight} = useLastRead(router);
     line-height: var(--container-height);
     border-radius: 0.5rem;
     text-align: center;
-    transition: all 0.5s linear;
     .arrow {
         display: inline-block;
         width: 0;

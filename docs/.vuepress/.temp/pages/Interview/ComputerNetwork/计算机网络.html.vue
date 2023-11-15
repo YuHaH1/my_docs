@@ -200,7 +200,50 @@ Cache-control: s-maxage=&lt;seconds>
 <li>**基于拥塞窗口：**QUIC协议中，每个数据包都有一个拥塞窗口大小，用于限制发送方发送的数据包数量和大小。发送方根据收到的ACK包和拥塞控制算法计算出下一次发送数据包的拥塞窗口大小，并动态调整发送速率和窗口大小，避免拥塞和网络阻塞。</li>
 <li>**基于慢启动和拥塞避免：**QUIC协议中，发送方在连接建立后采用慢启动算法，逐步增加拥塞窗口大小，以便在网络拥塞时找到最适合的发送速率。同时，在拥塞窗口达到一定大小时，发送方采用拥塞避免算法，逐步增加拥塞窗口大小，以避免网络拥塞和阻塞。</li>
 </ol>
-<h2 id="https协议" tabindex="-1"><a class="header-anchor" href="#https协议" aria-hidden="true">#</a> https协议</h2>
+<h3 id="状态码" tabindex="-1"><a class="header-anchor" href="#状态码" aria-hidden="true">#</a> 状态码</h3>
+<p>1xx</p>
+<ol>
+<li>101（协议切换）状态码表示<strong>服务器</strong>应<strong>客户端****升级协议</strong>的请求对协议进行切换。（http2/websocket）</li>
+</ol>
+<p>2xx</p>
+<ol>
+<li>200 ok成功访问资源</li>
+<li>204请求处理成功，但没有资源可返回</li>
+<li>206该状态码表示客户端进行了范围请求，而服务器成功执行了这部分的 GET 请求，响应报文中包含由 <strong>Content-Range</strong> 指定范围的实体内容</li>
+</ol>
+<p>3xx</p>
+<ol>
+<li>301永久重定向以后应使用资源现在所指的 URI，如果用户保存了书签会更新书签的uri。</li>
+<li>302临时重定向不会像 301 状态码出现时那样去更新书签，，而是仍旧保留返回 302 状态码的页面对应的 URI。301、302 标准是禁止将 POST 方法改变成 GET 方法的，但实际使用时大家都会这么做</li>
+<li>303临时重定向后用GET获取资源</li>
+<li>304强缓存   etag  if-match if-none-match     if-modified-since</li>
+<li>307临时重定向，不会从post变成get</li>
+</ol>
+<p>4xx</p>
+<ol>
+<li>
+<p>400请求报文存在语法错误。</p>
+</li>
+<li>
+<p>401 没有认证eg没token 、cookie</p>
+</li>
+<li>
+<p>403是客户端带了正确的认证信息, 但服务器认为这个认证信息对应的用户是没有对应资源的访问权限的, 被服务器拒绝。比如没有权限，员工做了管理员的操作</p>
+</li>
+<li>
+<p>404找不到访问的资源</p>
+</li>
+<li>
+<p>405客户端请求的方法虽然能被服务器识别，但是服务器禁止使用该方法.客户端可以通过 OPTIONS 方法来查看服务器允许的访问方法, 如下</p>
+<div class="language-http line-numbers-mode" data-ext="http"><pre v-pre class="language-http"><code>Access-Control-Allow-Methods :GET,HEAD,PUT,PATCH,POST,DELETE
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div></li>
+</ol>
+<p>5xx</p>
+<ol>
+<li>500 服务器处理请求时发生错误，可能存在bug</li>
+<li>503服务器暂时无法响应，服务器暂时处于超负载或正在进行停机维护，如果事先得知解除以上状况需要的时间，最好写入 RetryAfter 首部字段再返回 给客户端</li>
+</ol>
+<h3 id="https协议" tabindex="-1"><a class="header-anchor" href="#https协议" aria-hidden="true">#</a> https协议</h3>
 <p>https通过使用SSL（Secure Sockets Layer）或TLS（Transport Layer Security）加密协议来确保数据的机密性和完整性。https有如下特点</p>
 <ol>
 <li>数据加密：HTTPS使用SSL/TLS协议对传输的数据进行加密。在建立HTTPS连接时，客户端和服务器之间进行握手，协商加密算法和密钥，然后使用这些密钥对传输的数据进行加密。这样，即使数据被截获，也无法轻易解密其中的内容。</li>

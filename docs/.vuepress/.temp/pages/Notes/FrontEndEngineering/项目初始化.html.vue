@@ -200,6 +200,34 @@ pnpm run commitlint
 <div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token property">"sciprt"</span><span class="token operator">:</span><span class="token punctuation">{</span>
      <span class="token property">"preinstall"</span><span class="token operator">:</span> <span class="token string">"node preinstall.js"</span>
 <span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="生产环境优化" tabindex="-1"><a class="header-anchor" href="#生产环境优化" aria-hidden="true">#</a> 生产环境优化</h2>
+<h3 id="代码分割和代码压缩" tabindex="-1"><a class="header-anchor" href="#代码分割和代码压缩" aria-hidden="true">#</a> 代码分割和代码压缩</h3>
+<p><a href="https://github.com/nonzzz/vite-plugin-compression" target="_blank" rel="noopener noreferrer">代码压缩<ExternalLinkIcon/></a></p>
+<p><a href="https://github.com/sanyuan0704/vite-plugin-chunk-split" target="_blank" rel="noopener noreferrer">代码分割<ExternalLinkIcon/></a></p>
+<p>vite项目</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">install</span><span class="token string">'vite-plugin-compression2'</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> defineConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vite'</span>
+<span class="token keyword">import</span> vue <span class="token keyword">from</span> <span class="token string">'@vitejs/plugin-vue'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> chunkSplitPlugin <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vite-plugin-chunk-split'</span>
+
+<span class="token keyword">import</span> <span class="token punctuation">{</span> compression <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vite-plugin-compression2'</span>
+<span class="token comment">// https://vitejs.dev/config/</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">defineConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token function">vue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">compression</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">exclude</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\.html$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">chunkSplitPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token literal-property property">strategy</span><span class="token operator">:</span> <span class="token string">'single-vendor'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">customSplitting</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+
+      <span class="token string-property property">'vue-vendor'</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'vue'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token string-property property">'vue-utils'</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'pinia'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token comment">// Any file that includes `utils` in src dir will be bundled in the `utils` chunk</span>
+      <span class="token string-property property">'utils'</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">src\/utils</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
 
 

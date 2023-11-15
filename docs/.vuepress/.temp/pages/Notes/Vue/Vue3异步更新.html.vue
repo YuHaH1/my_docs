@@ -1,4 +1,4 @@
-<template><div><h1 id="vue3异步更新" tabindex="-1"><a class="header-anchor" href="#vue3异步更新" aria-hidden="true">#</a> Vue3异步更新</h1>
+<template><div><h1 id="vue3" tabindex="-1"><a class="header-anchor" href="#vue3" aria-hidden="true">#</a> Vue3</h1>
 <p>Vue3的异步更新由<code v-pre>scheduler</code>调度程序执行具体任务，以保证生命周期和组件渲染的正确性。</p>
 <p>Vue3中scheduler维护三个队列<code v-pre>pre/queue/ post</code></p>
 <table>

@@ -726,6 +726,88 @@ function CountSnapshot(){
 }
 ~~~
 
+
+
+## Zustrand
+
+[文档](https://docs.pmnd.rs/zustand/getting-started/introduction)
+
+### 安装
+
+~~~shell
+pnpm install zustand
+~~~
+
+
+
+### 创建Store
+
+#### 基本数据类型state
+
+~~~ts
+import { create } from 'zustand'
+
+type State = {
+  firstName: string
+  lastName: string
+}
+
+type Action = {
+  updateFirstName: (firstName: State['firstName']) => void
+  updateLastName: (lastName: State['lastName']) => void
+}
+const usePersonStore = create<State & Action>((set) => ({
+  firstName: '',
+  lastName: '',
+  updateFirstName: (firstName) => set(() => ({ firstName: firstName })),
+  updateLastName: (lastName) => set(() => ({ lastName: lastName })),
+}))
+
+
+~~~
+
+组件中
+
+~~~tsx
+function App() {
+  const firstName = usePersonStore((state) => state.firstName)
+  const updateFirstName = usePersonStore((state) => state.updateFirstName)
+
+  return (
+    <main>
+      <label>
+        First name
+        <input
+          // Update the "firstName" state
+          onChange={(e) => updateFirstName(e.currentTarget.value)}
+          value={firstName}
+        />
+      </label>
+
+      <p>
+        Hello, <strong>{firstName}!</strong>
+      </p>
+    </main>
+  )
+}
+~~~
+
+#### 嵌套对象的state
+
+```jsx
+import { create } from 'zustand'
+
+const useCountStore = create((set) => ({
+  nested: { count: 0 },
+  inc: () =>
+    set((state) => ({
+      nested: { ...state.nested, count: state.nested.count + 1 },
+    })),
+}))
+```
+
+
+
 ## 实现简单状态管理工具
 
 

@@ -613,7 +613,23 @@ sum<span class="token punctuation">[</span><span class="token constant">L</span>
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="回溯算法" tabindex="-1"><a class="header-anchor" href="#回溯算法" aria-hidden="true">#</a> 回溯算法</h3>
 <p>回溯==暴力穷举</p>
 <p>穷举的过程就是遍历一颗多叉树的过程</p>
-<h2 id="美团笔试题" tabindex="-1"><a class="header-anchor" href="#美团笔试题" aria-hidden="true">#</a> 美团笔试题</h2>
+<h3 id="双指针" tabindex="-1"><a class="header-anchor" href="#双指针" aria-hidden="true">#</a> 双指针</h3>
+<p>同向指针一块一慢</p>
+<h4 id="题目1" tabindex="-1"><a class="header-anchor" href="#题目1" aria-hidden="true">#</a> 题目1</h4>
+<p>https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/description/?envType=featured-list&amp;envId=2ckc81c?envType=featured-list&amp;envId=2ckc81c</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">var</span> <span class="token function-variable function">strStr</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">haystack<span class="token punctuation">,</span> needle</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> fast<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>slow <span class="token operator">=</span> <span class="token number">0</span>
+     <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span> slow <span class="token operator">&lt;</span> haystack<span class="token punctuation">.</span>length<span class="token operator">&amp;&amp;</span>fast<span class="token operator">&lt;</span>needle<span class="token punctuation">.</span>length<span class="token punctuation">;</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         <span class="token keyword">if</span><span class="token punctuation">(</span>haystack<span class="token punctuation">[</span>slow<span class="token operator">+</span>fast<span class="token punctuation">]</span> <span class="token operator">===</span> needle<span class="token punctuation">[</span>fast<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            fast<span class="token operator">++</span>
+         <span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span>
+            slow<span class="token operator">++</span>
+            fast <span class="token operator">=</span> <span class="token number">0</span>
+         <span class="token punctuation">}</span>
+     <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> fast <span class="token operator">===</span> needle<span class="token punctuation">.</span>length <span class="token operator">?</span> slow <span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="美团笔试题" tabindex="-1"><a class="header-anchor" href="#美团笔试题" aria-hidden="true">#</a> 美团笔试题</h2>
 <p>小美的外卖订单</p>
 <p>小美正在设计美团外卖的定价信息。已知外卖定价的规则如下：</p>
 <ol>

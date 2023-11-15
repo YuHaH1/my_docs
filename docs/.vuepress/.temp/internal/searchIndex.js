@@ -85,14 +85,51 @@ export const searchIndex = [
             "title": "1.缓存",
             "slug": "_1-缓存",
             "link": "#_1-缓存",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "Cache-Control",
+                "slug": "cache-control",
+                "link": "#cache-control",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "可缓存性指令",
+                "slug": "可缓存性指令",
+                "link": "#可缓存性指令",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "到期指令",
+                "slug": "到期指令",
+                "link": "#到期指令",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "2.缓存验证 （协商缓存/强缓存）",
             "slug": "_2-缓存验证-协商缓存-强缓存",
             "link": "#_2-缓存验证-协商缓存-强缓存",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "1.Last-Modified / If-Modified-Since",
+                "slug": "_1-last-modified-if-modified-since",
+                "link": "#_1-last-modified-if-modified-since",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "2.ETag/if-None-Match",
+                "slug": "_2-etag-if-none-match",
+                "link": "#_2-etag-if-none-match",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -106,7 +143,57 @@ export const searchIndex = [
             "title": "2.http1.0-3.0区别",
             "slug": "_2-http1-0-3-0区别",
             "link": "#_2-http1-0-3-0区别",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "htpp/1.0",
+                "slug": "htpp-1-0",
+                "link": "#htpp-1-0",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "http/1.1",
+                "slug": "http-1-1",
+                "link": "#http-1-1",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "http/2.0",
+                "slug": "http-2-0",
+                "link": "#http-2-0",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "二进制分帧的优点：",
+                "slug": "二进制分帧的优点",
+                "link": "#二进制分帧的优点",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "多路复用？",
+                "slug": "多路复用",
+                "link": "#多路复用",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "头部压缩",
+                "slug": "头部压缩",
+                "link": "#头部压缩",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "流量控制",
+                "slug": "流量控制",
+                "link": "#流量控制",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -120,16 +207,38 @@ export const searchIndex = [
             "title": "http/3.0",
             "slug": "http-3-0",
             "link": "#http-3-0",
+            "children": [
+              {
+                "level": 4,
+                "title": "快恢复",
+                "slug": "快恢复",
+                "link": "#快恢复",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "拥塞控制",
+                "slug": "拥塞控制",
+                "link": "#拥塞控制",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "状态码",
+            "slug": "状态码",
+            "link": "#状态码",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "https协议",
+            "slug": "https协议",
+            "link": "#https协议",
             "children": []
           }
         ]
-      },
-      {
-        "level": 2,
-        "title": "https协议",
-        "slug": "https协议",
-        "link": "#https协议",
-        "children": []
       },
       {
         "level": 2,
@@ -149,21 +258,66 @@ export const searchIndex = [
             "title": "拥塞控制",
             "slug": "拥塞控制-1",
             "link": "#拥塞控制-1",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "慢开始",
+                "slug": "慢开始",
+                "link": "#慢开始",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "拥塞避免",
+                "slug": "拥塞避免",
+                "link": "#拥塞避免",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "快重传",
+                "slug": "快重传",
+                "link": "#快重传",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "快恢复",
+                "slug": "快恢复-1",
+                "link": "#快恢复-1",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "tcp的建立",
             "slug": "tcp的建立",
             "link": "#tcp的建立",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "tcp为什么不能二次握手",
+                "slug": "tcp为什么不能二次握手",
+                "link": "#tcp为什么不能二次握手",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "tcp的连接释放",
             "slug": "tcp的连接释放",
             "link": "#tcp的连接释放",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "为什么不能三次挥手或更多次",
+                "slug": "为什么不能三次挥手或更多次",
+                "link": "#为什么不能三次挥手或更多次",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -247,6 +401,21 @@ export const searchIndex = [
       }
     ],
     "path": "/Interview/ComputerNetwork/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "css面经",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.隐藏元素的方法",
+        "slug": "_1-隐藏元素的方法",
+        "link": "#_1-隐藏元素的方法",
+        "children": []
+      }
+    ],
+    "path": "/Interview/Css/css%E9%9D%A2%E7%BB%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -337,17 +506,54 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "css面经",
+    "title": "node面经",
     "headers": [
       {
         "level": 2,
-        "title": "1.隐藏元素的方法",
-        "slug": "_1-隐藏元素的方法",
-        "link": "#_1-隐藏元素的方法",
-        "children": []
+        "title": "1.2、垃圾回收机制",
+        "slug": "_1-2、垃圾回收机制",
+        "link": "#_1-2、垃圾回收机制",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.2.1、内存分代",
+            "slug": "_1-2-1、内存分代",
+            "link": "#_1-2-1、内存分代",
+            "children": [
+              {
+                "level": 4,
+                "title": "1.2.1.1、新生代内存",
+                "slug": "_1-2-1-1、新生代内存",
+                "link": "#_1-2-1-1、新生代内存",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "1.2.2、scavenge算法-针对于新生代",
+            "slug": "_1-2-2、scavenge算法-针对于新生代",
+            "link": "#_1-2-2、scavenge算法-针对于新生代",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.2.3、Mark-Sweep & Mark-Compact-针对于老生代",
+            "slug": "_1-2-3、mark-sweep-mark-compact-针对于老生代",
+            "link": "#_1-2-3、mark-sweep-mark-compact-针对于老生代",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "1.2.4、Incremental Marking-针对垃圾回收引起全停顿",
+            "slug": "_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
+            "link": "#_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
+            "children": []
+          }
+        ]
       }
     ],
-    "path": "/Interview/Css/css%E9%9D%A2%E7%BB%8F.html",
+    "path": "/Interview/Node/node%E9%9D%A2%E7%BB%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -365,7 +571,29 @@ export const searchIndex = [
             "title": "线程",
             "slug": "线程",
             "link": "#线程",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "用户级线程",
+                "slug": "用户级线程",
+                "link": "#用户级线程",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "内核级线程",
+                "slug": "内核级线程",
+                "link": "#内核级线程",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "轻量级进程",
+                "slug": "轻量级进程",
+                "link": "#轻量级进程",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -399,50 +627,6 @@ export const searchIndex = [
       }
     ],
     "path": "/Interview/OS/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "node面经",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.2、垃圾回收机制",
-        "slug": "_1-2、垃圾回收机制",
-        "link": "#_1-2、垃圾回收机制",
-        "children": [
-          {
-            "level": 3,
-            "title": "1.2.1、内存分代",
-            "slug": "_1-2-1、内存分代",
-            "link": "#_1-2-1、内存分代",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "1.2.2、scavenge算法-针对于新生代",
-            "slug": "_1-2-2、scavenge算法-针对于新生代",
-            "link": "#_1-2-2、scavenge算法-针对于新生代",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "1.2.3、Mark-Sweep & Mark-Compact-针对于老生代",
-            "slug": "_1-2-3、mark-sweep-mark-compact-针对于老生代",
-            "link": "#_1-2-3、mark-sweep-mark-compact-针对于老生代",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "1.2.4、Incremental Marking-针对垃圾回收引起全停顿",
-            "slug": "_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
-            "link": "#_1-2-4、incremental-marking-针对垃圾回收引起全停顿",
-            "children": []
-          }
-        ]
-      }
-    ],
-    "path": "/Interview/Node/node%E9%9D%A2%E7%BB%8F.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -495,32 +679,84 @@ export const searchIndex = [
       },
       {
         "level": 2,
-        "title": "原子化CSS",
-        "slug": "原子化css",
-        "link": "#原子化css",
+        "title": "3.原子化CSS",
+        "slug": "_3-原子化css",
+        "link": "#_3-原子化css",
         "children": [
           {
             "level": 3,
             "title": "原子化css原理",
             "slug": "原子化css原理",
             "link": "#原子化css原理",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "按需生成",
+                "slug": "按需生成",
+                "link": "#按需生成",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "TailwindCSS打包体积大",
             "slug": "tailwindcss打包体积大",
             "link": "#tailwindcss打包体积大",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "Tailwindcss原理",
+                "slug": "tailwindcss原理",
+                "link": "#tailwindcss原理",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "TailwindCSS的配置",
+                "slug": "tailwindcss的配置",
+                "link": "#tailwindcss的配置",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "压缩",
+                "slug": "压缩",
+                "link": "#压缩",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "Unocss",
             "slug": "unocss",
             "link": "#unocss",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "配置",
+                "slug": "配置",
+                "link": "#配置",
+                "children": []
+              }
+            ]
           }
         ]
+      },
+      {
+        "level": 2,
+        "title": "4.双飞翼布局",
+        "slug": "_4-双飞翼布局",
+        "link": "#_4-双飞翼布局",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "5.多行文本溢出",
+        "slug": "_5-多行文本溢出",
+        "link": "#_5-多行文本溢出",
+        "children": []
       }
     ],
     "path": "/Problems/Css/CSS%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html",
@@ -738,94 +974,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "浏览器必备知识",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.输入URL会发生什么？",
-        "slug": "_1-输入url会发生什么",
-        "link": "#_1-输入url会发生什么",
-        "children": [
-          {
-            "level": 3,
-            "title": "1.域名解析",
-            "slug": "_1-域名解析",
-            "link": "#_1-域名解析",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "CDN优化方案",
-            "slug": "cdn优化方案",
-            "link": "#cdn优化方案",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "2.发送TCP请求",
-            "slug": "_2-发送tcp请求",
-            "link": "#_2-发送tcp请求",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "3.发送http请求",
-            "slug": "_3-发送http请求",
-            "link": "#_3-发送http请求",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "2.Cookie",
-        "slug": "_2-cookie",
-        "link": "#_2-cookie",
-        "children": [
-          {
-            "level": 3,
-            "title": "cookie基本属性",
-            "slug": "cookie基本属性",
-            "link": "#cookie基本属性",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "浏览器原理",
-        "slug": "浏览器原理",
-        "link": "#浏览器原理",
-        "children": [
-          {
-            "level": 3,
-            "title": "浏览器的架构",
-            "slug": "浏览器的架构",
-            "link": "#浏览器的架构",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "输入URL浏览器内部会做什么",
-            "slug": "输入url浏览器内部会做什么",
-            "link": "#输入url浏览器内部会做什么",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "重排和重绘",
-            "slug": "重排和重绘",
-            "link": "#重排和重绘",
-            "children": []
-          }
-        ]
-      }
-    ],
-    "path": "/Notes/Browser/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%BF%85%E5%A4%87%E7%9F%A5%E8%AF%86.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "数据结构",
     "headers": [
       {
@@ -1034,6 +1182,21 @@ export const searchIndex = [
             "slug": "回溯算法",
             "link": "#回溯算法",
             "children": []
+          },
+          {
+            "level": 3,
+            "title": "双指针",
+            "slug": "双指针",
+            "link": "#双指针",
+            "children": [
+              {
+                "level": 4,
+                "title": "题目1",
+                "slug": "题目1",
+                "link": "#题目1",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -1050,6 +1213,139 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "canvas基础",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.Canvas上下文",
+        "slug": "_1-canvas上下文",
+        "link": "#_1-canvas上下文",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.填充和路径绘制",
+        "slug": "_1-填充和路径绘制",
+        "link": "#_1-填充和路径绘制",
+        "children": []
+      }
+    ],
+    "path": "/Notes/Canvas/canvas%E5%9F%BA%E7%A1%80.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "浏览器必备知识",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.输入URL会发生什么？",
+        "slug": "_1-输入url会发生什么",
+        "link": "#_1-输入url会发生什么",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.域名解析",
+            "slug": "_1-域名解析",
+            "link": "#_1-域名解析",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "CDN优化方案",
+            "slug": "cdn优化方案",
+            "link": "#cdn优化方案",
+            "children": [
+              {
+                "level": 4,
+                "title": "CDN什么情况会回源",
+                "slug": "cdn什么情况会回源",
+                "link": "#cdn什么情况会回源",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "域名解析的优化",
+                "slug": "域名解析的优化",
+                "link": "#域名解析的优化",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "2.发送TCP请求",
+            "slug": "_2-发送tcp请求",
+            "link": "#_2-发送tcp请求",
+            "children": [
+              {
+                "level": 4,
+                "title": "1.TCP三次握手",
+                "slug": "_1-tcp三次握手",
+                "link": "#_1-tcp三次握手",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "3.发送http请求",
+            "slug": "_3-发送http请求",
+            "link": "#_3-发送http请求",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "2.Cookie",
+        "slug": "_2-cookie",
+        "link": "#_2-cookie",
+        "children": [
+          {
+            "level": 3,
+            "title": "cookie基本属性",
+            "slug": "cookie基本属性",
+            "link": "#cookie基本属性",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "浏览器原理",
+        "slug": "浏览器原理",
+        "link": "#浏览器原理",
+        "children": [
+          {
+            "level": 3,
+            "title": "浏览器的架构",
+            "slug": "浏览器的架构",
+            "link": "#浏览器的架构",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "输入URL浏览器内部会做什么",
+            "slug": "输入url浏览器内部会做什么",
+            "link": "#输入url浏览器内部会做什么",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "重排和重绘",
+            "slug": "重排和重绘",
+            "link": "#重排和重绘",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Notes/Browser/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%BF%85%E5%A4%87%E7%9F%A5%E8%AF%86.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "docker基础知识",
     "headers": [
       {
@@ -1057,7 +1353,15 @@ export const searchIndex = [
         "title": "1.docker的安装",
         "slug": "_1-docker的安装",
         "link": "#_1-docker的安装",
-        "children": []
+        "children": [
+          {
+            "level": 3,
+            "title": "Win10安装docker",
+            "slug": "win10安装docker",
+            "link": "#win10安装docker",
+            "children": []
+          }
+        ]
       },
       {
         "level": 2,
@@ -1093,31 +1397,30 @@ export const searchIndex = [
         "slug": "_6-docker需要了解的内容",
         "link": "#_6-docker需要了解的内容",
         "children": []
-      }
-    ],
-    "path": "/Notes/Docker/docker%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "canvas基础",
-    "headers": [
+      },
       {
         "level": 2,
-        "title": "1.Canvas上下文",
-        "slug": "_1-canvas上下文",
-        "link": "#_1-canvas上下文",
+        "title": "7.Docker拷贝文件",
+        "slug": "_7-docker拷贝文件",
+        "link": "#_7-docker拷贝文件",
         "children": []
       },
       {
         "level": 2,
-        "title": "1.填充和路径绘制",
-        "slug": "_1-填充和路径绘制",
-        "link": "#_1-填充和路径绘制",
+        "title": "Docker配置nginx",
+        "slug": "docker配置nginx",
+        "link": "#docker配置nginx",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "Dockerfile",
+        "slug": "dockerfile",
+        "link": "#dockerfile",
         "children": []
       }
     ],
-    "path": "/Notes/Canvas/canvas%E5%9F%BA%E7%A1%80.html",
+    "path": "/Notes/Docker/docker%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -1149,7 +1452,15 @@ export const searchIndex = [
             "title": "var函数",
             "slug": "var函数",
             "link": "#var函数",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "JS操作",
+                "slug": "js操作",
+                "link": "#js操作",
+                "children": []
+              }
+            ]
           }
         ]
       }
@@ -1199,6 +1510,72 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/FrontEndEngineering/CI-CD.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "flutter",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.安装",
+        "slug": "_1-安装",
+        "link": "#_1-安装",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "Flutter目录结构",
+        "slug": "flutter目录结构",
+        "link": "#flutter目录结构",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.Dart",
+        "slug": "_3-dart",
+        "link": "#_3-dart",
+        "children": [
+          {
+            "level": 3,
+            "title": "变量",
+            "slug": "变量",
+            "link": "#变量",
+            "children": [
+              {
+                "level": 4,
+                "title": "类型推断",
+                "slug": "类型推断",
+                "link": "#类型推断",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "空值安全",
+                "slug": "空值安全",
+                "link": "#空值安全",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "late变量",
+                "slug": "late变量",
+                "link": "#late变量",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "Final变量",
+                "slug": "final变量",
+                "link": "#final变量",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "path": "/Notes/FrontEndEngineering/flutter.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -1386,7 +1763,43 @@ export const searchIndex = [
             "title": "output",
             "slug": "output",
             "link": "#output",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "dir和file",
+                "slug": "dir和file",
+                "link": "#dir和file",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "format",
+                "slug": "format",
+                "link": "#format",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "generatedCode",
+                "slug": "generatedcode",
+                "link": "#generatedcode",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "minifyInternalExports",
+                "slug": "minifyinternalexports",
+                "link": "#minifyinternalexports",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "SourcemapFile",
+                "slug": "sourcemapfile",
+                "link": "#sourcemapfile",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -1627,7 +2040,15 @@ export const searchIndex = [
             "title": "3.2、loader",
             "slug": "_3-2、loader",
             "link": "#_3-2、loader",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "pitch",
+                "slug": "pitch",
+                "link": "#pitch",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -1706,7 +2127,29 @@ export const searchIndex = [
             "title": "2.压缩",
             "slug": "_2-压缩",
             "link": "#_2-压缩",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "js压缩",
+                "slug": "js压缩",
+                "link": "#js压缩",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "css压缩",
+                "slug": "css压缩",
+                "link": "#css压缩",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "HTML压缩",
+                "slug": "html压缩",
+                "link": "#html压缩",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -1715,7 +2158,29 @@ export const searchIndex = [
         "title": "7.sourcemap",
         "slug": "_7-sourcemap",
         "link": "#_7-sourcemap",
-        "children": []
+        "children": [
+          {
+            "level": 3,
+            "title": "sourcemap映射结构",
+            "slug": "sourcemap映射结构",
+            "link": "#sourcemap映射结构",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "devtool规则-sourcemap方式",
+            "slug": "devtool规则-sourcemap方式",
+            "link": "#devtool规则-sourcemap方式",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "为什么 Sourcemap 要设计分层结构 + VLQ 编码做行列映射？假设直接记录行列号，会有什么问题",
+            "slug": "为什么-sourcemap-要设计分层结构-vlq-编码做行列映射-假设直接记录行列号-会有什么问题",
+            "link": "#为什么-sourcemap-要设计分层结构-vlq-编码做行列映射-假设直接记录行列号-会有什么问题",
+            "children": []
+          }
+        ]
       },
       {
         "level": 2,
@@ -1888,6 +2353,13 @@ export const searchIndex = [
     "headers": [
       {
         "level": 2,
+        "title": "为什么不用iframe",
+        "slug": "为什么不用iframe",
+        "link": "#为什么不用iframe",
+        "children": []
+      },
+      {
+        "level": 2,
         "title": "1.微前端解决了什么问题？",
         "slug": "_1-微前端解决了什么问题",
         "link": "#_1-微前端解决了什么问题",
@@ -1928,6 +2400,36 @@ export const searchIndex = [
         "slug": "_3-样式隔离",
         "link": "#_3-样式隔离",
         "children": []
+      },
+      {
+        "level": 2,
+        "title": "qiankun使用",
+        "slug": "qiankun使用",
+        "link": "#qiankun使用",
+        "children": [
+          {
+            "level": 3,
+            "title": "在主应用中注册微应用",
+            "slug": "在主应用中注册微应用",
+            "link": "#在主应用中注册微应用",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "微应用配置",
+            "slug": "微应用配置",
+            "link": "#微应用配置",
+            "children": [
+              {
+                "level": 4,
+                "title": "微应用打包配置",
+                "slug": "微应用打包配置",
+                "link": "#微应用打包配置",
+                "children": []
+              }
+            ]
+          }
+        ]
       }
     ],
     "path": "/Notes/FrontEndEngineering/%E5%BE%AE%E5%89%8D%E7%AB%AF.html",
@@ -2054,48 +2556,122 @@ export const searchIndex = [
     "headers": [
       {
         "level": 2,
-        "title": "eslint",
-        "slug": "eslint",
-        "link": "#eslint",
-        "children": []
+        "title": "前端项目基建",
+        "slug": "前端项目基建",
+        "link": "#前端项目基建",
+        "children": [
+          {
+            "level": 3,
+            "title": "安装项目依赖",
+            "slug": "安装项目依赖",
+            "link": "#安装项目依赖",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "清除默认样式",
+            "slug": "清除默认样式",
+            "link": "#清除默认样式",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "eslint和prettier配置",
+            "slug": "eslint和prettier配置",
+            "link": "#eslint和prettier配置",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "husky-git提交规范",
+            "slug": "husky-git提交规范",
+            "link": "#husky-git提交规范",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "自动导包的配置",
+            "slug": "自动导包的配置",
+            "link": "#自动导包的配置",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": ".vscode配置",
+            "slug": "vscode配置",
+            "link": "#vscode配置",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "配置路径别名",
+            "slug": "配置路径别名",
+            "link": "#配置路径别名",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "统一包管理工具",
+            "slug": "统一包管理工具",
+            "link": "#统一包管理工具",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "Unocss配置",
+            "slug": "unocss配置",
+            "link": "#unocss配置",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "生产环境优化",
+            "slug": "生产环境优化",
+            "link": "#生产环境优化",
+            "children": [
+              {
+                "level": 4,
+                "title": "代码分割和代码压缩",
+                "slug": "代码分割和代码压缩",
+                "link": "#代码分割和代码压缩",
+                "children": []
+              }
+            ]
+          }
+        ]
       },
       {
         "level": 2,
-        "title": "prettier",
-        "slug": "prettier",
-        "link": "#prettier",
-        "children": []
+        "title": "Nest项目基建",
+        "slug": "nest项目基建",
+        "link": "#nest项目基建",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.安装项目依赖",
+            "slug": "_1-安装项目依赖",
+            "link": "#_1-安装项目依赖",
+            "children": []
+          }
+        ]
       },
       {
         "level": 2,
-        "title": "stylelint",
-        "slug": "stylelint",
-        "link": "#stylelint",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "husky配置",
-        "slug": "husky配置",
-        "link": "#husky配置",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "commitlint",
-        "slug": "commitlint",
-        "link": "#commitlint",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "统一包管理工具",
-        "slug": "统一包管理工具",
-        "link": "#统一包管理工具",
-        "children": []
+        "title": "问题",
+        "slug": "问题",
+        "link": "#问题",
+        "children": [
+          {
+            "level": 3,
+            "title": "解决报Delete ␍eslint(prettier/prettier)问题",
+            "slug": "解决报delete-␍eslint-prettier-prettier-问题",
+            "link": "#解决报delete-␍eslint-prettier-prettier-问题",
+            "children": []
+          }
+        ]
       }
     ],
-    "path": "/Notes/FrontEndEngineering/%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96.html",
+    "path": "/Notes/FrontEndEngineering/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -2269,7 +2845,15 @@ export const searchIndex = [
         "title": "3.1：工作区和暂存区",
         "slug": "_3-1-工作区和暂存区",
         "link": "#_3-1-工作区和暂存区",
-        "children": []
+        "children": [
+          {
+            "level": 4,
+            "title": "工作区（Working Directory）",
+            "slug": "工作区-working-directory",
+            "link": "#工作区-working-directory",
+            "children": []
+          }
+        ]
       }
     ],
     "path": "/Notes/Git/Git%E5%9F%BA%E7%A1%80.html",
@@ -2294,9 +2878,9 @@ export const searchIndex = [
           },
           {
             "level": 3,
-            "title": "2.对象和数组之间的类型转换",
-            "slug": "_2-对象和数组之间的类型转换",
-            "link": "#_2-对象和数组之间的类型转换",
+            "title": "2.隐式转换示例",
+            "slug": "_2-隐式转换示例",
+            "link": "#_2-隐式转换示例",
             "children": []
           },
           {
@@ -2308,16 +2892,23 @@ export const searchIndex = [
           },
           {
             "level": 3,
-            "title": "4.强制类型转换遵循的规则",
-            "slug": "_4-强制类型转换遵循的规则",
-            "link": "#_4-强制类型转换遵循的规则",
+            "title": "4.String强转规则",
+            "slug": "_4-string强转规则",
+            "link": "#_4-string强转规则",
             "children": []
           },
           {
             "level": 3,
-            "title": "5.Object.is",
-            "slug": "_5-object-is",
-            "link": "#_5-object-is",
+            "title": "5.强制类型转换遵循的规则总结",
+            "slug": "_5-强制类型转换遵循的规则总结",
+            "link": "#_5-强制类型转换遵循的规则总结",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "6.Object.is",
+            "slug": "_6-object-is",
+            "link": "#_6-object-is",
             "children": []
           }
         ]
@@ -2364,6 +2955,13 @@ export const searchIndex = [
             "children": []
           }
         ]
+      },
+      {
+        "level": 2,
+        "title": "5.拖拽",
+        "slug": "_5-拖拽",
+        "link": "#_5-拖拽",
+        "children": []
       }
     ],
     "path": "/Notes/JavaScript/js%E8%BF%9B%E9%98%B6.html",
@@ -2412,7 +3010,44 @@ export const searchIndex = [
             "title": "规则：",
             "slug": "规则",
             "link": "#规则",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "使用场景",
+                "slug": "使用场景",
+                "link": "#使用场景",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "代码展示",
+                "slug": "代码展示",
+                "link": "#代码展示",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "共享worker",
+                "slug": "共享worker",
+                "link": "#共享worker",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "规则",
+                    "slug": "规则-1",
+                    "link": "#规则-1",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "代码展示",
+                    "slug": "代码展示-1",
+                    "link": "#代码展示-1",
+                    "children": []
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -2434,7 +3069,15 @@ export const searchIndex = [
             "title": "添加主屏幕",
             "slug": "添加主屏幕",
             "link": "#添加主屏幕",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "JS触发时间添加到主屏幕",
+                "slug": "js触发时间添加到主屏幕",
+                "link": "#js触发时间添加到主屏幕",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -2449,7 +3092,22 @@ export const searchIndex = [
             "title": "Service Worker生命周期",
             "slug": "service-worker生命周期",
             "link": "#service-worker生命周期",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "caches对象",
+                "slug": "caches对象",
+                "link": "#caches对象",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "更新service worker",
+                "slug": "更新service-worker",
+                "link": "#更新service-worker",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -2507,14 +3165,93 @@ export const searchIndex = [
             "title": "实例方法",
             "slug": "实例方法",
             "link": "#实例方法",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "createObjectStore",
+                "slug": "createobjectstore",
+                "link": "#createobjectstore",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "deleteObjectStore",
+                "slug": "deleteobjectstore",
+                "link": "#deleteobjectstore",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "transaction",
+                "slug": "transaction",
+                "link": "#transaction",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "增 删 改 查",
             "slug": "增-删-改-查",
             "link": "#增-删-改-查",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "add",
+                "slug": "add",
+                "link": "#add",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "put",
+                "slug": "put",
+                "link": "#put",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "delete",
+                "slug": "delete",
+                "link": "#delete",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "get",
+                "slug": "get",
+                "link": "#get",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "getAll",
+                "slug": "getall",
+                "link": "#getall",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "getAllKeys",
+                "slug": "getallkeys",
+                "link": "#getallkeys",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "使用索引",
+                "slug": "使用索引",
+                "link": "#使用索引",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "使用游标",
+                "slug": "使用游标",
+                "link": "#使用游标",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -2551,7 +3288,15 @@ export const searchIndex = [
             "title": "Event",
             "slug": "event",
             "link": "#event",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "实例属性",
+                "slug": "实例属性",
+                "link": "#实例属性",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -2610,14 +3355,51 @@ export const searchIndex = [
             "title": "1、XMLHttpRequests",
             "slug": "_1、xmlhttprequests",
             "link": "#_1、xmlhttprequests",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "实例属性",
+                "slug": "实例属性-1",
+                "link": "#实例属性-1",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "实例方法",
+                "slug": "实例方法-1",
+                "link": "#实例方法-1",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "事件",
+                "slug": "事件",
+                "link": "#事件",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "2、Fetch",
             "slug": "_2、fetch",
             "link": "#_2、fetch",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "fetch（）",
+                "slug": "fetch",
+                "link": "#fetch",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "Headers",
+                "slug": "headers",
+                "link": "#headers",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -2871,14 +3653,72 @@ export const searchIndex = [
             "title": "变量的类型",
             "slug": "变量的类型",
             "link": "#变量的类型",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "字符串",
+                "slug": "字符串",
+                "link": "#字符串",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "拼接字符串",
+                "slug": "拼接字符串",
+                "link": "#拼接字符串",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "获取字符串长度",
+                "slug": "获取字符串长度",
+                "link": "#获取字符串长度",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "截取字符串",
+                "slug": "截取字符串",
+                "link": "#截取字符串",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "查找字符串",
+                "slug": "查找字符串",
+                "link": "#查找字符串",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "数组",
             "slug": "数组",
             "link": "#数组",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "读取数组元素",
+                "slug": "读取数组元素",
+                "link": "#读取数组元素",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "读取数组长度",
+                "slug": "读取数组长度",
+                "link": "#读取数组长度",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "关联数组",
+                "slug": "关联数组",
+                "link": "#关联数组",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -3137,6 +3977,43 @@ export const searchIndex = [
       },
       {
         "level": 2,
+        "title": "Zustrand",
+        "slug": "zustrand",
+        "link": "#zustrand",
+        "children": [
+          {
+            "level": 3,
+            "title": "安装",
+            "slug": "安装",
+            "link": "#安装",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "创建Store",
+            "slug": "创建store",
+            "link": "#创建store",
+            "children": [
+              {
+                "level": 4,
+                "title": "基本数据类型state",
+                "slug": "基本数据类型state",
+                "link": "#基本数据类型state",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "嵌套对象的state",
+                "slug": "嵌套对象的state",
+                "link": "#嵌套对象的state",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 2,
         "title": "实现简单状态管理工具",
         "slug": "实现简单状态管理工具",
         "link": "#实现简单状态管理工具",
@@ -3196,7 +4073,15 @@ export const searchIndex = [
             "title": "useState",
             "slug": "usestate",
             "link": "#usestate",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "setstate",
+                "slug": "setstate",
+                "link": "#setstate",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -3276,6 +4161,115 @@ export const searchIndex = [
         "slug": "react元素挂载位置",
         "link": "#react元素挂载位置",
         "children": []
+      },
+      {
+        "level": 2,
+        "title": "react-router",
+        "slug": "react-router",
+        "link": "#react-router",
+        "children": [
+          {
+            "level": 3,
+            "title": "安装",
+            "slug": "安装",
+            "link": "#安装",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "路由模式",
+            "slug": "路由模式",
+            "link": "#路由模式",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "创建路由表",
+            "slug": "创建路由表",
+            "link": "#创建路由表",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "路由导航",
+            "slug": "路由导航",
+            "link": "#路由导航",
+            "children": [
+              {
+                "level": 4,
+                "title": "声明式路由导航",
+                "slug": "声明式路由导航",
+                "link": "#声明式路由导航",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "编程式路由导航",
+                "slug": "编程式路由导航",
+                "link": "#编程式路由导航",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "路由传参",
+            "slug": "路由传参",
+            "link": "#路由传参",
+            "children": [
+              {
+                "level": 4,
+                "title": "useSearchParams",
+                "slug": "usesearchparams",
+                "link": "#usesearchparams",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "useParams",
+                "slug": "useparams",
+                "link": "#useparams",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "useLocation",
+                "slug": "uselocation",
+                "link": "#uselocation",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "嵌套路由配置",
+            "slug": "嵌套路由配置",
+            "link": "#嵌套路由配置",
+            "children": [
+              {
+                "level": 4,
+                "title": "路由表配置",
+                "slug": "路由表配置",
+                "link": "#路由表配置",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "默认二级路由",
+                "slug": "默认二级路由",
+                "link": "#默认二级路由",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "404路由",
+            "slug": "_404路由",
+            "link": "#_404路由",
+            "children": []
+          }
+        ]
       }
     ],
     "path": "/Notes/React/%E5%9F%BA%E7%A1%80.html",
@@ -3499,7 +4493,22 @@ export const searchIndex = [
             "title": "写入文件",
             "slug": "写入文件",
             "link": "#写入文件",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "fs.appendFile和fs.appendFileSync",
+                "slug": "fs-appendfile和fs-appendfilesync",
+                "link": "#fs-appendfile和fs-appendfilesync",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "fs.writeFile",
+                "slug": "fs-writefile",
+                "link": "#fs-writefile",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -4011,14 +5020,30 @@ export const searchIndex = [
             "title": "模块共享",
             "slug": "模块共享",
             "link": "#模块共享",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "循环依赖",
+                "slug": "循环依赖",
+                "link": "#循环依赖",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "动态模块",
             "slug": "动态模块",
             "link": "#动态模块",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "动态模块的默认标准",
+                "slug": "动态模块的默认标准",
+                "link": "#动态模块的默认标准",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -4068,7 +5093,22 @@ export const searchIndex = [
             "title": "请求和响应对象",
             "slug": "请求和响应对象",
             "link": "#请求和响应对象",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "请求对象",
+                "slug": "请求对象",
+                "link": "#请求对象",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "响应相关",
+                "slug": "响应相关",
+                "link": "#响应相关",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -4077,7 +5117,15 @@ export const searchIndex = [
         "title": "DTO数据传输对象",
         "slug": "dto数据传输对象",
         "link": "#dto数据传输对象",
-        "children": []
+        "children": [
+          {
+            "level": 4,
+            "title": "创建DTO的控制器",
+            "slug": "创建dto的控制器",
+            "link": "#创建dto的控制器",
+            "children": []
+          }
+        ]
       },
       {
         "level": 2,
@@ -4147,7 +5195,36 @@ export const searchIndex = [
             "title": "管道验证参数例子",
             "slug": "管道验证参数例子",
             "link": "#管道验证参数例子",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "装饰器验证",
+                "slug": "装饰器验证",
+                "link": "#装饰器验证",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "将参数数组每一项转成Number",
+                "slug": "将参数数组每一项转成number",
+                "link": "#将参数数组每一项转成number",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "指定参数分隔符",
+                "slug": "指定参数分隔符",
+                "link": "#指定参数分隔符",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "指定枚举参数",
+                "slug": "指定枚举参数",
+                "link": "#指定枚举参数",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -4161,7 +5238,15 @@ export const searchIndex = [
             "title": "ValidationPipe",
             "slug": "validationpipe",
             "link": "#validationpipe",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "DTO（Data Transfer Object）",
+                "slug": "dto-data-transfer-object",
+                "link": "#dto-data-transfer-object",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -4226,38 +5311,257 @@ export const searchIndex = [
     "headers": [
       {
         "level": 2,
-        "title": "1.常用命令",
-        "slug": "_1-常用命令",
-        "link": "#_1-常用命令",
-        "children": []
+        "title": "nginx基础",
+        "slug": "nginx基础",
+        "link": "#nginx基础",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.常用命令",
+            "slug": "_1-常用命令",
+            "link": "#_1-常用命令",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.nginx的配置文件",
+            "slug": "_2-nginx的配置文件",
+            "link": "#_2-nginx的配置文件",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.反向代理",
+            "slug": "_3-反向代理",
+            "link": "#_3-反向代理",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "4.history路由404",
+            "slug": "_4-history路由404",
+            "link": "#_4-history路由404",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "5.负载均衡",
+            "slug": "_5-负载均衡",
+            "link": "#_5-负载均衡",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "6.动静分离",
+            "slug": "_6-动静分离",
+            "link": "#_6-动静分离",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "8.URLRewrite",
+            "slug": "_8-urlrewrite",
+            "link": "#_8-urlrewrite",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "7.代码压缩",
+            "slug": "_7-代码压缩",
+            "link": "#_7-代码压缩",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "9.防盗链Referer",
+            "slug": "_9-防盗链referer",
+            "link": "#_9-防盗链referer",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "10.location 后的匹配",
+            "slug": "_10-location-后的匹配",
+            "link": "#_10-location-后的匹配",
+            "children": [
+              {
+                "level": 4,
+                "title": "root和alias区别",
+                "slug": "root和alias区别",
+                "link": "#root和alias区别",
+                "children": []
+              }
+            ]
+          }
+        ]
       },
       {
         "level": 2,
-        "title": "2.nginx的配置文件",
-        "slug": "_2-nginx的配置文件",
-        "link": "#_2-nginx的配置文件",
-        "children": []
+        "title": "nginx高级",
+        "slug": "nginx高级",
+        "link": "#nginx高级",
+        "children": [
+          {
+            "level": 3,
+            "title": "集群化",
+            "slug": "集群化",
+            "link": "#集群化",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "分布式",
+            "slug": "分布式",
+            "link": "#分布式",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "nginx如何会话保持",
+            "slug": "nginx如何会话保持",
+            "link": "#nginx如何会话保持",
+            "children": [
+              {
+                "level": 4,
+                "title": "ip_hash保持会话",
+                "slug": "ip-hash保持会话",
+                "link": "#ip-hash保持会话",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "request_uri保持会话",
+                "slug": "request-uri保持会话",
+                "link": "#request-uri保持会话",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "cookie_jsessionid保持会话",
+                "slug": "cookie-jsessionid保持会话",
+                "link": "#cookie-jsessionid保持会话",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "Keep-alive",
+            "slug": "keep-alive",
+            "link": "#keep-alive",
+            "children": [
+              {
+                "level": 4,
+                "title": "客户端配置Keep-alive",
+                "slug": "客户端配置keep-alive",
+                "link": "#客户端配置keep-alive",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "对上游服务器Keep-alive",
+                "slug": "对上游服务器keep-alive",
+                "link": "#对上游服务器keep-alive",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "Nginx缓冲区配置",
+            "slug": "nginx缓冲区配置",
+            "link": "#nginx缓冲区配置",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "获取用户真实IP地址",
+            "slug": "获取用户真实ip地址",
+            "link": "#获取用户真实ip地址",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "GZIP压缩",
+            "slug": "gzip压缩",
+            "link": "#gzip压缩",
+            "children": [
+              {
+                "level": 4,
+                "title": "GZIP动态压缩配置",
+                "slug": "gzip动态压缩配置",
+                "link": "#gzip动态压缩配置",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "GZIP静态压缩配置",
+                "slug": "gzip静态压缩配置",
+                "link": "#gzip静态压缩配置",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "Brotli压缩",
+            "slug": "brotli压缩",
+            "link": "#brotli压缩",
+            "children": [
+              {
+                "level": 4,
+                "title": "sendfile原理",
+                "slug": "sendfile原理",
+                "link": "#sendfile原理",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "资源合并SSI",
+            "slug": "资源合并ssi",
+            "link": "#资源合并ssi",
+            "children": []
+          }
+        ]
       },
       {
         "level": 2,
-        "title": "3.反向代理",
-        "slug": "_3-反向代理",
-        "link": "#_3-反向代理",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "4.history路由404",
-        "slug": "_4-history路由404",
-        "link": "#_4-history路由404",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "5.负载均衡",
-        "slug": "_5-负载均衡",
-        "link": "#_5-负载均衡",
-        "children": []
+        "title": "实战问题解决",
+        "slug": "实战问题解决",
+        "link": "#实战问题解决",
+        "children": [
+          {
+            "level": 3,
+            "title": "nginx解决跨域",
+            "slug": "nginx解决跨域",
+            "link": "#nginx解决跨域",
+            "children": [
+              {
+                "level": 4,
+                "title": "bff解决跨域",
+                "slug": "bff解决跨域",
+                "link": "#bff解决跨域",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "负载均衡",
+            "slug": "负载均衡",
+            "link": "#负载均衡",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "nginx灰度系统",
+            "slug": "nginx灰度系统",
+            "link": "#nginx灰度系统",
+            "children": []
+          }
+        ]
       }
     ],
     "path": "/Notes/Server/Nginx.html",
@@ -4328,14 +5632,58 @@ export const searchIndex = [
             "title": "2.2.3、进程通信的原理",
             "slug": "_2-2-3、进程通信的原理",
             "link": "#_2-2-3、进程通信的原理",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "2.2.3.1、句柄",
+                "slug": "_2-2-3-1、句柄",
+                "link": "#_2-2-3-1、句柄",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "为什么多进程可以监听相同端口",
+                "slug": "为什么多进程可以监听相同端口",
+                "link": "#为什么多进程可以监听相同端口",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "集群",
             "slug": "集群",
             "link": "#集群",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "负载均衡",
+                "slug": "负载均衡",
+                "link": "#负载均衡",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "状态共享",
+                "slug": "状态共享",
+                "link": "#状态共享",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "Cluster",
+                "slug": "cluster",
+                "link": "#cluster",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "Cluster工作原理",
+                "slug": "cluster工作原理",
+                "link": "#cluster工作原理",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
@@ -4835,7 +6183,29 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "Vue3异步更新",
+    "title": "Vue3",
+    "headers": [
+      {
+        "level": 2,
+        "title": "Vue3做了哪些优化",
+        "slug": "vue3做了哪些优化",
+        "link": "#vue3做了哪些优化",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "同构渲染",
+        "slug": "同构渲染",
+        "link": "#同构渲染",
+        "children": []
+      }
+    ],
+    "path": "/Notes/Vue/Vue3.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "Vue3",
     "headers": [
       {
         "level": 2,
@@ -5028,14 +6398,58 @@ export const searchIndex = [
             "title": "5.watch原理",
             "slug": "_5-watch原理",
             "link": "#_5-watch原理",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "doWatch",
+                "slug": "dowatch",
+                "link": "#dowatch",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "traverse遍历函数",
+                "slug": "traverse遍历函数",
+                "link": "#traverse遍历函数",
+                "children": []
+              }
+            ]
           },
           {
             "level": 3,
             "title": "6.关于响应式中一些问题和解决思路",
             "slug": "_6-关于响应式中一些问题和解决思路",
             "link": "#_6-关于响应式中一些问题和解决思路",
-            "children": []
+            "children": [
+              {
+                "level": 4,
+                "title": "①如何收集当前依赖呢？",
+                "slug": "_1如何收集当前依赖呢",
+                "link": "#_1如何收集当前依赖呢",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "②为什么收集依赖不直接收集整个对象依赖而要建立对象的key和依赖直接关系？例如下面，为什么不将test的依赖全部放在一个数组中而是给name和age都用set存储对应依赖。",
+                "slug": "_2为什么收集依赖不直接收集整个对象依赖而要建立对象的key和依赖直接关系-例如下面-为什么不将test的依赖全部放在一个数组中而是给name和age都用set存储对应依赖。",
+                "link": "#_2为什么收集依赖不直接收集整个对象依赖而要建立对象的key和依赖直接关系-例如下面-为什么不将test的依赖全部放在一个数组中而是给name和age都用set存储对应依赖。",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "③如何避免在依赖收集和触发过程中栈溢出",
+                "slug": "_3如何避免在依赖收集和触发过程中栈溢出",
+                "link": "#_3如何避免在依赖收集和触发过程中栈溢出",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "④调度器",
+                "slug": "_4调度器",
+                "link": "#_4调度器",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -5085,6 +6499,56 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/Vue/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "好用的依赖工具包",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.node-html-parser",
+        "slug": "_1-node-html-parser",
+        "link": "#_1-node-html-parser",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.url-regex",
+        "slug": "_2-url-regex",
+        "link": "#_2-url-regex",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.tsup",
+        "slug": "_3-tsup",
+        "link": "#_3-tsup",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "4.swc",
+        "slug": "_4-swc",
+        "link": "#_4-swc",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "5.postcss-px-to-vw移动端适配",
+        "slug": "_5-postcss-px-to-vw移动端适配",
+        "link": "#_5-postcss-px-to-vw移动端适配",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "6.轻量级请求库alova",
+        "slug": "_6-轻量级请求库alova",
+        "link": "#_6-轻量级请求库alova",
+        "children": []
+      }
+    ],
+    "path": "/Utils/NodeDependency/%E5%A5%BD%E7%94%A8%E7%9A%84%E4%BE%9D%E8%B5%96%E5%B7%A5%E5%85%B7%E5%8C%85.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -5190,56 +6654,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "好用的依赖工具包",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.node-html-parser",
-        "slug": "_1-node-html-parser",
-        "link": "#_1-node-html-parser",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.url-regex",
-        "slug": "_2-url-regex",
-        "link": "#_2-url-regex",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.tsup",
-        "slug": "_3-tsup",
-        "link": "#_3-tsup",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "4.swc",
-        "slug": "_4-swc",
-        "link": "#_4-swc",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "5.postcss-px-to-vw移动端适配",
-        "slug": "_5-postcss-px-to-vw移动端适配",
-        "link": "#_5-postcss-px-to-vw移动端适配",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "6.轻量级请求库alova",
-        "slug": "_6-轻量级请求库alova",
-        "link": "#_6-轻量级请求库alova",
-        "children": []
-      }
-    ],
-    "path": "/Utils/NodeDependency/%E5%A5%BD%E7%94%A8%E7%9A%84%E4%BE%9D%E8%B5%96%E5%B7%A5%E5%85%B7%E5%8C%85.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "js实现效果",
     "headers": [
       {
@@ -5284,3 +6698,16 @@ export const searchIndex = [
     "extraFields": []
   }
 ]
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updateSearchIndex) {
+    __VUE_HMR_RUNTIME__.updateSearchIndex(searchIndex)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ searchIndex }) => {
+    __VUE_HMR_RUNTIME__.updateSearchIndex(searchIndex)
+  })
+}

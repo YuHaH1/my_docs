@@ -69,6 +69,18 @@ netsh winsock reset
 
 
 
+[WSL2Linux内核](https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package)
+
+### Win10安装docker
+
+1. Win10 版本号为 2004（内部版本19041或更高）即可，如果低于此版本可使用 Windows 10 易升工具手动升级。下载 Windows 10 易升工具：[更新最新win10](https://www.microsoft.com/zh-cn/software-download/windows10)
+
+2. ~~~shell
+   wsl --install
+   wsl --update
+   wsl --shutdown
+   ~~~
+
 
 
 
@@ -91,14 +103,12 @@ netsh winsock reset
 
 ```shell
 systemctl start docker
-1
 ```
 
 **关闭docker**
 
 ```shell
 systemctl stop docker
-1
 ```
 
 **重启docker**
@@ -125,7 +135,7 @@ docker images
 
 ```shell
 docker search 镜像名
-搜索stars》9000的镜像
+//搜索stars》9000的镜像
 docker search --filter=STARS=9000 mysql  STARS >9000 mysql 
 ```
 
@@ -141,7 +151,7 @@ docker pull 镜像名:tag
 ```shell
 docker run 镜像名
 docker run 镜像名:Tag
-例如 拉取nginx
+//例如 拉取nginx
 docker pull nginx
 docker run nginx
 ```
@@ -310,6 +320,103 @@ COPY dist /usr/share/nginx/html
 ## 6.docker需要了解的内容
 
 **每一个 Docker容器都是独立和安全的应用平台（我们可以理解为，每一个docker容器都相当于在我们的服务器上占用资源然后开辟了属于自己的一个空间（也可以理解为服务器））——也就是说每个容器之间环境都是隔离的**如果外部想要访问容器，那必须得让容器中的端口与宿主机的端口建立联系绑定起来，这个正式的概念叫做` 容器端口映射`。宿主机每个端口都是一个，8888端口被redis002容器绑定了，那么其他所有的容器都不可以使用8888这个端口了!!!
+
+
+
+## 7.Docker拷贝文件
+
+本地拷贝到容器目录
+
+可以看到容器就会多一个html11的目录
+
+~~~shell
+docker cp  ~/nginx-html nginx1:/usr/share/nginx/html11
+~~~
+
+容器目录拷贝到本地
+
+~~~shell
+docker cp  nginx1:/usr/share/nginx/html ~/nginx-html
+~~~
+
+
+
+
+
+
+
+## Docker配置nginx
+
+1. 拉nginx镜像
+
+   1. ~~~shell
+      docker pull nginx:latest
+      ~~~
+
+   2. `docker run` 会返回一个容器的 hash：
+
+      ![](/Docker/hash.png)
+
+2. 运行nginx容器
+
+   1. ~~~shell
+      docker run --name nginx-test2 -p 80:80 -v /tmp/aaa:/usr/share/nginx/html:ro -e KEY1=VALUE1 -d nginx:latest 
+      # :ro表示只读  :rw表示可以写入
+      ~~~
+
+   2. -p 是端口映射
+
+      -v 是指定数据卷挂载目录
+
+      -e 是指定环境变量
+
+      -d 是后台运行
+
+
+
+## Dockerfile
+
+自己制作镜像可以自动化。
+
+只要在 dockerfile 里声明要做哪些事情，docker build 的时候就会根据这个 dockerfile 来自动化构建出一个镜像来。
+
+~~~dockerfile
+FROM node:latest
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm config set registry https://registry.npmmirror.com/
+
+RUN npm install -g http-server
+
+EXPOSE 8080
+
+CMD ["http-server", "-p", "8080"]
+~~~
+
+这些指令的含义如下：
+
+* FROM：基于一个基础镜像来修改
+* WORKDIR：指定当前工作目录
+* COPY：把容器外的内容复制到容器内
+* EXPOSE：声明当前容器要访问的网络端口，比如这里起服务会用到 8080
+* RUN：在容器内执行命令
+* CMD：容器启动的时候执行的命令
+
+我们先通过 FROM 继承了 node 基础镜像，里面就有 npm、node 这些命令了。通过 WORKDIR 指定当前目录。然后通过 COPY 把 Dockerfile 同级目录下的内容复制到容器内，这里的 . 也就是 /app 目录。之后通过 RUN 执行 npm install，全局安装 http-server。通过 EXPOSE 指定要暴露的端。CMD 指定容器跑起来之后执行的命令，这里就是执行 http-server 把服务跑起来。
+
+
+
+
+
+
+
+
+
+
+
 
 
 <CommentService/>

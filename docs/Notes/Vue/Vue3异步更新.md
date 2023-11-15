@@ -1,10 +1,10 @@
 ---
 lang: zh-CN
-title: Vue3异步更新
+title: Vue3
 description: 关键功能
 collapsible: true
 ---
-# Vue3异步更新
+# Vue3
 
 Vue3的异步更新由`scheduler`调度程序执行具体任务，以保证生命周期和组件渲染的正确性。
 

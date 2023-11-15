@@ -33,7 +33,7 @@ const SUBJECTS = {
 
 const Notes_Sidebar_Setting = [
     [SUBJECTS.react, 'fiber.md', 'diff.md', '基础.md', 'React状态管理.md'],
-    [SUBJECTS.vue, 'diff.md', 'vueRouter.md', 'vue3.3版本.md', 'pinia.md', '响应式原理.md', '编译原理.md', 'vue-loader初探.md', 'Vue3异步更新.md', 'Vue内置组件.md', 'Vue生命周期.md'],
+    [SUBJECTS.vue, 'diff.md', 'vueRouter.md', 'vue3.3版本.md', 'pinia.md', '响应式原理.md', '编译原理.md', 'vue-loader初探.md', 'Vue3.md', 'Vue内置组件.md', 'Vue生命周期.md'],
     [SUBJECTS.sass, 'grammar.md'],
     [SUBJECTS.ts, 'grammar.md', '类型体操.md'],
     [SUBJECTS.js, '必会APIs.md', 'js进阶.md', '设计模式.md'],
@@ -49,11 +49,11 @@ const Notes_Sidebar_Setting = [
         'packageJson文件.md',
         '包管理器的相关知识.md',
         '微前端.md',
-        '项目初始化.md',
+        '项目搭建.md',
         'rollup.md',
         '单元测试.md',
         '跨端开发.md',
-        // 'CI-CD.md'
+        'flutter.md'
     ],
     [SUBJECTS.optimize, '性能优化.md'],
     [SUBJECTS.git, 'Git基础.md'],

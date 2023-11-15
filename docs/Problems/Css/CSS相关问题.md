@@ -179,7 +179,7 @@ module.exports = ({ file }) => {
 
 
 
-## 原子化CSS
+## 3.原子化CSS
 
 
 
@@ -433,8 +433,148 @@ export default defineConfig({
 
 ~~~js
 // main.ts
+import 'uno.css';
 import 'virtual:uno.css'
 ~~~
+
+## 4.双飞翼布局
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            height: 80px;
+            width: 100%;
+            background-color: green;
+        }
+        .container{
+            height: calc(100% - 160px);
+        
+            display: flex;
+        }
+        main{
+            min-width: 500px;
+            flex: 1;
+        }
+        .left ,.right{
+            width: 200px;
+        }
+        .left{
+            background-color: blue;
+        }
+        .right{
+            background-color: purple;
+        }
+        footer{
+            height: 80px;
+            position: relative;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: skyblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header></header>
+    <div class="container">
+        <aside class="left"></aside>
+        <main></main>
+        <aside class="right"> </aside>
+    </div>
+
+    <footer></footer>
+
+</body>
+
+</html>
+~~~
+
+## 5.多行文本溢出
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .text-container {
+            width: 200px;
+            height: 100px;
+            background-color: #efefef;
+            overflow: hidden;
+            /* /* display: -webkit-box; */
+
+            /* -webkit-box-orient: vertical;
+            -webkit-line-clamp: 5 ;  */
+            padding: 0 10px;
+        }
+
+        .text-container::before {
+            content: '';
+            display: block;
+            height: 80px;
+        }
+
+        .p {
+            margin-top: -80px;
+        }
+
+        .ellipsis {
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="text-container">
+            <div class="ellipsis">
+                ...
+            </div>
+            <div class="p">
+                From the age groups, we can see that the largest group of citizens is the group in the age between
+                20-29. People in this period have had their own career.In this society of ever-quickening pace, working
+                with copmputer has become a fashion. Furthermore, they also use it to entertain themselves and find the
+                right person. The group secondary to this group is in the age between 10-19. In this period, middle
+                school students mostly use computer to play games and chat with others, people in college use it both to
+                entertain themselves and learn what they need to learn. And amount of people in this period fall in love
+                so they spend much on chatting with their beloved people. Top3 is in the age between 30-39. In this
+                period, middle aged people have lost part of interest of playing games and the need of l
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+~~~
+
+
 
 
 

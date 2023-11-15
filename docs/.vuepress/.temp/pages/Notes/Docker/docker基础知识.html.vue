@@ -43,7 +43,19 @@ yum <span class="token function">install</span> docker-ce
 netsh winsock reset
 然后重新输入即可 
 我的账号fancyyu
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_2-docker核心" tabindex="-1"><a class="header-anchor" href="#_2-docker核心" aria-hidden="true">#</a> 2.docker核心</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package" target="_blank" rel="noopener noreferrer">WSL2Linux内核<ExternalLinkIcon/></a></p>
+<h3 id="win10安装docker" tabindex="-1"><a class="header-anchor" href="#win10安装docker" aria-hidden="true">#</a> Win10安装docker</h3>
+<ol>
+<li>
+<p>Win10 版本号为 2004（内部版本19041或更高）即可，如果低于此版本可使用 Windows 10 易升工具手动升级。下载 Windows 10 易升工具：<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="noopener noreferrer">更新最新win10<ExternalLinkIcon/></a></p>
+</li>
+<li>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>wsl <span class="token parameter variable">--install</span>
+wsl <span class="token parameter variable">--update</span>
+wsl <span class="token parameter variable">--shutdown</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+<h2 id="_2-docker核心" tabindex="-1"><a class="header-anchor" href="#_2-docker核心" aria-hidden="true">#</a> 2.docker核心</h2>
 <ol>
 <li>镜像：镜像是一个模版，一个镜像可以创建多个容器。镜像把我们能够运行的源代码配置环境和第三方依赖包全部打包。</li>
 <li>容器：容器可以理解为镜像的实例，一个容器运行一个服务，我们通过docker客户端创建的运行实例就是容器</li>
@@ -52,11 +64,9 @@ netsh winsock reset
 <h2 id="_3-docker-镜像操作指令" tabindex="-1"><a class="header-anchor" href="#_3-docker-镜像操作指令" aria-hidden="true">#</a> 3.docker 镜像操作指令</h2>
 <p><strong>启动docker</strong></p>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>systemctl start <span class="token function">docker</span>
-<span class="token number">1</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>关闭docker</strong></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>关闭docker</strong></p>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>systemctl stop <span class="token function">docker</span>
-<span class="token number">1</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>重启docker</strong></p>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>重启docker</strong></p>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>systemctl restart <span class="token function">docker</span>
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>查看docker 运行状态</strong></p>
 <p>------如果是在运行中 输入命令后 会看到绿色的active</p>
@@ -65,7 +75,7 @@ netsh winsock reset
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">docker</span> images
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>搜索镜像</strong></p>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">docker</span> search 镜像名
-搜索stars》9000的镜像
+//搜索stars》9000的镜像
 <span class="token function">docker</span> search <span class="token parameter variable">--filter</span><span class="token operator">=</span>STARS<span class="token operator">=</span><span class="token number">9000</span> mysql  STARS <span class="token operator">></span><span class="token number">9000</span> mysql 
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>拉取镜像</strong> 不加tag(版本号) 即拉取docker仓库中 该镜像的最新版本latest 加:tag 则是拉取指定版本</p>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">docker</span> pull 镜像名 
@@ -73,7 +83,7 @@ netsh winsock reset
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>运行镜像</strong></p>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">docker</span> run 镜像名
 <span class="token function">docker</span> run 镜像名:Tag
-例如 拉取nginx
+//例如 拉取nginx
 <span class="token function">docker</span> pull nginx
 <span class="token function">docker</span> run nginx
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>删除镜像</strong> ------当前镜像没有被任何容器使用才可以删除</p>
@@ -146,6 +156,68 @@ Ctrl + p + q
 静态网站的部署
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_6-docker需要了解的内容" tabindex="-1"><a class="header-anchor" href="#_6-docker需要了解的内容" aria-hidden="true">#</a> 6.docker需要了解的内容</h2>
 <p><strong>每一个 Docker容器都是独立和安全的应用平台（我们可以理解为，每一个docker容器都相当于在我们的服务器上占用资源然后开辟了属于自己的一个空间（也可以理解为服务器））——也就是说每个容器之间环境都是隔离的</strong>如果外部想要访问容器，那必须得让容器中的端口与宿主机的端口建立联系绑定起来，这个正式的概念叫做<code v-pre> 容器端口映射</code>。宿主机每个端口都是一个，8888端口被redis002容器绑定了，那么其他所有的容器都不可以使用8888这个端口了!!!</p>
+<h2 id="_7-docker拷贝文件" tabindex="-1"><a class="header-anchor" href="#_7-docker拷贝文件" aria-hidden="true">#</a> 7.Docker拷贝文件</h2>
+<p>本地拷贝到容器目录</p>
+<p>可以看到容器就会多一个html11的目录</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">docker</span> <span class="token function">cp</span>  ~/nginx-html nginx1:/usr/share/nginx/html11
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>容器目录拷贝到本地</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">docker</span> <span class="token function">cp</span>  nginx1:/usr/share/nginx/html ~/nginx-html
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="docker配置nginx" tabindex="-1"><a class="header-anchor" href="#docker配置nginx" aria-hidden="true">#</a> Docker配置nginx</h2>
+<ol>
+<li>
+<p>拉nginx镜像</p>
+<ol>
+<li>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">docker</span> pull nginx:latest
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div></li>
+<li>
+<p><code v-pre>docker run</code> 会返回一个容器的 hash：</p>
+<p><img src="/Docker/hash.png" alt=""></p>
+</li>
+</ol>
+</li>
+<li>
+<p>运行nginx容器</p>
+<ol>
+<li>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">docker</span> run <span class="token parameter variable">--name</span> nginx-test2 <span class="token parameter variable">-p</span> <span class="token number">80</span>:80 <span class="token parameter variable">-v</span> /tmp/aaa:/usr/share/nginx/html:ro <span class="token parameter variable">-e</span> <span class="token assign-left variable">KEY1</span><span class="token operator">=</span>VALUE1 <span class="token parameter variable">-d</span> nginx:latest 
+<span class="token comment"># :ro表示只读  :rw表示可以写入</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>-p 是端口映射</p>
+<p>-v 是指定数据卷挂载目录</p>
+<p>-e 是指定环境变量</p>
+<p>-d 是后台运行</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="dockerfile" tabindex="-1"><a class="header-anchor" href="#dockerfile" aria-hidden="true">#</a> Dockerfile</h2>
+<p>自己制作镜像可以自动化。</p>
+<p>只要在 dockerfile 里声明要做哪些事情，docker build 的时候就会根据这个 dockerfile 来自动化构建出一个镜像来。</p>
+<div class="language-docker line-numbers-mode" data-ext="docker"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">FROM</span> node:latest</span>
+
+<span class="token instruction"><span class="token keyword">WORKDIR</span> /app</span>
+
+<span class="token instruction"><span class="token keyword">COPY</span> . .</span>
+
+<span class="token instruction"><span class="token keyword">RUN</span> npm config set registry https://registry.npmmirror.com/</span>
+
+<span class="token instruction"><span class="token keyword">RUN</span> npm install -g http-server</span>
+
+<span class="token instruction"><span class="token keyword">EXPOSE</span> 8080</span>
+
+<span class="token instruction"><span class="token keyword">CMD</span> [<span class="token string">"http-server"</span>, <span class="token string">"-p"</span>, <span class="token string">"8080"</span>]</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>这些指令的含义如下：</p>
+<ul>
+<li>FROM：基于一个基础镜像来修改</li>
+<li>WORKDIR：指定当前工作目录</li>
+<li>COPY：把容器外的内容复制到容器内</li>
+<li>EXPOSE：声明当前容器要访问的网络端口，比如这里起服务会用到 8080</li>
+<li>RUN：在容器内执行命令</li>
+<li>CMD：容器启动的时候执行的命令</li>
+</ul>
+<p>我们先通过 FROM 继承了 node 基础镜像，里面就有 npm、node 这些命令了。通过 WORKDIR 指定当前目录。然后通过 COPY 把 Dockerfile 同级目录下的内容复制到容器内，这里的 . 也就是 /app 目录。之后通过 RUN 执行 npm install，全局安装 http-server。通过 EXPOSE 指定要暴露的端。CMD 指定容器跑起来之后执行的命令，这里就是执行 http-server 把服务跑起来。</p>
 <CommentService/></div></template>
 
 

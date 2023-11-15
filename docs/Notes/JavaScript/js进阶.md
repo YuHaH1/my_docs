@@ -8,15 +8,9 @@ collapsible: true
 
 ## 1、隐式转换
 
-<u>我们知道js式弱类型语言，这意味着当操作涉及不匹配的类型是否，它将允许隐式类型转换，而不是抛出一个错误。</u>
+<u>我们知道js式弱类型语言，这意味着当操作涉及不匹配的类型，它将允许隐式类型转换，而不是抛出一个错误。</u>
 
-发生类型转换的情况如下：
 
-* [`Date()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date/Date) 构造函数，当它收到一个不是 `Date` 实例的参数时——字符串表示日期字符串，而数值表示时间戳。
-* [`+`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Addition) 运算符——如果运算对象是字符串，执行字符串串联；否则，执行数值相加。
-* [`==`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Equality) 运算符——如果一个运算对象是原始值，而另一个运算对象是对象（object），则该对象将转换为没有首选类型的原始值。
-
-如果值已经是原始值，则此操作不会进行任何转换。对象按以下顺序调用它的 [`[@@toPrimitive]()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive)（将 hint 作为 `default`）、`valueOf()` 和 `toString()` 方法，将其转换为原始值。
 
 ::: tip
 
@@ -30,17 +24,45 @@ collapsible: true
 
 在 `Symbol.toPrimitive` 属性（用作函数值）的帮助下，对象可以转换为一个原始值。该函数被调用时，会被传递一个字符串参数 `hint`，表示要转换到的原始值的预期类型。`hint` 参数的取值是 `"number"`、`"string"` 和 `"default"` 中的任意一个。
 
-1、如果输入的值已经是一个原始值，则直接返回它
+**对于`hint==='default'`发生类型转换的情况如下：**
 
- 2、否则，如果输入的值是一个对象，则调用该对象的valueOf()方法，   如果valueOf()方法的返回值是一个原始值，则返回这个原始值。
+* [`Date()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date/Date) 构造函数，当它收到一个不是 `Date` 实例的参数时——字符串表示日期字符串，而数值表示时间戳。
+* [`+`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Addition) 运算符——如果运算对象是字符串，执行字符串串联；否则，执行数值相加。
+* [`==`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Equality) 运算符——如果一个运算对象是原始值，而另一个运算对象是对象（object），则该对象将转换为没有首选类型的原始值。
 
- 3、否则，调用这个对象的toString()方法，如果toString()方法返回的是一个原始值，则返回这个原始值。
+如果值已经是原始值，则此操作不会进行任何转换。对象按以下顺序调用它的 [`[@@toPrimitive]()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive)（将 hint 作为 `default`）、`valueOf()` 和 `toString()` 方法，将其转换为原始值。
 
- 4、否则，抛出TypeError异常。
+**对于`hint===’number’`则执行强制数字类型转换算法**
+
+对于数字类型有两类：number和BigInt
+
+* `number`强转，执行`Number()`
+  * 
+
+**对于`hint===’string’`用于强制字符串类型转换算法**
+
+* 使用`String()`强转
+
+:::tip
+
+`[Symbol.toPrimitive](hint)`由引擎调用，那什么时候`hint`为`number`，`string`或`default`呢
+
+~~~js
+const object1 = {
+  [Symbol.toPrimitive](hint) {
+      console.log(hint)
+  },
+};
+// 当执行 +object1    hint = number
+// 当执行 `${obj2}`   hint = string
+// 其余情况 hint=default
+~~~
+
+:::
 
 
 
-### 2.对象和数组之间的类型转换
+### 2.隐式转换示例
 
 ~~~js
 console.log({} + []); // "[object Object]"
@@ -48,31 +70,82 @@ console.log({} + []); // "[object Object]"
 
 `{}` 和 `[]` 都没有 `[@@toPrimitive]()` 方法。因此会调用`valueOf`方法，而`valuieOf`返回对象自身，由于返回值还是对象，因此继续调用`toString`方法，`{}.toString()`返回`"[object Object]"`而`[].toString()`返回是空字符串
 
+~~~js
+{} + {} 
+//NAN
+({} + {})
+'[object Object][object Object]'
+~~~
+
+第一次看到这个结果我懵了，想不到原因，最后查看资料，发现JavaScript 把第一个 `{}` 解释成了一个空的代码块（code block）并忽略了它。 `NaN` 其实是表达式 `+{}` 计算的结果 (`+` 加号以及第二个 `{}`)。 你在这里看到的 `+` 加号并不是运算符「加法」，而是一个一元运算符，作用是将它后面的操作数转换成数字，和 `Number()` 函数完全一样。为什么第一个 `{}` 会被解析成代码块（code block）呢？ 因为整个输入被解析成了一个语句：如果左大括号出现在一条语句的开头，则这个左大括号会被解析成一个代码块的开始。
+
+~~~js
+{} + []
+0
+/*转换流程如下
++[]
+[].valueOf()//不是原始值
+[].toString()
+Number([].toString())  
+Number("")
+0
+*/
+~~~
+
+~~~js
+[1,2]+[3,4]
+//'1,23,4'
+//[1,2].toString()+[3,4].toString() = '1,2'+'3,4'
+~~~
+
+
+
 ### 3.Number强制类型转换
 
-* 对于 Number 则总是返回自己
-* `undefined` 变成了 `NaN`。
-* `null` 变成了 `0`。
-* `true` 变成了 `1`；`false` 变成了 `0`。
-* 如果它们包含数字字面量，字符串通过解析它们来转换。如果解析失败，返回的结果为`NaN`。与实际数字字面量相比，它们有一些细微的差别。
-  * 忽略前导和尾随空格/行终止符。
-  * 前导数值 `0` 不会导致该数值成为八进制文本（或在严格模式下被拒绝）。
-  * `+` 和 `-` 允许在字符串的开头指示其符号。（在实际代码中，它们“看起来像”文字的一部分，但实际上是单独的一元运算符。）然而，该标志只能出现一次，不得后跟空格。
-  * `Infinity` 和 `-Infinity` 被当作是字面量。在实际代码中，它们是全局变量。
-  * 空字符串或仅空格字符串转换为 `0`。
-  * 不允许使用[数字分隔符](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Lexical_grammar#numeric_separators)。
-* [BigInt](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/BigInt) 抛出 [`TypeError`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypeError)，以防止意外的强制隐式转换损失精度。
+Number()操作如下：
+* Number 将按原样返回
+
+* undefined 转换为 NaN。
+
+* null 转换为 0。
+
+* true 转换为 1；false 转换为 0。
+
+* 字符串将被假定为包含数字字面量，并通过解析它们来转换。解析失败会得到 NaN。与实际数字字面量相比，它们有一些细微的差别：
+
+  * 前导和尾随的空格/换行符会被忽略。
+  * 前导的数字 0 不会导致该数值成为八进制字面量（或在严格模式下被拒绝）。
+
+    +  -允许出现在字符串的开头以指示其符号。（在实际代码中，它们“看起来像”文字的一部分，但实际上是独立的一元运算符。）然而，该标志只能出现一次，并且后面不能跟空格。
+    + Infinity 和 -Infinity 被当作是字面量。在实际代码中，它们是全局变量。空字符串或仅包含空格的字符串转换为 0。不允许使用数字分隔符。
+
 * [Symbol](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol) 抛出 [`TypeError`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypeError)。
 
-### 4.强制类型转换遵循的规则
+* 对象首先通过按顺序调用它们的 [`[@@toPrimitive]()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive)（使用 `"number"` 提示）、`valueOf()` 和 `toString()` 方法将其[转换为原始值](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Data_structures#强制原始值转换)。然后将得到的原始值转换为数字。
 
-* [强制原始值转换](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Data_structures#强制原始值转换)：`[@@toPrimitive]("default")` → `valueOf()` → `toString()`
+### 4.String强转规则
+
+* 字符串按原样返回。
+* undefined 转换成 "undefined"。
+* null 转换成 "null"。
+* true 转换成 "true"；false 转换成 "false"。
+* 使用与 toString(10) 相同的算法转换数字。
+* 使用与 toString(10) 相同的算法转换 BigInt。
+* Symbol 抛出 TypeError。
+* 对于对象，首先，通过依次调用其 [@@toPrimitive]()（hint 为 "string"）、toString() 和 valueOf() 方法将其转换为原始值。然后将生成的原始值转换为一个字符串。
+
+
+
+### 5.强制类型转换遵循的规则总结
+
+* [强制原始值转换](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Data_structures#强制原始值转换)：如果值已经是原始值，则此操作不会进行任何转换。
+* 对象的强转：对象将依次调用它的 `[@@toPrimitive]()`（将 `default` 作为 hint 值）、`valueOf()` 和 `toString()` 方法，将其转换为原始值。
 * [强制数字类型转换](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Data_structures#强制数字类型转换)、[强制 number 类型转换](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number#number_强制转换)、[强制 BigInt 类型转换](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/BigInt#转化)：`[@@toPrimitive]("number")` → `valueOf()` → `toString()`
 * [强制字符串类型转换](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String#字符串强制转换)：`[@@toPrimitive]("string")` → `toString()` → `valueOf()`
 
-在所有情况下，<u>`[@@toPrimitive]()` 如果存在，必须可调用并返回原始值</u>。
+在所有情况下，<u>`[@@toPrimitive]()` 如果存在，必须可调用并返回原始值</u>，否则报错`TypeError`。
 
-### 5.Object.is
+### 6.Object.is
 
 `Object.is()` 确定两个值是否为相同值。如果以下其中一项成立，则两个值相同：
 
@@ -417,6 +490,55 @@ Java 虚拟机（JVM）是一个广为人知的使用字节码的例子。Java �
 机器码通常是由汇编器将汇编语言程序转换生成的。汇编语言是一种与机器码一一对应的文本表示形式，使用助记符和符号来代表不同的机器码指令。汇编器将汇编语言程序转换成机器码，使得程序可以直接在计算机硬件上执行。
 
 总结起来，机器码是计算机硬件直接可以识别和执行的二进制指令集，它是最底层的指令形式。与高级编程语言和字节码相比，机器码更接近硬件操作，提供了最高的执行效率。
+
+
+
+## 5.拖拽
+
+~~~ts
+import { type Ref, onMounted, onUnmounted } from 'vue'
+export default function useDrag(containerRef: Ref<HTMLElement>, contentRef?: Ref<HTMLElement | null>) {
+    let move = false
+    let x, y, containerHeight, containerWidth
+    function mouseDownHandle(e) {
+        [x, y, containerHeight, containerWidth] = [e.offsetX, e.offsetY, containerRef.value?.offsetHeight, containerRef.value?.offsetWidth]
+        move = true
+        document.addEventListener('mousemove', mouseMoveHandle)
+        document.addEventListener('mouseup', mouseUpHandle)
+    }
+    function mouseMoveHandle(e) {
+        // 剩余留白空间
+        const restHeight = window.innerHeight - containerHeight
+        const restWidth = window.innerWidth - containerWidth
+        // 鼠标位置和盒子边界之间的距离
+        let div_top = e.clientY - y
+        let div_left = e.clientX - x
+        // Math.max(0, div_top)取盒子在视口内的值，如果div_top为负数就取值0 Math.min(Math.max(0, div_top), restHeight)//最大边界不超过restHeight
+        let containerTop = Math.min(Math.max(0, div_top), restHeight), containerLeft = Math.min(Math.max(0, div_left), restWidth)
+        if (move) {
+            containerRef.value!.style.left = containerLeft + 'px'
+            containerRef.value!.style.top = containerTop + 'px'
+        }
+    }
+    function mouseUpHandle(e) {
+        move = false
+    }
+    onMounted(() => {
+        containerRef.value?.addEventListener('mousedown', mouseDownHandle)
+    })
+    onUnmounted(() => {
+        containerRef.value?.removeEventListener('mousedown', mouseDownHandle)
+        document.removeEventListener('mousemove', mouseMoveHandle)
+        document.removeEventListener('mouseup', mouseUpHandle)
+    })
+
+
+}
+~~~
+
+
+
+
 
 
 

@@ -45,4 +45,10 @@ export default defineUserConfig({
         md.set({ html: true });
         md.use(katex);
     },
+    extendsMarkdownOptions: (markdownOptions, app) => {
+        if (markdownOptions.headers === false) return
+        markdownOptions.headers ??= {}
+        if (markdownOptions.headers.level) return
+        markdownOptions.headers.level = [2, 3, 4, 5, 6]
+    },
 })
