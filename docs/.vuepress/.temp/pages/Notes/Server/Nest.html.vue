@@ -1,44 +1,19 @@
 <template><div><h1 id="nest" tabindex="-1"><a class="header-anchor" href="#nest" aria-hidden="true">#</a> Nest</h1>
 <p>nest中的服务负责处理业务逻辑，service服务于模块要放到module中</p>
 <h2 id="nest-cli" tabindex="-1"><a class="header-anchor" href="#nest-cli" aria-hidden="true">#</a> Nest CLI</h2>
+<p><a href="https://nest.nodejs.cn/cli/usages" target="_blank" rel="noopener noreferrer">使用文档<ExternalLinkIcon/></a></p>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> @nestjs/cli
 // 升级最新版本
 <span class="token function">npm</span> update <span class="token parameter variable">-g</span> @nestjs/cli
 //创建项目
-nest new 项目名 <span class="token parameter variable">-p</span> <span class="token function">pnpm</span>
+nest new <span class="token punctuation">[</span>项目名<span class="token punctuation">]</span> <span class="token parameter variable">-p</span> <span class="token function">pnpm</span>
 // 查看帮助
 nest <span class="token parameter variable">-h</span> 
 // 使用tsc或者webpack打包代码
 nest build
 //启动开发服务
 nest start
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="nest-generate命令" tabindex="-1"><a class="header-anchor" href="#nest-generate命令" aria-hidden="true">#</a> nest generate命令</h3>
-<p>nest 命令可以生成controller service module等</p>
-<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>nest generate module test_module
-nest generate controller test_module
-nest generate <span class="token function">service</span> test_module
-<span class="token comment"># 上面三条命令等于下面一条</span>
-nest generate resource test_module
-
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>该命令会创建一个test_module文件夹和文件然后加入以下代码</p>
-<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Module <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
-
-<span class="token decorator"><span class="token at operator">@</span><span class="token function">Module</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">TestModuleModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>之后自动在AppModule里导入创建的module</p>
-<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Module <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> AppController <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app.controller'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> AppService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app.service'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> TestModuleModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./test_module/test_module.module'</span><span class="token punctuation">;</span>
-
-<span class="token decorator"><span class="token at operator">@</span><span class="token function">Module</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  imports<span class="token operator">:</span> <span class="token punctuation">[</span>TestModuleModule<span class="token punctuation">]</span><span class="token punctuation">,</span>
-  controllers<span class="token operator">:</span> <span class="token punctuation">[</span>AppController<span class="token punctuation">]</span><span class="token punctuation">,</span>
-  providers<span class="token operator">:</span> <span class="token punctuation">[</span>AppService<span class="token punctuation">]</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>命令创建的spec文件是测试文件</p>
-<h2 id="http的5种数据传输方式" tabindex="-1"><a class="header-anchor" href="#http的5种数据传输方式" aria-hidden="true">#</a> HTTP的5种数据传输方式</h2>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="http的5种数据传输方式" tabindex="-1"><a class="header-anchor" href="#http的5种数据传输方式" aria-hidden="true">#</a> HTTP的5种数据传输方式</h2>
 <ul>
 <li>url param（<code v-pre>http://fancyfish.top/123</code>,123就是参数）</li>
 <li>query(<code v-pre>http://fancyfish.top/?name=余&amp;age=24</code>?后面就是数据，有特殊字符的一般客户端会用<code v-pre>encodeURIComponent(‘余’)编码</code>)</li>
@@ -768,8 +743,8 @@ main<span class="token punctuation">.</span>ts
     <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'after'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-<span class="token comment">// 然后在Module中使用</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> Module<span class="token punctuation">,</span>MiddlewareConsumer<span class="token punctuation">,</span>NestModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>@Module()</code> 装饰器中没有中间件的位置。 相反，我们使用模块类的 <code v-pre>configure()</code> 方法设置它们。 包含中间件的模块必须实现 <code v-pre>NestModule</code> 接口。 让我们在 <code v-pre>AppModule</code> 级别设置 <code v-pre>LoggerMiddleware</code>。</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Module<span class="token punctuation">,</span>MiddlewareConsumer<span class="token punctuation">,</span>NestModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> AppController <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app.controller'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> AppService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app.service'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span>MyMiddleware<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./MyMiddleware'</span>
@@ -788,8 +763,33 @@ main<span class="token punctuation">.</span>ts
      <span class="token function">consumer</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>MyMiddleware<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exclude</span><span class="token punctuation">(</span><span class="token punctuation">{</span>path<span class="token operator">:</span><span class="token string">'user'</span><span class="token punctuation">,</span>method<span class="token operator">:</span>RequestMethod<span class="token punctuation">.</span><span class="token constant">POST</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forRoutes</span><span class="token punctuation">(</span><span class="token punctuation">{</span>path<span class="token operator">:</span><span class="token string">'hello'</span><span class="token punctuation">,</span>method<span class="token operator">:</span>RequestMethod<span class="token punctuation">.</span><span class="token constant">GET</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token comment">//对所有hello路由生效并排除掉user路由</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="拦截器" tabindex="-1"><a class="header-anchor" href="#拦截器" aria-hidden="true">#</a> 拦截器</h2>
+<p><code v-pre>NestInterceptor&lt;T, R&gt;</code> 是一个通用接口，其中 <code v-pre>T</code> 表示 <code v-pre>Observable&lt;T&gt;</code>（支持响应流）的类型，<code v-pre>R</code> 是 <code v-pre>Observable&lt;R&gt;</code> 封装的值的类型。</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Injectable<span class="token punctuation">,</span> NestInterceptor<span class="token punctuation">,</span> ExecutionContext<span class="token punctuation">,</span> CallHandler <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Observable <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'rxjs'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> tap <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'rxjs/operators'</span><span class="token punctuation">;</span>
 
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="filter过滤器" tabindex="-1"><a class="header-anchor" href="#filter过滤器" aria-hidden="true">#</a> filter过滤器</h2>
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Injectable</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">LoggingInterceptor</span> <span class="token keyword">implements</span> <span class="token class-name">NestInterceptor</span> <span class="token punctuation">{</span>
+  <span class="token function">intercept</span><span class="token punctuation">(</span>context<span class="token operator">:</span> ExecutionContext<span class="token punctuation">,</span> next<span class="token operator">:</span> CallHandler<span class="token punctuation">)</span><span class="token operator">:</span> Observable<span class="token operator">&lt;</span><span class="token builtin">any</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Before...'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">const</span> now <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> next
+      <span class="token punctuation">.</span><span class="token function">handle</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+        <span class="token function">tap</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">After... </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> now<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">ms</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">//注册局部拦截器</span>
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">UseInterceptors</span></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">LoggingInterceptor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">CatsController</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token comment">//全局拦截器</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">await</span> NestFactory<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>AppModule<span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span><span class="token function">useGlobalInterceptors</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">LoggingInterceptor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="filter过滤器" tabindex="-1"><a class="header-anchor" href="#filter过滤器" aria-hidden="true">#</a> filter过滤器</h2>
 <p>对错误进行捕获并返回自定义格式的内容。Exception Filter 是在 Nest 应用抛异常的时候，捕获它并返回一个对应的响应。比如路由找不到时返回 404；参数的错误返回 400；服务端报错时返回 500。</p>
 <p>我们可以在控制器中抛出异常</p>
 <div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">BadRequestException</span><span class="token punctuation">(</span><span class="token string">'缺少参数id'</span><span class="token punctuation">)</span>
@@ -1052,7 +1052,63 @@ user<span class="token punctuation">.</span>id<span class="token operator">=</sp
 <span class="token comment">//  2333 {metatype:[Function:Number],type:'query',data:'age'}</span>
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>url：<code v-pre>localhost:3000/user/123?age=2333</code></p>
 <h3 id="validationpipe" tabindex="-1"><a class="header-anchor" href="#validationpipe" aria-hidden="true">#</a> ValidationPipe</h3>
-<p>post 请求的数据是通过 @Body 装饰器来取，并且要有一个 dto class 来接收：（dto就是一个类，定义前段传递的参数类型即可）</p>
+<p>安装依赖</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> i <span class="token parameter variable">--save</span> class-validator class-transformer
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>然后全局注册<code v-pre>ValidationPipe</code></p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> NestFactory <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app.module'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> ValidationPipe <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">await</span> NestFactory<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>AppModule<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  app<span class="token punctuation">.</span><span class="token function">useGlobalPipes</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ValidationPipe</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">await</span> app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>之后在dto中进行验证</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span>
+  validate<span class="token punctuation">,</span>
+  validateOrReject<span class="token punctuation">,</span>
+  Contains<span class="token punctuation">,</span>
+  IsInt<span class="token punctuation">,</span>
+  Length<span class="token punctuation">,</span>
+  IsEmail<span class="token punctuation">,</span>
+  IsFQDN<span class="token punctuation">,</span>
+  IsDate<span class="token punctuation">,</span>
+  Min<span class="token punctuation">,</span>
+  Max<span class="token punctuation">,</span>
+<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'class-validator'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">Post</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Length</span></span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Contains</span></span><span class="token punctuation">(</span><span class="token string">'hello'</span><span class="token punctuation">)</span>
+  text<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">IsInt</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Min</span></span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Max</span></span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+  rating<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">IsEmail</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  email<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">IsFQDN</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  site<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">IsDate</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  createDate<span class="token operator">:</span> Date<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">let</span> post <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Post</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+post<span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span> <span class="token comment">// should not pass</span>
+post<span class="token punctuation">.</span>text <span class="token operator">=</span> <span class="token string">'this is a great post about hell world'</span><span class="token punctuation">;</span> <span class="token comment">// should not pass</span>
+post<span class="token punctuation">.</span>rating <span class="token operator">=</span> <span class="token number">11</span><span class="token punctuation">;</span> <span class="token comment">// should not pass</span>
+post<span class="token punctuation">.</span>email <span class="token operator">=</span> <span class="token string">'google.com'</span><span class="token punctuation">;</span> <span class="token comment">// should not pass</span>
+post<span class="token punctuation">.</span>site <span class="token operator">=</span> <span class="token string">'googlecom'</span><span class="token punctuation">;</span> <span class="token comment">// should not pass</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>post 请求的数据是通过 @Body 装饰器来取，并且要有一个 dto class 来接收：（dto就是一个类，定义前段传递的参数类型即可）</p>
 <div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">UserDTO</span><span class="token punctuation">{</span>
     username<span class="token operator">:</span><span class="token builtin">string</span><span class="token punctuation">,</span>
     password<span class="token operator">:</span><span class="token builtin">string</span>
@@ -1169,10 +1225,354 @@ app<span class="token punctuation">.</span><span class="token function">useGloba
 <p>当然，reflect metadata 的 api 还在草案阶段，需要引入 reflect metadata 的包做 polyfill。</p>
 <p>Nest 还提供了 @SetMetadata 的装饰器，可以在 controller 的 class 和 method 上添加 metadata，然后在 interceptor 和 guard 里通过 reflector 的 api 取出来。</p>
 <p>理解了 metadata，nest 的实现原理就很容易搞懂了。</p>
-<h2 id="nest服务端需要继承的依赖包" tabindex="-1"><a class="header-anchor" href="#nest服务端需要继承的依赖包" aria-hidden="true">#</a> Nest服务端需要继承的依赖包</h2>
-<h3 id="swagger-集成" tabindex="-1"><a class="header-anchor" href="#swagger-集成" aria-hidden="true">#</a> Swagger 集成</h3>
-<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">add</span> @nestjs/swagger
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span>DocumentBuilder<span class="token punctuation">,</span>SwaggerModule<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/swagger'</span>
+<h2 id="typeorm" tabindex="-1"><a class="header-anchor" href="#typeorm" aria-hidden="true">#</a> Typeorm</h2>
+<p><a href="https://github.com/typeorm/typeorm" target="_blank" rel="noopener noreferrer">TypeORM<ExternalLinkIcon/></a> 绝对是 node.js 世界中可用的最成熟的对象关系映射器 (ORM)。 由于它是用 TypeScript 编写的，因此可以很好地与 Nest 框架配合使用。</p>
+<h3 id="_1-安装" tabindex="-1"><a class="header-anchor" href="#_1-安装" aria-hidden="true">#</a> 1.安装</h3>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">install</span> <span class="token parameter variable">--save</span> typeorm mysql2
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="_2-建立数据库连接" tabindex="-1"><a class="header-anchor" href="#_2-建立数据库连接" aria-hidden="true">#</a> 2.建立数据库连接</h3>
+<p>配置文件格式如下yarm</p>
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token key atrule">app</span><span class="token punctuation">:</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">3000</span>
+
+<span class="token key atrule">db</span><span class="token punctuation">:</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">'mysql'</span>
+  <span class="token key atrule">host</span><span class="token punctuation">:</span> <span class="token string">'localhost'</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">3306</span>
+  <span class="token key atrule">username</span><span class="token punctuation">:</span> <span class="token string">'root'</span>
+  <span class="token key atrule">password</span><span class="token punctuation">:</span> <span class="token string">'root'</span>
+  <span class="token key atrule">database</span><span class="token punctuation">:</span> <span class="token string">'typeorm'</span>
+  <span class="token key atrule">logging</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">poolSize</span><span class="token punctuation">:</span> <span class="token number">10</span>
+  <span class="token key atrule">connectorPackage</span><span class="token punctuation">:</span> <span class="token string">'mysql2'</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>①读取配置文件</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> readFile <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'fs/promises'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> yaml <span class="token keyword">from</span> <span class="token string">'js-yaml'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> join <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'path'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> MysqlConnectionOptions <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'typeorm/driver/mysql/MysqlConnectionOptions'</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">Database</span> <span class="token keyword">extends</span> <span class="token class-name">MysqlConnectionOptions</span> <span class="token punctuation">{</span>
+  type<span class="token operator">:</span> <span class="token string">'mysql'</span> <span class="token operator">|</span> <span class="token string">'mariadb'</span><span class="token punctuation">;</span>
+  host<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  port<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  username<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  password<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  database<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  synchronize<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+  logging<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+  poolSize<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  connectorPackage<span class="token operator">:</span> <span class="token string">'mysql'</span> <span class="token operator">|</span> <span class="token string">'mysql2'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">interface</span> <span class="token class-name">IConfig</span> <span class="token punctuation">{</span>
+  app<span class="token operator">:</span> <span class="token punctuation">{</span>
+    port<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  db<span class="token operator">:</span> Database
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">configLoad</span> <span class="token operator">=</span>  <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> configFilePath <span class="token operator">=</span> <span class="token function">join</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span><span class="token function">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.yaml</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> config <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">readFile</span><span class="token punctuation">(</span>configFilePath<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    encoding<span class="token operator">:</span> <span class="token string">'utf-8'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> yaml<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>IConfig<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>创建database.providers.ts文件</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> DataSource <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'typeorm'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> databaseProviders <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    provide<span class="token operator">:</span> <span class="token string">'DATA_SOURCE'</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">useFactory</span><span class="token operator">:</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> dataSource <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DataSource</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        type<span class="token operator">:</span> <span class="token string">'mysql'</span><span class="token punctuation">,</span>
+        host<span class="token operator">:</span> <span class="token string">'localhost'</span><span class="token punctuation">,</span>
+        port<span class="token operator">:</span> <span class="token number">3306</span><span class="token punctuation">,</span>
+        username<span class="token operator">:</span> <span class="token string">'root'</span><span class="token punctuation">,</span>
+        password<span class="token operator">:</span> <span class="token string">'root'</span><span class="token punctuation">,</span>
+        database<span class="token operator">:</span> <span class="token string">'test'</span><span class="token punctuation">,</span>
+        entities<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        synchronize<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">return</span> dataSource<span class="token punctuation">.</span><span class="token function">initialize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="custom-container warning"><p class="custom-container-title">WARNING</p>
+<p>synchronize: true不应在生产中使用 - 否则可能会丢失生产数据。</p>
+</div>
+<p>然后在database.module.ts文件中</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Module <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> databaseProviders <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./database.providers'</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Module</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  providers<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token operator">...</span>databaseProviders<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  exports<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token operator">...</span>databaseProviders<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">DatabaseModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>最后将数据库的模块注册到app.module.ts中</p>
+<div class="language-dart line-numbers-mode" data-ext="dart"><pre v-pre class="language-dart"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token class-name">Module</span> <span class="token punctuation">}</span> from <span class="token string-literal"><span class="token string">'@nestjs/common'</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token class-name">AppController</span> <span class="token punctuation">}</span> from <span class="token string-literal"><span class="token string">'./app.controller'</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token class-name">AppService</span> <span class="token punctuation">}</span> from <span class="token string-literal"><span class="token string">'./app.service'</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token class-name">DatabaseModule</span> <span class="token punctuation">}</span> from <span class="token string-literal"><span class="token string">'./modules'</span></span><span class="token punctuation">;</span>
+
+<span class="token metadata function">@Module</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">DatabaseModule</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  controllers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">AppController</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">AppService</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_3-操作表" tabindex="-1"><a class="header-anchor" href="#_3-操作表" aria-hidden="true">#</a> 3.操作表</h3>
+<p>①创建一个photo表</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Entity<span class="token punctuation">,</span> Column<span class="token punctuation">,</span> PrimaryGeneratedColumn <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'typeorm'</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Entity</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">Photo</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">PrimaryGeneratedColumn</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  id<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> length<span class="token operator">:</span> <span class="token number">500</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token string">'text'</span><span class="token punctuation">)</span>
+  description<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  filename<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token string">'int'</span><span class="token punctuation">)</span>
+  views<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  isPublished<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>②创建服务提供者photo.providers.ts</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> DataSource <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'typeorm'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Photo <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./photo.entity'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> photoProviders <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    provide<span class="token operator">:</span> <span class="token string">'PHOTO_REPOSITORY'</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">useFactory</span><span class="token operator">:</span> <span class="token punctuation">(</span>dataSource<span class="token operator">:</span> DataSource<span class="token punctuation">)</span> <span class="token operator">=></span> dataSource<span class="token punctuation">.</span><span class="token function">getRepository</span><span class="token punctuation">(</span>Photo<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    inject<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'DATA_SOURCE'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>photo.service.ts</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Injectable<span class="token punctuation">,</span> Inject <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Repository <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'typeorm'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Photo <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./photo.entity'</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Injectable</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">PhotoService</span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Inject</span></span><span class="token punctuation">(</span><span class="token string">'PHOTO_REPOSITORY'</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> photoRepository<span class="token operator">:</span> Repository<span class="token operator">&lt;</span>Photo<span class="token operator">></span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  <span class="token keyword">async</span> <span class="token function">findAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Photo<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>photoRepository<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>③注册服务photo.module.ts</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Module <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> DatabaseModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../database/database.module'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> photoProviders <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./photo.providers'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> PhotoService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./photo.service'</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Module</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  imports<span class="token operator">:</span> <span class="token punctuation">[</span>DatabaseModule<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  providers<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token operator">...</span>photoProviders<span class="token punctuation">,</span>
+    PhotoService<span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">PhotoModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>④<code v-pre>PhotoModule</code> 导入根 <code v-pre>AppModule</code>。</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Module <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppController <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app.controller'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app.service'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> DatabaseModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./modules'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>PhotoModule<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./xxx'</span>
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Module</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  imports<span class="token operator">:</span> <span class="token punctuation">[</span>DatabaseModule，PhotoModule<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  controllers<span class="token operator">:</span> <span class="token punctuation">[</span>AppController<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  providers<span class="token operator">:</span> <span class="token punctuation">[</span>AppService<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="实体entity" tabindex="-1"><a class="header-anchor" href="#实体entity" aria-hidden="true">#</a> 实体Entity</h3>
+<p><a href="https://typeorm.io/entities" target="_blank" rel="noopener noreferrer">实体文档<ExternalLinkIcon/></a></p>
+<p>实体是映射数据库表的类。如下：</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Entity<span class="token punctuation">,</span> PrimaryGeneratedColumn<span class="token punctuation">,</span> Column <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typeorm"</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Entity</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">PrimaryGeneratedColumn</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    id<span class="token operator">:</span> <span class="token builtin">number</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    firstName<span class="token operator">:</span> <span class="token builtin">string</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    lastName<span class="token operator">:</span> <span class="token builtin">string</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    isActive<span class="token operator">:</span> <span class="token builtin">boolean</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="实体的装饰器" tabindex="-1"><a class="header-anchor" href="#实体的装饰器" aria-hidden="true">#</a> 实体的装饰器</h4>
+<ul>
+<li><code v-pre>@PrimaryColumn </code>标识主键</li>
+<li><code v-pre>@PrimaryGeneratedColumn </code>自增主键</li>
+<li><code v-pre>@CreateDateColumn</code>会被自动设置实体的创建日期。此列-它将自动设置。</li>
+<li><code v-pre>@UpdateDateColumn</code>每次调用实体manager或者repository的save方法时会更新这个时间。此列-它将自动设置。</li>
+<li><code v-pre>@DeleteDateColumn</code>软删除的时间。此列-它将自动设置。</li>
+<li><code v-pre>@VersionColumn</code>每次调用实体manager或repository的save时自动设置为实体的版本(增量编号)。此列-它将自动设置。</li>
+</ul>
+<h4 id="查找实体" tabindex="-1"><a class="header-anchor" href="#查找实体" aria-hidden="true">#</a> 查找实体</h4>
+<p>可以用 <code v-pre>manager.findOneBy</code> or <code v-pre>repository.findOneBy</code>，如下:(Person是实体)</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token comment">// find one by id with single primary key</span>
+<span class="token keyword">const</span> person <span class="token operator">=</span> <span class="token keyword">await</span> dataSource<span class="token punctuation">.</span>manager<span class="token punctuation">.</span><span class="token function">findOneBy</span><span class="token punctuation">(</span>Person<span class="token punctuation">,</span> <span class="token punctuation">{</span> id<span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> person <span class="token operator">=</span> <span class="token keyword">await</span> dataSource<span class="token punctuation">.</span><span class="token function">getRepository</span><span class="token punctuation">(</span>Person<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">findOneBy</span><span class="token punctuation">(</span><span class="token punctuation">{</span> id<span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">// find one by id with composite primary keys</span>
+<span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token keyword">await</span> dataSource<span class="token punctuation">.</span>manager<span class="token punctuation">.</span><span class="token function">findOneBy</span><span class="token punctuation">(</span>User<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    firstName<span class="token operator">:</span> <span class="token string">"Timber"</span><span class="token punctuation">,</span>
+    lastName<span class="token operator">:</span> <span class="token string">"Saw"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token keyword">await</span> dataSource<span class="token punctuation">.</span><span class="token function">getRepository</span><span class="token punctuation">(</span>User<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">findOneBy</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    firstName<span class="token operator">:</span> <span class="token string">"Timber"</span><span class="token punctuation">,</span>
+    lastName<span class="token operator">:</span> <span class="token string">"Saw"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="一对一" tabindex="-1"><a class="header-anchor" href="#一对一" aria-hidden="true">#</a> 一对一</h3>
+<p>在其中一方添加<code v-pre>@OneToTone</code>并指定 <code v-pre>@JoinColum</code> 也就是外键列，例如</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Column<span class="token punctuation">,</span> Entity<span class="token punctuation">,</span> PrimaryGeneratedColumn <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typeorm"</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Entity</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    name<span class="token operator">:</span> <span class="token string">'id_card'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">IdCard</span> <span class="token punctuation">{</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">PrimaryGeneratedColumn</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    id<span class="token operator">:</span> <span class="token builtin">number</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        length<span class="token operator">:</span> <span class="token number">50</span><span class="token punctuation">,</span>
+        comment<span class="token operator">:</span> <span class="token string">'身份证号'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    cardName<span class="token operator">:</span> <span class="token builtin">string</span>
+    
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">JoinColumn</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">OneToOne</span></span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span>User<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>我们正常在更新表的时候如果不添加级联更新需要如下操作，（要分别保存 user 和 idCard，能不能自动按照关联关系来保存呢？）</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> AppDataSource <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./data-source"</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> IdCard <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./entity/IdCard"</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> User <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./entity/User"</span>
+
+AppDataSource<span class="token punctuation">.</span><span class="token function">initialize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    user<span class="token punctuation">.</span>firstName <span class="token operator">=</span> <span class="token string">'guang'</span><span class="token punctuation">;</span>
+    user<span class="token punctuation">.</span>lastName <span class="token operator">=</span> <span class="token string">'guang'</span><span class="token punctuation">;</span>
+    user<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">const</span> idCard <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IdCard</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    idCard<span class="token punctuation">.</span>cardName <span class="token operator">=</span> <span class="token string">'1111111'</span><span class="token punctuation">;</span>
+    idCard<span class="token punctuation">.</span>user <span class="token operator">=</span> user<span class="token punctuation">;</span>
+    
+    <span class="token keyword">await</span> AppDataSource<span class="token punctuation">.</span>manager<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">await</span> AppDataSource<span class="token punctuation">.</span>manager<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>idCard<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>error <span class="token operator">=></span> <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以在 @OneToOne 那里指定 cascade 为 true：<code v-pre>@OneToOne(()=&gt;User,{cascade:true})</code></p>
+<p>查询的时候我们需要指定relation字段才能够将关联的表的信息查询出来</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">const</span> ics <span class="token operator">=</span> <span class="token keyword">await</span> AppDataSource<span class="token punctuation">.</span>manager<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>IdCard<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    relations<span class="token operator">:</span> <span class="token punctuation">{</span>
+        user<span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="一对多" tabindex="-1"><a class="header-anchor" href="#一对多" aria-hidden="true">#</a> 一对多</h3>
+<p>创建部门和员工表。</p>
+<p>在一的一方添加 <code v-pre>oneToMany</code> 装饰器，在多的一方添加<code v-pre>@ManyToOne</code>。(<strong>在多的一方<code v-pre>@ManyToOne</code>去掉级联不然，双方都级联保存，那就无限循环了</strong>)</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Column<span class="token punctuation">,</span> Entity<span class="token punctuation">,</span> PrimaryGeneratedColumn<span class="token punctuation">,</span>oneToMany <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typeorm"</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Entity</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">Department</span> <span class="token punctuation">{</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">PrimaryGeneratedColumn</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    d_id<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        length<span class="token operator">:</span> <span class="token number">50</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">oneToMany</span></span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span>Department<span class="token punctuation">,</span><span class="token punctuation">(</span>employee<span class="token punctuation">)</span><span class="token operator">=></span>employee<span class="token punctuation">.</span>department<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>cascade<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token comment">//这里要通过第二个参数指定外键列在 employee.department 维护。</span>
+    department<span class="token operator">:</span>Department<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Column<span class="token punctuation">,</span> Entity<span class="token punctuation">,</span> PrimaryGeneratedColumn <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typeorm"</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Entity</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">Employee</span> <span class="token punctuation">{</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">PrimaryGeneratedColumn</span></span><span class="token punctuation">(</span><span class="token string">'uuid'</span><span class="token punctuation">)</span>
+    id<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        length<span class="token operator">:</span> <span class="token number">50</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">ManyToOne</span></span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span>Department<span class="token punctuation">)</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">JoinColumn</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token comment">//默认一对多外键在多的一方保存，JoinColumn可以省略，除非需要指定一些选项</span>
+        name<span class="token operator">:</span>d_id
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    department<span class="token operator">:</span>Department
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="多对多" tabindex="-1"><a class="header-anchor" href="#多对多" aria-hidden="true">#</a> 多对多</h3>
+<p>将多对多拆成两个一对多。例如文章和标签两个实体。</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Column<span class="token punctuation">,</span> Entity<span class="token punctuation">,</span> PrimaryGeneratedColumn<span class="token punctuation">,</span>ManyToMany<span class="token punctuation">,</span>JoinTable <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typeorm"</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Entity</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">Article</span> <span class="token punctuation">{</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">PrimaryGeneratedColumn</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    id<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        length<span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+        comment<span class="token operator">:</span> <span class="token string">'文章标题'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        type<span class="token operator">:</span> <span class="token string">'text'</span><span class="token punctuation">,</span>
+        comment<span class="token operator">:</span> <span class="token string">'文章内容'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    content<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">ManyToMany</span></span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span>Tag<span class="token punctuation">,</span><span class="token punctuation">(</span>tag<span class="token punctuation">)</span><span class="token operator">=></span>tag<span class="token punctuation">.</span>article<span class="token punctuation">)</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">JoinTable</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        name<span class="token operator">:</span><span class="token string">'xxx'</span><span class="token comment">//指定中间表的名称</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    tags<span class="token operator">:</span>Tag<span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//Tag</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Column<span class="token punctuation">,</span> Entity<span class="token punctuation">,</span> PrimaryGeneratedColumn，ManyToMany <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typeorm"</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Entity</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">Tag</span> <span class="token punctuation">{</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">PrimaryGeneratedColumn</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    id<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Column</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        length<span class="token operator">:</span> <span class="token number">100</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">ManyToMany</span></span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span>Article<span class="token punctuation">,</span><span class="token punctuation">(</span>article<span class="token punctuation">)</span><span class="token operator">=></span>article<span class="token punctuation">.</span>tags<span class="token punctuation">)</span>
+    articles<span class="token operator">:</span>Article<span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span>DocumentBuilder<span class="token punctuation">,</span>SwaggerModule<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/swagger'</span>
 
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NestFactory <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> AppModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app.module'</span><span class="token punctuation">;</span>
@@ -1189,6 +1589,141 @@ app<span class="token punctuation">.</span><span class="token function">useGloba
 <span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="node-redis" tabindex="-1"><a class="header-anchor" href="#node-redis" aria-hidden="true">#</a> node-redis</h2>
+<p><a href="https://github.com/redis/node-redis" target="_blank" rel="noopener noreferrer">文档地址<ExternalLinkIcon/></a></p>
+<h2 id="nest项目初始化" tabindex="-1"><a class="header-anchor" href="#nest项目初始化" aria-hidden="true">#</a> Nest项目初始化</h2>
+<p>①创建项目<code v-pre>nest new [project] -p pnpm</code></p>
+<p>②安装<code v-pre>js-yaml</code>和<code v-pre>cross-env</code>依赖做环境配置</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">install</span> js-yaml @nestjs/config 
+<span class="token function">pnpm</span> <span class="token function">install</span> <span class="token parameter variable">-D</span> cross-env
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>③配置yaml(该文件放到src下便于打包)和package.json文件配置</p>
+<div class="language-yaml line-numbers-mode" data-ext="yml"><pre v-pre class="language-yaml"><code><span class="token key atrule">app</span><span class="token punctuation">:</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">3000</span>
+<span class="token key atrule">db</span><span class="token punctuation">:</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">'mysql'</span>
+  <span class="token key atrule">host</span><span class="token punctuation">:</span> <span class="token string">'localhost'</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">3306</span>
+  <span class="token key atrule">username</span><span class="token punctuation">:</span> <span class="token string">'root'</span>
+  <span class="token key atrule">password</span><span class="token punctuation">:</span> <span class="token string">'root'</span>
+  <span class="token key atrule">database</span><span class="token punctuation">:</span> <span class="token string">'typeorm'</span>
+  <span class="token key atrule">logging</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">poolSize</span><span class="token punctuation">:</span> <span class="token number">10</span>
+  <span class="token key atrule">connectorPackage</span><span class="token punctuation">:</span> <span class="token string">'mysql2'</span>
+<span class="token key atrule">redis</span><span class="token punctuation">:</span>
+  <span class="token key atrule">host</span><span class="token punctuation">:</span> <span class="token string">'localhost'</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">6379</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"build"</span><span class="token operator">:</span> <span class="token string">"cross-env NODE_ENV=production nest build"</span><span class="token punctuation">,</span>
+    <span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"cross-env NODE_ENV=development nest start --watch"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>配置nest-cli.json</p>
+<div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"watchAssets"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"assets"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"**/*.yaml"</span><span class="token punctuation">]</span><span class="token comment">// 将环境配置一起打包</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>创建配置的服务<code v-pre>nest g pr config --no-spec</code></p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Provider <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> readFile <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'fs/promises'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> yaml <span class="token keyword">from</span> <span class="token string">'js-yaml'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> join <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'path'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> MysqlConnectionOptions <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'typeorm/driver/mysql/MysqlConnectionOptions'</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">Database</span> <span class="token keyword">extends</span> <span class="token class-name">MysqlConnectionOptions</span> <span class="token punctuation">{</span>
+  type<span class="token operator">:</span> <span class="token string">'mysql'</span> <span class="token operator">|</span> <span class="token string">'mariadb'</span><span class="token punctuation">;</span>
+  host<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  port<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  username<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  password<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  database<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  synchronize<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+  logging<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+  poolSize<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  connectorPackage<span class="token operator">:</span> <span class="token string">'mysql'</span> <span class="token operator">|</span> <span class="token string">'mysql2'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">interface</span> <span class="token class-name">Redis</span> <span class="token punctuation">{</span>
+  host<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  port<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">interface</span> <span class="token class-name">IConfig</span> <span class="token punctuation">{</span>
+  app<span class="token operator">:</span> <span class="token punctuation">{</span>
+    port<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  db<span class="token operator">:</span> Database<span class="token punctuation">;</span>
+  redis<span class="token operator">:</span> Redis<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> <span class="token function-variable function">yamlLoad</span> <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> configFilePath <span class="token operator">=</span> <span class="token function">join</span><span class="token punctuation">(</span>
+    process<span class="token punctuation">.</span><span class="token function">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">./src/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.yaml</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> config <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">readFile</span><span class="token punctuation">(</span>configFilePath<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    encoding<span class="token operator">:</span> <span class="token string">'utf-8'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> yaml<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>IConfig<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> configProviders<span class="token operator">:</span> Provider<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    provide<span class="token operator">:</span> <span class="token string">'CONFIG_PROVIDERS'</span><span class="token punctuation">,</span>
+    useFactory<span class="token operator">:</span> yamlLoad<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">ConfigService</span> <span class="token punctuation">{</span><span class="token comment">//暴露给main.ts使用</span>
+  <span class="token keyword">static</span> <span class="token keyword">async</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">await</span> <span class="token function">yamlLoad</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>然后创建配置模块<code v-pre>nest g mo config --no-spec</code></p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Module <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> configProviders <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./config.provider'</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Module</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  providers<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token operator">...</span>configProviders<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  exports<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token operator">...</span>configProviders<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">ConfigModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>④继承TypeORM数据库</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">install</span> typeorm mysql2
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>创建数据库的服务</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> DataSource <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'typeorm'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> User<span class="token punctuation">,</span> Role<span class="token punctuation">,</span> Permission <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@/user/entities'</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> databaseProviders <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    provide<span class="token operator">:</span> <span class="token string">'DATA_SOURCE'</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">useFactory</span><span class="token operator">:</span> <span class="token keyword">async</span> <span class="token punctuation">(</span>config<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> dataSource <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DataSource</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token operator">...</span>config<span class="token punctuation">.</span>db<span class="token punctuation">,</span>
+        entities<span class="token operator">:</span> <span class="token punctuation">[</span>User<span class="token punctuation">,</span> Role<span class="token punctuation">,</span> Permission<span class="token punctuation">]</span><span class="token punctuation">,</span>
+        logging<span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">!==</span> <span class="token string">'production'</span><span class="token punctuation">,</span>
+        synchronize<span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">!==</span> <span class="token string">'production'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> dataSource<span class="token punctuation">.</span><span class="token function">initialize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    inject<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'CONFIG_PROVIDERS'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>创建数据库模块</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Module <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> databaseProviders <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./database.provider'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> ConfigModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../config/config.module'</span><span class="token punctuation">;</span>
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Module</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  imports<span class="token operator">:</span> <span class="token punctuation">[</span>ConfigModule<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  providers<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token operator">...</span>databaseProviders<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  exports<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token operator">...</span>databaseProviders<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">DatabaseModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>⑤安装参数验证模块</p>
+<p><a href="https://github.com/typestack/class-validator" target="_blank" rel="noopener noreferrer">class-validator文档<ExternalLinkIcon/></a></p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">install</span> class-transformer class-validator
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>然后在main.ts入口文件中做配置</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> ValidationPipe <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@nestjs/common'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  app<span class="token punctuation">.</span><span class="token function">useGlobalPipes</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ValidationPipe</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>⑥安装redis。<code v-pre>pnpm install redis</code></p>
+<CommentService/></div></template>
 
 

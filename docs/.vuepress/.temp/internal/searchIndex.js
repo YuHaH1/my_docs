@@ -1213,28 +1213,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "canvas基础",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.Canvas上下文",
-        "slug": "_1-canvas上下文",
-        "link": "#_1-canvas上下文",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "1.填充和路径绘制",
-        "slug": "_1-填充和路径绘制",
-        "link": "#_1-填充和路径绘制",
-        "children": []
-      }
-    ],
-    "path": "/Notes/Canvas/canvas%E5%9F%BA%E7%A1%80.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "浏览器必备知识",
     "headers": [
       {
@@ -1346,6 +1324,73 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "canvas基础",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.Canvas上下文",
+        "slug": "_1-canvas上下文",
+        "link": "#_1-canvas上下文",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.填充和路径绘制",
+        "slug": "_1-填充和路径绘制",
+        "link": "#_1-填充和路径绘制",
+        "children": []
+      }
+    ],
+    "path": "/Notes/Canvas/canvas%E5%9F%BA%E7%A1%80.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "你不知道的css",
+    "headers": [
+      {
+        "level": 2,
+        "title": "文字不允许选中",
+        "slug": "文字不允许选中",
+        "link": "#文字不允许选中",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "Houdini",
+        "slug": "houdini",
+        "link": "#houdini",
+        "children": [
+          {
+            "level": 3,
+            "title": "CSS属性",
+            "slug": "css属性",
+            "link": "#css属性",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "var函数",
+            "slug": "var函数",
+            "link": "#var函数",
+            "children": [
+              {
+                "level": 4,
+                "title": "JS操作",
+                "slug": "js操作",
+                "link": "#js操作",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "path": "/Notes/Css/%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84css.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "docker基础知识",
     "headers": [
       {
@@ -1425,51 +1470,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "你不知道的css",
-    "headers": [
-      {
-        "level": 2,
-        "title": "文字不允许选中",
-        "slug": "文字不允许选中",
-        "link": "#文字不允许选中",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "Houdini",
-        "slug": "houdini",
-        "link": "#houdini",
-        "children": [
-          {
-            "level": 3,
-            "title": "CSS属性",
-            "slug": "css属性",
-            "link": "#css属性",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "var函数",
-            "slug": "var函数",
-            "link": "#var函数",
-            "children": [
-              {
-                "level": 4,
-                "title": "JS操作",
-                "slug": "js操作",
-                "link": "#js操作",
-                "children": []
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "path": "/Notes/Css/%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84css.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "英语单词",
     "headers": [
       {
@@ -1495,6 +1495,191 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/English/%E8%8B%B1%E8%AF%AD%E5%8D%95%E8%AF%8D.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "Git基础",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.0：生成ssh",
+        "slug": "_1-0-生成ssh",
+        "link": "#_1-0-生成ssh",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.1 ：git init将改目录变成git可管理的仓库",
+        "slug": "_1-1-git-init将改目录变成git可管理的仓库",
+        "link": "#_1-1-git-init将改目录变成git可管理的仓库",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.2:git add将某文件添加到仓库",
+        "slug": "_1-2-git-add将某文件添加到仓库",
+        "link": "#_1-2-git-add将某文件添加到仓库",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.3：git commit将文件提交到仓库",
+        "slug": "_1-3-git-commit将文件提交到仓库",
+        "link": "#_1-3-git-commit将文件提交到仓库",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.4：git status查看仓库当前状态",
+        "slug": "_1-4-git-status查看仓库当前状态",
+        "link": "#_1-4-git-status查看仓库当前状态",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.5：git diff查看具体修改的内容",
+        "slug": "_1-5-git-diff查看具体修改的内容",
+        "link": "#_1-5-git-diff查看具体修改的内容",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.6.git log查看commit的历史记录",
+        "slug": "_1-6-git-log查看commit的历史记录",
+        "link": "#_1-6-git-log查看commit的历史记录",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.7：git reset --hard回退到某commit的记录",
+        "slug": "_1-7-git-reset-hard回退到某commit的记录",
+        "link": "#_1-7-git-reset-hard回退到某commit的记录",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.8：git checkout -- file撤销修改",
+        "slug": "_1-8-git-checkout-file撤销修改",
+        "link": "#_1-8-git-checkout-file撤销修改",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.9:git rm删除文件",
+        "slug": "_1-9-git-rm删除文件",
+        "link": "#_1-9-git-rm删除文件",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "SSH警告",
+        "slug": "ssh警告",
+        "link": "#ssh警告",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "删除远程库",
+        "slug": "删除远程库",
+        "link": "#删除远程库",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "多人协作",
+        "slug": "多人协作",
+        "link": "#多人协作",
+        "children": [
+          {
+            "level": 3,
+            "title": "克隆指定分支",
+            "slug": "克隆指定分支",
+            "link": "#克隆指定分支",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "3.1：git checkout -b xxx创建分支xxx",
+        "slug": "_3-1-git-checkout-b-xxx创建分支xxx",
+        "link": "#_3-1-git-checkout-b-xxx创建分支xxx",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.2：git merge分支合并",
+        "slug": "_3-2-git-merge分支合并",
+        "link": "#_3-2-git-merge分支合并",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.3：git branch -d xxx删除分支",
+        "slug": "_3-3-git-branch-d-xxx删除分支",
+        "link": "#_3-3-git-branch-d-xxx删除分支",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.4：switch",
+        "slug": "_3-4-switch",
+        "link": "#_3-4-switch",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.5：==应该使用的分支策略==",
+        "slug": "_3-5-应该使用的分支策略",
+        "link": "#_3-5-应该使用的分支策略",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.6：git stash储藏",
+        "slug": "_3-6-git-stash储藏",
+        "link": "#_3-6-git-stash储藏",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.7：==cherry-pick==复制一个特定的提交到当前分支",
+        "slug": "_3-7-cherry-pick-复制一个特定的提交到当前分支",
+        "link": "#_3-7-cherry-pick-复制一个特定的提交到当前分支",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.8：推送分支",
+        "slug": "_3-8-推送分支",
+        "link": "#_3-8-推送分支",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.9：==抓取分支==",
+        "slug": "_3-9-抓取分支",
+        "link": "#_3-9-抓取分支",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.1：工作区和暂存区",
+        "slug": "_3-1-工作区和暂存区",
+        "link": "#_3-1-工作区和暂存区",
+        "children": [
+          {
+            "level": 4,
+            "title": "工作区（Working Directory）",
+            "slug": "工作区-working-directory",
+            "link": "#工作区-working-directory",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Notes/Git/Git%E5%9F%BA%E7%A1%80.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -1565,12 +1750,484 @@ export const searchIndex = [
               },
               {
                 "level": 4,
-                "title": "Final变量",
-                "slug": "final变量",
-                "link": "#final变量",
+                "title": "final和const变量",
+                "slug": "final和const变量",
+                "link": "#final和const变量",
                 "children": []
               }
             ]
+          },
+          {
+            "level": 3,
+            "title": "数据类型",
+            "slug": "数据类型",
+            "link": "#数据类型",
+            "children": [
+              {
+                "level": 4,
+                "title": "字符串",
+                "slug": "字符串",
+                "link": "#字符串",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "List数组",
+                "slug": "list数组",
+                "link": "#list数组",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "数组的常用API",
+                    "slug": "数组的常用api",
+                    "link": "#数组的常用api",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "level": 4,
+                "title": "Map数据类型",
+                "slug": "map数据类型",
+                "link": "#map数据类型",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "枚举类型",
+                "slug": "枚举类型",
+                "link": "#枚举类型",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "函数",
+            "slug": "函数",
+            "link": "#函数",
+            "children": [
+              {
+                "level": 4,
+                "title": "声明函数",
+                "slug": "声明函数",
+                "link": "#声明函数",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "函数参数",
+                "slug": "函数参数",
+                "link": "#函数参数",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "函数返回值",
+                "slug": "函数返回值",
+                "link": "#函数返回值",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "异步函数",
+                "slug": "异步函数",
+                "link": "#异步函数",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "异常处理",
+            "slug": "异常处理",
+            "link": "#异常处理",
+            "children": [
+              {
+                "level": 4,
+                "title": "抛异常",
+                "slug": "抛异常",
+                "link": "#抛异常",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "捕获异常",
+                "slug": "捕获异常",
+                "link": "#捕获异常",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "类",
+            "slug": "类",
+            "link": "#类",
+            "children": [
+              {
+                "level": 4,
+                "title": "构造函数",
+                "slug": "构造函数",
+                "link": "#构造函数",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "访问修饰符",
+                "slug": "访问修饰符",
+                "link": "#访问修饰符",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "类访问器",
+                "slug": "类访问器",
+                "link": "#类访问器",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "继承",
+                "slug": "继承",
+                "link": "#继承",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "抽象类=接口",
+                "slug": "抽象类-接口",
+                "link": "#抽象类-接口",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "混入",
+                "slug": "混入",
+                "link": "#混入",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "extension扩展",
+                "slug": "extension扩展",
+                "link": "#extension扩展",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "call方法",
+                "slug": "call方法",
+                "link": "#call方法",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "noSuchMethod",
+                "slug": "nosuchmethod",
+                "link": "#nosuchmethod",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "hashCode",
+                "slug": "hashcode",
+                "link": "#hashcode",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "泛型",
+            "slug": "泛型",
+            "link": "#泛型",
+            "children": [
+              {
+                "level": 4,
+                "title": "泛型类型限制",
+                "slug": "泛型类型限制",
+                "link": "#泛型类型限制",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "注解",
+            "slug": "注解",
+            "link": "#注解",
+            "children": [
+              {
+                "level": 4,
+                "title": "自定义注解",
+                "slug": "自定义注解",
+                "link": "#自定义注解",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "常见的三个注解",
+                "slug": "常见的三个注解",
+                "link": "#常见的三个注解",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "模块化",
+            "slug": "模块化",
+            "link": "#模块化",
+            "children": [
+              {
+                "level": 4,
+                "title": "引入自定义库",
+                "slug": "引入自定义库",
+                "link": "#引入自定义库",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "引入部分库（按需加载）",
+                    "slug": "引入部分库-按需加载",
+                    "link": "#引入部分库-按需加载",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "库加别名",
+                    "slug": "库加别名",
+                    "link": "#库加别名",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "延迟引入（懒加载）",
+                    "slug": "延迟引入-懒加载",
+                    "link": "#延迟引入-懒加载",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "组装库",
+                    "slug": "组装库",
+                    "link": "#组装库",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "level": 4,
+                "title": "引入系统库",
+                "slug": "引入系统库",
+                "link": "#引入系统库",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "核心系统库",
+                    "slug": "核心系统库",
+                    "link": "#核心系统库",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "level": 4,
+                "title": "引入第三方库",
+                "slug": "引入第三方库",
+                "link": "#引入第三方库",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "Dart异步编程",
+            "slug": "dart异步编程",
+            "link": "#dart异步编程",
+            "children": [
+              {
+                "level": 4,
+                "title": "lsolate多线程类似于Web worker",
+                "slug": "lsolate多线程类似于web-worker",
+                "link": "#lsolate多线程类似于web-worker",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "多线程创建",
+                    "slug": "多线程创建",
+                    "link": "#多线程创建",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "Isolate线程通信",
+                    "slug": "isolate线程通信",
+                    "link": "#isolate线程通信",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "level": 4,
+                "title": "Future",
+                "slug": "future",
+                "link": "#future",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "Stream",
+                "slug": "stream",
+                "link": "#stream",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "Async await",
+                "slug": "async-await",
+                "link": "#async-await",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "Generator",
+                "slug": "generator",
+                "link": "#generator",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "组件Widget",
+        "slug": "组件widget",
+        "link": "#组件widget",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "State",
+        "slug": "state",
+        "link": "#state",
+        "children": [
+          {
+            "level": 3,
+            "title": "生命周期",
+            "slug": "生命周期",
+            "link": "#生命周期",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "在 widget 树中获取State对象",
+            "slug": "在-widget-树中获取state对象",
+            "link": "#在-widget-树中获取state对象",
+            "children": [
+              {
+                "level": 4,
+                "title": "通过上下文对象context",
+                "slug": "通过上下文对象context",
+                "link": "#通过上下文对象context",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "通过GlobalKey",
+                "slug": "通过globalkey",
+                "link": "#通过globalkey",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "Flutter状态管理",
+        "slug": "flutter状态管理",
+        "link": "#flutter状态管理",
+        "children": [
+          {
+            "level": 3,
+            "title": "自身的状态管理",
+            "slug": "自身的状态管理",
+            "link": "#自身的状态管理",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "父-》子",
+            "slug": "父-》子",
+            "link": "#父-》子",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "全局状态管理",
+            "slug": "全局状态管理",
+            "link": "#全局状态管理",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "Flutter路由",
+        "slug": "flutter路由",
+        "link": "#flutter路由",
+        "children": [
+          {
+            "level": 3,
+            "title": "1.配置路由表",
+            "slug": "_1-配置路由表",
+            "link": "#_1-配置路由表",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.载入路由",
+            "slug": "_2-载入路由",
+            "link": "#_2-载入路由",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "路由导航",
+            "slug": "路由导航",
+            "link": "#路由导航",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "路由参数",
+            "slug": "路由参数",
+            "link": "#路由参数",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "Flutter发起请求",
+        "slug": "flutter发起请求",
+        "link": "#flutter发起请求",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "Futter遇到的问题",
+        "slug": "futter遇到的问题",
+        "link": "#futter遇到的问题",
+        "children": [
+          {
+            "level": 3,
+            "title": "虚拟机调试",
+            "slug": "虚拟机调试",
+            "link": "#虚拟机调试",
+            "children": []
           }
         ]
       }
@@ -2545,6 +3202,20 @@ export const searchIndex = [
             "children": []
           }
         ]
+      },
+      {
+        "level": 2,
+        "title": "Flutter",
+        "slug": "flutter",
+        "link": "#flutter",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "帧率和刷新率的关系",
+        "slug": "帧率和刷新率的关系",
+        "link": "#帧率和刷新率的关系",
+        "children": []
       }
     ],
     "path": "/Notes/FrontEndEngineering/%E8%B7%A8%E7%AB%AF%E5%BC%80%E5%8F%91.html",
@@ -2642,21 +3313,6 @@ export const searchIndex = [
       },
       {
         "level": 2,
-        "title": "Nest项目基建",
-        "slug": "nest项目基建",
-        "link": "#nest项目基建",
-        "children": [
-          {
-            "level": 3,
-            "title": "1.安装项目依赖",
-            "slug": "_1-安装项目依赖",
-            "link": "#_1-安装项目依赖",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
         "title": "问题",
         "slug": "问题",
         "link": "#问题",
@@ -2676,187 +3332,397 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "Git基础",
+    "title": "鸿蒙",
     "headers": [
       {
         "level": 2,
-        "title": "1.0：生成ssh",
-        "slug": "_1-0-生成ssh",
-        "link": "#_1-0-生成ssh",
+        "title": "应用模型",
+        "slug": "应用模型",
+        "link": "#应用模型",
         "children": []
       },
       {
         "level": 2,
-        "title": "1.1 ：git init将改目录变成git可管理的仓库",
-        "slug": "_1-1-git-init将改目录变成git可管理的仓库",
-        "link": "#_1-1-git-init将改目录变成git可管理的仓库",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "1.2:git add将某文件添加到仓库",
-        "slug": "_1-2-git-add将某文件添加到仓库",
-        "link": "#_1-2-git-add将某文件添加到仓库",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "1.3：git commit将文件提交到仓库",
-        "slug": "_1-3-git-commit将文件提交到仓库",
-        "link": "#_1-3-git-commit将文件提交到仓库",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "1.4：git status查看仓库当前状态",
-        "slug": "_1-4-git-status查看仓库当前状态",
-        "link": "#_1-4-git-status查看仓库当前状态",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "1.5：git diff查看具体修改的内容",
-        "slug": "_1-5-git-diff查看具体修改的内容",
-        "link": "#_1-5-git-diff查看具体修改的内容",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "1.6.git log查看commit的历史记录",
-        "slug": "_1-6-git-log查看commit的历史记录",
-        "link": "#_1-6-git-log查看commit的历史记录",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "1.7：git reset --hard回退到某commit的记录",
-        "slug": "_1-7-git-reset-hard回退到某commit的记录",
-        "link": "#_1-7-git-reset-hard回退到某commit的记录",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "1.8：git checkout -- file撤销修改",
-        "slug": "_1-8-git-checkout-file撤销修改",
-        "link": "#_1-8-git-checkout-file撤销修改",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "1.9:git rm删除文件",
-        "slug": "_1-9-git-rm删除文件",
-        "link": "#_1-9-git-rm删除文件",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "SSH警告",
-        "slug": "ssh警告",
-        "link": "#ssh警告",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "删除远程库",
-        "slug": "删除远程库",
-        "link": "#删除远程库",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "多人协作",
-        "slug": "多人协作",
-        "link": "#多人协作",
+        "title": "工程目录",
+        "slug": "工程目录",
+        "link": "#工程目录",
         "children": [
           {
             "level": 3,
-            "title": "克隆指定分支",
-            "slug": "克隆指定分支",
-            "link": "#克隆指定分支",
+            "title": "app.json5",
+            "slug": "app-json5",
+            "link": "#app-json5",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "module.json5",
+            "slug": "module-json5",
+            "link": "#module-json5",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "main_pages.json",
+            "slug": "main-pages-json",
+            "link": "#main-pages-json",
             "children": []
           }
         ]
       },
       {
         "level": 2,
-        "title": "3.1：git checkout -b xxx创建分支xxx",
-        "slug": "_3-1-git-checkout-b-xxx创建分支xxx",
-        "link": "#_3-1-git-checkout-b-xxx创建分支xxx",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.2：git merge分支合并",
-        "slug": "_3-2-git-merge分支合并",
-        "link": "#_3-2-git-merge分支合并",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.3：git branch -d xxx删除分支",
-        "slug": "_3-3-git-branch-d-xxx删除分支",
-        "link": "#_3-3-git-branch-d-xxx删除分支",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.4：switch",
-        "slug": "_3-4-switch",
-        "link": "#_3-4-switch",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.5：==应该使用的分支策略==",
-        "slug": "_3-5-应该使用的分支策略",
-        "link": "#_3-5-应该使用的分支策略",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.6：git stash储藏",
-        "slug": "_3-6-git-stash储藏",
-        "link": "#_3-6-git-stash储藏",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.7：==cherry-pick==复制一个特定的提交到当前分支",
-        "slug": "_3-7-cherry-pick-复制一个特定的提交到当前分支",
-        "link": "#_3-7-cherry-pick-复制一个特定的提交到当前分支",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.8：推送分支",
-        "slug": "_3-8-推送分支",
-        "link": "#_3-8-推送分支",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.9：==抓取分支==",
-        "slug": "_3-9-抓取分支",
-        "link": "#_3-9-抓取分支",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.1：工作区和暂存区",
-        "slug": "_3-1-工作区和暂存区",
-        "link": "#_3-1-工作区和暂存区",
+        "title": "ArkTS",
+        "slug": "arkts",
+        "link": "#arkts",
         "children": [
           {
-            "level": 4,
-            "title": "工作区（Working Directory）",
-            "slug": "工作区-working-directory",
-            "link": "#工作区-working-directory",
+            "level": 3,
+            "title": "基础语法",
+            "slug": "基础语法",
+            "link": "#基础语法",
             "children": []
+          },
+          {
+            "level": 3,
+            "title": "自定义组件",
+            "slug": "自定义组件",
+            "link": "#自定义组件",
+            "children": [
+              {
+                "level": 4,
+                "title": "自定义组件的成员",
+                "slug": "自定义组件的成员",
+                "link": "#自定义组件的成员",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "组件渲染原理",
+                "slug": "组件渲染原理",
+                "link": "#组件渲染原理",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "组件的卸载",
+                "slug": "组件的卸载",
+                "link": "#组件的卸载",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "生命周期",
+            "slug": "生命周期",
+            "link": "#生命周期",
+            "children": [
+              {
+                "level": 4,
+                "title": "应用的生命周期",
+                "slug": "应用的生命周期",
+                "link": "#应用的生命周期",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "页面生命周期",
+                "slug": "页面生命周期",
+                "link": "#页面生命周期",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "自定义组件生命周期",
+                "slug": "自定义组件生命周期",
+                "link": "#自定义组件生命周期",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "装饰器",
+            "slug": "装饰器",
+            "link": "#装饰器",
+            "children": [
+              {
+                "level": 4,
+                "title": "@Builder",
+                "slug": "builder",
+                "link": "#builder",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "全局自定义构建函数",
+                    "slug": "全局自定义构建函数",
+                    "link": "#全局自定义构建函数",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "自定义构建函数参数",
+                    "slug": "自定义构建函数参数",
+                    "link": "#自定义构建函数参数",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "level": 4,
+                "title": "@BuilderParam：引用@Builder函数",
+                "slug": "builderparam-引用-builder函数",
+                "link": "#builderparam-引用-builder函数",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "this指向",
+                    "slug": "this指向",
+                    "link": "#this指向",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "带参数的@BuilderParam",
+                    "slug": "带参数的-builderparam",
+                    "link": "#带参数的-builderparam",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "尾随闭包初始化组件",
+                    "slug": "尾随闭包初始化组件",
+                    "link": "#尾随闭包初始化组件",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "level": 4,
+                "title": "静态页面样式复用",
+                "slug": "静态页面样式复用",
+                "link": "#静态页面样式复用",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "@Style定义组件重用样式",
+                    "slug": "style定义组件重用样式",
+                    "link": "#style定义组件重用样式",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "@Extend装饰器：定义扩展组件样式",
+                    "slug": "extend装饰器-定义扩展组件样式",
+                    "link": "#extend装饰器-定义扩展组件样式",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "level": 4,
+                "title": "stateStyles：多态样式",
+                "slug": "statestyles-多态样式",
+                "link": "#statestyles-多态样式",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "@style和stateStyles联合使用",
+                    "slug": "style和statestyles联合使用",
+                    "link": "#style和statestyles联合使用",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "状态管理",
+            "slug": "状态管理",
+            "link": "#状态管理",
+            "children": [
+              {
+                "level": 4,
+                "title": "组件内的状态",
+                "slug": "组件内的状态",
+                "link": "#组件内的状态",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "@State装饰器：组件内状态",
+                    "slug": "state装饰器-组件内状态",
+                    "link": "#state装饰器-组件内状态",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "@Prop装饰器：父子单向同步",
+                    "slug": "prop装饰器-父子单向同步",
+                    "link": "#prop装饰器-父子单向同步",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "@Link装饰器：父子双向同步",
+                    "slug": "link装饰器-父子双向同步",
+                    "link": "#link装饰器-父子双向同步",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "@Provide装饰器和@Consume装饰器：与后代组件双向同步",
+                    "slug": "provide装饰器和-consume装饰器-与后代组件双向同步",
+                    "link": "#provide装饰器和-consume装饰器-与后代组件双向同步",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "@Observed装饰器和@ObjectLink装饰器：嵌套类对象属性变化",
+                    "slug": "observed装饰器和-objectlink装饰器-嵌套类对象属性变化",
+                    "link": "#observed装饰器和-objectlink装饰器-嵌套类对象属性变化",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "@Watch装饰器：状态变量更改通知",
+                    "slug": "watch装饰器-状态变量更改通知",
+                    "link": "#watch装饰器-状态变量更改通知",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "$$语法：内置组件双向同步",
+                    "slug": "语法-内置组件双向同步",
+                    "link": "#语法-内置组件双向同步",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "level": 4,
+                "title": "全局状态管理",
+                "slug": "全局状态管理",
+                "link": "#全局状态管理",
+                "children": [
+                  {
+                    "level": 5,
+                    "title": "LocalStorage：页面级UI状态存储",
+                    "slug": "localstorage-页面级ui状态存储",
+                    "link": "#localstorage-页面级ui状态存储",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "AppStorage：应用全局的UI状态存储",
+                    "slug": "appstorage-应用全局的ui状态存储",
+                    "link": "#appstorage-应用全局的ui状态存储",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "PersistentStorage：持久化存储UI状态",
+                    "slug": "persistentstorage-持久化存储ui状态",
+                    "link": "#persistentstorage-持久化存储ui状态",
+                    "children": []
+                  },
+                  {
+                    "level": 5,
+                    "title": "Environment：设备环境查询",
+                    "slug": "environment-设备环境查询",
+                    "link": "#environment-设备环境查询",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "渲染控制",
+            "slug": "渲染控制",
+            "link": "#渲染控制",
+            "children": [
+              {
+                "level": 4,
+                "title": "ForEach循环渲染",
+                "slug": "foreach循环渲染",
+                "link": "#foreach循环渲染",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "LazyForEach：数据懒加载",
+                "slug": "lazyforeach-数据懒加载",
+                "link": "#lazyforeach-数据懒加载",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "UIAblitity组件",
+        "slug": "uiablitity组件",
+        "link": "#uiablitity组件",
+        "children": [
+          {
+            "level": 3,
+            "title": "UIAbility组件生命周期",
+            "slug": "uiability组件生命周期",
+            "link": "#uiability组件生命周期",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "UIAbility组件启动模式",
+            "slug": "uiability组件启动模式",
+            "link": "#uiability组件启动模式",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "路由",
+        "slug": "路由",
+        "link": "#路由",
+        "children": [
+          {
+            "level": 3,
+            "title": "页面跳转和传参",
+            "slug": "页面跳转和传参",
+            "link": "#页面跳转和传参",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "询问弹窗",
+            "slug": "询问弹窗",
+            "link": "#询问弹窗",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "组件导航",
+            "slug": "组件导航",
+            "link": "#组件导航",
+            "children": [
+              {
+                "level": 4,
+                "title": "Tabs",
+                "slug": "tabs",
+                "link": "#tabs",
+                "children": []
+              }
+            ]
           }
         ]
       }
     ],
-    "path": "/Notes/Git/Git%E5%9F%BA%E7%A1%80.html",
+    "path": "/Notes/FrontEndEngineering/%E9%B8%BF%E8%92%99.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -4913,15 +5779,7 @@ export const searchIndex = [
         "title": "Nest CLI",
         "slug": "nest-cli",
         "link": "#nest-cli",
-        "children": [
-          {
-            "level": 3,
-            "title": "nest generate命令",
-            "slug": "nest-generate命令",
-            "link": "#nest-generate命令",
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "level": 2,
@@ -5136,6 +5994,13 @@ export const searchIndex = [
       },
       {
         "level": 2,
+        "title": "拦截器",
+        "slug": "拦截器",
+        "link": "#拦截器",
+        "children": []
+      },
+      {
+        "level": 2,
         "title": "filter过滤器",
         "slug": "filter过滤器",
         "link": "#filter过滤器",
@@ -5288,18 +6153,89 @@ export const searchIndex = [
       },
       {
         "level": 2,
-        "title": "Nest服务端需要继承的依赖包",
-        "slug": "nest服务端需要继承的依赖包",
-        "link": "#nest服务端需要继承的依赖包",
+        "title": "Typeorm",
+        "slug": "typeorm",
+        "link": "#typeorm",
         "children": [
           {
             "level": 3,
-            "title": "Swagger 集成",
-            "slug": "swagger-集成",
-            "link": "#swagger-集成",
+            "title": "1.安装",
+            "slug": "_1-安装",
+            "link": "#_1-安装",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "2.建立数据库连接",
+            "slug": "_2-建立数据库连接",
+            "link": "#_2-建立数据库连接",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.操作表",
+            "slug": "_3-操作表",
+            "link": "#_3-操作表",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "实体Entity",
+            "slug": "实体entity",
+            "link": "#实体entity",
+            "children": [
+              {
+                "level": 4,
+                "title": "实体的装饰器",
+                "slug": "实体的装饰器",
+                "link": "#实体的装饰器",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "查找实体",
+                "slug": "查找实体",
+                "link": "#查找实体",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "一对一",
+            "slug": "一对一",
+            "link": "#一对一",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "一对多",
+            "slug": "一对多",
+            "link": "#一对多",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "多对多",
+            "slug": "多对多",
+            "link": "#多对多",
             "children": []
           }
         ]
+      },
+      {
+        "level": 2,
+        "title": "node-redis",
+        "slug": "node-redis",
+        "link": "#node-redis",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "Nest项目初始化",
+        "slug": "nest项目初始化",
+        "link": "#nest项目初始化",
+        "children": []
       }
     ],
     "path": "/Notes/Server/Nest.html",
@@ -6503,56 +7439,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "好用的依赖工具包",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.node-html-parser",
-        "slug": "_1-node-html-parser",
-        "link": "#_1-node-html-parser",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.url-regex",
-        "slug": "_2-url-regex",
-        "link": "#_2-url-regex",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.tsup",
-        "slug": "_3-tsup",
-        "link": "#_3-tsup",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "4.swc",
-        "slug": "_4-swc",
-        "link": "#_4-swc",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "5.postcss-px-to-vw移动端适配",
-        "slug": "_5-postcss-px-to-vw移动端适配",
-        "link": "#_5-postcss-px-to-vw移动端适配",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "6.轻量级请求库alova",
-        "slug": "_6-轻量级请求库alova",
-        "link": "#_6-轻量级请求库alova",
-        "children": []
-      }
-    ],
-    "path": "/Utils/NodeDependency/%E5%A5%BD%E7%94%A8%E7%9A%84%E4%BE%9D%E8%B5%96%E5%B7%A5%E5%85%B7%E5%8C%85.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "Web3",
     "headers": [
       {
@@ -6654,6 +7540,56 @@ export const searchIndex = [
     "extraFields": []
   },
   {
+    "title": "好用的依赖工具包",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.node-html-parser",
+        "slug": "_1-node-html-parser",
+        "link": "#_1-node-html-parser",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.url-regex",
+        "slug": "_2-url-regex",
+        "link": "#_2-url-regex",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.tsup",
+        "slug": "_3-tsup",
+        "link": "#_3-tsup",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "4.swc",
+        "slug": "_4-swc",
+        "link": "#_4-swc",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "5.postcss-px-to-vw移动端适配",
+        "slug": "_5-postcss-px-to-vw移动端适配",
+        "link": "#_5-postcss-px-to-vw移动端适配",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "6.轻量级请求库alova",
+        "slug": "_6-轻量级请求库alova",
+        "link": "#_6-轻量级请求库alova",
+        "children": []
+      }
+    ],
+    "path": "/Utils/NodeDependency/%E5%A5%BD%E7%94%A8%E7%9A%84%E4%BE%9D%E8%B5%96%E5%B7%A5%E5%85%B7%E5%8C%85.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
     "title": "js实现效果",
     "headers": [
       {
@@ -6698,16 +7634,3 @@ export const searchIndex = [
     "extraFields": []
   }
 ]
-
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept()
-  if (__VUE_HMR_RUNTIME__.updateSearchIndex) {
-    __VUE_HMR_RUNTIME__.updateSearchIndex(searchIndex)
-  }
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(({ searchIndex }) => {
-    __VUE_HMR_RUNTIME__.updateSearchIndex(searchIndex)
-  })
-}

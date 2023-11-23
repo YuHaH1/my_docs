@@ -1,4 +1,10 @@
 <template><div><h1 id="跨端开发" tabindex="-1"><a class="header-anchor" href="#跨端开发" aria-hidden="true">#</a> 跨端开发</h1>
+<p>跨端开发有三种</p>
+<ul>
+<li>Webview：该方案能够解析html，css并利用js引擎执行js，通过JSBridge完成原生的调用。</li>
+<li>RN：利用原生UI去渲染，通过Android Bridge和IOS Bridge调用原生接口。</li>
+<li>Flutter：利用Dart，给Skia渲染引擎提供数据，利用Skia绘图引擎进行绘制页面不要依赖任何原生的控件，没有中间损耗</li>
+</ul>
 <h2 id="webview" tabindex="-1"><a class="header-anchor" href="#webview" aria-hidden="true">#</a> Webview</h2>
 <p>WebView 是跨端领域比较主流的方式，其本质就是在移动端系统中，内嵌的可以用来展示 Web 应用的组件。这让移动端可以像打开浏览器一样打开页面，被称为 Hybrid （混合）模式。</p>
 <p>在 WebView 模式下，主流的技术落地有两种：一种是嵌入 H5 的混合 App，另外一种是小程序。这两种方式在<strong>渲染流程和通信流程</strong>上有一定区别。</p>
@@ -511,6 +517,23 @@ webView<span class="token punctuation">.</span><span class="token function">eval
 <h3 id="rn应用的引擎" tabindex="-1"><a class="header-anchor" href="#rn应用的引擎" aria-hidden="true">#</a> RN应用的引擎</h3>
 <p>RN 在 0.60 版本之前使用 JSCore 作为默认的 JS 引擎。JSCore 全名 JavaScriptCore，是 WebKit 默认内嵌的 JS 引擎，JSCore作为一个系统级 Framework 被苹果提供给开发者，作为苹果的浏览器引擎 WebKit 中重要组成部分。但是 JSCore 没有对 Android 机型做好适配，在性能、体积和内存上和 V8 有着明显的差别。基于这个背景，RN 团队提供了 JSI （JavaScript Interface）框架，JSI 并不是 RN 的一部分，JSI 可以视作一个兼容层，意在磨平不同 JS 引擎中的差异性。JSI 实现了引擎切换，比如在 iOS 平台运行的 JSCore，在 Andriod 中运行的是 Hermes 引擎。我们来看一下具体的实现细节。JSI 作为引擎统一的通用层，JSI 会定义与 JS 引擎交互的接口以及数据转化的方法。比如在 JSI 中定义了一个执行 JS 的方法叫做 evaluateJavaScript()。具体如何执行 JS 代码其实是由各引擎实现的，通过这种方式屏蔽不同引擎间的差异，可以方便地实现 JS 引擎切换。</p>
 <p>RN的中间通信层是C++，而且数据传输不需要序列化，所以效率会高一些</p>
+<h2 id="flutter" tabindex="-1"><a class="header-anchor" href="#flutter" aria-hidden="true">#</a> Flutter</h2>
+<p><img src="/Flutter/render.png" alt=""></p>
+<ul>
+<li>flutter用dart构建图层树</li>
+<li>图层树在GPU线程进行合成</li>
+<li>合成后的数据给Skia引擎</li>
+<li>Skia引擎通过OpenGl或者Vulkan将显示的内容给GPU</li>
+</ul>
+<p>Flutter为什么能跨平台？</p>
+<p>因为Skia是跨平台的，他作为Fultter IOS渲染引擎被嵌入到Flutter的IOS SDK中替代了IOS闭源的Core Graphics/Core Animation/Core Text，因此Flutter IOS SDK打包的体积比安卓要大一些。</p>
+<h2 id="帧率和刷新率的关系" tabindex="-1"><a class="header-anchor" href="#帧率和刷新率的关系" aria-hidden="true">#</a> 帧率和刷新率的关系</h2>
+<ul>
+<li>GPU/CPU向Buffer中生成图像，屏幕从Buffer中取图像。理想情况帧率和刷新频率相同。</li>
+<li>但实际上他们往往不同，例如当帧率大于刷新率，屏幕还没有刷新第n-1帧时，GPU已经生成第n帧了。从上往下开始覆盖第n-1帧的数据，当屏幕开始刷新n-1帧时，Buffer中上半部分是第n帧数据，下班部分是第n-1帧数据。显示出来的图像出现偏差这种现象成为<strong>撕裂</strong></li>
+<li>解决撕裂方案**：双缓存和垂直同步信号VSync**。GPU向Back Buffer中写入数据，屏幕从Frame Buffer中读取数据，VSync负责调度从Back -》Frame的复制操作。（这里的复制是教化内存地址的方式）当VSync完成复制操作后，通知GPU/CPU绘制下一帧图像。</li>
+</ul>
+<p>双缓存可能存在的问题：某一帧绘制时间过长，导致画面产生空白。使用三重缓存解决。</p>
 <CommentService/></div></template>
 
 

@@ -6,6 +6,13 @@ collapsible: true
 ---
 # flutter
 
+①**Flutter优势**
+
+* Flutter的UI渲染性能很高，充分利用GPU图形加速
+* 使用C++编写，使用了Skia 2D渲染引擎，Dart运行时和文本渲染库。
+
+
+
 ## 1.安装
 
 ①[windows安装地址](https://storage.flutter-io.cn/flutter_infra_release/releases/stable/windows/flutter_windows_3.13.9-stable.zip)
@@ -385,6 +392,15 @@ void main() {
 
 ~~~dart
 void enableFlags(bool? bold, bool? hidden}) {...}
+~~~
+
+⑥初始化列表，初始化同样是给参数默认值，但是不同的在于，初始化列表的写法可以传入表达式，而参数默认值写法只能是确定的值。
+
+~~~dart
+class Person{
+    final String name;
+    Person():this.name = getName()??'yu'
+}
 ~~~
 
 
@@ -1189,8 +1205,6 @@ Dart 代码并不在多个线程上运行，取而代之的是它们会在 isola
 
 如果你的应用受到耗时计算的影响而出现卡顿，例如 [解析较大的 JSON 文件](https://flutter.cn/docs/cookbook/networking/background-parsing)，你可以考虑将耗时计算转移到单独工作的 isolate，通常我们称这样的 isolate 为 **后台运行对象**。下图展示了一种常用场景，你可以生成一个 isolate，它将执行耗时计算的任务，并在结束后退出。这个 isolate 工作对象退出时会把结果返回。
 
-![](/Flutter/isolate-bg-worker.png)
-
 每个 isolate 都可以通过消息通信传递一个对象，这个对象的所有内容都需要满足可传递的条件。并非所有的对象都满足传递条件，在无法满足条件时，消息发送会失败。举个例子，如果你想发送一个 `List<Object>`，你需要确保这个列表中所有元素都是可被传递的。假设这个列表中有一个 `Socket`，由于它无法被传递，所以你无法发送整个列表。
 
 你可以查阅 [`send()` 方法](https://api.dart.cn/stable/dart-isolate/SendPort/send.html) 的文档来确定哪些类型可以进行传递。
@@ -1308,16 +1322,6 @@ void newIsolate(SendPort sp) {
 
 
 ~~~
-
-
-
-
-
-
-
-
-
-
 
 ![](/Flutter/Isolate_talk.png)
 
@@ -1558,6 +1562,464 @@ Interable<int> getRange(int left,int right)sync*{
 
 
 
+## 组件Widget
+
+我们知道在Flutter中几乎所有的对象都是一个 widget 。与原生开发中“控件”不同的是，Flutter 中的 widget 的概念更广泛，它不仅可以表示UI元素，也可以表示一些功能性的组件如：用于手势检测的 `GestureDetector` 、用于APP主题数据传递的 `Theme` 等等，而原生开发中的控件通常只是指UI元素。在后面的内容中，我们在描述UI元素时可能会用到“控件”、“组件”这样的概念。由于 Flutter 主要就是用于构建用户界面的，所以，在大多数时候，可以认为 widget 就是一个控件。
+
+Flutter 中是通过 Widget 嵌套 Widget 的方式来构建UI和进行事件处理的，所以记住，Flutter 中万物皆为Widget。
+
+![](/Flutter/widget.png)
+
+MaterialApp封装了应用程序实现Material Design需要的组件
+
+Scaffold MaterialDesign布局的基本实现
+
+Appbar Material Design应用程序
+
+
+
+
+
+## State
+
+### 生命周期
+
+①分类：
+
+* `initState`当 widget 第一次插入到 widget 树时会被调用，对于每一个State对象，Flutter 框架只会调用一次该回调，所以，通常在该回调中做一些一次性的操作，如状态初始化、订阅子树的事件通知等。
+* `didChangeDependencies:`在调用`initState()`之后。在调用`didUpdateWidget()`之后。在调用`setState()`之后。在调用`didChangeDependencies()`之后。在State对象从树中一个位置移除后（会调用deactivate）又重新插入到树的其他位置之后。
+* `build`当构建组件树时调用，State对象被移除或重新插入其他位置时调用。
+* `reassemble()`：在 widget 重新构建时，Flutter 框架会调用`widget.canUpdate`来检测 widget 树中同一位置的新旧节点，然后决定是否需要更新，如果`widget.canUpdate`返回`true`则会调用此回调。正如之前所述，`widget.canUpdate`会在新旧 widget 的 `key` 和 `runtimeType` 同时相等时会返回true，也就是说在在新旧 widget 的key和runtimeType同时相等时`didUpdateWidget()`就会被调用。
+* `didUpdateWidget`,当state发生变化组件需要更新时调用。
+* `deactivate`当 State 对象从树中被移除时，会调用此回调。在一些场景下，Flutter 框架会将 State 对象重新插到树中，如包含此 State 对象的子树在树的一个位置移动到另一个位置时（可以通过GlobalKey 来实现）。如果移除后没有重新插入到树中则紧接着会调用`dispose()`方法。
+* `dispose`当 State 对象从树中被永久移除时调用；通常在此回调中释放资源。
+
+![](/Flutter/life.jpg)
+
+
+
+### 在 widget 树中获取State对象
+
+由于 StatefulWidget 的具体逻辑都在其 State 中，所以很多时候，我们需要获取 StatefulWidget 对应的State 对象来调用一些方法，比如`Scaffold`组件对应的状态类`ScaffoldState`中就定义了打开 SnackBar（路由页底部提示条）的方法。我们有两种方法在子 widget 树中获取父级 StatefulWidget 的State 对象。
+
+#### 通过上下文对象context
+
+在 Flutter 开发中便有了一个默认的约定：<u>如果 StatefulWidget 的状态是希望暴露出的，应当在 StatefulWidget 中提供一个`of` 静态方法来获取其 State 对象</u>，开发者便可直接通过该方法来获取；如果 State不希望暴露，则不提供`of`方法。
+
+`context`对象有一个`findAncestorStateOfType()`方法，该方法可以从当前节点沿着 widget 树向上查找指定类型的 StatefulWidget 对应的 State 对象。下面是实现打开 SnackBar 的示例：
+
+~~~dart
+class GetStateObjectRoute extends StatefulWidget {
+  const GetStateObjectRoute({Key? key}) : super(key: key);
+
+  @override
+  State<GetStateObjectRoute> createState() => _GetStateObjectRouteState();
+}
+
+class _GetStateObjectRouteState extends State<GetStateObjectRoute> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("子树中获取State对象"),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Builder(builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  // 查找父级最近的Scaffold对应的ScaffoldState对象
+                  ScaffoldState _state = context.findAncestorStateOfType<ScaffoldState>()!;
+                  // 打开抽屉菜单
+                  _state.openDrawer();
+                },
+                child: Text('打开抽屉菜单1'),
+              );
+            }),
+          ],
+        ),
+      ),
+      drawer: Drawer(),
+    );
+  }
+}
+~~~
+
+#### 通过GlobalKey
+
+①给目标`StatefulWidget`添加`GlobalKey`。
+
+~~~dart
+//定义一个globalKey, 由于GlobalKey要保持全局唯一性，我们使用静态变量存储
+static GlobalKey<ScaffoldState> _globalKey= GlobalKey();
+...
+Scaffold(
+    key: _globalKey , //设置key
+    ...  
+)
+
+~~~
+
+②通过`GlobalKey`来获取`State`对象`_globalKey.currentState.openDrawer()`
+
+:::tip
+
+使用 GlobalKey 开销较大，如果有其他可选方案，应尽量避免使用它。另外，同一个 GlobalKey 在整个 widget 树中必须是唯一的，不能重复
+
+:::
+
+
+
+## Flutter状态管理
+
+以下是Flutter管理状态的最常见的方法：
+
+* Widget 管理自己的状态。
+* Widget 管理子 Widget 状态。
+* 混合管理（父 Widget 和子 Widget 都管理状态）。
+
+如何决定使用哪种管理方法？下面是官方给出的一些原则可以帮助你做决定：
+
+* 如果状态是用户数据，如复选框的选中状态、滑块的位置，则该状态最好由父 Widget 管理。
+* 如果状态是有关界面外观效果的，例如颜色、动画，那么状态最好由 Widget 本身来管理。
+* 如果某一个状态是不同 Widget 共享的则最好由它们共同的父 Widget 管理。
+
+### 自身的状态管理
+
+实现一个TapboxA，在它对应的_TapboxAState 类:
+
+* 管理TapboxA的状态。
+* 定义`_active`：确定盒子的当前颜色的布尔值。
+* 定义`_handleTap()`函数，该函数在点击该盒子时更新`_active`，并调用`setState()`更新UI。
+* 实现widget的所有交互式行为。
+
+~~~dart
+//------------------------- TapboxA ----------------------------------
+
+class TapboxA extends StatefulWidget {
+  TapboxA({Key? key}) : super(key: key);
+
+  @override
+  _TapboxAState createState() => _TapboxAState();
+}
+
+class _TapboxAState extends State<TapboxA> {
+  bool _active = false;
+
+  void _handleTap() {
+    setState(() {
+      _active = !_active;
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _handleTap,
+      child: Container(
+        child: Center(
+          child: Text(
+            _active ? 'Active' : 'Inactive',
+            style: TextStyle(fontSize: 32.0, color: Colors.white),
+          ),
+        ),
+        width: 200.0,
+        height: 200.0,
+        decoration: BoxDecoration(
+          color: _active ? Colors.lightGreen[700] : Colors.grey[600],
+        ),
+      ),
+    );
+  }
+}
+
+~~~
+
+### 父-》子
+
+类似于vue，react中props
+
+~~~dart
+// ParentWidget 为 TapboxB 管理状态.
+
+//------------------------ ParentWidget --------------------------------
+
+class ParentWidget extends StatefulWidget {
+  @override
+  _ParentWidgetState createState() => _ParentWidgetState();
+}
+
+class _ParentWidgetState extends State<ParentWidget> {
+  bool _active = false;
+
+  void _handleTapboxChanged(bool newValue) {
+    setState(() {
+      _active = newValue;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: TapboxB(
+        active: _active,
+        onChanged: _handleTapboxChanged,
+      ),
+    );
+  }
+}
+
+//------------------------- TapboxB ----------------------------------
+
+class TapboxB extends StatelessWidget {
+  TapboxB({Key? key, this.active: false, required this.onChanged})
+      : super(key: key);
+
+  final bool active;
+  final ValueChanged<bool> onChanged;
+
+  void _handleTap() {
+    onChanged(!active);
+  }
+
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _handleTap,
+      child: Container(
+        child: Center(
+          child: Text(
+            active ? 'Active' : 'Inactive',
+            style: TextStyle(fontSize: 32.0, color: Colors.white),
+          ),
+        ),
+        width: 200.0,
+        height: 200.0,
+        decoration: BoxDecoration(
+          color: active ? Colors.lightGreen[700] : Colors.grey[600],
+        ),
+      ),
+    );
+  }
+}
+~~~
+
+
+
+### 全局状态管理
+
+.
+
+
+
+## Flutter路由
+
+### 1.配置路由表
+
+~~~dart
+import 'package:flutter/material.dart';
+import 'package:flutter_learn/pages/home/index.dart';
+
+import 'package:flutter_learn/pages/login/index.dart';
+import 'package:flutter_learn/pages/notFound/index.dart';
+import 'package:flutter_learn/pages/profile/index.dart';
+
+class ConstantRoutes {
+  static String profilePath = '/profile';
+
+  static Map<String, WidgetBuilder> routes = {
+    '/profile': (BuildContext context) => const Profile(),
+    '/login': (BuildContext context) => const Login(),
+    '/': (BuildContext context) => const Home(),
+    '/404': (BuildContext context) => const NotFound(),
+  };
+  static String getRoutePath({required String path}){
+    return routes.containsKey(path) ? path : '/404';
+  }
+}
+
+~~~
+
+
+
+### 2.载入路由
+
+在main.dart中
+
+~~~dart
+import 'package:flutter/material.dart';
+import 'package:flutter_learn/pages/home/index.dart';
+import 'package:flutter_learn/router/index.dart';
+
+class App extends StatelessWidget {
+  const App({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return  MaterialApp(
+      routes: ConstantRoutes.routes,
+      debugShowCheckedModeBanner: false, //关闭debugger显示
+      initialRoute: '/',
+    );
+  }
+}
+import 'package:flutter/material.dart';
+import 'package:flutter_learn/app.dart';
+
+void main() {
+  runApp(const App());
+}
+
+
+
+~~~
+
+
+
+### 路由导航
+
+1. 用 Navigator.push() 跳转到第二个路由
+2. 用 Navigator.pop() 回退到第一个路由
+
+
+
+### 路由参数
+
+①使用 RouteSettings 传递，提取参数
+
+~~~dart
+class Todo {
+  final String title;
+  final String description;
+
+  const Todo(this.title, this.description);
+}
+
+void main() {
+  runApp(
+    MaterialApp(
+      title: 'Passing Data',
+      home: TodosScreen(
+        todos: List.generate(
+          20,
+          (i) => Todo(
+            'Todo $i',
+            'A description of what needs to be done for Todo $i',
+          ),
+        ),
+      ),
+    ),
+  );
+}
+//传递参数
+ Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DetailScreen(),
+            settings: RouteSettings(
+              arguments: todos[index],
+            ),
+          ),
+);
+//接收参数
+class DetailScreen extends StatelessWidget {
+  const DetailScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final todo = ModalRoute.of(context)!.settings.arguments as Todo;
+
+    // Use the Todo to create the UI.
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(todo.title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(todo.description),
+      ),
+    );
+  }
+}
+~~~
+
+②使用 [`Navigator.pop()`](https://api.flutter-io.cn/flutter/widgets/Navigator/pop.html) 回退界面并返回数据给主屏界面。 `Navigator.pop()` 方法可以接受第二个参数 `result`，它是可选的，如果传递了 `result`，数据将会通过 `Future` 方法的返回值传递。
+
+~~~dart
+ElevatedButton(
+  onPressed: () {
+    Navigator.pop(context, 'Yep!');
+  },
+  child: const Text('Yep!'),
+)
+~~~
+
+
+
+## Flutter发起请求
+
+[dio文档](https://pub.dev/packages/dio)
+
+~~~dart
+import 'package:dio/dio.dart';
+
+final dio = Dio();
+
+void getHttp() async {
+  final response = await dio.get('https://dart.dev');
+  print(response);
+}
+~~~
+
+①创建实例并配置默认项
+
+~~~dart
+final dio = Dio(); // With default `Options`.
+
+void configureDio() {
+  // Set default configs
+  dio.options.baseUrl = 'https://api.pub.dev';
+  dio.options.connectTimeout = Duration(seconds: 5);
+  dio.options.receiveTimeout = Duration(seconds: 3);
+
+  // Or create `Dio` with a `BaseOptions` instance.
+  final options = BaseOptions(
+    baseUrl: 'https://api.pub.dev',
+    connectTimeout: Duration(seconds: 5),
+    receiveTimeout: Duration(seconds: 3),
+  );
+  final anotherDio = Dio(options);
+}
+~~~
+
+②拦截器:对于每个 dio 实例，我们可以添加一个或多个拦截器，通过这些拦截器，我们可以在请求、响应和错误被或处理之前拦截它们`catchError`。
+
+~~~dart
+dio.interceptors.add(
+  InterceptorsWrapper(
+    onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+      // Do something before request is sent.
+      // If you want to resolve the request with custom data,
+      // you can resolve a `Response` using `handler.resolve(response)`.
+      // If you want to reject the request with a error message,
+      // you can reject with a `DioException` using `handler.reject(dioError)`.
+      return handler.next(options);
+    },
+    onResponse: (Response response, ResponseInterceptorHandler handler) {
+      // Do something with response data.
+      // If you want to reject the request with a error message,
+      // you can reject a `DioException` object using `handler.reject(dioError)`.
+      return handler.next(response);
+    },
+    onError: (DioException e, ErrorInterceptorHandler handler) {
+      // Do something with response error.
+      // If you want to resolve the request with some custom data,
+      // you can resolve a `Response` object using `handler.resolve(response)`.
+      return handler.next(e);
+    },
+  ),
+);
+~~~
 
 
 
@@ -1565,6 +2027,78 @@ Interable<int> getRange(int left,int right)sync*{
 
 
 
+
+
+
+
+## Futter遇到的问题
+
+### 虚拟机调试
+
+vscode如何调试虚拟机呢？
+
+测试安卓能否构建成功cd到android目录执行`./gradlew clean`
+
+1. [安装模拟器](https://en.bignox.com/)
+
+2. 用终端打开nox模拟器的bin目录并输入`nox_adb.exe connect 127.0.0.1:62001`
+
+   ![](/Flutter/debugger.png)
+
+3. 更改`android/build.gradle`文件中的`repositories`内容，如下
+
+   ~~~gradle
+   buildscript {
+       ext.kotlin_version = '1.7.10'
+       repositories {
+           // google()
+           // mavenCentral()
+           maven { url 'https://maven.aliyun.com/repository/google' }
+           maven { url 'https://maven.aliyun.com/repository/jcenter' }
+           maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+           maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
+       }
+   
+       dependencies {
+           classpath 'com.android.tools.build:gradle:7.3.0'
+           classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+       }
+   }
+   
+   allprojects {
+       repositories {
+           // google()
+           // mavenCentral()
+           maven { url 'https://maven.aliyun.com/repository/google' }
+           maven { url 'https://maven.aliyun.com/repository/jcenter' }
+           maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+           maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
+   
+       }
+   }
+   
+   rootProject.buildDir = '../build'
+   subprojects {
+       project.buildDir = "${rootProject.buildDir}/${project.name}"
+   }
+   subprojects {
+       project.evaluationDependsOn(':app')
+   }
+   
+   tasks.register("clean", Delete) {
+       delete rootProject.buildDir
+   }
+   ~~~
+
+   
+
+4. 然后执行`flutter run`即可
+
+此时如果出现`[Exception in thread "main" java.net.ConnectException: Connection timed out](https://www.cnblogs.com/liuys635/p/14966574.html)`
+
+就打开项目`android/gradle/wrapper/gradle-wrapper.properties`，然后将其中的distuibutionUrl下载到本地然后将这个路径改成本地存放的路径即可。例如我的存放到`file:///D:/flutter/flutter_windows_3.13.9-stable/flutter/.gradle/gradle-8.4-all.zip`这个路径不要有中文！！
+
+**如果出现AndroidStudio中* daemon not running； starting now at tcp:5037，主要是[ADB](https://so.csdn.net/so/search?q=ADB&spm=1001.2101.3001.7020)的问题**，解决方案：[下载ADB](替换Sdk\platform-tools\下的adb.exe、AdbWinApi.dll、AdbWinUsbApi.dll这三个文件),然后解压后进入`C:\Users\Administrator\AppData\Local\Android\Sdk\platform-tools`替换`Sdk\platform-tools\`下的`adb.exe、AdbWinApi.dll、AdbWinUsbApi.dll`这三个文件
 
 
 

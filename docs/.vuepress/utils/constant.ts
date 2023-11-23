@@ -53,7 +53,8 @@ const Notes_Sidebar_Setting = [
         'rollup.md',
         '单元测试.md',
         '跨端开发.md',
-        'flutter.md'
+        'flutter.md',
+        '鸿蒙.md'
     ],
     [SUBJECTS.optimize, '性能优化.md'],
     [SUBJECTS.git, 'Git基础.md'],

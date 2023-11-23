@@ -10,12 +10,14 @@ nest中的服务负责处理业务逻辑，service服务于模块要放到module
 
 ## Nest CLI
 
+[使用文档](https://nest.nodejs.cn/cli/usages)
+
 ~~~shell
 npm install -g @nestjs/cli
 // 升级最新版本
 npm update -g @nestjs/cli
 //创建项目
-nest new 项目名 -p pnpm
+nest new [项目名] -p pnpm
 // 查看帮助
 nest -h 
 // 使用tsc或者webpack打包代码
@@ -23,48 +25,6 @@ nest build
 //启动开发服务
 nest start
 ~~~
-
-
-
-### nest generate命令
-
-nest 命令可以生成controller service module等
-
-~~~shell
-nest generate module test_module
-nest generate controller test_module
-nest generate service test_module
-# 上面三条命令等于下面一条
-nest generate resource test_module
-
-~~~
-
-该命令会创建一个test_module文件夹和文件然后加入以下代码
-
-~~~ts
-import { Module } from '@nestjs/common';
-
-@Module({})
-export class TestModuleModule {}
-~~~
-
-之后自动在AppModule里导入创建的module
-
-~~~ts
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TestModuleModule } from './test_module/test_module.module';
-
-@Module({
-  imports: [TestModuleModule],
-  controllers: [AppController],
-  providers: [AppService],
-})
-export class AppModule {}
-~~~
-
-命令创建的spec文件是测试文件
 
 
 
@@ -1049,7 +1009,11 @@ export class MyMiddleware implements NestMiddleware {
     console.log('after');
   }
 }
-// 然后在Module中使用
+~~~
+
+`@Module()` 装饰器中没有中间件的位置。 相反，我们使用模块类的 `configure()` 方法设置它们。 包含中间件的模块必须实现 `NestModule` 接口。 让我们在 `AppModule` 级别设置 `LoggerMiddleware`。
+
+~~~ts
 import { Module,MiddlewareConsumer,NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -1069,8 +1033,46 @@ export class AppModule implements NestModule{
      consumer.apply(MyMiddleware).exclude({path:'user',method:RequestMethod.POST}).forRoutes({path:'hello',method:RequestMethod.GET})//对所有hello路由生效并排除掉user路由
     }
 }
-
 ~~~
+
+## 拦截器
+
+`NestInterceptor<T, R>` 是一个通用接口，其中 `T` 表示 `Observable<T>`（支持响应流）的类型，`R` 是 `Observable<R>` 封装的值的类型。
+
+~~~ts
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+@Injectable()
+export class LoggingInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    console.log('Before...');
+
+    const now = Date.now();
+    return next
+      .handle()
+      .pipe(
+        tap(() => console.log(`After... ${Date.now() - now}ms`)),
+      );
+  }
+}
+
+//注册局部拦截器
+@UseInterceptors(new LoggingInterceptor())
+export class CatsController {}
+//全局拦截器
+const app = await NestFactory.create(AppModule);
+app.useGlobalInterceptors(new LoggingInterceptor());
+~~~
+
+
+
+
+
+
+
+
 
 
 
@@ -1445,6 +1447,76 @@ url：`localhost:3000/user/123?age=2333`
 
 ### ValidationPipe 
 
+安装依赖
+
+~~~shell
+pnpm i --save class-validator class-transformer
+~~~
+
+然后全局注册`ValidationPipe`
+
+~~~ts
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen(3000);
+}
+bootstrap();
+~~~
+
+之后在dto中进行验证
+
+~~~ts
+import {
+  validate,
+  validateOrReject,
+  Contains,
+  IsInt,
+  Length,
+  IsEmail,
+  IsFQDN,
+  IsDate,
+  Min,
+  Max,
+} from 'class-validator';
+
+export class Post {
+  @Length(10, 20)
+  title: string;
+
+  @Contains('hello')
+  text: string;
+
+  @IsInt()
+  @Min(0)
+  @Max(10)
+  rating: number;
+
+  @IsEmail()
+  email: string;
+
+  @IsFQDN()
+  site: string;
+
+  @IsDate()
+  createDate: Date;
+}
+
+let post = new Post();
+post.title = 'Hello'; // should not pass
+post.text = 'this is a great post about hell world'; // should not pass
+post.rating = 11; // should not pass
+post.email = 'google.com'; // should not pass
+post.site = 'googlecom'; // should not pass
+
+~~~
+
+
+
 post 请求的数据是通过 @Body 装饰器来取，并且要有一个 dto class 来接收：（dto就是一个类，定义前段传递的参数类型即可）
 
 ~~~ts
@@ -1647,15 +1719,465 @@ Nest 还提供了 @SetMetadata 的装饰器，可以在 controller 的 class 和
 
 
 
-## Nest服务端需要继承的依赖包
+## Typeorm
+
+[TypeORM](https://github.com/typeorm/typeorm) 绝对是 node.js 世界中可用的最成熟的对象关系映射器 (ORM)。 由于它是用 TypeScript 编写的，因此可以很好地与 Nest 框架配合使用。
 
 
 
-### Swagger 集成
+### 1.安装
 
 ~~~shell
-pnpm add @nestjs/swagger
+pnpm install --save typeorm mysql2
 ~~~
+
+
+
+### 2.建立数据库连接
+
+配置文件格式如下yarm
+
+~~~yaml
+app:
+  port: 3000
+
+db:
+  type: 'mysql'
+  host: 'localhost'
+  port: 3306
+  username: 'root'
+  password: 'root'
+  database: 'typeorm'
+  logging: true
+  poolSize: 10
+  connectorPackage: 'mysql2'
+~~~
+
+
+
+①读取配置文件
+
+~~~ts
+import { readFile } from 'fs/promises';
+import * as yaml from 'js-yaml';
+import { join } from 'path';
+import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+interface Database extends MysqlConnectionOptions {
+  type: 'mysql' | 'mariadb';
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  database: string;
+  synchronize: boolean;
+  logging: boolean;
+  poolSize: number;
+  connectorPackage: 'mysql' | 'mysql2';
+}
+interface IConfig {
+  app: {
+    port: number;
+  };
+  db: Database
+}
+export const configLoad =  async () => {
+  const configFilePath = join(process.cwd(), `${process.env.NODE_ENV}.yaml`);
+  const config = await readFile(configFilePath, {
+    encoding: 'utf-8',
+  });
+  return yaml.load(config) as Promise<IConfig>;
+};
+~~~
+
+
+
+创建database.providers.ts文件
+
+```typescript
+import { DataSource } from 'typeorm';
+
+export const databaseProviders = [
+  {
+    provide: 'DATA_SOURCE',
+    useFactory: async () => {
+      const dataSource = new DataSource({
+        type: 'mysql',
+        host: 'localhost',
+        port: 3306,
+        username: 'root',
+        password: 'root',
+        database: 'test',
+        entities: [],
+        synchronize: true,
+      });
+
+      return dataSource.initialize();
+    },
+  },
+]
+```
+
+:::warning
+
+synchronize: true不应在生产中使用 - 否则可能会丢失生产数据。
+
+:::
+
+然后在database.module.ts文件中
+
+~~~ts
+import { Module } from '@nestjs/common';
+import { databaseProviders } from './database.providers';
+
+@Module({
+  providers: [...databaseProviders],
+  exports: [...databaseProviders],
+})
+export class DatabaseModule {}
+~~~
+
+最后将数据库的模块注册到app.module.ts中
+
+~~~dart
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { DatabaseModule } from './modules';
+
+@Module({
+  imports: [DatabaseModule],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+~~~
+
+### 3.操作表
+
+①创建一个photo表
+
+~~~ts
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity()
+export class Photo {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ length: 500 })
+  name: string;
+
+  @Column('text')
+  description: string;
+
+  @Column()
+  filename: string;
+
+  @Column('int')
+  views: number;
+
+  @Column()
+  isPublished: boolean;
+}
+
+~~~
+
+②创建服务提供者photo.providers.ts
+
+~~~ts
+import { DataSource } from 'typeorm';
+import { Photo } from './photo.entity';
+
+export const photoProviders = [
+  {
+    provide: 'PHOTO_REPOSITORY',
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(Photo),
+    inject: ['DATA_SOURCE'],
+  },
+];
+~~~
+
+photo.service.ts
+
+~~~ts
+import { Injectable, Inject } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { Photo } from './photo.entity';
+
+@Injectable()
+export class PhotoService {
+  constructor(
+    @Inject('PHOTO_REPOSITORY')
+    private photoRepository: Repository<Photo>,
+  ) {}
+
+  async findAll(): Promise<Photo[]> {
+    return this.photoRepository.find();
+  }
+}
+~~~
+
+③注册服务photo.module.ts
+
+
+
+~~~ts
+import { Module } from '@nestjs/common';
+import { DatabaseModule } from '../database/database.module';
+import { photoProviders } from './photo.providers';
+import { PhotoService } from './photo.service';
+
+@Module({
+  imports: [DatabaseModule],
+  providers: [
+    ...photoProviders,
+    PhotoService,
+  ],
+})
+export class PhotoModule {}
+~~~
+
+④`PhotoModule` 导入根 `AppModule`。
+
+~~~ts
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { DatabaseModule } from './modules';
+import {PhotoModule} from './xxx'
+@Module({
+  imports: [DatabaseModule，PhotoModule],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+
+~~~
+
+
+
+### 实体Entity
+
+[实体文档](https://typeorm.io/entities)
+
+实体是映射数据库表的类。如下：
+
+~~~ts
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+
+@Entity()
+export class User {
+    @PrimaryGeneratedColumn()
+    id: number
+
+    @Column()
+    firstName: string
+
+    @Column()
+    lastName: string
+
+    @Column()
+    isActive: boolean
+}
+~~~
+
+#### 实体的装饰器
+
+* `@PrimaryColumn `标识主键
+* `@PrimaryGeneratedColumn `自增主键
+* `@CreateDateColumn`会被自动设置实体的创建日期。此列-它将自动设置。
+* `@UpdateDateColumn`每次调用实体manager或者repository的save方法时会更新这个时间。此列-它将自动设置。
+* `@DeleteDateColumn`软删除的时间。此列-它将自动设置。
+* `@VersionColumn`每次调用实体manager或repository的save时自动设置为实体的版本(增量编号)。此列-它将自动设置。
+
+#### 查找实体
+
+可以用 `manager.findOneBy` or `repository.findOneBy`，如下:(Person是实体)
+
+~~~ts
+// find one by id with single primary key
+const person = await dataSource.manager.findOneBy(Person, { id: 1 })
+const person = await dataSource.getRepository(Person).findOneBy({ id: 1 })
+
+// find one by id with composite primary keys
+const user = await dataSource.manager.findOneBy(User, {
+    firstName: "Timber",
+    lastName: "Saw",
+})
+const user = await dataSource.getRepository(User).findOneBy({
+    firstName: "Timber",
+    lastName: "Saw",
+})
+~~~
+
+
+
+
+
+
+
+### 一对一
+
+在其中一方添加`@OneToTone`并指定 `@JoinColum` 也就是外键列，例如
+
+~~~ts
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+
+@Entity({
+    name: 'id_card'
+})
+export class IdCard {
+    @PrimaryGeneratedColumn()
+    id: number
+
+    @Column({
+        length: 50,
+        comment: '身份证号'
+    })
+    cardName: string
+    
+    @JoinColumn()
+    @OneToOne(()=>User)
+}
+
+
+~~~
+
+我们正常在更新表的时候如果不添加级联更新需要如下操作，（要分别保存 user 和 idCard，能不能自动按照关联关系来保存呢？）
+
+~~~ts
+import { AppDataSource } from "./data-source"
+import { IdCard } from "./entity/IdCard"
+import { User } from "./entity/User"
+
+AppDataSource.initialize().then(async () => {
+
+    const user = new User();
+    user.firstName = 'guang';
+    user.lastName = 'guang';
+    user.age = 20;
+    
+    const idCard = new IdCard();
+    idCard.cardName = '1111111';
+    idCard.user = user;
+    
+    await AppDataSource.manager.save(user);
+    await AppDataSource.manager.save(idCard);
+
+}).catch(error => console.log(error))
+
+~~~
+
+可以在 @OneToOne 那里指定 cascade 为 true：`@OneToOne(()=>User,{cascade:true})`
+
+查询的时候我们需要指定relation字段才能够将关联的表的信息查询出来
+
+~~~ts
+const ics = await AppDataSource.manager.find(IdCard, {
+    relations: {
+        user: true
+    }
+});
+~~~
+
+
+
+### 一对多
+
+创建部门和员工表。
+
+在一的一方添加 `oneToMany` 装饰器，在多的一方添加`@ManyToOne`。(**在多的一方`@ManyToOne`去掉级联不然，双方都级联保存，那就无限循环了**)
+
+~~~ts
+import { Column, Entity, PrimaryGeneratedColumn,oneToMany } from "typeorm"
+
+@Entity()
+export class Department {
+
+    @PrimaryGeneratedColumn()
+    d_id: number;
+
+    @Column({
+        length: 50
+    })
+    name: string;
+    @oneToMany(()=>Department,(employee)=>employee.department},{cascade:true})//这里要通过第二个参数指定外键列在 employee.department 维护。
+    department:Department;
+}
+
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+
+@Entity()
+export class Employee {
+    @PrimaryGeneratedColumn('uuid')
+    id: number;
+
+    @Column({
+        length: 50
+    })
+    name: string;
+    @ManyToOne(()=>Department)
+    @JoinColumn({//默认一对多外键在多的一方保存，JoinColumn可以省略，除非需要指定一些选项
+        name:d_id
+    })
+    department:Department
+}
+~~~
+
+
+
+### 多对多
+
+将多对多拆成两个一对多。例如文章和标签两个实体。
+
+~~~ts
+import { Column, Entity, PrimaryGeneratedColumn,ManyToMany,JoinTable } from "typeorm"
+
+@Entity()
+export class Article {
+
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column({
+        length: 100,
+        comment: '文章标题'
+    })
+    title: string;
+
+    @Column({
+        type: 'text',
+        comment: '文章内容'
+    })
+    content: string;
+    @ManyToMany(()=>Tag,(tag)=>tag.article)
+    @JoinTable({
+        name:'xxx'//指定中间表的名称
+    })
+    tags:Tag[]
+}
+//Tag
+import { Column, Entity, PrimaryGeneratedColumn，ManyToMany } from "typeorm"
+
+@Entity()
+export class Tag {
+
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column({
+        length: 100
+    })
+    name: string;
+    @ManyToMany(()=>Article,(article)=>article.tags)
+    articles:Article[]
+}
+
+~~~
+
+
+
+
 
 
 
@@ -1679,7 +2201,193 @@ bootstrap();
 
 ~~~
 
+## node-redis
 
+[文档地址](https://github.com/redis/node-redis)
+
+
+
+
+
+## Nest项目初始化
+
+①创建项目`nest new [project] -p pnpm`
+
+②安装`js-yaml`和`cross-env`依赖做环境配置
+
+~~~shell
+pnpm install js-yaml @nestjs/config 
+pnpm install -D cross-env
+~~~
+
+③配置yaml(该文件放到src下便于打包)和package.json文件配置
+
+~~~yaml
+app:
+  port: 3000
+db:
+  type: 'mysql'
+  host: 'localhost'
+  port: 3306
+  username: 'root'
+  password: 'root'
+  database: 'typeorm'
+  logging: true
+  poolSize: 10
+  connectorPackage: 'mysql2'
+redis:
+  host: 'localhost'
+  port: 6379
+~~~
+
+~~~json
+"scripts": {
+    "build": "cross-env NODE_ENV=production nest build",
+    "dev": "cross-env NODE_ENV=development nest start --watch",
+  },
+~~~
+
+配置nest-cli.json
+
+~~~json
+{
+  "compilerOptions": {
+    "watchAssets": true,
+    "assets": ["**/*.yaml"]// 将环境配置一起打包
+  }
+}
+~~~
+
+创建配置的服务`nest g pr config --no-spec`
+
+~~~ts
+import { Provider } from '@nestjs/common';
+import { readFile } from 'fs/promises';
+import * as yaml from 'js-yaml';
+import { join } from 'path';
+import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+interface Database extends MysqlConnectionOptions {
+  type: 'mysql' | 'mariadb';
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  database: string;
+  synchronize: boolean;
+  logging: boolean;
+  poolSize: number;
+  connectorPackage: 'mysql' | 'mysql2';
+}
+interface Redis {
+  host: string;
+  port: number;
+}
+interface IConfig {
+  app: {
+    port: number;
+  };
+  db: Database;
+  redis: Redis;
+}
+const yamlLoad = async () => {
+  const configFilePath = join(
+    process.cwd(),
+    `./src/${process.env.NODE_ENV}.yaml`,
+  );
+  const config = await readFile(configFilePath, {
+    encoding: 'utf-8',
+  });
+  return yaml.load(config) as Promise<IConfig>;
+};
+
+export const configProviders: Provider[] = [
+  {
+    provide: 'CONFIG_PROVIDERS',
+    useFactory: yamlLoad,
+  },
+];
+export class ConfigService {//暴露给main.ts使用
+  static async get() {
+    return await yamlLoad();
+  }
+}
+
+~~~
+
+然后创建配置模块`nest g mo config --no-spec` 
+
+~~~ts
+import { Module } from '@nestjs/common';
+import { configProviders } from './config.provider';
+
+@Module({
+  providers: [...configProviders],
+  exports: [...configProviders],
+})
+export class ConfigModule {}
+~~~
+
+④继承TypeORM数据库
+
+~~~shell
+pnpm install typeorm mysql2
+~~~
+
+创建数据库的服务
+
+~~~ts
+import { DataSource } from 'typeorm';
+import { User, Role, Permission } from '@/user/entities';
+export const databaseProviders = [
+  {
+    provide: 'DATA_SOURCE',
+    useFactory: async (config) => {
+      const dataSource = new DataSource({
+        ...config.db,
+        entities: [User, Role, Permission],
+        logging: process.env.NODE_ENV !== 'production',
+        synchronize: process.env.NODE_ENV !== 'production',
+      });
+      return dataSource.initialize();
+    },
+    inject: ['CONFIG_PROVIDERS'],
+  },
+];
+~~~
+
+创建数据库模块
+
+~~~ts
+import { Module } from '@nestjs/common';
+import { databaseProviders } from './database.provider';
+import { ConfigModule } from '../config/config.module';
+@Module({
+  imports: [ConfigModule],
+  providers: [...databaseProviders],
+  exports: [...databaseProviders],
+})
+export class DatabaseModule {}
+~~~
+
+⑤安装参数验证模块
+
+[class-validator文档](https://github.com/typestack/class-validator)
+
+~~~shell
+pnpm install class-transformer class-validator
+~~~
+
+然后在main.ts入口文件中做配置
+
+~~~ts
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  app.useGlobalPipes(new ValidationPipe());
+}
+~~~
+
+⑥安装redis。`pnpm install redis`
 
 
 
