@@ -512,6 +512,636 @@ const pinia = createPinia()
 pinia.use(SecretPiniaPlugin)
 ```
 
+## pinia的实现原理
+
+### 学前知识
+
+#### effectScope
+
+上来先总结一下：**`effectScope`是为了解决副作用在组件外使用不会被自动处理的问题。`effectScope`会创建一个副作用作用域范围，让用户能够一键清楚内部所有副作用，避免了内存泄漏问题。**
+
+`effectScope`创建一个 effect 作用域，可以捕获其中所创建的响应式副作用 (即计算属性和侦听器)，这样捕获到的副作用可以一起处理。
+
+在Vue的componentsetup()中，效果将被收集并绑定到当前实例。当实例被卸载时，效果将被自动处理。这是一个方便和直观的特性。然而，当我们在组件之外或作为独立包使用它们时，Vue不会自动的去处理什么时候取消掉副作用，而手动管理很容易忘记，容易出现内存泄漏和意外行为，例如：
+
+~~~ts
+const disposables = []
+
+const counter = ref(0)
+const doubled = computed(() => counter.value * 2)
+
+disposables.push(() => stop(doubled.effect))
+
+const stopWatch1 = watchEffect(() => {
+  console.log(`counter: ${counter.value}`)
+})
+
+disposables.push(stopWatch1)
+
+const stopWatch2 = watch(doubled, () => {
+  console.log(doubled.value)
+})
+
+disposables.push(stopWatch2)
+// 当需要停止副作用函数时，我们需要手动停止（如果忘记或者停止逻辑不正确可能出现内存泄露）
+disposables.forEach((f) => f())
+disposables = []
+~~~
+
+而这个API会自动收集内部的副作用，并调用`stop`可以直接关掉内部的所以副作用。使用方式如下（作用域可以运行一个函数，并捕获在函数同步执行期间创建的所有效果，包括任何在内部创建效果的API，例如computed, watch和watchEffect:）：
+
+~~~ts
+const scope = effectScope() //创建副作用作用域
+
+scope.run(() => {
+  const doubled = computed(() => counter.value * 2)
+
+  watch(doubled, () => console.log(doubled.value))
+
+  watchEffect(() => console.log('Count: ', doubled.value))
+})
+
+//同一个作用域可以运行多次
+scope.run(() => { 
+  watch(counter, () => {
+    /*...*/
+  })
+})
+scope.run(()=>123)//run方法会转发被执行函数的返回值:
+scope.stop()//当调用scope.stop()时，它将递归地停止所有捕获的效果和嵌套的范围。
+~~~
+
+嵌套作用域会是什么效果呢？
+
+嵌套范围嵌套作用域也应该由它们的父作用域收集。当父作用域被处置时，它的所有后代作用域也将停止。
+
+~~~ts
+const scope = effectScope()
+
+scope.run(() => {
+  const doubled = computed(() => counter.value * 2)
+  
+  // not need to get the stop handler, it will be collected by the outer scope
+  effectScope().run(() => {
+    watch(doubled, () => console.log(doubled.value))
+  })
+
+  watchEffect(() => console.log('Count: ', doubled.value))
+})
+
+// dispose all effects, including those in the nested scopes
+scope.stop()
+~~~
+
+如果嵌套的内部作用域不希望被父级作用域管理。则需要分离作用于，effectScope接受在“分离”模式下创建的参数。分离的作用域不会被它的父作用域收集。这也使得像“延迟初始化”这样的用法成为可能。
+
+~~~ts
+let nestedScope
+
+const parentScope = effectScope()
+
+parentScope.run(() => {
+  const doubled = computed(() => counter.value * 2)
+
+  //使用检测到的标志;
+  //作用域不会被外部作用域收集和处理。nested = effectScope(true /* detached */)
+  nestedScope = effectScope(true /* detached */)
+  nestedScope.run(() => {
+    watch(doubled, () => console.log(doubled.value))
+  })
+    
+  watchEffect(() => console.log('Count: ', doubled.value))
+})
+
+//处理所有效果，但不处理嵌套的内部作用域
+parentScope.stop()
+
+// 停止嵌套的作用域
+nestedScope.stop()
+~~~
+
+
+
+**作用域停止钩子`onScopeDispose`**
+
+全局钩子onScopeDispose()提供与onUnmounted()类似的功能，但它适用于当前作用域，而不是组件实例。这有利于可组合函数清除其副作用及其作用域。因为setup()也为组件创建了一个作用域，所以当没有创建显式的效果作用域时，它将等同于onUnmounted()。
+
+```ts
+import { onScopeDispose } from 'vue'
+
+const scope = effectScope()
+
+scope.run(() => {
+  onScopeDispose(() => {
+    console.log('cleaned!')
+  })
+})
+
+scope.stop() // logs 'cleaned!'
+```
+
+### 创建pinia对象createPinia
+
+1. 创建副作用作用域
+2. 将pinia单例对象注入
+3. 收集插件
+
+~~~ts
+export function createPinia(): Pinia {
+  const scope = effectScope(true)//创建一个 effect 作用域，可以捕获其中所创建的响应式副作用 (即计算属性和侦听器)，这样捕获到的副作用可以一起处理。
+  const state = scope.run<Ref<Record<string, StateTree>>>(() =>
+    ref<Record<string, StateTree>>({})
+  )!
+ 
+  let _p: Pinia['_p'] = []//存放差距
+  //插件列表调用app.use之前会push插件
+  let toBeInstalled: PiniaPlugin[] = []
+
+  const pinia: Pinia = markRaw({ //markRaw将一个对象标记为不可被转为代理。返回该对象本身。
+    install(app: App) {
+	 //这允许在组件设置之外调用useStore
+      setActivePinia(pinia)//该函数执行-》activePinia = pinia
+      if (!isVue2) {
+        pinia._a = app // 保存app实例
+        app.provide(piniaSymbol, pinia)
+        app.config.globalProperties.$pinia = pinia
+         
+        toBeInstalled.forEach((plugin) => _p.push(plugin))
+        toBeInstalled = []
+      }
+    },
+
+    use(plugin) {
+      if (!this._a && !isVue2) {
+        toBeInstalled.push(plugin)
+      } else {
+        _p.push(plugin)
+      }
+      return this
+    },
+
+    _p,
+    _a: null,
+    _e: scope,
+    _s: new Map<string, StoreGeneric>(),
+    state,
+  })
+  return pinia
+}
+~~~
+
+## 停止副作用disposePinia
+
+通过停止它的effectScope、删除状态、插件和商店来处理一个Pinia实例。
+
+~~~ts
+export function disposePinia(pinia: Pinia) {
+  pinia._e.stop()
+  pinia._s.clear()
+  pinia._p.splice(0)
+  pinia.state.value = {}
+  // @ts-expect-error: non valid
+  pinia._a = null
+}
+
+~~~
+
+
+
+## 定义仓库defineStore
+
+定义store有两种方式：
+
+~~~ts
+①选项式 
+export const useCounterStore = defineStore('counter', {
+  state: () => ({ count: 0, name: 'Eduardo' }),
+  getters: {
+    doubleCount: (state) => state.count * 2,
+  },
+  actions: {
+    increment() {
+      this.count++
+    },
+  },
+})
+②setup语法糖
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+  const name = ref('Eduardo')
+  const doubleCount = computed(() => count.value * 2)
+  function increment() {
+    count.value++
+  }
+  return { count, name, doubleCount, increment }
+})
+~~~
+
+实现原理
+
+~~~ts
+export function defineStore(idOrOptions: any,setup?: any,setupOptions?: any): StoreDefinition {
+  let id: string
+  let options
+  // 如果第二个参数是函数则是setup语法糖
+  const isSetupStore = typeof setup === 'function'
+  //如果第一个参数是string则作为仓库的名字id，如果不是则认为直接传的是选项式
+  if (typeof idOrOptions === 'string') {
+    id = idOrOptions
+    // the option store setup will contain the actual options in this case
+    options = isSetupStore ? setupOptions : setup
+  } else {
+    options = idOrOptions
+    id = idOrOptions.id
+    }
+  }
+  function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
+    const hasContext = hasInjectionContext()
+    pinia =
+      // in test mode, ignore the argument provided as we can always retrieve a
+      // pinia instance with getActivePinia()
+      (__TEST__ && activePinia && activePinia._testing ? null : pinia) ||
+      (hasContext ? inject(piniaSymbol, null) : null)
+    if (pinia) setActivePinia(pinia)
+	//从全局变量中取出pinia对象
+    pinia = activePinia!
+    if (!pinia._s.has(id)) {
+      // 将创建的商店注册到`pinia._s`
+      if (isSetupStore) {
+        createSetupStore(id, setup, options, pinia)
+      } else {
+        createOptionsStore(id, options as any, pinia)
+      }
+    }
+
+     const store: StoreGeneric = pinia._s.get(id)!
+      //从缓存中清除状态
+      delete pinia.state.value[hotId]
+      pinia._s.delete(hotId)
+    }
+
+    if (__DEV__ && IS_CLIENT) {
+      const currentInstance = getCurrentInstance()
+      // save stores in instances to access them devtools
+      if (
+        currentInstance &&
+        currentInstance.proxy &&
+        // avoid adding stores that are just built for hot module replacement
+        !hot
+      ) {
+        const vm = currentInstance.proxy
+        const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
+        cache[id] = store
+      }
+    }
+
+    // StoreGeneric cannot be casted towards Store
+    return store as any
+  }
+
+  useStore.$id = id
+
+  return useStore
+}
+~~~
+
+
+
+### createSetupStore语法糖store
+
+~~~ts
+// createSetupStore(id, setup, options, pinia)
+function createSetupStore<
+  Id extends string,
+  SS extends Record<any, unknown>,
+  S extends StateTree,
+  G extends Record<string, _Method>,
+  A extends _ActionsTree
+>(
+  $id: Id,
+  setup: () => SS,
+  options:
+    | DefineSetupStoreOptions<Id, S, G, A>
+    | DefineStoreOptions<Id, S, G, A> = {},
+  pinia: Pinia,
+  hot?: boolean,
+  isOptionsStore?: boolean
+): Store<Id, S, G, A> {
+  let scope!: EffectScope
+	//合并选项
+  const optionsForPlugin: DefineStoreOptionsInPlugin<Id, S, G, A> = assign(
+    { actions: {} as A },
+    options
+  )
+  //  $subscribe的watcher选项
+  const $subscribeOptions: WatchOptions = {
+    deep: true,
+    // flush: 'post',
+  }
+  // internal state
+  let isListening: boolean 
+  let isSyncListening: boolean 
+  let subscriptions: SubscriptionCallback<S>[] = []
+  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = []
+  let debuggerEvents: DebuggerEvent[] | DebuggerEvent
+  const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
+  const hotState = ref({} as S)
+
+  // /避免触发太多的listeners
+  let activeListener: Symbol | undefined
+  /**
+  *	修改的两种参数方式，store.$patch({count: store.count + 1,age: 120})
+  * store.$patch((state) => {state.count = store.count + 1})
+  */
+  function $patch(partialStateOrMutator): void {
+    let subscriptionMutation: SubscriptionCallbackMutation<S>
+    isListening = isSyncListening = false
+	//如果是函数
+    if (typeof partialStateOrMutator === 'function') {
+        //将该id的state传进去
+      partialStateOrMutator(pinia.state.value[$id] as UnwrapRef<S>)
+      subscriptionMutation = {
+        type: MutationType.patchFunction,// 'patch function'
+        storeId: $id,
+        events: debuggerEvents as DebuggerEvent[],
+      }
+    } else {
+      mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator)
+      subscriptionMutation = {
+        type: MutationType.patchObject,// 'patch object'
+        payload: partialStateOrMutator,
+        storeId: $id,
+        events: debuggerEvents as DebuggerEvent[],
+      }
+    }
+    const myListenerId = (activeListener = Symbol())
+    nextTick().then(() => {
+      if (activeListener === myListenerId) {
+        isListening = true
+      }
+    })
+    isSyncListening = true
+    // 因为我们暂停了watcher，所以需要手动调用订阅
+    //subscriptions(subscriptionMutation,  pinia.state.value[$id])
+    triggerSubscriptions(
+      subscriptions,
+      subscriptionMutation,
+      pinia.state.value[$id] as UnwrapRef<S>
+    )
+  }
+
+  const $reset = isOptionsStore
+    ? function $reset(this: _StoreWithState<Id, S, G, A>) {
+        const { state } = options as DefineStoreOptions<Id, S, G, A>
+        const newState = state ? state() : {}
+        // we use a patch to group all changes into one single subscription
+        this.$patch(($state) => { 
+          assign($state, newState)//assign(pinia.state.value[$id],newState)
+        })
+      }
+    :  __DEV__ ? throw new Error('.....'): () => {}
+
+  function $dispose() {
+    scope.stop()
+    subscriptions = []
+    actionSubscriptions = []
+    pinia._s.delete($id)
+  }
+
+  function wrapAction(name: string, action: _Method) {
+    return function (this: any) {
+      setActivePinia(pinia)
+      const args = Array.from(arguments)
+
+      const afterCallbackList: Array<(resolvedReturn: any) => any> = []
+      const onErrorCallbackList: Array<(error: unknown) => unknown> = []
+      function after(callback: _ArrayType<typeof afterCallbackList>) {
+        afterCallbackList.push(callback)
+      }
+      function onError(callback: _ArrayType<typeof onErrorCallbackList>) {
+        onErrorCallbackList.push(callback)
+      }
+
+      // @ts-expect-error
+      triggerSubscriptions(actionSubscriptions, {
+        args,
+        name,
+        store,
+        after,
+        onError,
+      })
+
+      let ret: unknown
+      try {
+        ret = action.apply(this && this.$id === $id ? this : store, args)
+        // handle sync errors
+      } catch (error) {
+        triggerSubscriptions(onErrorCallbackList, error)
+        throw error
+      }
+
+      if (ret instanceof Promise) {
+        return ret
+          .then((value) => {
+            triggerSubscriptions(afterCallbackList, value)
+            return value
+          })
+          .catch((error) => {
+            triggerSubscriptions(onErrorCallbackList, error)
+            return Promise.reject(error)
+          })
+      }
+
+      // trigger after callbacks
+      triggerSubscriptions(afterCallbackList, ret)
+      return ret
+    }
+  }
+
+  const partialStore = {
+    _p: pinia,
+    // _s: scope,
+    $id,
+    $onAction: addSubscription.bind(null, actionSubscriptions),
+    $patch,
+    $reset,
+    $subscribe(callback, options = {}) {
+      const removeSubscription = addSubscription(
+        subscriptions,
+        callback,
+        options.detached,
+        () => stopWatcher()
+      )
+      const stopWatcher = scope.run(() =>
+        watch(
+          () => pinia.state.value[$id] as UnwrapRef<S>,
+          (state) => {
+            if (options.flush === 'sync' ? isSyncListening : isListening) {
+              callback(
+                {
+                  storeId: $id,
+                  type: MutationType.direct,
+                  events: debuggerEvents as DebuggerEvent,
+                },
+                state
+              )
+            }
+          },
+          assign({}, $subscribeOptions, options)
+        )
+      )!
+
+      return removeSubscription
+    },
+    $dispose,
+  } as _StoreWithState<Id, S, G, A>
+
+
+  const store: Store<Id, S, G, A> = reactive(partialStore) as unknown as Store<Id, S, G, A>
+
+  pinia._s.set($id, store as Store)
+
+  const runWithContext =
+    (pinia._a && pinia._a.runWithContext) || fallbackRunWithContext
+
+  // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
+  const setupStore = runWithContext(() =>
+    pinia._e.run(() => (scope = effectScope()).run(setup)!)
+  )!
+
+  // 覆盖现有的操作以支持$onAction
+  for (const key in setupStore) {
+    const prop = setupStore[key]
+
+    if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
+      // mark it as a piece of state to be serialized
+      if (!isOptionsStore) {
+        // //在setup stores中，必须水合物状态和同步状态树与用户刚刚创建的refs
+        if (initialState && shouldHydrate(prop)) {
+          if (isRef(prop)) {
+            prop.value = initialState[key]
+          } else {
+            // probably a reactive object, lets recursively assign
+            // @ts-expect-error: prop is unknown
+            mergeReactiveObjects(prop, initialState[key])
+          }
+        }
+        // transfer the ref to the pinia state to keep everything in sync
+        /* istanbul ignore if */
+        if (isVue2) {
+          set(pinia.state.value[$id], key, prop)
+        } else {
+          pinia.state.value[$id][key] = prop
+        }
+      }
+      // action
+    } else if (typeof prop === 'function') {
+      const actionValue = __DEV__ && hot ? prop : wrapAction(key, prop)
+      if (isVue2) {
+        set(setupStore, key, actionValue)
+      } else {
+        // @ts-expect-error
+        setupStore[key] = actionValue
+      }
+    } else if (__DEV__) {
+      // add getters for devtools
+      if (isComputed(prop)) {
+        _hmrPayload.getters[key] = isOptionsStore
+          ? // @ts-expect-error
+            options.getters[key]
+          : prop
+        if (IS_CLIENT) {
+          const getters: string[] =
+            (setupStore._getters as string[]) ||
+            // @ts-expect-error: same
+            ((setupStore._getters = markRaw([])) as string[])
+          getters.push(key)
+        }
+      }
+    }
+  }
+
+  // add the state, getters, and action properties
+  /* istanbul ignore if */
+  if (isVue2) {
+    Object.keys(setupStore).forEach((key) => {
+      set(store, key, setupStore[key])
+    })
+  } else {
+    assign(store, setupStore)
+    // allows retrieving reactive objects with `storeToRefs()`. Must be called after assigning to the reactive object.
+    // Make `storeToRefs()` work with `reactive()` #799
+    assign(toRaw(store), setupStore)
+  }
+
+  // use this instead of a computed with setter to be able to create it anywhere
+  // without linking the computed lifespan to wherever the store is first
+  // created.
+  Object.defineProperty(store, '$state', {
+    get: () => (__DEV__ && hot ? hotState.value : pinia.state.value[$id]),
+    set: (state) => {
+      /* istanbul ignore if */
+      if (__DEV__ && hot) {
+        throw new Error('cannot set hotState')
+      }
+      $patch(($state) => {
+        assign($state, state)
+      })
+    },
+  })
+
+  /* istanbul ignore if */
+  if (isVue2) {
+    // mark the store as ready before plugins
+    store._r = true
+  }
+
+  // apply all plugins
+  pinia._p.forEach((extender) => {
+      Object.keys(extensions || {}).forEach((key) =>
+        store._customProperties.add(key)
+      )
+      assign(store, extensions)
+    } else {
+      assign(
+        store,
+        scope.run(() =>
+          extender({
+            store: store as Store,
+            app: pinia._a,
+            pinia,
+            options: optionsForPlugin,
+          })
+        )!
+      )
+    }
+  })
+  if (
+    initialState &&
+    isOptionsStore &&
+    (options as DefineStoreOptions<Id, S, G, A>).hydrate
+  ) {
+    ; (options as DefineStoreOptions<Id, S, G, A>).hydrate!(
+      store.$state,
+      initialState
+    )
+  }
+  isListening = true
+  isSyncListening = true
+  return store
+}
+~~~
+
+
+
+
+
+
+
+
+
+
+
 
 
 <CommentService/>

@@ -36,6 +36,34 @@
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="浏览器报错" tabindex="-1"><a class="header-anchor" href="#浏览器报错" aria-hidden="true">#</a> 浏览器报错</h2>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>Failed to load module script: Expected a JavaScript module script but the server responded with a MIME <span class="token builtin class-name">type</span> of <span class="token string">"application/octet-stream"</span><span class="token builtin class-name">.</span> Strict MIME <span class="token builtin class-name">type</span> checking is enforced <span class="token keyword">for</span> module scripts per HTML spec.
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>因为nginx一开始没配置好（路由没重定向）却又使用缓存了，导致一直304没重新加载，清一下缓存重新加载保证nginx配置正确就行了。</p>
+<h2 id="服务器防火墙" tabindex="-1"><a class="header-anchor" href="#服务器防火墙" aria-hidden="true">#</a> 服务器防火墙</h2>
+<p>配置完nignx以及安全组后仍不能访问，可以尝试关闭在访问看看。</p>
+<p>查看防火墙状态：systemctl status firewalld</p>
+<p>禁用防火墙：systemctl stop firewalld</p>
+<p>启动防火墙：systemctl start firewalld</p>
+<p>设置开机启动：systemctl enable firewalld</p>
+<p>重启防火墙：systemctl restart firewalld</p>
+<p>如果关闭后确认时防火墙问题请参考如下方法</p>
+<ol>
+<li>
+<p>检测是什么防火墙</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">sudo</span> iptables <span class="token parameter variable">--version</span>
+<span class="token function">sudo</span> ufw status
+<span class="token function">sudo</span> firewall-cmd <span class="token parameter variable">--state</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>执行命令放行指定端口</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>iptables
+<span class="token function">sudo</span> iptables <span class="token parameter variable">-A</span> INPUT <span class="token parameter variable">-p</span> tcp <span class="token parameter variable">--dport</span> <span class="token number">8868</span> <span class="token parameter variable">-j</span> ACCEPT
+<span class="token function">sudo</span> iptables-save <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/sysconfig/iptables
+<span class="token function">sudo</span> <span class="token function">service</span> iptables restart
+ufw
+<span class="token function">sudo</span> ufw allow <span class="token number">8868</span>
+firewalld
+<span class="token function">sudo</span> firewall-cmd <span class="token parameter variable">--zone</span><span class="token operator">=</span>public --add-port<span class="token operator">=</span><span class="token number">8868</span>/tcp <span class="token parameter variable">--permanent</span>
+<span class="token function">sudo</span> firewall-cmd <span class="token parameter variable">--reload</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
 <CommentService/></div></template>
 
 

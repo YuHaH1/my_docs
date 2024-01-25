@@ -118,6 +118,36 @@ getComputedStyle(document.documentElement).getPropertyValue('--main-color')
 
 
 
+## 容器查询
+
+容器查询使你能够根据元素容器的大小应用样式。例如，如果容器在周围的上下文中可用的空间更少，你可以隐藏某些元素或使用较小的字体。容器查询是[媒体查询](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_media_queries)的另一种选择，后者根据视口大小或其他设备特征为元素应用样式。
+
+### 语法
+
+~~~css
+@container [container_name] <container-condition> {
+  <stylesheet>
+}
+eg:
+@container (width > 400px) {
+  h2 {
+    font-size: 1.5em;
+  }
+}
+
+~~~
+
+
+
+### 单位
+
+* cqw 容器查询宽度（Container Query Width）占比。1cqw 等于容器宽度的 1%。假设容器宽度是 1000px，则此时 1cqw 对应的计算值就是 10px。
+* cqh 容器查询高度（Container Query Height）占比。1cqh 等于容器高度的 1%。
+* cqi 表示容器查询内联方向尺寸（Container Query Inline-Size）占比。这个是逻辑属性单位，默认情况下等同于 cqw
+* cqb 容器查询块级方向尺寸（Container Query Block-Size）占比。同上，默认情况下等同于 cqh
+* cqmin 容器查询较小尺寸的（Container Query Min）占比。取 cqw 和 cqh 中较小的一个
+* cqmax 表示容器查询较大尺寸的（Container Query Min）占比。取 cqw 和 cqh 中较大的一个
+
 
 
 

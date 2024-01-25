@@ -1,0 +1,162 @@
+<template><div><h2 id="vue3-3" tabindex="-1"><a class="header-anchor" href="#vue3-3" aria-hidden="true">#</a> vue3.3</h2>
+<p>该版本主要优化了开发体验，https://blog.vuejs.org/posts/vue-3-3描述</p>
+<h3 id="_1-setup语法糖和ts开发体验改进" tabindex="-1"><a class="header-anchor" href="#_1-setup语法糖和ts开发体验改进" aria-hidden="true">#</a> 1.setup语法糖和ts开发体验改进</h3>
+<h4 id="宏中的导入和复杂类型支持" tabindex="-1"><a class="header-anchor" href="#宏中的导入和复杂类型支持" aria-hidden="true">#</a> 宏中的导入和复杂类型支持</h4>
+<p>之前and的类型参数位置使用的类型<code v-pre>defineProps</code>仅限<code v-pre>defineEmits</code>于本地类型，只支持类型字面量和接口。这是因为 Vue 需要能够分析 props 接口上的属性，以便生成相应的运行时选项。</p>
+<p>此限制现已在 3.3 中解决。编译器现在可以解析导入的类型，并支持一组有限的复杂类型：</p>
+<div class="language-vue line-numbers-mode" data-ext="vue"><pre v-pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">import</span> type <span class="token punctuation">{</span> Props <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./foo'</span>
+
+<span class="token comment">// imported + intersection type</span>
+defineProps<span class="token operator">&lt;</span>Props <span class="token operator">&amp;</span> <span class="token punctuation">{</span> extraProp<span class="token operator">?</span><span class="token operator">:</span> string <span class="token punctuation">}</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>请注意，复杂类型支持是基于 AST 的，因此不是 100% 全面的。不支持某些需要实际类型分析的复杂类型，例如条件类型。您可以对单个 props 的类型使用条件类型，但不能对整个 props 对象使用。</p>
+<h3 id="_2-通用组件" tabindex="-1"><a class="header-anchor" href="#_2-通用组件" aria-hidden="true">#</a> 2.通用组件</h3>
+<p>使用的组件<code v-pre>&lt;script setup&gt;</code>现在可以通过属性接受通用类型参数<code v-pre>generic</code>：</p>
+<div class="language-vue line-numbers-mode" data-ext="vue"><pre v-pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span> <span class="token attr-name">generic</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>T<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+defineProps<span class="token operator">&lt;</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">items</span><span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token literal-property property">selected</span><span class="token operator">:</span> <span class="token constant">T</span>
+<span class="token punctuation">}</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>works的值<code v-pre>generic</code>与 TypeScript 中的参数列表 between 完全相同<code v-pre>&lt;...&gt;</code>。例如，您可以使用多个参数、<code v-pre>extends</code>约束、默认类型和引用导入类型：</p>
+<div class="language-vue line-numbers-mode" data-ext="vue"><pre v-pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span> <span class="token attr-name">generic</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>T extends string | number, U extends Item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">import</span> type <span class="token punctuation">{</span> Item <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./types'</span>
+defineProps<span class="token operator">&lt;</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token constant">T</span>
+  <span class="token literal-property property">list</span><span class="token operator">:</span> <span class="token constant">U</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>此功能以前需要明确选择加入，但现在在最新版本的 volar / vue-tsc 中默认启用。</p>
+<h3 id="_3-defineemits" tabindex="-1"><a class="header-anchor" href="#_3-defineemits" aria-hidden="true">#</a> 3.defineEmits</h3>
+<p>以前，for 的类型参数<code v-pre>defineEmits</code>仅支持调用签名语法：在类型文字中，键是事件名称，值是指定附加参数的数组类型。</p>
+<div class="language-TS line-numbers-mode" data-ext="TS"><pre v-pre class="language-TS"><code>// BEFORE
+const emit = defineEmits&lt;{
+  (e: 'foo', id: number): void
+  (e: 'bar', name: string, ...rest: any[]): void
+}&gt;()
+// AFTER
+const emit = defineEmits&lt;{
+  foo: [id: number]
+  bar: [name: string, ...rest: any[]]
+}&gt;()
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_4-defineslots" tabindex="-1"><a class="header-anchor" href="#_4-defineslots" aria-hidden="true">#</a> 4.defineSlots</h3>
+<div class="language-vue line-numbers-mode" data-ext="vue"><pre v-pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+defineSlots<span class="token operator">&lt;</span><span class="token punctuation">{</span>
+  <span class="token keyword">default</span><span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token literal-property property">props</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token literal-property property">msg</span><span class="token operator">:</span> string <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> any
+  item<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token literal-property property">props</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token literal-property property">id</span><span class="token operator">:</span> number <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> any
+<span class="token punctuation">}</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>defineSlots()</code>只接受类型参数，不接受运行时参数。类型参数应该是类型字面量，其中属性键是插槽名称，值是插槽函数。该函数的第一个参数是插槽期望接收的道具，其类型将用于模板中的插槽道具。的返回值<code v-pre>defineSlots</code>与从 返回的插槽对象相同<code v-pre>useSlots</code>。</p>
+<h3 id="_5-defineprops" tabindex="-1"><a class="header-anchor" href="#_5-defineprops" aria-hidden="true">#</a> 5.defineProps</h3>
+<p>解构赋值不会破坏其响应式</p>
+<div class="language-vue line-numbers-mode" data-ext="vue"><pre v-pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">import</span> <span class="token punctuation">{</span> watchEffect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> msg <span class="token operator">=</span> <span class="token string">'hello'</span> <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">defineProps</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'msg'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token function">watchEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// accessing `msg` in watchers and computed getters</span>
+  <span class="token comment">// tracks it as a dependency, just like accessing `props.msg`</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">msg is: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>msg<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>{{ msg }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_6-definemodel-双向绑定的v-model" tabindex="-1"><a class="header-anchor" href="#_6-definemodel-双向绑定的v-model" aria-hidden="true">#</a> 6.defineModel-双向绑定的v-model</h3>
+<p>以前，对于支持双向绑定的组件<code v-pre>v-model</code>，它需要声明一个 <code v-pre>prop</code> 和<code v-pre>update:propName</code>在它打算更新 prop 时发出相应的事件：</p>
+<div class="language-vue line-numbers-mode" data-ext="vue"><pre v-pre class="language-vue"><code><span class="token comment">&lt;!-- AFTER --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">const</span> modelValue <span class="token operator">=</span> <span class="token function">defineModel</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>modelValue<span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>modelValue<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_7-defineoptions" tabindex="-1"><a class="header-anchor" href="#_7-defineoptions" aria-hidden="true">#</a> 7.defineOptions</h3>
+<p>新defineOptions宏允许直接在 中声明组件选项<code v-pre>&lt;script setup&gt;</code>，而不需要单独的<code v-pre>&lt;script&gt;</code>块：</p>
+<div class="language-vue line-numbers-mode" data-ext="vue"><pre v-pre class="language-vue"><code>//before
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span> <span class="token literal-property property">inheritAttrs</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+//after
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+<span class="token function">defineOptions</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">inheritAttrs</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_8-toref和tovalue" tabindex="-1"><a class="header-anchor" href="#_8-toref和tovalue" aria-hidden="true">#</a> 8.toRef和toValue</h3>
+<p>提升了<code v-pre>toRef</code>调用效率，<code v-pre>toRef</code>和<code v-pre>toValue</code>类似于<code v-pre>ref</code>和<code v-pre>unref</code>最大区别在于特殊的处理<code v-pre>getter</code>上</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token comment">// 等价ref(1)</span>
+<span class="token function">toRef</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token comment">// creates a readonly ref that calls the getter on .value access</span>
+<span class="token function">toRef</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> props<span class="token punctuation">.</span>foo<span class="token punctuation">)</span>
+<span class="token keyword">const</span> newRef <span class="token operator">=</span> <span class="token function">toRef</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span>props<span class="token punctuation">.</span>foo<span class="token punctuation">)</span>
+<span class="token comment">//当我们使用newRef 就会调用toRef的回调，这个类似计算属性，但是相比计算属性来说，它不需要计算，效率相对高一些</span>
+<span class="token comment">// 返回现有的引用</span>
+<span class="token function">toRef</span><span class="token punctuation">(</span>existingRef<span class="token punctuation">)</span>
+
+<span class="token comment">// toValue </span>
+<span class="token function">toValue</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">//       --> 1</span>
+<span class="token function">toValue</span><span class="token punctuation">(</span><span class="token function">ref</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">//  --> 1</span>
+<span class="token function">toValue</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">// --> 1</span>
+<span class="token comment">//最大变化就是我们的自定义hooks可以接受getter作为响应数据源</span>
+<span class="token comment">//以前我们传数据给自定义hook</span>
+<span class="token function">useFeature</span><span class="token punctuation">(</span><span class="token function">computed</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> props<span class="token punctuation">.</span>foo<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token function">useFeature</span><span class="token punctuation">(</span><span class="token function">toRef</span><span class="token punctuation">(</span>props<span class="token punctuation">,</span> <span class="token string">'foo'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment">//现在直接</span>
+<span class="token function">useFeature</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> props<span class="token punctuation">.</span>foo<span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="vue3-4" tabindex="-1"><a class="header-anchor" href="#vue3-4" aria-hidden="true">#</a> Vue3.4</h2>
+<h3 id="解析器" tabindex="-1"><a class="header-anchor" href="#解析器" aria-hidden="true">#</a> 解析器</h3>
+<p>3.4版本解析器速度提升2倍，提高了 SFC 构建性能。
+之前版本Vue 使用递归下降解析器，该解析器依赖于许多正则表达式和前瞻搜索。新的解析器使用基于htmlparser2中的标记生成器的状态机标记生成器，它仅迭代整个模板字符串一次。</p>
+<h3 id="响应式上" tabindex="-1"><a class="header-anchor" href="#响应式上" aria-hidden="true">#</a> 响应式上</h3>
+<p>3.4 还对响应式系统进行了重大重构，目标是提高计算属性的重新计算效率。</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">ref</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> isEven <span class="token operator">=</span> <span class="token function">computed</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> count<span class="token punctuation">.</span>value <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span>
+
+<span class="token function">watchEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>isEven<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// logs true</span>
+
+count<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token number">2</span> <span class="token comment">// logs true again</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol>
+<li>之前版本的watchEffect每次count.value更改都会触发回调，即使计算结果保持不变。通过 3.4 后的优化，现在仅当计算结果实际发生更改时才会触发回调。</li>
+<li>多个计算的依赖 dep 更改仅触发同步效果一次。</li>
+<li>Array shift, unshift,splice方法仅触发一次同步效果。</li>
+</ol>
+<h3 id="definemodel" tabindex="-1"><a class="header-anchor" href="#definemodel" aria-hidden="true">#</a> defineModel</h3>
+<p>defineModel是一个新的<code v-pre>&lt;script setup&gt;</code>宏，旨在简化支持v-model，并在 3.4 中它还为v-model修饰符的使用提供了更好的支持。
+<strong>使用说明</strong></p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token comment">//  1.声明一个modelValue的属性，消费父组件v-model绑定的值</span>
+<span class="token keyword">const</span> model <span class="token operator">=</span> <span class="token function">defineModel</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">// 可以携带options</span>
+<span class="token keyword">const</span> model <span class="token operator">=</span> <span class="token function">defineModel</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">type</span><span class="token operator">:</span> String <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 现在直接修改值.value即可，相当于调用了emits "update:modelValue" </span>
+model<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">'hello'</span>
+
+<span class="token comment">// 声明父组件绑定的v-model:count='xxx'</span>
+<span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">defineModel</span><span class="token punctuation">(</span><span class="token string">'count'</span><span class="token punctuation">)</span>
+<span class="token comment">// 2。定义type和默认值</span>
+<span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">defineModel</span><span class="token punctuation">(</span><span class="token string">'count'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">type</span><span class="token operator">:</span> Number<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment">// 3.如果我们想获取v-model添加的修饰符，子组件中可以解构出来，第二个参数就是修饰符</span>
+<span class="token keyword">const</span> <span class="token punctuation">[</span>modelValue<span class="token punctuation">,</span> modelModifiers<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">defineModel</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">// 父组件v-model.trim='xxxx' 子组件eg:  modelModifiers.trim</span>
+
+<span class="token comment">//4.当存在修饰符时，我们可能需要在读取或将其同步回父元素时对其值进行转换。我们可以通过使用get和set转换器选项来实现这一点:</span>
+<span class="token keyword">const</span> <span class="token punctuation">[</span>modelValue<span class="token punctuation">,</span> modelModifiers<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">defineModel</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment">// get() 可以省略</span>
+  <span class="token function">set</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 如果trim修饰符存在就将值去掉作用空格返回同步回父组件</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>modelModifiers<span class="token punctuation">.</span>trim<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> value<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> value
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="v-bind同名缩写" tabindex="-1"><a class="header-anchor" href="#v-bind同名缩写" aria-hidden="true">#</a> v-bind同名缩写</h3>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">const</span> id <span class="token operator">=</span> <span class="token function">ref</span><span class="token punctuation">(</span><span class="token string">'23213'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token function">ref</span><span class="token punctuation">(</span><span class="token string">'name'</span><span class="token punctuation">)</span>
+<span class="token operator">&lt;</span>Test <span class="token operator">:</span>id <span class="token operator">:</span>name<span class="token operator">></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>主要的更新就是以上这些了～</p>
+<CommentService/></div></template>
+
+

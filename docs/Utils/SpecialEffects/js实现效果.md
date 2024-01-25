@@ -200,6 +200,265 @@ javascript:function getColor() {            return new Promise((resolve, reject)
 
 
 
+## Cavas工具
+
+### 图片压缩
+
+思路：
+
+1. 创建图像，然后用`FileReader`得到base64
+2. `canvas.toDataURL(file.raw?.type, imgQuality)`imgQuality就是图像质量，取值范围（0-1）
+
+~~~js
+const getBase64 = async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        if (!file) reject('文件不存在')
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = (e) => {
+            resolve(e.target?.result)
+        }
+        reader.onerror = (err) => {
+            reject(err)
+        }
+    })
+}
+const drawImage = (canvas: HTMLCanvasElement, img: HTMLImageElement) => {
+    console.log(img)
+    const ctx = canvas.getContext('2d')
+    canvas.width = img.width
+    canvas.height = img.height
+    ctx?.drawImage(img, 0, 0, img.width, img.height)
+}
+function downloadImage(img_url: string, file_name: string) {
+    const link = document.createElement('a');
+    link.href = img_url;
+    link.download = file_name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    location.reload()
+}
+export const CompressImage = async (file: UploadFile | UploadFile[], rest: any) => {
+    let imgWidth = 0
+    let imgHeight = 0
+    const getImageInfo = (base64_url: string): Promise<HTMLImageElement> => {
+        return new Promise((resolve, reject) => {
+            const img = new Image()
+            img.src = base64_url
+            img.onload = () => {
+                imgWidth = img.width
+                imgHeight = img.height
+                resolve(img)
+            }
+            img.onerror = (err) => {
+                reject(err)
+            }
+        })
+    }
+    const compress = (img: HTMLImageElement, file: UploadFile) => {
+        const canvas = document.createElement('canvas')
+        drawImage(canvas, img)
+        console.log(`压缩图片目前压缩等级为${rest.imgQuality.value}`)
+        const compress_img = canvas.toDataURL(file.raw?.type, rest.imgQuality.value)
+        downloadImage(compress_img, '压缩后照片')
+    }
+    const readerFile = (file: UploadFile) => {
+        return new Promise(async (r, j) => {
+            try {
+                const base64_url = await getBase64(file.raw!)
+                const img = await getImageInfo(base64_url)
+                compress(img, file)
+                r(null)
+
+            } catch (error) {
+                j(error)
+            }
+        })
+    }
+    return new Promise(async (r, j) => {
+        const isArr = Array.isArray(file)
+        if (isArr) {
+            file.forEach(async (f) => {
+                try {
+                    await readerFile(f)
+                } catch (error) {
+                    console.log(error)
+                }
+            })
+        } else {
+            await readerFile(file)
+        }
+    })
+}
+~~~
+
+
+
+
+
+### 图片水印
+
+思路：
+
+canvas上写上水印然后导出为base64下载即可。
+
+
+
+
+
+
+
+### 图片大小调整
+
+思路:利用pica.js库（这个库是将一个canvas调整为另一个canvas）可以实现图片大小修改
+
+~~~ts
+export function imageResize(file: UploadFile[], rest: { imgWidth: Ref<number>, imgHeight: Ref<number> }) {
+    const { imgHeight, imgWidth } = rest
+    function createImage(url: string): Promise<HTMLImageElement> {
+        return new Promise((resolve, reject) => {
+            const img = new Image()
+            img.src = url
+            img.onload = () =>  resolve(img)
+            img.onerror = (e) => reject(e)
+        })
+    }
+    const resize = (img: HTMLImageElement):Promise<HTMLCanvasElement> => {
+        return new Promise((resolve) => {
+            const from_canvas = document.createElement('canvas')
+            drawImage(from_canvas, img)
+            const to_canvas = document.createElement('canvas')
+            to_canvas.width = imgWidth.value || img.width
+            to_canvas.height = imgHeight.value || img.height
+            const pica = p()
+            pica.resize(from_canvas, to_canvas)
+                .then(resolve);
+        })
+    }
+    file.forEach(async (img) => {
+        try {
+            const base64 = await getBase64(img.raw!)
+            const image = await createImage(base64)
+            const resized_canvas = await resize(image)
+            const imageUrl = resized_canvas.toDataURL(img.raw?.type, 1)
+            document.querySelector('#preview')!.appendChild(resized_canvas)
+            downloadImage(imageUrl,'调整大小后的图片')    
+        } catch (error) {
+            console.error(error)
+        }
+    })
+}
+~~~
+
+
+
+### 前端展示代码
+
+~~~vue
+<template>
+    <div class="container">
+        <div class="form">
+            
+            <span>请输入宽</span><el-input style="margin:10px 0 10px 0;" v-model="imgWidth" placeholder="请输入宽" clearable />
+            <span>请输入高</span><el-input style="margin:10px 0 10px 0;" v-model="imgHeight" placeholder="请输入高" clearable />
+        </div>
+        <el-upload
+            v-model:file-list="fileList"
+            class="upload-demo"
+            :auto-upload="false"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            list-type="picture"
+        >
+            <el-button type="primary">选择图片</el-button>
+            <template #tip>
+                <div class="el-upload__tip">jpg/png的图片</div>
+            </template>
+        </el-upload>
+        <el-dialog v-model="dialogVisible">
+            <img w-full :src="previewImageUrl" alt="Preview Image" />
+        </el-dialog>
+        <div id="preview" >
+
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import {useImagesUitls, SignImage,imageResize} from '../composable';
+import {useResize} from './useResize'
+const {imgWidth,imgHeight} = useResize()
+document.title = '图片大小修改';
+const createOptions = () => {
+    return {
+        cb: imageResize,
+        imgWidth,
+        imgHeight
+    };
+};
+
+const {fileList, handleChange, handleRemove, handlePreview, dialogVisible, previewImageUrl} = useImagesUitls<{
+    cb: Function;
+}>(createOptions());
+</script>
+
+<style lang="scss" scoped>
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .slid-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+    }
+}
+</style>
+
+~~~
+
+在composable.ts
+
+~~~ts
+import { ref, watch, onBeforeUnmount, Ref } from 'vue'
+import type { UploadProps, UploadUserFile, UploadFile } from 'element-plus'
+import p from 'pica'
+export const useImagesUitls = <T>(options: T) => {
+    const dialogVisible = ref(false)
+    const previewImageUrl = ref('')
+    const fileList = ref<UploadUserFile[]>([])
+    const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
+        console.log(uploadFile, uploadFiles)
+    }
+    const handleChange = (e: UploadFile) => {
+    }
+    const handlePreview: UploadProps['onPreview'] = (file) => {
+        if (file?.url) {
+            dialogVisible.value = true
+            previewImageUrl.value = file.url
+        }
+    }
+    const cancelWatch = watch(fileList, (newV:UploadFile[]) => {
+        const { cb = () => { }, ...rest } = options
+        cb(newV, rest)
+    })
+    onBeforeUnmount(() => cancelWatch())
+    return {
+        fileList,
+        dialogVisible,
+        handleChange,
+        handleRemove,
+        previewImageUrl,
+        handlePreview,
+    }
+}
+~~~
+
+
+
 
 
 

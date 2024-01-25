@@ -94,7 +94,7 @@
 <p><code v-pre>pnpm init</code></p>
 </li>
 <li>
-<p>在<code v-pre>package.json</code>中加入</p>
+<p>在主包的<code v-pre>package.json</code>中加入</p>
 <ol>
 <li>
 <div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token string-property property">"script"</span><span class="token operator">:</span><span class="token punctuation">{</span>
@@ -128,7 +128,7 @@
 </ol>
 </li>
 <li>
-<p>修改子包的<code v-pre>package.json</code></p>
+<p><code v-pre>pnpm init</code>子包并修改子包的<code v-pre>package.json</code></p>
 <ol>
 <li>
 <div class="language-json line-numbers-mode" data-ext="json"><pre v-pre class="language-json"><code><span class="token punctuation">{</span>
@@ -160,7 +160,10 @@
 </ol>
 </li>
 <li>
-<p>执行<code v-pre>pnpm -F @yu/children_test add @yu/children_test2</code>加入依赖,然后可以在<code v-pre>children_test</code>中引用<code v-pre>children_test2</code>包中暴露的方法。</p>
+<p><code v-pre>pnpm add typescript -Dw</code>安装公共依赖</p>
+</li>
+<li>
+<p>执行<code v-pre>pnpm -F @yu/children_test add @yu/children_test2</code>加入依赖（F是过滤的意思，将<code v-pre>@yu/children_test2</code>包加入到<code v-pre>@yu/children_test</code>包依赖中）,然后可以在<code v-pre>children_test</code>中引用<code v-pre>children_test2</code>包中暴露的方法。</p>
 </li>
 <li>
 <p><code v-pre>npm login</code>登陆，然后安装<code v-pre>@changesets/cli</code>，这个是发<code v-pre>monorepo</code>包的工具(子包如果有多个，一个一个发很麻烦，该包可以帮我们批量发版)</p>
@@ -183,8 +186,8 @@
 <span class="token function">pnpm</span> changeset version
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
 </ol>
+<h2 id="" tabindex="-1"><a class="header-anchor" href="#" aria-hidden="true">#</a> </h2>
 </li>
-<li></li>
 </ol>
 <p>​</p>
 <CommentService/></div></template>

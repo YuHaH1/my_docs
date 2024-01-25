@@ -3,7 +3,10 @@
 <p>Git是目前世界上最先进的分布式版本控制系统（没有之一）。</p>
 <p>所有的版本控制系统，其实只能<strong>跟踪文本文件的改动</strong>，比如TXT文件，网页，所有的程序代码等等，Git也不例外。版本控制系统可以告诉你每次的改动，比如在第5行加了一个单词“Linux”，在第8行删了一个单词“Windows”。而图片、视频这些二进制文件，虽然也能由版本控制系统管理，但没法跟踪文件的变化，只能把二进制文件每次改动串起来，也就是只知道图片从100KB改成了120KB，但到底改了啥，版本控制系统不知道，也没法知道。</p>
 <h1 id="_1-基本操作步骤" tabindex="-1"><a class="header-anchor" href="#_1-基本操作步骤" aria-hidden="true">#</a> 1.基本操作步骤</h1>
-<h2 id="_1-0-生成ssh" tabindex="-1"><a class="header-anchor" href="#_1-0-生成ssh" aria-hidden="true">#</a> 1.0：生成ssh</h2>
+<h2 id="初始化name和email" tabindex="-1"><a class="header-anchor" href="#初始化name和email" aria-hidden="true">#</a> 初始化name和email</h2>
+<div class="language-txt line-numbers-mode" data-ext="txt"><pre v-pre class="language-txt"><code>git config --global user.name "余瑞"
+git config --global user.email "xxxx@qq.com"
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_1-0-生成ssh" tabindex="-1"><a class="header-anchor" href="#_1-0-生成ssh" aria-hidden="true">#</a> 1.0：生成ssh</h2>
 <p>生成公钥</p>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code>ssh-keygen <span class="token parameter variable">-t</span> rsa
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>将.ssh文件内的pub公钥配置到仓库中</p>
@@ -196,11 +199,9 @@ $ git cherry-pick 4c805e2
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h1 id="_3-概念" tabindex="-1"><a class="header-anchor" href="#_3-概念" aria-hidden="true">#</a> 3.概念</h1>
 <h2 id="_3-1-工作区和暂存区" tabindex="-1"><a class="header-anchor" href="#_3-1-工作区和暂存区" aria-hidden="true">#</a> 3.1：工作区和暂存区</h2>
 <h4 id="工作区-working-directory" tabindex="-1"><a class="header-anchor" href="#工作区-working-directory" aria-hidden="true">#</a> 工作区（Working Directory）</h4>
-<p>就是你在电脑里能看到的目录，比如我的<code v-pre>learngit</code>文件夹就是一个工作区：</p>
-<p>版本库</p>
-<p>工作区有一个隐藏目录<code v-pre>.git</code>，这个不算工作区，而是Git的版本库。</p>
-<p>Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支<code v-pre>master</code>，以及指向<code v-pre>master</code>的一个指针叫<code v-pre>HEAD</code>。</p>
-<p>前面讲了我们把文件往Git版本库里添加的时候，是分两步执行的</p>
+<p>就是你在电脑里能看到的目录，就是你创建的项目<code v-pre>git init</code>的根目录就是一个工作区：</p>
+<p>版本库Repository–工作区有一个隐藏目录<code v-pre>.git</code>，这个不算工作区，而是Git的版本库。Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支<code v-pre>master</code>，以及指向<code v-pre>master</code>的一个指针叫<code v-pre>HEAD</code>。</p>
+<p>我们把文件往Git版本库里添加的时候，是分两步执行的：</p>
 <p>第一步是用<code v-pre>git add</code>把文件添加进去，实际上就是把文件修改添加到暂存区；</p>
 <p>第二步是用<code v-pre>git commit</code>提交更改，实际上就是把暂存区的所有内容提交到当前分支。</p>
 <p>因为我们创建Git版本库时，Git自动为我们创建了唯一一个<code v-pre>master</code>分支，所以，现在，<code v-pre>git commit</code>就是往<code v-pre>master</code>分支上提交更改。</p>
@@ -214,6 +215,91 @@ $ git cherry-pick 4c805e2
 <p>3.输入：ssh-keygen -t rsa -C &quot;xxxx@xxxx.com&quot;(xxx为上一句输入的邮箱地址)语句，回车之后生成SSH key，后面出现让输入口令的语句，直接按回车即可，如下图所示，这样系统路径下就生成了两个文件：id_rsa和id_rsa.pub</p>
 <p>4.点击个人工程，然后进入新的页面，在该页面点击profile setting，打开profile setting，选择SSH key这个选项，如下图所示</p>
 <p>5.将生成的SSH key添加到账户里，在SSH Keys页面里，在页面的右上角点击添加add SSH keys，将之前生成的两个文件中的id_rsa.pub文件里的内容粘贴到key文本框里，title会自动生成，再点击add key，这样key就添加成功了。</p>
+<h1 id="实操" tabindex="-1"><a class="header-anchor" href="#实操" aria-hidden="true">#</a> 实操</h1>
+<h2 id="版本回退操作撤销commit" tabindex="-1"><a class="header-anchor" href="#版本回退操作撤销commit" aria-hidden="true">#</a> 版本回退操作撤销commit</h2>
+<h3 id="git-reset-hard" tabindex="-1"><a class="header-anchor" href="#git-reset-hard" aria-hidden="true">#</a> <code v-pre>git reset --hard</code></h3>
+<p>①<code v-pre>git reset --hard HEAD^</code> 首先，Git必须知道当前版本是哪个版本，在Git中，用<code v-pre>HEAD</code>表示当前版本，也就是最新的提交<code v-pre>HEAD^</code>,上上一个版本就是<code v-pre>HEAD^^</code>，当然往上100个版本写100个<code v-pre>^</code>比较容易数不过来，所以写成<code v-pre>HEAD~100</code>。</p>
+<p>使用这个命令<code v-pre>git log</code></p>
+<div class="language-txt line-numbers-mode" data-ext="txt"><pre v-pre class="language-txt"><code> git log
+commit 91a52ac4529c2859f719165706fbe94224bc211a (HEAD -> master)
+Author: 余瑞 &lt;1074121761@qq.com>
+Date:   Thu Jan 25 11:36:43 2024 +0800
+
+    bbbb
+
+commit acc55939b31648f88752729c421f52b3ff587d33 (origin/master)
+Author: 余瑞 &lt;1074121761@qq.com>
+Date:   Thu Jan 25 11:35:07 2024 +0800
+
+    first
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre>log</code>顺序是从上到下，第一个最近的<code v-pre>commit</code>。我们现在执行回退命令，然后再执行<code v-pre>git log</code></p>
+<div class="language-txt line-numbers-mode" data-ext="txt"><pre v-pre class="language-txt"><code>commit acc55939b31648f88752729c421f52b3ff587d33 (HEAD -> master, origin/master)
+Author: 余瑞 &lt;1074121761@qq.com>
+Date:   Thu Jan 25 11:35:07 2024 +0800
+
+    first
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><img src="/Git/reset_hard.png" alt=""></p>
+<p>总结：且本地新增的bbb.md文件也被删除了，也就是说-hard回退，会将暂存区日志删掉，本地工作区内容也会删掉,因此<strong>慎用</strong>。</p>
+<h4 id="如何恢复–hard回退的内容呢" tabindex="-1"><a class="header-anchor" href="#如何恢复–hard回退的内容呢" aria-hidden="true">#</a> 如何恢复–hard回退的内容呢</h4>
+<p>Git提供了一个命令<code v-pre>git reflog</code>用来记录你的每一次命令。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code> <span class="token function">git</span> reflog
+acc5593 <span class="token punctuation">(</span>HEAD -<span class="token operator">></span> master, origin/master<span class="token punctuation">)</span> HEAD@<span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span>: reset: moving to HEAD^
+91a52ac HEAD@<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">}</span>: commit: bbbb
+acc5593 <span class="token punctuation">(</span>HEAD -<span class="token operator">></span> master, origin/master<span class="token punctuation">)</span> HEAD@<span class="token punctuation">{</span><span class="token number">2</span><span class="token punctuation">}</span>: commit <span class="token punctuation">(</span>initial<span class="token punctuation">)</span>: first
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>此时执行<code v-pre>git reset --hard 91a52ac</code>就恢复了</p>
+<h3 id="git-reset-mixed" tabindex="-1"><a class="header-anchor" href="#git-reset-mixed" aria-hidden="true">#</a> <code v-pre>git reset --mixed </code></h3>
+<p>如果不加<code v-pre>--</code>参数默认执行的<code v-pre>--mixed</code></p>
+<p>我们先<code v-pre>git log</code>看一下</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">git</span> log
+commit 91a52ac4529c2859f719165706fbe94224bc211a <span class="token punctuation">(</span>HEAD -<span class="token operator">></span> master<span class="token punctuation">)</span>
+Author: 余瑞 <span class="token operator">&lt;</span><span class="token number">1074121761</span>@qq.com<span class="token operator">></span>
+Date:   Thu Jan <span class="token number">25</span> <span class="token number">11</span>:36:43 <span class="token number">2024</span> +0800
+
+    bbbb
+
+commit acc55939b31648f88752729c421f52b3ff587d33 <span class="token punctuation">(</span>origin/master<span class="token punctuation">)</span>
+Author: 余瑞 <span class="token operator">&lt;</span><span class="token number">1074121761</span>@qq.com<span class="token operator">></span>
+Date:   Thu Jan <span class="token number">25</span> <span class="token number">11</span>:35:07 <span class="token number">2024</span> +0800
+
+    first
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>然后我们执行<code v-pre>git reset HEAD^ </code>,相当于执行了<code v-pre>git reset --mixed HEAD^ </code>。然后再执行<code v-pre>git log</code>看一下，我们可以看到撤销了<code v-pre>commit</code>的记录，但<strong>工作区的内容给我们保留了</strong>。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">git</span> reset HEAD^       
+PS D:<span class="token punctuation">\</span>A_my_codes<span class="token punctuation">\</span>git<span class="token operator">></span> <span class="token function">git</span> log    
+commit acc55939b31648f88752729c421f52b3ff587d33 <span class="token punctuation">(</span>HEAD -<span class="token operator">></span> master, origin/master<span class="token punctuation">)</span>
+Author: 余瑞 <span class="token operator">&lt;</span><span class="token number">1074121761</span>@qq.com<span class="token operator">></span>
+Date:   Thu Jan <span class="token number">25</span> <span class="token number">11</span>:35:07 <span class="token number">2024</span> +0800
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><img src="/Git/reset_mixed.png" alt=""></p>
+<h3 id="git-reset-soft" tabindex="-1"><a class="header-anchor" href="#git-reset-soft" aria-hidden="true">#</a> <code v-pre>git reset --soft</code></h3>
+<p><code v-pre>git log</code>先看一下，我们提交了create bbb.md。</p>
+<div class="language-shellgit line-numbers-mode" data-ext="shellgit"><pre v-pre class="language-shellgit"><code>commit 152fe868eede4afda8e4dca59ba6353f5511c202 (HEAD -&gt; master)
+Author: 余瑞 &lt;1074121761@qq.com&gt;
+Date:   Thu Jan 25 11:56:13 2024 +0800
+
+    create bbb.md
+
+commit acc55939b31648f88752729c421f52b3ff587d33 (origin/master)
+Author: 余瑞 &lt;1074121761@qq.com&gt;
+Date:   Thu Jan 25 11:35:07 2024 +0800
+
+    first
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>然后我们执行<code v-pre>git reset --soft HEAD^</code>然后再<code v-pre>git log</code>看一下，可以看到撤销了commit并且工作区内容保留着，此外，我们执行<code v-pre>git status</code>可以看到,<code v-pre>–soft</code>参数会保留暂存区的内容。也就是<code v-pre>git add</code>的。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">git</span> log
+commit acc55939b31648f88752729c421f52b3ff587d33 <span class="token punctuation">(</span>HEAD -<span class="token operator">></span> master, origin/master<span class="token punctuation">)</span>
+Author: 余瑞 <span class="token operator">&lt;</span><span class="token number">1074121761</span>@qq.com<span class="token operator">></span>
+Date:   Thu Jan <span class="token number">25</span> <span class="token number">11</span>:35:07 <span class="token number">2024</span> +0800
+
+    first
+    
+ <span class="token function">git</span> status
+On branch master
+Your branch is up to <span class="token function">date</span> with <span class="token string">'origin/master'</span><span class="token builtin class-name">.</span>
+
+Changes to be committed:
+  <span class="token punctuation">(</span>use <span class="token string">"git restore --staged &lt;file>..."</span> to unstage<span class="token punctuation">)</span>
+        new file:   bbb.md    
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h1 id="问题" tabindex="-1"><a class="header-anchor" href="#问题" aria-hidden="true">#</a> 问题</h1>
+<h2 id="vscode终端无法使用git" tabindex="-1"><a class="header-anchor" href="#vscode终端无法使用git" aria-hidden="true">#</a> VSCODE终端无法使用git</h2>
+<p>在setting.json中配置git.path指向&quot;C:\Program Files\Git\bin\git.exe&quot;路径即可</p>
 <CommentService/></div></template>
 
 

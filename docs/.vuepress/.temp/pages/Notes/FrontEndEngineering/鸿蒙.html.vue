@@ -37,6 +37,37 @@
 </tbody>
 </table>
 <p><a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/application-component-configuration-stage-0000001478340869-V3" target="_blank" rel="noopener noreferrer">应用/组件配置<ExternalLinkIcon/></a></p>
+<h2 id="方舟编译器" tabindex="-1"><a class="header-anchor" href="#方舟编译器" aria-hidden="true">#</a> 方舟编译器</h2>
+<p>ArkCompiler利用ArkTS的静态类型信息，进行类型推导并生成对象描述和内联缓存，加速运行时对字节码的解释执行；AOT（Ahead-of-Time）Compiler利用静态类型信息直接将字节码编译生成优化机器码，让应用启动即可运行高性能代码，提升应用启动和运行性能。</p>
+<p><img src="https://developer.huawei.com/images/new-content/develop/ArkCompiler/arkcompiler-1-1103.gif" alt=""></p>
+<p>支持多种编程语言、多种芯片平台联合编译、运行而设计的统一编译运行时平台。支持 包括动态类型和静态类型语言在内的多种编程语言，如 ArkTS、TS、JS。</p>
+<p><img src="/HarmonyOS/fangzhou.png" alt=""></p>
+<p>①<strong>方舟编译器分成两个部分。</strong></p>
+<ul>
+<li>编译工具链（负责将ArkTS/TS/JS源码编译生成方舟字节码）</li>
+<li>运行时（直接运行字节码文件）</li>
+</ul>
+<p>②<strong>方舟的特点</strong></p>
+<ul>
+<li><strong>原生支持TS</strong>，不需要将TS转成JS。方舟编译器的编译工具链编译 TS 源码时，会分析推导 TS 的类型信息并将其传递给运行时。运行时直接使用类型信息在运行前预生成内联缓 存 （Inline Cache ）以加速字节码执行。另外， TSAOT（ Ahead-of-Time ） Compiler，可以利用字节码文件中的类型信息，直接编译生成优化机器码，使得应 用可以直接运行优化机器码，获得高性能运行体验。</li>
+<li>**并发模型优化，**ECMAScript 规范没有提供并发语义表述，业界引擎，如 浏览器或者 Node.js，通常会提供基于 Actor 并发模型的 Worker API 来支持多线 程开发。Actor 模型下执行体之间不共享任何数据对象，通过消息机制进行通信。 因此 Web 引擎或者 Node.js 引擎的 Worker 都有启动速度慢、内存占用高这些问 题。针对这些问题，方舟编译器运行时已经实现了 Actor 实例中的不可变或者不易 变的对象（方法和字节码）的共享，较大程度地优化了 Actor 的启动性能和启动内 存。</li>
+<li><strong>便利的并发API，</strong>：方舟编译运行时不只提供了业界通用的 Worker API，还提供了 TaskPool，作为并发 API 的增强。TaskPool 是一个支持优先级调度、工作线程自 动扩缩容的任务池功能库。开发者无需关心并发实例的生命周期，也无需关心任务负载变化时需要创建或者销毁并发实例，极大地简化了高性能多线程鸿蒙应用的开发。</li>
+<li>**代码安全，**方舟编译器前端编译工具链将 ArkTS/TS/JS 程序预先静态编译为方舟字节码， 并且还提供了多重混淆能力的增强，有效地提升了开发者代码资产的安全强度。同 时出于安全的考虑，ArkCompiler 不支持宽松模式的 JS 代码，也不支持 eval 等 运行动态字符串的功能。</li>
+</ul>
+<p>③<strong>方舟工具链</strong></p>
+<p>传统的 JS 程序开发中，应用程序往往带的是经过前端打包工具处理过的 JS bundle 文 件，在程序运行阶段进行解释执行；这种运行方式需要设备有强大的计算能力。鸿蒙系统能 够支持的设备范围广泛，覆盖从低端的 IoT 设备到高性能手机设备。采用传统的方式，无法 保证多类型设备的体验一致性。</p>
+<p>在鸿蒙开发环境中，应用代码是通过前端编译器完成编译的。前端编译器按照语言规范 解析源代码，编译成方舟运行时能够理解的二进制字节码格式（ABC，ArkCompiler ByteCode），最后打包到应用中。前端编译器是鸿蒙应用框架与其它 JS 应用框架最主要的 差别之一。下图展示了两种编译运行方式的差别，方舟前端工具链把解析源码、编译字节码 的过程从运行时迁移到编译时，降低运行时的开销。</p>
+<p><img src="/HarmonyOS/runtime_compiler.png" alt=""></p>
+<p>前端编译器负责将 ArkTS 代码编译成方舟字节码 ABC，鸿蒙生态应用编译流程中，分 为两种编译模式。分别是 bundle 和 esmodule 编译模式。两者的区别主要在源码文件的处理上，bundle 编译把各个有依赖关系的源代码通过打包方式打成一个 bundle 文件，然后 通过前端编译器编译成 ABC 字节码文件；而 esmodule 编译是保持用户写的 ArkTS 模块不变，通过前端编译器编译成 ABC 字节码文件，字节码文件内保留各个模块的代码段，依赖关系等信息；当前推荐开发者使用 esmodule 模式，保持模块语义。</p>
+<p>前端编译器是根据输入的 ArkTS 源码，进行词法，语法解析、转换、编译、输出字节码 文件；在这个过程中会提取代码中标注的类型信息，进行类型检查，类型绑定，最终作为元 数据生成到字节码 ABC 文件中。</p>
+<p><img src="/HarmonyOS/font_compile.png" alt=""></p>
+<ul>
+<li>解析：前端编译器读取 ArkTS 源码，进行词法，语法解析，输出抽象语法树（AST）</li>
+<li>转换：前端编译器识别语法糖，转换成基础语法</li>
+<li>编译：根据抽象语法树，生成对应的中间表示（IR）</li>
+<li>输出：收集 IR，字符资源，常量，等各种元素，按照 ABC 文件格式生成字节码文件</li>
+<li>优化：读取 ABC 文件中的字节码信息，生成 IR 表示，进行优化处理，重新生成更 优的字节码文件。</li>
+</ul>
 <h2 id="工程目录" tabindex="-1"><a class="header-anchor" href="#工程目录" aria-hidden="true">#</a> 工程目录</h2>
 <ul>
 <li>AppScope中存放应用全局所需要的资源文件。</li>
@@ -188,6 +219,9 @@
 <p>src/main/resources/base/profile/main_pages.json文件保存的是页面page的路径配置信息，所有需要进行路由跳转的page页面都要在这里进行配置。</p>
 <h2 id="arkts" tabindex="-1"><a class="header-anchor" href="#arkts" aria-hidden="true">#</a> ArkTS</h2>
 <p>ArkTs继承了TS的所有特性，是TS的超集，在Ts基础上扩展了声明式UI</p>
+<p>ArkUI 框架提供给开发者两种开发方式：基于 ArkTS 的声明式开发范式和基于 JS 扩展 的类 Web 开发范式。声明式开发范式更加简洁高效，类 Web 开发范式对 Web 及前端开发 者更友好。</p>
+<p><strong>推荐使用声明式开发范式</strong></p>
+<p>在声明式开发范式模式下，通过语言增强、渲染管线扁平化，最小化更新等手段，在功 能和性能方面对比类 Web 开发范式有了全面提升。采用声明式开发范式进行应用开发，相 同场景下，对比类 Web 开发范式代码更为精简，并且在性能、内存方面进一步优化提升。 另外 ArkUI 框架还提供了 API 扩展机制，通过此种机制进行封装风格统一的 JS 接口。</p>
 <h3 id="基础语法" tabindex="-1"><a class="header-anchor" href="#基础语法" aria-hidden="true">#</a> 基础语法</h3>
 <p>先来看官方给的基本组成</p>
 <p><img src="/HarmonyOS/composition.png" alt=""></p>
@@ -3094,6 +3128,162 @@ struct ComNav <span class="token punctuation">{</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="性能优化" tabindex="-1"><a class="header-anchor" href="#性能优化" aria-hidden="true">#</a> 性能优化</h2>
+<h3 id="尽量用row-column代替flex" tabindex="-1"><a class="header-anchor" href="#尽量用row-column代替flex" aria-hidden="true">#</a> 尽量用Row/Column代替flex</h3>
+<p>①<strong>原因</strong></p>
+<p>由于Flex容器组件默认情况下存在shrink导致二次布局，这会在一定程度上造成页面渲染上的性能劣化。</p>
+<p>Flex容器组件中的shrink属性是指在空间不足时，容器内的项目是否可以收缩以适应剩余空间。默认情况下，项目会根据其默认的shrink值进行收缩。如果项目的shrink值为1，那么在空间不足时，项目将按比例收缩，以适应剩余空间。</p>
+<p>当Flex容器中的项目过多或者项目的shrink值设置不合理时，就会出现二次布局的情况。二次布局指的是当项目收缩后，容器的尺寸可能会发生变化，导致浏览器需要重新计算和绘制布局。这种额外的计算和绘制过程会对页面渲染性能造成一定的劣化。</p>
+<h3 id="数据懒加载" tabindex="-1"><a class="header-anchor" href="#数据懒加载" aria-hidden="true">#</a> 数据懒加载</h3>
+<p>开发者在使用长列表时，如果直接采用循环渲染方式，如下所示，会一次性加载所有的列表元素，一方面会导致页面启动时间过长，影响用户体验，另一方面也会增加服务器的压力和流量，加重系统负担。</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">class</span> <span class="token class-name">BasicDataSource</span> <span class="token keyword">implements</span> <span class="token class-name">IDataSource</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> listeners<span class="token operator">:</span> DataChangeListener<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+  <span class="token keyword">public</span> <span class="token function">totalCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">number</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token number">0</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token function">getData</span><span class="token punctuation">(</span>index<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">any</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">undefined</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">registerDataChangeListener</span><span class="token punctuation">(</span>listener<span class="token operator">:</span> DataChangeListener<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>listeners<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>listener<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">'add listener'</span><span class="token punctuation">)</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>listeners<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>listener<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">unregisterDataChangeListener</span><span class="token punctuation">(</span>listener<span class="token operator">:</span> DataChangeListener<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> pos <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>listeners<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>listener<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>pos <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">'remove listener'</span><span class="token punctuation">)</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>listeners<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>pos<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">notifyDataReload</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>listeners<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>listener <span class="token operator">=></span> <span class="token punctuation">{</span>
+      listener<span class="token punctuation">.</span><span class="token function">onDataReloaded</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">notifyDataAdd</span><span class="token punctuation">(</span>index<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>listeners<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>listener <span class="token operator">=></span> <span class="token punctuation">{</span>
+      listener<span class="token punctuation">.</span><span class="token function">onDataAdd</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">notifyDataChange</span><span class="token punctuation">(</span>index<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>listeners<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>listener <span class="token operator">=></span> <span class="token punctuation">{</span>
+      listener<span class="token punctuation">.</span><span class="token function">onDataChange</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">notifyDataDelete</span><span class="token punctuation">(</span>index<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>listeners<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>listener <span class="token operator">=></span> <span class="token punctuation">{</span>
+      listener<span class="token punctuation">.</span><span class="token function">onDataDelete</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">notifyDataMove</span><span class="token punctuation">(</span>from<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> to<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>listeners<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>listener <span class="token operator">=></span> <span class="token punctuation">{</span>
+      listener<span class="token punctuation">.</span><span class="token function">onDataMove</span><span class="token punctuation">(</span>from<span class="token punctuation">,</span> to<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">MyDataSource</span> <span class="token keyword">extends</span> <span class="token class-name">BasicDataSource</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> dataArray<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'item value: 0'</span><span class="token punctuation">,</span> <span class="token string">'item value: 1'</span><span class="token punctuation">,</span> <span class="token string">'item value: 2'</span><span class="token punctuation">]</span>
+
+  <span class="token keyword">public</span> <span class="token function">totalCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">number</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>dataArray<span class="token punctuation">.</span>length
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token function">getData</span><span class="token punctuation">(</span>index<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">any</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>dataArray<span class="token punctuation">[</span>index<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token function">addData</span><span class="token punctuation">(</span>index<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> data<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>dataArray<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> data<span class="token punctuation">)</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">notifyDataAdd</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token function">pushData</span><span class="token punctuation">(</span>data<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>dataArray<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">notifyDataAdd</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>dataArray<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Entry</span></span>
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Component</span></span>
+struct MyComponent <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> data<span class="token operator">:</span> MyDataSource <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyDataSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">List</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">LazyForEach</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">,</span> <span class="token punctuation">(</span>item<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token function">ListItem</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">Row</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">Text</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fontSize</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">margin</span><span class="token punctuation">(</span><span class="token punctuation">{</span> left<span class="token operator">:</span> <span class="token number">10</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">.</span><span class="token function">onClick</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span><span class="token function">pushData</span><span class="token punctuation">(</span><span class="token string">'item value: '</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span><span class="token function">totalCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> item <span class="token operator">=></span> item<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="设置list组件宽高" tabindex="-1"><a class="header-anchor" href="#设置list组件宽高" aria-hidden="true">#</a> 设置List组件宽高</h3>
+<p>在使用Scroll容器组件嵌套List组件加载长列表时，若不指定List的宽高尺寸，则默认全部加载。</p>
+<ul>
+<li>List没有设置宽高，会布局List的所有子组件。</li>
+<li>List设置宽高，会布局List显示区域内的子组件。</li>
+<li>List使用<a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/arkts-rendering-control-foreach-0000001524537153-V3" target="_blank" rel="noopener noreferrer">ForEach<ExternalLinkIcon/></a>加载子组件时，无论是否设置List的宽高，都会加载所有子组件。</li>
+<li>List使用<a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/arkts-rendering-control-lazyforeach-0000001524417213-V3" target="_blank" rel="noopener noreferrer">LazyForEach<ExternalLinkIcon/></a>加载子组件时，没有设置List的宽高，会加载所有子组件，设置了List的宽高，会加载List显示区域内的子组件。</li>
+</ul>
+<h3 id="用条件渲染代替显示隐藏" tabindex="-1"><a class="header-anchor" href="#用条件渲染代替显示隐藏" aria-hidden="true">#</a> 用条件渲染代替显示隐藏</h3>
+<p>在使用visibility通用属性控制组件的显隐状态时，仍存在组件的重新创建过程，造成性能上的损耗。</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token decorator"><span class="token at operator">@</span><span class="token function">Entry</span></span>
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Component</span></span>
+struct MyComponent <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">State</span></span> isVisible<span class="token operator">:</span> Visibility <span class="token operator">=</span> Visibility<span class="token punctuation">.</span>Visible<span class="token punctuation">;</span>
+
+  <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">Column</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">Button</span><span class="token punctuation">(</span><span class="token string">"显隐切换"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">onClick</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>isVisible <span class="token operator">==</span> Visibility<span class="token punctuation">.</span>Visible<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>isVisible <span class="token operator">=</span> Visibility<span class="token punctuation">.</span>None
+          <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>isVisible <span class="token operator">=</span> Visibility<span class="token punctuation">.</span>Visible
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token function">Row</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">visibility</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>isVisible<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">width</span><span class="token punctuation">(</span><span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">height</span><span class="token punctuation">(</span><span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">backgroundColor</span><span class="token punctuation">(</span>Color<span class="token punctuation">.</span>Pink<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token function">width</span><span class="token punctuation">(</span><span class="token string">'100%'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 优化</span>
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Entry</span></span>
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Component</span></span>
+struct MyComponent <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">State</span></span> isVisible<span class="token operator">:</span> <span class="token builtin">boolean</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+  <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">Column</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">Button</span><span class="token punctuation">(</span><span class="token string">"显隐切换"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">onClick</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>isVisible <span class="token operator">=</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>isVisible
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>isVisible<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">Row</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">width</span><span class="token punctuation">(</span><span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">height</span><span class="token punctuation">(</span><span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">backgroundColor</span><span class="token punctuation">(</span>Color<span class="token punctuation">.</span>Pink<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token function">width</span><span class="token punctuation">(</span><span class="token string">'100%'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
 
 

@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-2386a9ca","path":"/Interview/JavaScript/","title":"dy_form","lang":"zh-CN","frontmatter":{},"headers":[],"git":{},"filePathRelative":"Interview/JavaScript/README.md"}');export{t as data};

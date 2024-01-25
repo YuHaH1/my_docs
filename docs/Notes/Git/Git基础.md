@@ -16,6 +16,15 @@ Git是目前世界上最先进的分布式版本控制系统（没有之一）�
 
 # 1.基本操作步骤
 
+## 初始化name和email
+
+~~~txt
+git config --global user.name "余瑞"
+git config --global user.email "xxxx@qq.com"
+~~~
+
+
+
 ## 1.0：生成ssh
 
 生成公钥
@@ -434,15 +443,11 @@ $ git checkout -b dev origin/dev
 
 #### 工作区（Working Directory）
 
-就是你在电脑里能看到的目录，比如我的`learngit`文件夹就是一个工作区：
+就是你在电脑里能看到的目录，就是你创建的项目`git init`的根目录就是一个工作区：
 
-版本库
+版本库Repository–工作区有一个隐藏目录`.git`，这个不算工作区，而是Git的版本库。Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支`master`，以及指向`master`的一个指针叫`HEAD`。
 
-工作区有一个隐藏目录`.git`，这个不算工作区，而是Git的版本库。
-
-Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支`master`，以及指向`master`的一个指针叫`HEAD`。
-
-前面讲了我们把文件往Git版本库里添加的时候，是分两步执行的
+我们把文件往Git版本库里添加的时候，是分两步执行的：
 
 第一步是用`git add`把文件添加进去，实际上就是把文件修改添加到暂存区；
 
@@ -475,6 +480,189 @@ git config --global user.email "xxxxx@xx.com"
 4.点击个人工程，然后进入新的页面，在该页面点击profile setting，打开profile setting，选择SSH key这个选项，如下图所示
 
 5.将生成的SSH key添加到账户里，在SSH Keys页面里，在页面的右上角点击添加add SSH keys，将之前生成的两个文件中的id_rsa.pub文件里的内容粘贴到key文本框里，title会自动生成，再点击add key，这样key就添加成功了。
+
+
+
+
+
+# 实操
+
+## 版本回退操作撤销commit
+
+### `git reset --hard`
+
+①`git reset --hard HEAD^` 首先，Git必须知道当前版本是哪个版本，在Git中，用`HEAD`表示当前版本，也就是最新的提交`HEAD^`,上上一个版本就是`HEAD^^`，当然往上100个版本写100个`^`比较容易数不过来，所以写成`HEAD~100`。
+
+使用这个命令`git log`
+
+~~~txt
+ git log
+commit 91a52ac4529c2859f719165706fbe94224bc211a (HEAD -> master)
+Author: 余瑞 <1074121761@qq.com>
+Date:   Thu Jan 25 11:36:43 2024 +0800
+
+    bbbb
+
+commit acc55939b31648f88752729c421f52b3ff587d33 (origin/master)
+Author: 余瑞 <1074121761@qq.com>
+Date:   Thu Jan 25 11:35:07 2024 +0800
+
+    first
+~~~
+
+`log`顺序是从上到下，第一个最近的`commit`。我们现在执行回退命令，然后再执行`git log`
+
+~~~txt
+commit acc55939b31648f88752729c421f52b3ff587d33 (HEAD -> master, origin/master)
+Author: 余瑞 <1074121761@qq.com>
+Date:   Thu Jan 25 11:35:07 2024 +0800
+
+    first
+~~~
+
+![](/Git/reset_hard.png)
+
+总结：且本地新增的bbb.md文件也被删除了，也就是说-hard回退，会将暂存区日志删掉，本地工作区内容也会删掉,因此**慎用**。
+
+#### 如何恢复–hard回退的内容呢
+
+Git提供了一个命令`git reflog`用来记录你的每一次命令。
+
+~~~shell
+ git reflog
+acc5593 (HEAD -> master, origin/master) HEAD@{0}: reset: moving to HEAD^
+91a52ac HEAD@{1}: commit: bbbb
+acc5593 (HEAD -> master, origin/master) HEAD@{2}: commit (initial): first
+~~~
+
+此时执行`git reset --hard 91a52ac`就恢复了
+
+
+
+### `git reset --mixed `
+
+如果不加`--`参数默认执行的`--mixed`
+
+我们先`git log`看一下
+
+~~~shell
+git log
+commit 91a52ac4529c2859f719165706fbe94224bc211a (HEAD -> master)
+Author: 余瑞 <1074121761@qq.com>
+Date:   Thu Jan 25 11:36:43 2024 +0800
+
+    bbbb
+
+commit acc55939b31648f88752729c421f52b3ff587d33 (origin/master)
+Author: 余瑞 <1074121761@qq.com>
+Date:   Thu Jan 25 11:35:07 2024 +0800
+
+    first
+~~~
+
+然后我们执行`git reset HEAD^ `,相当于执行了`git reset --mixed HEAD^ `。然后再执行`git log`看一下，我们可以看到撤销了`commit`的记录，但**工作区的内容给我们保留了**。
+
+~~~shell
+git reset HEAD^       
+PS D:\A_my_codes\git> git log    
+commit acc55939b31648f88752729c421f52b3ff587d33 (HEAD -> master, origin/master)
+Author: 余瑞 <1074121761@qq.com>
+Date:   Thu Jan 25 11:35:07 2024 +0800
+~~~
+
+![](/Git/reset_mixed.png)
+
+### `git reset --soft`
+
+`git log`先看一下，我们提交了create bbb.md。
+
+~~~shellgit log    
+commit 152fe868eede4afda8e4dca59ba6353f5511c202 (HEAD -> master)
+Author: 余瑞 <1074121761@qq.com>
+Date:   Thu Jan 25 11:56:13 2024 +0800
+
+    create bbb.md
+
+commit acc55939b31648f88752729c421f52b3ff587d33 (origin/master)
+Author: 余瑞 <1074121761@qq.com>
+Date:   Thu Jan 25 11:35:07 2024 +0800
+
+    first
+~~~
+
+然后我们执行`git reset --soft HEAD^`然后再`git log`看一下，可以看到撤销了commit并且工作区内容保留着，此外，我们执行`git status`可以看到,`–soft`参数会保留暂存区的内容。也就是`git add`的。
+
+~~~shell
+git log
+commit acc55939b31648f88752729c421f52b3ff587d33 (HEAD -> master, origin/master)
+Author: 余瑞 <1074121761@qq.com>
+Date:   Thu Jan 25 11:35:07 2024 +0800
+
+    first
+    
+ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   bbb.md    
+~~~
+
+### 撤销修改
+
+撤销修改分两种情况：
+
+1. 修改后没有执行`git add`放到暂存区，现在只要撤销修改就和版本库的一样了。
+2. 已经执行了`git add`添加到暂存区了，现在撤销修改就回到添加暂存区后的状态。
+
+#### 撤销暂存区的修改
+
+我们先git status查看一下当前状态。
+
+~~~shell
+ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   bbb.md
+~~~
+
+` git reset HEAD <file>` 命令既可以回退版本，也可以把暂存区的修改回退到工作区。当我们用`HEAD`时，表示最新的版本。`git restore --staged <file>`同样也可以将暂存区修改回退到工作区。我们挑一个命令执行然后再看一下状态。
+
+~~~shell
+git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        bbb.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+~~~
+
+
+
+
+
+
+
+#### 撤销工作区（本地）的修改
+
+`git checkout -- file`命令中的`--`很重要，没有`--`，就变成了“切换到另一个分支”的命令，我们在后面的分支管理中会再次遇到`git checkout`命令。
+
+# 问题
+
+## VSCODE终端无法使用git
+
+在setting.json中配置git.path指向"C:\\Program Files\\Git\\bin\\git.exe"路径即可
+
+
+
+
 
 <CommentService/>
 

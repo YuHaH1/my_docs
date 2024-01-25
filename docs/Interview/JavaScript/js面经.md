@@ -6,7 +6,7 @@ collapsible: true
 ---
 # js面经
 
-# 1.基础知识
+
 
 ## 1.为什么0.1+0.2不等于0.3
 
@@ -467,42 +467,234 @@ a.test = ()=>{}
 
 
 
-## 深拷贝
+## 8.深拷贝
 
 
 
 ~~~js
- function deepClone(target) {
-            const map = new WeakMap()
-            const obj = {}
-            function _deepClone(target) {
-                if (typeof target !== 'object' || target === null) {
-                    return target
+        const obj = {
+            name:'深拷贝',
+            job:[1,2,3],
+            info:{address:'China'},
+            test:()=>true,
+            a:new Set()
+        }
+        function deepClone(obj){
+            const type = (o)=>Object.prototype.toString.call(o).slice(8,-1)
+            const baseType = ['String', 'Number','Boolean','Null','Undefined','BigInt']
+            function _deepClone(_target){
+                if( baseType.includes(type(_target))){
+                    return _target
                 }
-                let result = Array.isArray(target) ? [] : {}
-                map.set(target, result)
-                function obj_arr(target) {
-                    for (let key in target) {
-                        if (target.hasOwnProperty(key)) {
-                            result[key] = _deepClone(target[key])
+                let res = null
+                if(type(_target) === 'Array'){
+                    res = []
+                    for(key in _target){
+                        if(Object.prototype.hasOwnProperty.call(_target,key)){
+                            res[key] = _deepClone(_target[key])
                         }
                     }
                 }
-                const typeDeal = {
-                    'Object': obj_arr,
-                    'RegExp': (reg) => result = new RegExp(reg),
-                    'Date': (date) => result = new Date(date),
-                    'Array': obj_arr,
-                    'function': function () {
-                        return target.call(this, arguments)
+                if(type(_target) === 'Object'){
+                    res = {}
+                    for(key in _target){
+                        if(Object.prototype.hasOwnProperty.call(_target,key)){
+                            res[key] = _deepClone(_target[key])
+                        }
                     }
                 }
-                const type = Object.prototype.toString.call(target).slice(8, -1)
-                typeDeal[type](target)
-                return result
+                if(type(_target)==='Function'){
+                    res = function(){ 
+                        return _target.call(this)
+                    }
+                }
+                // ....... 这里建议用策略模式 毕竟还有Map Set Reg Date。。。
+                return res
             }
-            return _deepClone(target)
+            return _deepClone(obj) 
         }
+        const newObj = deepClone(obj)
+        for(let key in obj){
+            console.log(key,obj[key] === newObj[key],newObj)
+        }
+~~~
+
+
+
+
+
+
+
+
+
+## 10.手写Promise.all和翻转二叉树
+
+~~~js
+
+
+/**
+ * 实现翻转二叉树
+ * 例如
+ *  a
+ * / \
+ * b c
+ * 转为
+ *  a
+ * / |
+ * c b
+ */
+const invertTree = function (root) {
+    if (!root) {
+        return
+    }
+    [root.left, root.right] = [root?.right, root?.left]
+    invertTree(root.left)
+    invertTree(root.right)
+    return root
+}
+const input = {
+        val: 1,
+        left: {
+            val: 2,
+            left: {
+                val: 3,
+                left: null,
+                right: null,
+            },
+            right: {
+                val: 4,
+                left: null,
+                right: null,
+            },
+        },
+        right: {
+            val: 5,
+            left: {
+                val: 6,
+                left: null,
+                right: null,
+            },
+            right: {
+                val: 7,
+                left: null,
+                right: null,
+            },
+        }
+}
+~~~
+
+
+
+~~~js
+// promise.all
+Promise._all = function (promises) {
+    return new Promise((r, j) => {
+        const result = []
+        promises.forEach((pro, index) => {
+            Promise.resolve(pro).then(res => {
+                result[index] = res
+                if ( index === promises.length-1) {
+                    r(result)
+                }
+            }).catch(err => {
+                j(err)
+            })
+        })
+    })
+}
+
+
+
+~~~
+
+
+
+## 有限状态机
+
+有限状态机（Finite State Machine，FSM）是一种抽象的计算模型，用于描述具有有限个状态和在这些状态之间进行转换的系统。它是一种数学模型，可用于建模和分析各种计算机程序、协议、自动控制系统等。
+
+有限状态机由以下几个要素组成：
+
+1. 状态（States）：系统可以处于的不同状态。每个状态表示系统在某个特定时间点的特定条件和属性。
+2. 转换（Transitions）：状态之间的转换规则。当满足某些条件时，系统可以从一个状态转移到另一个状态。
+3. 事件（Events）：触发状态转换的外部或内部事件。事件可以是用户输入、传感器信号、计时器触发等。
+4. 动作（Actions）：与状态转换相关联的操作或行为。在状态转换发生时，可以执行特定的动作。
+
+## 防抖和节流
+
+~~~js
+        // 防抖
+        function debounce(fn, delay = 500) {
+            let timer = null
+            return function () {
+                if (timer) clearTimeout(timer)
+                timer = setTimeout(() => fn.call(this, ...arguments), delay)
+            }
+        }
+btn.addEventListener('click', debounce((a) => console.log('防抖', a)))
+        // 节流
+        function throttle(fn, delay = 500) {
+            let timer = null
+            return function () {
+                if (!timer) {
+                    fn.call(this, ...arguments)
+                    timer = setTimeout(() => {
+                        clearTimeout(timer)
+                        timer = null
+                    }, delay)
+                }
+            }
+        }
+document.addEventListener('scroll', throttle(() => console.log('节流'),1000))
+~~~
+
+
+
+## 如何给onclick添加多个点击事件？
+
+思路：
+
+1. 用集合维护事件列表
+2. 在定义onclick之前保存一下之前，判断有没有旧事件，如果有就保存旧事件。这里我使用立即执行函数给集合中加入之前绑定的事件。
+3. 在最新的事件中去遍历触发。
+4. `traveser`做保护，防止栈溢出。
+
+~~~js
+        const test = document.querySelector('.test')
+        const events = new Set()
+        test.onclick = function(){
+            console.log('old')
+        }
+        test.onclick = function collector(fn) {
+            const oldEvent = test.onclick;
+            oldEvent  && events.add(oldEvent)
+            return function (traverse) {
+                traverse && events.forEach(event=>{
+                    event.call(this,'testtt')
+                })
+                fn.call(this);
+            };
+        }(()=>console.log('new1'))
+        test.onclick = function collector(fn) {
+            const oldEvent = test.onclick;
+            oldEvent  && events.add(oldEvent)
+            return function (traverse) {
+                traverse && events.forEach(event=>{
+                    event.call(this)
+                })
+                fn.call(this);
+            };
+        }(()=>console.log('new2'))
+        test.onclick = function collector(fn) {
+            const oldEvent = test.onclick;
+            oldEvent  && events.add(oldEvent)
+            return function (traverse) {
+                events.forEach(event=>{
+                    event.call(this)
+                })
+                fn.call(this);
+            };
+        }(()=>console.log('new3'))
 ~~~
 
 

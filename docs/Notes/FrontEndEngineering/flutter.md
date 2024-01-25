@@ -1915,7 +1915,7 @@ void main() {
  Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const DetailScreen(),
+            builder: (context) => const DetailScreen(),//这里也可以构造函数中传递参数
             settings: RouteSettings(
               arguments: todos[index],
             ),

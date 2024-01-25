@@ -59,6 +59,28 @@
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>2️⃣获取自定义属性的值</p>
 <div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token function">getComputedStyle</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span>documentElement<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPropertyValue</span><span class="token punctuation">(</span><span class="token string">'--main-color'</span><span class="token punctuation">)</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="容器查询" tabindex="-1"><a class="header-anchor" href="#容器查询" aria-hidden="true">#</a> 容器查询</h2>
+<p>容器查询使你能够根据元素容器的大小应用样式。例如，如果容器在周围的上下文中可用的空间更少，你可以隐藏某些元素或使用较小的字体。容器查询是<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_media_queries" target="_blank" rel="noopener noreferrer">媒体查询<ExternalLinkIcon/></a>的另一种选择，后者根据视口大小或其他设备特征为元素应用样式。</p>
+<h3 id="语法" tabindex="-1"><a class="header-anchor" href="#语法" aria-hidden="true">#</a> 语法</h3>
+<div class="language-css line-numbers-mode" data-ext="css"><pre v-pre class="language-css"><code><span class="token atrule"><span class="token rule">@container</span> [container_name] &lt;container-condition></span> <span class="token punctuation">{</span>
+  &lt;stylesheet>
+<span class="token punctuation">}</span>
+<span class="token property">eg</span><span class="token punctuation">:</span>
+<span class="token atrule"><span class="token rule">@container</span> <span class="token punctuation">(</span>width > 400px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+  <span class="token selector">h2</span> <span class="token punctuation">{</span>
+    <span class="token property">font-size</span><span class="token punctuation">:</span> 1.5em<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="单位" tabindex="-1"><a class="header-anchor" href="#单位" aria-hidden="true">#</a> 单位</h3>
+<ul>
+<li>cqw 容器查询宽度（Container Query Width）占比。1cqw 等于容器宽度的 1%。假设容器宽度是 1000px，则此时 1cqw 对应的计算值就是 10px。</li>
+<li>cqh 容器查询高度（Container Query Height）占比。1cqh 等于容器高度的 1%。</li>
+<li>cqi 表示容器查询内联方向尺寸（Container Query Inline-Size）占比。这个是逻辑属性单位，默认情况下等同于 cqw</li>
+<li>cqb 容器查询块级方向尺寸（Container Query Block-Size）占比。同上，默认情况下等同于 cqh</li>
+<li>cqmin 容器查询较小尺寸的（Container Query Min）占比。取 cqw 和 cqh 中较小的一个</li>
+<li>cqmax 表示容器查询较大尺寸的（Container Query Min）占比。取 cqw 和 cqh 中较大的一个</li>
+</ul>
+<CommentService/></div></template>
 
 

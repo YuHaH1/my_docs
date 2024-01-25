@@ -1,7 +1,32 @@
 <template><div><h1 id="微前端" tabindex="-1"><a class="header-anchor" href="#微前端" aria-hidden="true">#</a> 微前端</h1>
-<h2 id="为什么不用iframe" tabindex="-1"><a class="header-anchor" href="#为什么不用iframe" aria-hidden="true">#</a> 为什么不用iframe</h2>
-<p>如果考虑实际问题iframe是最完美的微前端方案</p>
-<p>iframe 最大的特性就是提供了浏览器原生的硬隔离方案，不论是样式隔离、js 隔离这类问题统统都能被完美解决。但他的最大问题也在于他的隔离性无法被突破，导致应用间上下文无法被共享，随之带来的开发体验、产品体验的问题。</p>
+<h2 id="什么是微前端" tabindex="-1"><a class="header-anchor" href="#什么是微前端" aria-hidden="true">#</a> 什么是微前端</h2>
+<p>微前端是一种多个团队通过独立发布功能的方式来共同构建现代化 web 应用的技术手段及方法策略。通俗来说，<strong>就是在一个<code v-pre>web</code>应用中可以独立的运行另一个<code v-pre>web</code>应用</strong></p>
+<p>摘自wujie官网的一段话。为前端需要具备什么能力？</p>
+<ul>
+<li>
+<p><strong>子应用的加载和卸载能力</strong></p>
+<p>页面需要从一个子应用切换到另一个子应用，框架必须具备加载、渲染、切换的能力</p>
+</li>
+<li>
+<p><strong>子应用独立运行的能力</strong></p>
+<p>子应用运行会污染全局的 window 对象，样式会污染其他应用，必须有效的隔离起来</p>
+</li>
+<li>
+<p><strong>子应用路由状态保持能力</strong></p>
+<p>激活子应用后，浏览器刷新、前进、后退子应用的路由都应该可以正常工作</p>
+</li>
+<li>
+<p><strong>应用间通信的能力</strong></p>
+<p>应用间可以方便、<strong>快捷的通信</strong>。（通信的三种方式①事件订阅例如$bus，②全局window上的属性读取和写入，③框架提供props的接口）</p>
+</li>
+</ul>
+<h2 id="微前端的技术方案" tabindex="-1"><a class="header-anchor" href="#微前端的技术方案" aria-hidden="true">#</a> 微前端的技术方案</h2>
+<h3 id="iframe" tabindex="-1"><a class="header-anchor" href="#iframe" aria-hidden="true">#</a> iframe</h3>
+<p><strong>优点</strong></p>
+<ul>
+<li>非常简单，使用没有任何心智负担</li>
+<li><code v-pre>web</code>应用隔离的非常完美，无论是<code v-pre>js</code>、<code v-pre>css</code>、<code v-pre>dom</code>都完全隔离开来</li>
+</ul>
 <p><strong>iframe的缺点：</strong></p>
 <ol>
 <li>url 不同步。浏览器刷新 iframe url 状态丢失、后退前进按钮无法使用。</li>
@@ -9,6 +34,26 @@
 <li>全局上下文完全隔离，内存变量不共享。iframe 内外系统的通信、数据同步等需求，主应用的 cookie 要透传到根域名都不同的子应用中实现免登效果。</li>
 <li>慢。每次子应用进入都是一次浏览器上下文重建、资源重新加载的过程。</li>
 </ol>
+<h3 id="spa" tabindex="-1"><a class="header-anchor" href="#spa" aria-hidden="true">#</a> SPA</h3>
+<p><a href="https://zh-hans.single-spa.js.org/docs/getting-started-overview" target="_blank" rel="noopener noreferrer">single-spa<ExternalLinkIcon/></a>主要实现思路：</p>
+<ul>
+<li>预先注册子应用(激活路由、子应用资源、生命周期函数)</li>
+<li>监听路由的变化，匹配到了激活的路由则加载子应用资源，顺序调用生命周期函数并最终渲染到容器</li>
+</ul>
+<p><strong>优点</strong></p>
+<ul>
+<li>监听路由自动的加载、卸载当前路由对应的子应用</li>
+<li>完备的沙箱方案，<code v-pre>js</code>沙箱做了<code v-pre>SnapshotSandbox</code>、<code v-pre>LegacySandbox</code>、<code v-pre>ProxySandbox</code>三套渐进增强方案，<code v-pre>css</code>沙箱做了两套<code v-pre>strictStyleIsolation</code>、<code v-pre>experimentalStyleIsolation</code>两套适用不同场景的方案</li>
+<li>路由保持，浏览器刷新、前进、后退，都可以作用到子应用</li>
+<li>应用间通信简单，全局注入</li>
+</ul>
+<p>缺点</p>
+<ul>
+<li>基于路由匹配，无法同时<strong>激活多个子应用，也不支持子应用保活</strong>。</li>
+<li>改造成本较大，从 <code v-pre>webpack</code>、代码、路由等等都要做一系列的适配</li>
+<li><code v-pre>css</code> 沙箱无法绝对的隔离，<code v-pre>js</code> 沙箱在某些场景下执行性能下降严重</li>
+<li><strong>无法支持 <code v-pre>vite</code> 等 <code v-pre>ESM</code> 脚本运行</strong></li>
+</ul>
 <h2 id="_1-微前端解决了什么问题" tabindex="-1"><a class="header-anchor" href="#_1-微前端解决了什么问题" aria-hidden="true">#</a> 1.微前端解决了什么问题？</h2>
 <p>1.随着应用程序的规模不断增大，代码库也会变得越来越复杂，导致开发人员难以理解和维护。</p>
 <p>2.在传统的前端应用程序中，所有的开发人员都必须使用相同的技术栈和框架进行开发，这限制了开发人员的选择和自由度。</p>
@@ -409,6 +454,34 @@ sandbox <span class="token operator">=</span> <span class="token keyword">new</s
 <li>类似于Vue的scoped给每一个子应用的css添加前缀</li>
 </ol>
 <h2 id="qiankun使用" tabindex="-1"><a class="header-anchor" href="#qiankun使用" aria-hidden="true">#</a> qiankun使用</h2>
+<p>qiankun 方案是基于 single-spa 的微前端方案。</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>
+<p>html entry 的方式引入子应用，相比 js entry 极大的降低了应用改造的成本；</p>
+</li>
+<li>
+<p>完备的沙箱方案，js 沙箱做了 SnapshotSandbox、LegacySandbox、ProxySandbox 三套渐进增强方案，css 沙箱做了 strictStyleIsolation、experimentalStyleIsolation 两套适用不同场景的方案；</p>
+</li>
+<li>
+<p>做了静态资源预加载能力；</p>
+</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>
+<p>适配成本比较高，工程化、生命周期、静态资源路径、路由等都要做一系列的适配工作；</p>
+</li>
+<li>
+<p>css 沙箱采用严格隔离会有各种问题，js 沙箱在某些场景下执行性能下降严重；</p>
+</li>
+<li>
+<p>无法同时激活多个子应用，也不支持子应用保活；</p>
+</li>
+<li>
+<p>无法支持 vite 等 esmodule 脚本运行；</p>
+</li>
+</ul>
 <div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">pnpm</span> <span class="token function">add</span> qiankun <span class="token parameter variable">-S</span>
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="在主应用中注册微应用" tabindex="-1"><a class="header-anchor" href="#在主应用中注册微应用" aria-hidden="true">#</a> 在主应用中注册微应用</h3>
 <div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> registerMicroApps<span class="token punctuation">,</span> start <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'qiankun'</span><span class="token punctuation">;</span>
@@ -541,6 +614,320 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token literal-property property">jsonpFunction</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">webpackJsonp_</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>packageName<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><CommentService/></div></template>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="无界" tabindex="-1"><a class="header-anchor" href="#无界" aria-hidden="true">#</a> 无界</h2>
+<p><strong>wujie优点：</strong></p>
+<ul>
+<li>
+<p><strong>多应用同时激活在线</strong></p>
+<p>框架具备同时激活多应用，并保持这些应用路由同步的能力</p>
+</li>
+<li>
+<p><strong>组件式的使用方式</strong></p>
+<p>无需注册，更无需路由适配，在组件内使用，跟随组件装载、卸载</p>
+</li>
+<li>
+<p><strong>应用级别的 keep-alive</strong></p>
+<p>子应用开启<a href="https://wujie-micro.github.io/doc/api/startApp.html#alive" target="_blank" rel="noopener noreferrer">保活模式<ExternalLinkIcon/></a>后，应用发生切换时整个子应用的状态可以保存下来不丢失，结合<a href="https://wujie-micro.github.io/doc/api/preloadApp.html#exec" target="_blank" rel="noopener noreferrer">预执行模式<ExternalLinkIcon/></a>可以获得类似<code v-pre>ssr</code>的打开体验</p>
+</li>
+<li>
+<p><strong>纯净无污染</strong></p>
+<ul>
+<li>无界利用<code v-pre>iframe</code>和<code v-pre>webcomponent</code>来搭建天然的<code v-pre>js</code>隔离沙箱和<code v-pre>css</code>隔离沙箱</li>
+<li>利用<code v-pre>iframe</code>的<code v-pre>history</code>和主应用的<code v-pre>history</code>在同一个<a href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context" target="_blank" rel="noopener noreferrer">top-level browsing context<ExternalLinkIcon/></a>来搭建天然的路由同步机制</li>
+<li>副作用局限在沙箱内部，子应用切换无需任何清理工作，没有额外的切换成本</li>
+</ul>
+</li>
+<li>
+<p><strong>性能和体积兼具</strong></p>
+<ul>
+<li>子应用执行性能和原生一致，子应用实例<code v-pre>instance</code>运行在<code v-pre>iframe</code>的<code v-pre>window</code>上下文中，避免<code v-pre>with(proxyWindow){code}</code>这样指定代码执行上下文导致的性能下降，但是多了实例化<code v-pre>iframe</code>的一次性的开销，可以通过 <a href="https://wujie-micro.github.io/doc/api/preloadApp.html" target="_blank" rel="noopener noreferrer">preload<ExternalLinkIcon/></a> 提前实例化</li>
+<li>体积比较轻量，借助<code v-pre>iframe</code>和<code v-pre>webcomponent</code>来实现沙箱，有效的减小了代码量</li>
+</ul>
+</li>
+<li>
+<p><strong>开箱即用</strong></p>
+<p>不管是样式的兼容、路由的处理、弹窗的处理、热更新的加载，子应用完成接入即可开箱即用无需额外处理，应用<a href="https://wujie-micro.github.io/doc/guide/start.html#%E5%AD%90%E5%BA%94%E7%94%A8%E6%94%B9%E9%80%A0" target="_blank" rel="noopener noreferrer">接入成本<ExternalLinkIcon/></a>也极低</p>
+</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>
+<p>隔离js使用一个空的iframe进行隔离</p>
+</li>
+<li>
+<p>子应用axios需要自行适配</p>
+</li>
+<li>
+<p>iframe沙箱的src设置了主应用的host，初始化iframe的时候需要等待iframe的location.orign从'about:blank'初始化为主应用的host，这个采用的计时器去等待的不是很悠亚。</p>
+</li>
+</ul>
+<p><a href="https://wujie-micro.github.io/doc/guide/start.html" target="_blank" rel="noopener noreferrer">文档<ExternalLinkIcon/></a></p>
+<p>如果是Vue3作为基座，安装<code v-pre>pnpm i wujie-vue3 -S </code>,react就执行<code v-pre>pnpm i wujie-react -S</code></p>
+<p>然后在main.js中注册</p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> <span class="token string">'./style.css'</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App.vue'</span>
+<span class="token keyword">import</span> WujieVue <span class="token keyword">from</span> <span class="token string">'wujie-vue3'</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">createApp</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span>
+    
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>WujieVue<span class="token punctuation">)</span>    
+    
+app<span class="token punctuation">.</span><span class="token function">mount</span><span class="token punctuation">(</span><span class="token string">'#app'</span><span class="token punctuation">)</span>
+
+<span class="token operator">&lt;</span>WujieVue
+  width<span class="token operator">=</span><span class="token string">"100%"</span>
+  height<span class="token operator">=</span><span class="token string">"100%"</span>
+  name<span class="token operator">=</span><span class="token string">"xxx"</span> <span class="token comment">//必传子应用的唯一id</span>
+  <span class="token operator">:</span>url<span class="token operator">=</span><span class="token string">"xxx"</span><span class="token comment">//必传子应用的url</span>
+  <span class="token operator">:</span>sync<span class="token operator">=</span><span class="token string">"true"</span>
+  <span class="token operator">:</span>fetch<span class="token operator">=</span><span class="token string">"fetch"</span>
+  <span class="token operator">:</span>props<span class="token operator">=</span><span class="token string">"props"</span>
+  <span class="token operator">:</span>beforeLoad<span class="token operator">=</span><span class="token string">"beforeLoad"</span>
+  <span class="token operator">:</span>beforeMount<span class="token operator">=</span><span class="token string">"beforeMount"</span>
+  <span class="token operator">:</span>afterMount<span class="token operator">=</span><span class="token string">"afterMount"</span>
+  <span class="token operator">:</span>beforeUnmount<span class="token operator">=</span><span class="token string">"beforeUnmount"</span>
+  <span class="token operator">:</span>afterUnmount<span class="token operator">=</span><span class="token string">"afterUnmount"</span>
+<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>WujieVue<span class="token operator">></span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="wujie实现原理" tabindex="-1"><a class="header-anchor" href="#wujie实现原理" aria-hidden="true">#</a> wujie实现原理</h3>
+<p>①js方面wujie将子应用的js代码注入到主应用的iframe中运行</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>
+<p><strong>组件方式来使用微前端</strong></p>
+<p>不用注册，不用改造路由，直接使用无界组件，化繁为简</p>
+</li>
+<li>
+<p><strong>一个页面可以同时激活多个子应用</strong></p>
+<p>子应用采用 iframe 的路由，不用关心路由占用的问题</p>
+</li>
+<li>
+<p><strong>天然 js 沙箱，不会污染主应用环境</strong></p>
+<p>不用修改主应用<code v-pre>window</code>任何属性，只在<code v-pre>iframe</code>内部进行修改</p>
+</li>
+<li>
+<p><strong>应用切换没有清理成本</strong></p>
+<p>由于不污染主应用，子应用销毁也无需做任何清理工作</p>
+</li>
+</ul>
+<p>②html上wujie使用<code v-pre>webcomponent</code>将子应用的html结构渲染在里面，并通过代理iframe的document到webcomponent实现两者关联。</p>
+<p>③应用保活原理。当子应用发生切换，<code v-pre>iframe</code>保留下来，子应用的容器可能销毁，但<code v-pre>webcomponent</code>依然可以选择保留，这样等应用切换回来将<code v-pre>webcomponent</code>再挂载回容器上，子应用可以获得类似<code v-pre>vue</code>的<code v-pre>keep-alive</code>的能力.</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>
+<p><strong>天然 css 沙箱</strong></p>
+<p>直接物理隔离，样式隔离子应用不用做任何修改</p>
+</li>
+<li>
+<p><strong>天然适配弹窗问题</strong></p>
+<p><code v-pre>document.body</code>的<code v-pre>appendChild</code>或者<code v-pre>insertBefore</code>会代理直接插入到<code v-pre>webcomponent</code>，子应用不用做任何改造</p>
+</li>
+<li>
+<p><strong>子应用保活</strong></p>
+<p>子应用保留<code v-pre>iframe</code>和<code v-pre>webcomponent</code>，应用内部的<code v-pre>state</code>不会丢失</p>
+</li>
+<li>
+<p><strong>完整的 DOM 结构</strong></p>
+<p><code v-pre>webcomponent</code>保留了子应用完整的<code v-pre>html</code>结构，样式和结构完全对应，子应用不用做任何修改</p>
+</li>
+</ul>
+<p>④css利用shadowDOM隔离CSS</p>
+<h3 id="通信方式" tabindex="-1"><a class="header-anchor" href="#通信方式" aria-hidden="true">#</a> 通信方式</h3>
+<p>承载子应用的<code v-pre>iframe</code>和主应用是同域的，所以主、子应用天然就可以很好的进行通信，在无界我们提供三种通信方式</p>
+<ul>
+<li><strong>props 注入机制</strong></li>
+</ul>
+<p>子应用通过<code v-pre>$wujie.props</code>可以轻松拿到主应用注入的数据</p>
+<ul>
+<li><strong>window.parent 通信机制</strong></li>
+</ul>
+<p>子应用<code v-pre>iframe</code>沙箱和主应用同源，子应用可以直接通过<code v-pre>window.parent</code>和主应用通信</p>
+<ul>
+<li><strong>去中心化的通信机制</strong></li>
+</ul>
+<p>无界提供了<code v-pre>EventBus</code>实例，注入到主应用和子应用，所有的应用可以去中心化的进行通信</p>
+<h3 id="源码" tabindex="-1"><a class="header-anchor" href="#源码" aria-hidden="true">#</a> 源码</h3>
+<h4 id="学前知识" tabindex="-1"><a class="header-anchor" href="#学前知识" aria-hidden="true">#</a> 学前知识</h4>
+<h4 id="base标签" tabindex="-1"><a class="header-anchor" href="#base标签" aria-hidden="true">#</a> base标签</h4>
+<p><strong>HTML <base> 元素</strong> 指定用于一个文档中包含的所有相对 URL 的根 URL。一份中只能有一个 <base> 元素。</p>
+<p>一个文档的基本 URL，可以通过使用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/baseURI" target="_blank" rel="noopener noreferrer"><code v-pre>document.baseURI</code> (en-US)<ExternalLinkIcon/></a> 的 JS 脚本查询。如果文档不包含 <code v-pre>&lt;base&gt;</code> 元素，<code v-pre>baseURI</code> 默认为 <code v-pre>document.location.href</code>。</p>
+<h4 id="_1-启动应用" tabindex="-1"><a class="header-anchor" href="#_1-启动应用" aria-hidden="true">#</a> 1.启动应用</h4>
+<p>startApp</p>
+<ol>
+<li>
+<p>调用<code v-pre>getWujieById</code>和<code v-pre>getOptionsById</code>从map结构中拿到子应用实例和子应用配置，如果刚启动应用则为null。然后调用<code v-pre>mergeOptions</code>合并配置项</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">startApp</span><span class="token punctuation">(</span>startOptions<span class="token operator">:</span> startOptions<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span><span class="token builtin">Function</span> <span class="token operator">|</span> <span class="token keyword">void</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment">//在map结构中注册该子应用id 也就是子应用传入的name，</span>
+  <span class="token keyword">const</span> sandbox <span class="token operator">=</span> <span class="token function">getWujieById</span><span class="token punctuation">(</span>startOptions<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//从map结构中取出该子应用实例  首次为null</span>
+  <span class="token keyword">const</span> cacheOptions <span class="token operator">=</span> <span class="token function">getOptionsById</span><span class="token punctuation">(</span>startOptions<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//从map结构中取出该子应用的配置项  首次为null</span>
+  <span class="token keyword">const</span> options <span class="token operator">=</span> <span class="token function">mergeOptions</span><span class="token punctuation">(</span>startOptions<span class="token punctuation">,</span> cacheOptions<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">...</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>如果<code v-pre>sandbox</code>存在也就是说已经创建过子应用实例了。</p>
+</li>
+<li>
+<p>如果不存在则执行<code v-pre>new WuJie</code>创建沙箱环境。</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">const</span> newSandbox <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WuJie</span><span class="token punctuation">(</span><span class="token punctuation">{</span> name<span class="token punctuation">,</span> url<span class="token punctuation">,</span> attrs<span class="token punctuation">,</span> degradeAttrs<span class="token punctuation">,</span> fiber<span class="token punctuation">,</span> degrade<span class="token punctuation">,</span> plugins<span class="token punctuation">,</span> lifecycles <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div></li>
+</ol>
+<h4 id="_2-创建沙箱环境" tabindex="-1"><a class="header-anchor" href="#_2-创建沙箱环境" aria-hidden="true">#</a> 2.创建沙箱环境</h4>
+<p>①先解析子应用的路径。调用<code v-pre>iframeGenerator</code>创建iframe</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token comment">// 创建目标地址的解析</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> urlElement<span class="token punctuation">,</span> appHostPath<span class="token punctuation">,</span> appRoutePath <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">appRouteParse</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> mainHostPath <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>inject<span class="token punctuation">;</span>
+    <span class="token comment">// 创建iframe</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>iframe <span class="token operator">=</span> <span class="token function">iframeGenerator</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> attrs<span class="token punctuation">,</span> mainHostPath<span class="token punctuation">,</span> appHostPath<span class="token punctuation">,</span> appRoutePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>②创建iframe，</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">iframeGenerator</span><span class="token punctuation">(</span>  
+  sandbox<span class="token operator">:</span> WuJie<span class="token punctuation">,</span>
+  attrs<span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token punctuation">[</span>key<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token builtin">any</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  mainHostPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  appHostPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  appRoutePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+           <span class="token keyword">const</span> iframe <span class="token operator">=</span> window<span class="token punctuation">.</span>document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"iframe"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> attrsMerge <span class="token operator">=</span> <span class="token punctuation">{</span> src<span class="token operator">:</span> mainHostPath<span class="token punctuation">,</span> style<span class="token operator">:</span> <span class="token string">"display: none"</span><span class="token punctuation">,</span> <span class="token operator">...</span>attrs<span class="token punctuation">,</span> name<span class="token operator">:</span> sandbox<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token constant">WUJIE_DATA_FLAG</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token string">""</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token function">setAttrsToElement</span><span class="token punctuation">(</span>iframe<span class="token punctuation">,</span> attrsMerge<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  window<span class="token punctuation">.</span>document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>iframe<span class="token punctuation">)</span><span class="token punctuation">;</span>    
+    
+
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>③得到iframe的window并注入一些属性</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code>iframeGenerator<span class="token punctuation">{</span>
+   <span class="token keyword">const</span> iframeWindow <span class="token operator">=</span> iframe<span class="token punctuation">.</span>contentWindow<span class="token punctuation">;</span>
+  <span class="token comment">// 变量需要提前注入，在入口函数通过变量防止死循环</span>
+  <span class="token function">patchIframeVariable</span><span class="token punctuation">(</span>iframeWindow<span class="token punctuation">,</span> sandbox<span class="token punctuation">,</span> appHostPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">patchIframeVariable</span><span class="token punctuation">(</span>iframeWindow<span class="token operator">:</span> Window<span class="token punctuation">,</span> wujie<span class="token operator">:</span> WuJie<span class="token punctuation">,</span> appHostPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+  iframeWindow<span class="token punctuation">.</span>__WUJIE <span class="token operator">=</span> wujie<span class="token punctuation">;</span>
+  iframeWindow<span class="token punctuation">.</span>__WUJIE_PUBLIC_PATH__ <span class="token operator">=</span> appHostPath <span class="token operator">+</span> <span class="token string">"/"</span><span class="token punctuation">;</span>
+  iframeWindow<span class="token punctuation">.</span>$wujie <span class="token operator">=</span> wujie<span class="token punctuation">.</span>provide<span class="token punctuation">;</span>
+  iframeWindow<span class="token punctuation">.</span>__WUJIE_RAW_WINDOW__ <span class="token operator">=</span> iframeWindow<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>④为了防止运行主应用的js代码，给子应用带来很多副作用，用定时器去停止ifrm的widnow</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code>iframeGenerator<span class="token punctuation">{</span>
+  sandbox<span class="token punctuation">.</span>iframeReady <span class="token operator">=</span> <span class="token function">stopIframeLoading</span><span class="token punctuation">(</span>iframeWindow<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+  <span class="token keyword">return</span> iframe<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">stopIframeLoading</span><span class="token punctuation">(</span>iframeWindow<span class="token operator">:</span> Window<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> oldDoc <span class="token operator">=</span> iframeWindow<span class="token punctuation">.</span>document<span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token builtin">Promise</span><span class="token operator">&lt;</span><span class="token keyword">void</span><span class="token operator">></span></span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">function</span> <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> newDoc<span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+          newDoc <span class="token operator">=</span> iframeWindow<span class="token punctuation">.</span>document<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          newDoc <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// wait for document ready</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>newDoc <span class="token operator">||</span> newDoc <span class="token operator">==</span> oldDoc<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          iframeWindow<span class="token punctuation">.</span>stop <span class="token operator">?</span> iframeWindow<span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">:</span> iframeWindow<span class="token punctuation">.</span>document<span class="token punctuation">.</span><span class="token function">execCommand</span><span class="token punctuation">(</span><span class="token string">"Stop"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>⑤在停止了子iframe的window加载后，初始化iframe的dom</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code>  sandbox<span class="token punctuation">.</span>iframeReady <span class="token operator">=</span> <span class="token function">stopIframeLoading</span><span class="token punctuation">(</span>iframeWindow<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token function">initIframeDom</span><span class="token punctuation">(</span>iframeWindow<span class="token punctuation">,</span> sandbox<span class="token punctuation">,</span> mainHostPath<span class="token punctuation">,</span> appHostPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>⑥用全局window创建一个新的 HTML 文档，并拷贝一份，然后把这个拷贝的节点插入到iframe的文档中。如果<code v-pre>iframe.documentElement</code>存在就用新的替代旧的</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">function</span> <span class="token function">initIframeDom</span><span class="token punctuation">(</span>iframeWindow<span class="token operator">:</span> Window<span class="token punctuation">,</span> wujie<span class="token operator">:</span> WuJie<span class="token punctuation">,</span> mainHostPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> appHostPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> iframeDocument <span class="token operator">=</span> iframeWindow<span class="token punctuation">.</span>document<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> newDoc <span class="token operator">=</span> window<span class="token punctuation">.</span>document<span class="token punctuation">.</span>implementation<span class="token punctuation">.</span><span class="token function">createHTMLDocument</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> newDocumentElement <span class="token operator">=</span> iframeDocument<span class="token punctuation">.</span><span class="token function">importNode</span><span class="token punctuation">(</span>newDoc<span class="token punctuation">.</span>documentElement<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  iframeDocument<span class="token punctuation">.</span>documentElement
+    <span class="token operator">?</span> iframeDocument<span class="token punctuation">.</span><span class="token function">replaceChild</span><span class="token punctuation">(</span>newDocumentElement<span class="token punctuation">,</span> iframeDocument<span class="token punctuation">.</span>documentElement<span class="token punctuation">)</span>
+    <span class="token operator">:</span> iframeDocument<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>newDocumentElement<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>⑦注入文档对象的查询和创建元素方法</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code>  iframeWindow<span class="token punctuation">.</span>__WUJIE_RAW_DOCUMENT_HEAD__ <span class="token operator">=</span> iframeDocument<span class="token punctuation">.</span>head<span class="token punctuation">;</span>
+  iframeWindow<span class="token punctuation">.</span>__WUJIE_RAW_DOCUMENT_QUERY_SELECTOR__ <span class="token operator">=</span> iframeWindow<span class="token punctuation">.</span>Document<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>querySelector<span class="token punctuation">;</span>
+  iframeWindow<span class="token punctuation">.</span>__WUJIE_RAW_DOCUMENT_QUERY_SELECTOR_ALL__ <span class="token operator">=</span> iframeWindow<span class="token punctuation">.</span>Document<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>querySelectorAll<span class="token punctuation">;</span>
+  iframeWindow<span class="token punctuation">.</span>__WUJIE_RAW_DOCUMENT_CREATE_ELEMENT__ <span class="token operator">=</span> iframeWindow<span class="token punctuation">.</span>Document<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>createElement<span class="token punctuation">;</span>
+  iframeWindow<span class="token punctuation">.</span>__WUJIE_RAW_DOCUMENT_CREATE_TEXT_NODE__ <span class="token operator">=</span> iframeWindow<span class="token punctuation">.</span>Document<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>createTextNode<span class="token punctuation">;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>⑧初始化base标签，将base标签url设置为子应用的url，</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code> <span class="token function">initBase</span><span class="token punctuation">(</span>iframeWindow<span class="token punctuation">,</span> wujie<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">initBase</span><span class="token punctuation">(</span>iframeWindow<span class="token operator">:</span> Window<span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> iframeDocument <span class="token operator">=</span> iframeWindow<span class="token punctuation">.</span>document<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> baseElement <span class="token operator">=</span> iframeDocument<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"base"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> iframeUrlElement <span class="token operator">=</span> <span class="token function">anchorElementGenerator</span><span class="token punctuation">(</span>iframeWindow<span class="token punctuation">.</span>location<span class="token punctuation">.</span>href<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> appUrlElement <span class="token operator">=</span> <span class="token function">anchorElementGenerator</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  baseElement<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"href"</span><span class="token punctuation">,</span> appUrlElement<span class="token punctuation">.</span>protocol <span class="token operator">+</span> <span class="token string">"//"</span> <span class="token operator">+</span> appUrlElement<span class="token punctuation">.</span>host <span class="token operator">+</span> iframeUrlElement<span class="token punctuation">.</span>pathname<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  iframeDocument<span class="token punctuation">.</span>head<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>baseElement<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>⑨重写History中的api<code v-pre>pushState</code>和<code v-pre>replaceState</code>保证iframe的url变化同步到Window中</p>
+<div class="language-typescript line-numbers-mode" data-ext="ts"><pre v-pre class="language-typescript"><code><span class="token keyword">function</span> <span class="token function">patchIframeHistory</span><span class="token punctuation">(</span>iframeWindow<span class="token operator">:</span> Window<span class="token punctuation">,</span> appHostPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> mainHostPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> history <span class="token operator">=</span> iframeWindow<span class="token punctuation">.</span>history<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> rawHistoryPushState <span class="token operator">=</span> history<span class="token punctuation">.</span>pushState<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> rawHistoryReplaceState <span class="token operator">=</span> history<span class="token punctuation">.</span>replaceState<span class="token punctuation">;</span>
+  history<span class="token punctuation">.</span><span class="token function-variable function">pushState</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> url<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> baseUrl <span class="token operator">=</span>
+      mainHostPath <span class="token operator">+</span> iframeWindow<span class="token punctuation">.</span>location<span class="token punctuation">.</span>pathname <span class="token operator">+</span> iframeWindow<span class="token punctuation">.</span>location<span class="token punctuation">.</span>search <span class="token operator">+</span> iframeWindow<span class="token punctuation">.</span>location<span class="token punctuation">.</span>hash<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> mainUrl <span class="token operator">=</span> <span class="token function">getAbsolutePath</span><span class="token punctuation">(</span>url<span class="token operator">?.</span><span class="token function">replace</span><span class="token punctuation">(</span>appHostPath<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">,</span> baseUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> ignoreFlag <span class="token operator">=</span> url <span class="token operator">===</span> <span class="token keyword">undefined</span><span class="token punctuation">;</span>
+
+    <span class="token function">rawHistoryPushState</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>history<span class="token punctuation">,</span> data<span class="token punctuation">,</span> title<span class="token punctuation">,</span> ignoreFlag <span class="token operator">?</span> <span class="token keyword">undefined</span> <span class="token operator">:</span> mainUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>ignoreFlag<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token function">updateBase</span><span class="token punctuation">(</span>iframeWindow<span class="token punctuation">,</span> appHostPath<span class="token punctuation">,</span> mainHostPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">syncUrlToWindow</span><span class="token punctuation">(</span>iframeWindow<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  history<span class="token punctuation">.</span><span class="token function-variable function">replaceState</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> url<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> baseUrl <span class="token operator">=</span>
+      mainHostPath <span class="token operator">+</span> iframeWindow<span class="token punctuation">.</span>location<span class="token punctuation">.</span>pathname <span class="token operator">+</span> iframeWindow<span class="token punctuation">.</span>location<span class="token punctuation">.</span>search <span class="token operator">+</span> iframeWindow<span class="token punctuation">.</span>location<span class="token punctuation">.</span>hash<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> mainUrl <span class="token operator">=</span> <span class="token function">getAbsolutePath</span><span class="token punctuation">(</span>url<span class="token operator">?.</span><span class="token function">replace</span><span class="token punctuation">(</span>appHostPath<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">,</span> baseUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> ignoreFlag <span class="token operator">=</span> url <span class="token operator">===</span> <span class="token keyword">undefined</span><span class="token punctuation">;</span>
+
+    <span class="token function">rawHistoryReplaceState</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>history<span class="token punctuation">,</span> data<span class="token punctuation">,</span> title<span class="token punctuation">,</span> ignoreFlag <span class="token operator">?</span> <span class="token keyword">undefined</span> <span class="token operator">:</span> mainUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>ignoreFlag<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token function">updateBase</span><span class="token punctuation">(</span>iframeWindow<span class="token punctuation">,</span> appHostPath<span class="token punctuation">,</span> mainHostPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">syncUrlToWindow</span><span class="token punctuation">(</span>iframeWindow<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="模块联邦module-federation" tabindex="-1"><a class="header-anchor" href="#模块联邦module-federation" aria-hidden="true">#</a> 模块联邦Module Federation</h2>
+<p>多个独立的构建可以组成一个应用程序，这些独立的构建之间不应该存在依赖关系，因此可以单独开发和部署它们。这通常被称作微前端，但并不仅限于此。比如a应用如果想使用b应用中form的组件，通过模块联邦可以直接在a中进行import('b/form')非常的方便。</p>
+<p>模块联邦优点：可以单独部署对模块的更改，而不需要重新部署所有应用程序。应用程序自动使用组件库的最新版本。（例如将公共依赖发布到npm，其他依赖的项目安装即可，但是存在问题，如果依赖升级，所有项目都需要重新安装依赖。而模块联邦中，项目利用CDN共享，我们永远访问的是最新的代码。）</p>
+<h3 id="modulefederationplugin-high-level" tabindex="-1"><a class="header-anchor" href="#modulefederationplugin-high-level" aria-hidden="true">#</a> ModuleFederationPlugin (high level)</h3>
+<p><a href="https://www.webpackjs.com/plugins/module-federation-plugin/" target="_blank" rel="noopener noreferrer">文档<ExternalLinkIcon/></a></p>
+<div class="language-javascript line-numbers-mode" data-ext="js"><pre v-pre class="language-javascript"><code><span class="token keyword">new</span> <span class="token class-name">ModuleFederationPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token comment">// 模块联邦名字，提供给其他模块使用</span>
+      <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'app1'</span><span class="token punctuation">,</span>
+      <span class="token comment">// 提供给外部访问的资源入口</span>
+      <span class="token literal-property property">filename</span><span class="token operator">:</span> <span class="token string">'App1RemoteEntry.js'</span><span class="token punctuation">,</span>
+      <span class="token comment">// 引用的外部资源列表</span>
+      <span class="token literal-property property">remotes</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token doc-comment comment">/**
+         *  App2 引用其他应用模块的资源别名
+         *  app2 是 APP2 的模块联邦名字
+         *  http://localhost:3001 是 APP2 运行的地址
+         *  App2RemoteEntry.js 是 APP2 提供的外部访问的资源名字
+         *  可以访问到 APP2 通过 exposes 暴露给外部的资源
+         */</span>
+        <span class="token literal-property property">App2</span><span class="token operator">:</span> <span class="token string">'app2@http://localhost:3001/App2RemoteEntry.js'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token comment">// 暴露给外部的资源列表</span>
+      <span class="token literal-property property">exposes</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token comment">// 共享模块，pinia</span>
+      <span class="token literal-property property">shared</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="基本概念" tabindex="-1"><a class="header-anchor" href="#基本概念" aria-hidden="true">#</a> 基本概念</h3>
+<ol>
+<li>本地模块：本地模块就是我们当前开发的代码模块。</li>
+<li>远程模块：不属于当前开发代码，远程模块在运行时加载。</li>
+<li>容器：就是构建的项目。每个构建的充当一个容器，也可以将其他构建作为容器。通过这种方式每个构建都能从对应容器中加载暴露的模块。</li>
+<li>一个被引用得容器或称为remote，引用者被称为host，remote暴露模块给host，host则可以使用这些暴露的模块，这些模块被称为remote模块。</li>
+</ol>
+<CommentService/></div></template>
 
 

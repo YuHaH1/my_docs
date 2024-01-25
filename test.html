@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="test">aaaaaaaa</div>
+    <script>
+        const test = document.querySelector('.test')
+        let trigger = {}
+        const t = new Proxy(trigger,{
+            set(){
+                events.forEach(event=>event())
+                return true
+            }
+        })
+        const events = new Set()
+        test.onclick = function(){
+            console.log('old')
+        }
+        test.onclick = function collector(fn) {
+            const oldEvent = test.onclick;
+            oldEvent  && events.add(oldEvent)
+            return function (traverse) {
+                events.add(fn.bind(this))
+                Promise.resolve().then(()=>t.trigger = true)
+            };
+        }(function(){console.log('new1')})
+
+        test.onclick = function collector(fn) {
+            const oldEvent = test.onclick;
+            oldEvent  && events.add(oldEvent)
+            return function (traverse) {
+                events.add(fn.bind(this))
+                Promise.resolve().then(()=>t.trigger = true)
+            };
+        }(function(){console.log('new2')})
+
+
+    </script>
+</body>
+
+</html>

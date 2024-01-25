@@ -109,7 +109,7 @@ Cache-control: s-maxage=&lt;seconds>
 <li>Disk Cache（磁盘缓存）：磁盘缓存是将请求过的资源保存在本地硬盘或闪存中，相比内存缓存容量较大，可以缓存更多的资源。当浏览器需要请求资源时，会先在内存缓存中查找，如果没有找到或者找到但已经过期，则向磁盘缓存中查找。磁盘缓存的优点是容量大，能够缓存较多的资源，缺点是读取速度相对较慢。</li>
 <li>Service Worker（服务工作线程）缓存：Service Worker 是一种独立于浏览器窗口的 JavaScript 线程，在浏览器后台运行。它可以拦截浏览器发出的网络请求，从而可以实现离线缓存、推送通知等功能。Service Worker 缓存可以将请求过的资源保存在本地，不受浏览器的关闭或页面刷新的影响。当用户下一次访问同样的页面时，Service Worker 可以直接从本地缓存中获取资源，从而提高页面加载速度和离线访问体验。</li>
 </ol>
-<h3 id="_2-http1-0-3-0区别" tabindex="-1"><a class="header-anchor" href="#_2-http1-0-3-0区别" aria-hidden="true">#</a> 2.http1.0-3.0区别</h3>
+<h3 id="_4-http1-0-3-0区别" tabindex="-1"><a class="header-anchor" href="#_4-http1-0-3-0区别" aria-hidden="true">#</a> 4.http1.0-3.0区别</h3>
 <h4 id="htpp-1-0" tabindex="-1"><a class="header-anchor" href="#htpp-1-0" aria-hidden="true">#</a> htpp/1.0</h4>
 <p>1.0的http是无连接的应用层协议：浏览器每次请求都需要建立tcp连接</p>
 <p>因此其缺点十分明显</p>
@@ -166,12 +166,12 @@ Cache-control: s-maxage=&lt;seconds>
 <p>在HTTP/2.0中，每个流都有自己的流量控制窗口，通过调整窗口大小可以控制每个流在传输过程中的速度。</p>
 <p>具体来说，每个流都有一个接收窗口和一个发送窗口。接收窗口用于控制接收端的传输速度，发送窗口用于控制发送端的传输速度。在传输过程中，每个端点都会根据当前窗口大小和已经传输的数据量来动态调整窗口大小，尽可能地利用可用的带宽，并避免拥塞和网络阻塞。</p>
 <p>当接收端的接收窗口变小时，它会向对端发送一个WINDOW_UPDATE帧，通知对端减少传输窗口大小，从而控制发送速度。当发送端的发送窗口变小时，它会停止发送数据，并等待接收端发送WINDOW_UPDATE帧，通知它可以继续发送数据。</p>
-<h3 id="_2-0仍然存在的问题" tabindex="-1"><a class="header-anchor" href="#_2-0仍然存在的问题" aria-hidden="true">#</a> 2.0仍然存在的问题</h3>
+<h4 id="_2-0仍然存在的问题" tabindex="-1"><a class="header-anchor" href="#_2-0仍然存在的问题" aria-hidden="true">#</a> 2.0仍然存在的问题</h4>
 <ul>
 <li>**对头阻塞：**HTTP/2.0中的流（Stream）是有优先级的，而且流之间是串行传输的。具体来说，当一个流被阻塞时，后面的所有流都必须等待当前流的传输完成才能开始传输。如果前面的流优先级较高，传输时间较长，那么后面的流就会被阻塞，导致队头阻塞问题。虽然HTTP/2.0采用了优先级机制和流量控制机制来解决队头阻塞问题，但是这些机制并不能完全避免队头阻塞问题的发生。一些不恰当的优先级设置和流量控制机制的错误使用，也会导致队头阻塞问题的发生。</li>
 <li>每次建立/释放连接仍然要经过三次握手 四次挥手</li>
 </ul>
-<h3 id="http-3-0" tabindex="-1"><a class="header-anchor" href="#http-3-0" aria-hidden="true">#</a> http/3.0</h3>
+<h4 id="http-3-0-quic" tabindex="-1"><a class="header-anchor" href="#http-3-0-quic" aria-hidden="true">#</a> http/3.0-quic</h4>
 <p>3.0解决了什么问题？</p>
 <ul>
 <li>降低延迟：TCP协议需要进行三次握手和四次挥手等过程，导致延迟较高。而QUIC协议基于UDP协议实现，可以避免这些过程，从而降低延迟。</li>
@@ -181,11 +181,12 @@ Cache-control: s-maxage=&lt;seconds>
 <p>HTTP/3.0是基于QUIC协议的下一代HTTP协议，旨在提高性能和安全性。相比于HTTP/2.0，HTTP/3.0采用了全新的传输协议QUIC（Quick UDP Internet Connections），这个协议基于UDP协议实现，具有更低的延迟和更好的拥塞控制能力，可以提高性能和可靠性。</p>
 <p>HTTP/3.0的主要特点包括：</p>
 <ol>
-<li>**基于QUIC协议：**HTTP/3.0采用了基于UDP协议的QUIC协议作为传输协议，可以提高性能和可靠性。</li>
-<li>**支持多路复用：**HTTP/3.0支持多路复用，可以在同一连接上同时进行多个HTTP请求和响应，提高性能。基本和2.0相同。</li>
-<li>**首部压缩：**HTTP/3.0采用了首部压缩机制，可以减少网络带宽的使用和传输时间，提高性能这里的压缩算法与2.0基本相同。</li>
-<li>**流量控制：**QUIC协议采用了更先进的拥塞控制算法，可以更精确地控制传输速度和窗口大小，避免拥塞和网络阻塞，提高传输效率和可靠性。</li>
-<li>**快速恢复：**HTTP/3.0支持快速恢复机制，可以在网络中断后更快地恢复连接和传输，提高可靠性。</li>
+<li><strong>多流的设计：</strong> 采用多路复用思想，一个链连接可以承载多个流</li>
+<li><strong>低等待延迟</strong>： 0RTT</li>
+<li><strong>加密性能的提升</strong> SSL1.3</li>
+<li><strong>前向纠错</strong></li>
+<li><strong>应用程序实现</strong></li>
+<li><strong>连接保持</strong></li>
 </ol>
 <h4 id="快恢复" tabindex="-1"><a class="header-anchor" href="#快恢复" aria-hidden="true">#</a> 快恢复</h4>
 <p>HTTP/3.0采用的基于QUIC协议的传输协议支持快速恢复机制，可以更快地恢复连接和传输，提高可靠性。</p>
@@ -243,6 +244,27 @@ Cache-control: s-maxage=&lt;seconds>
 <li>500 服务器处理请求时发生错误，可能存在bug</li>
 <li>503服务器暂时无法响应，服务器暂时处于超负载或正在进行停机维护，如果事先得知解除以上状况需要的时间，最好写入 RetryAfter 首部字段再返回 给客户端</li>
 </ol>
+<h3 id="range请求头" tabindex="-1"><a class="header-anchor" href="#range请求头" aria-hidden="true">#</a> range请求头</h3>
+<p>The <strong><code v-pre>Range</code></strong> 是一个请求首部，告知服务器返回文件的哪一部分。在一个 <code v-pre>Range</code> 首部中，可以一次性请求多个部分，服务器会以 multipart 文件的形式将其返回。如果服务器返回的是范围响应，需要使用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/206" target="_blank" rel="noopener noreferrer"><code v-pre>206</code><ExternalLinkIcon/></a> <code v-pre>Partial Content</code> 状态码。假如所请求的范围不合法，那么服务器会返回 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/416" target="_blank" rel="noopener noreferrer"><code v-pre>416</code><ExternalLinkIcon/></a> <code v-pre>Range Not Satisfiable</code> 状态码，表示客户端错误。服务器允许忽略 <code v-pre>Range</code> 首部，从而返回整个文件，状态码用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/200" target="_blank" rel="noopener noreferrer"><code v-pre>200</code><ExternalLinkIcon/></a> 。</p>
+<ul>
+<li>
+<p><code v-pre>unit</code>范围所采用的单位，通常是字节（bytes）。</p>
+</li>
+<li>
+<p><code v-pre>range-start</code>一个整数，表示在特定单位下，范围的起始值。</p>
+</li>
+<li>
+<p><code v-pre>range-end</code>一个整数，表示在特定单位下，范围的结束值。这个值是可选的，如果不存在，表示此范围一直延伸到文档结束。</p>
+</li>
+</ul>
+<div class="language-http line-numbers-mode" data-ext="http"><pre v-pre class="language-http"><code><span class="token header"><span class="token header-name keyword">Range</span><span class="token punctuation">:</span> <span class="token header-value">bytes=200-1000, 2000-6576, 19000-</span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/If-Range" target="_blank" rel="noopener noreferrer"><code v-pre>If-Range</code><ExternalLinkIcon/></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Range" target="_blank" rel="noopener noreferrer"><code v-pre>Content-Range</code><ExternalLinkIcon/></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Type" target="_blank" rel="noopener noreferrer"><code v-pre>Content-Type</code><ExternalLinkIcon/></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/206" target="_blank" rel="noopener noreferrer"><code v-pre>206</code><ExternalLinkIcon/></a> <code v-pre>Partial Content</code></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/416" target="_blank" rel="noopener noreferrer"><code v-pre>416</code><ExternalLinkIcon/></a> <code v-pre>Range Not Satisfiable</code></li>
+</ul>
 <h3 id="https协议" tabindex="-1"><a class="header-anchor" href="#https协议" aria-hidden="true">#</a> https协议</h3>
 <p>https通过使用SSL（Secure Sockets Layer）或TLS（Transport Layer Security）加密协议来确保数据的机密性和完整性。https有如下特点</p>
 <ol>
@@ -254,7 +276,71 @@ Cache-control: s-maxage=&lt;seconds>
 <p>TLS握手：</p>
 <p>ssl是tls的前身。https采用非对称加密和对称加密结合的方式。非对称加密用公钥和私钥加密，私钥存储在服务器里，数据经过公钥加密只能通过私钥解密，数据经过私钥加密就只能被公钥解密，重点来了！服务端有着公钥和私钥，服务端会将公钥发送给客户端，客户端用公钥加密的数据只有私钥能解密。</p>
 <p>tls握手阶段客户端会携带tls版本和加密套件，以及第一个随机数。服务端收到后会确认支持的tls版本和选择的加密套件以及第2随机数。然后服务端会发送公钥给客户端。然后客户端收到后生成第3随机数，然后用公钥加密第3随机数（预主密钥）后发给服务端，（服务端通过私钥解密得到第3随机数）。然后双方通过第3密钥➕第1➕第2随机数生成会话密钥。以后的数据使用会话密钥加密，这个会话密钥（属于对称加密）。</p>
-<h2 id="二、tcp" tabindex="-1"><a class="header-anchor" href="#二、tcp" aria-hidden="true">#</a> 二、TCP</h2>
+<h3 id="_5-tls-ssl" tabindex="-1"><a class="header-anchor" href="#_5-tls-ssl" aria-hidden="true">#</a> 5.TLS/SSL</h3>
+<p>SSL是TLS的前身</p>
+<h4 id="tls" tabindex="-1"><a class="header-anchor" href="#tls" aria-hidden="true">#</a> TLS</h4>
+<ul>
+<li>TLS第一次握手，客户端告诉服务端自己支持的加密协议版本和使用什么加密套件例如RSA算法，同时生成第一随机数，同时还会生成给出一个<strong>客户端随机数<code v-pre>ClientRandom1</code></strong>。</li>
+<li>第二次握手，服务端收到客户端发过来的消息后，和客户端确认使用的加密协议版本和加密套件，以及 <strong>服务器随机数<code v-pre>ServiceRandom2</code></strong> + 服务器证书（包含公钥）。</li>
+<li>第三次握手，客户端再生成一个<strong>客户端随机数<code v-pre>ClientRandom3</code></strong>。从第二次握手的<strong>服务器证书</strong>里取出服务器公钥，用服务器公钥加密 <code v-pre>ClientRandom3</code>，发给服务器。用这三个随机数进行计算得到一个“<strong>会话密钥</strong>”。此时客户端通知服务端，后面会用这个会话密钥进行对称加密通信。</li>
+<li>第四次握手，</li>
+<li>服务端此时拿到客户端传来的 <strong>客户端随机数<code v-pre>ClientRandom3</code></strong>，服务端用私钥解密得到<code v-pre>ClientRandom3</code>，跟客户端一样用这三个随机数通过同样的算法获得一个“<strong>会话密钥</strong>”。此时服务器告诉客户端，后面会用这个“<strong>会话密钥</strong>”进行加密通信。跟客户端的操作一样，将迄今为止的通信数据内容生成一个<strong>摘要</strong>，用“<strong>会话密钥</strong>”加密一下，发给客户端做校验。到这里，服务端的握手流程也结束了，因此这也叫<strong>Finished报文</strong>。(摘要就是对一大段文本进行一次hash运算操作(hash之后可以让数据变短。更短意味着更小的传输成本。)。目的是为了确认通信过程中数据没被篡改过。)</li>
+</ul>
+<p>但从上面来看后面的使用的会话秘钥不会变了，也就是静态的。</p>
+<h4 id="tls1-3" tabindex="-1"><a class="header-anchor" href="#tls1-3" aria-hidden="true">#</a> TLS1.3</h4>
+<p><img src="/Networker/TLS.png" alt=""></p>
+<p>TLS一开始的握手是明文，黑客完全可以截获发送的内容，并让服务器进行TLS降级，（1024-bit参数降级512-bit）这样有很大可能被破解。因此1.3废弃了DH算法中的弱参数组合，并对参数限定。</p>
+<p><strong>1.3优势</strong>：</p>
+<ol>
+<li>
+<p>更安全。移除了不安全的加密算法。只留下了五组</p>
+<div class="language-txt line-numbers-mode" data-ext="txt"><pre v-pre class="language-txt"><code>TLS_AES_128_GCM_SHA256
+TLS_AES_256_GCM_SHA384
+TLS_CHACHA20_POLY1305_SHA256
+TLS_AES_128_GCM_SHA256
+TLS_AES_128_GCM_8_SHA256
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>效率更高，大幅缩减握手交互流程。1-RTT就生成对称加密的私钥。0-RTT上次会话的会话票+秘钥内容加密。</p>
+</li>
+</ol>
+<div class="language-diff line-numbers-mode" data-ext="diff"><pre v-pre class="language-diff"><code>// 原 DH 握手
+<span class="token deleted-sign deleted"><span class="token prefix deleted">-</span><span class="token line">1.浏览器向服务器发送 client_random，TLS 版本和供筛选的加密套件列表。
+</span></span>// TLS1.3 优化
+<span class="token inserted-sign inserted"><span class="token prefix inserted">+</span><span class="token line">1.浏览器向服务器发送 client_params，client_random，TLS 版本和供筛选的加密套件列表。
+</span></span>
+// 原 DH 握手
+<span class="token deleted-sign deleted"><span class="token prefix deleted">-</span><span class="token line">2...
+</span></span>// TLS1.3 优化
+<span class="token inserted-sign inserted"><span class="token prefix inserted">+</span><span class="token line">2.服务器返回：server_random、server_params、TLS 版本、确定的加密套件方法以及证书。
+</span><span class="token prefix inserted">+</span><span class="token line">浏览器接收，先验证数字证书和签名。
+</span><span class="token prefix inserted">+</span><span class="token line">现在双方都有 client_params、server_params，可以根据 ECDHE 计算出 pre_random 了。
+</span></span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>TLS1.3 支持三种方式的密钥协商：PSK-Only、(EC)DHE， 和PSK with (EC)DHE。</p>
+<p>客户端在<code v-pre>client—hello</code>握手时发送DH算法中的协商参数,密码套件和客户端随机数（相比1.2不需要等待协商参数再发送，客户端假设服务器会选择与它一样的密钥交换参数组，如上例中的“x25519&quot;，如果服务器选择了其他参数组，则服务器会发送&quot;hello retry request&quot;给客户端，重新协商密钥），让服务器计算handshake-master_key，<strong>这样做的目的是减少了1.2版本中server/client key exchange信令</strong></p>
+<div class="language-txt line-numbers-mode" data-ext="txt"><pre v-pre class="language-txt"><code>       Client                                           Server
+
+Key  ^ ClientHello
+Exch | + key_share*
+     | + signature_algorithms*
+     | + psk_key_exchange_modes*
+     v + pre_shared_key*       -------->
+                                                  ServerHello  ^ Key
+                                                 + key_share*  | Exch
+                                            + pre_shared_key*  v
+                                        {EncryptedExtensions}  ^  Server
+                                        {CertificateRequest*}  v  Params
+                                               {Certificate*}  ^
+                                         {CertificateVerify*}  | Auth
+                                                   {Finished}  v
+                               &lt;--------  [Application Data*]
+     ^ {Certificate*}
+Auth | {CertificateVerify*}
+     v {Finished}              -------->
+       [Application Data]      &lt;------->  [Application Data]
+
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="二、tcp" tabindex="-1"><a class="header-anchor" href="#二、tcp" aria-hidden="true">#</a> 二、TCP</h2>
 <h3 id="流量控制-1" tabindex="-1"><a class="header-anchor" href="#流量控制-1" aria-hidden="true">#</a> 流量控制</h3>
 <p><img src="/Networker/tcp3.png" alt=""></p>
 <p>用滑动窗口控制发送方发送速率，防止发送过快服务端来不及接收。
