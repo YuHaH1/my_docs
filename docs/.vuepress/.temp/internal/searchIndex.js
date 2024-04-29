@@ -537,6 +537,20 @@ export const searchIndex = [
       },
       {
         "level": 2,
+        "title": "使用timeout模拟interval",
+        "slug": "使用timeout模拟interval",
+        "link": "#使用timeout模拟interval",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "实现indexof，reduce，bind方法",
+        "slug": "实现indexof-reduce-bind方法",
+        "link": "#实现indexof-reduce-bind方法",
+        "children": []
+      },
+      {
+        "level": 2,
         "title": "有限状态机",
         "slug": "有限状态机",
         "link": "#有限状态机",
@@ -770,6 +784,341 @@ export const searchIndex = [
       }
     ],
     "path": "/Interview/Vue/Vue%E9%9D%A2%E7%BB%8F.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "CSS相关问题",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.多行文本溢出",
+        "slug": "_1-多行文本溢出",
+        "link": "#_1-多行文本溢出",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.移动端适配解决方案",
+        "slug": "_2-移动端适配解决方案",
+        "link": "#_2-移动端适配解决方案",
+        "children": [
+          {
+            "level": 3,
+            "title": "rem",
+            "slug": "rem",
+            "link": "#rem",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "viewport",
+            "slug": "viewport",
+            "link": "#viewport",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "3.原子化CSS",
+        "slug": "_3-原子化css",
+        "link": "#_3-原子化css",
+        "children": [
+          {
+            "level": 3,
+            "title": "原子化css原理",
+            "slug": "原子化css原理",
+            "link": "#原子化css原理",
+            "children": [
+              {
+                "level": 4,
+                "title": "按需生成",
+                "slug": "按需生成",
+                "link": "#按需生成",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "TailwindCSS打包体积大",
+            "slug": "tailwindcss打包体积大",
+            "link": "#tailwindcss打包体积大",
+            "children": [
+              {
+                "level": 4,
+                "title": "Tailwindcss原理",
+                "slug": "tailwindcss原理",
+                "link": "#tailwindcss原理",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "TailwindCSS的配置",
+                "slug": "tailwindcss的配置",
+                "link": "#tailwindcss的配置",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "压缩",
+                "slug": "压缩",
+                "link": "#压缩",
+                "children": []
+              }
+            ]
+          },
+          {
+            "level": 3,
+            "title": "Unocss",
+            "slug": "unocss",
+            "link": "#unocss",
+            "children": [
+              {
+                "level": 4,
+                "title": "配置",
+                "slug": "配置",
+                "link": "#配置",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "4.双飞翼布局",
+        "slug": "_4-双飞翼布局",
+        "link": "#_4-双飞翼布局",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "5.多行文本溢出",
+        "slug": "_5-多行文本溢出",
+        "link": "#_5-多行文本溢出",
+        "children": []
+      }
+    ],
+    "path": "/Problems/Css/CSS%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "js中遇到的问题",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.字符串表情问题",
+        "slug": "_1-字符串表情问题",
+        "link": "#_1-字符串表情问题",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.如何记录用户信息-canvas",
+        "slug": "_2-如何记录用户信息-canvas",
+        "link": "#_2-如何记录用户信息-canvas",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.Ajax和fetch取消请求的方式",
+        "slug": "_3-ajax和fetch取消请求的方式",
+        "link": "#_3-ajax和fetch取消请求的方式",
+        "children": [
+          {
+            "level": 3,
+            "title": "3.1、fetch取消",
+            "slug": "_3-1、fetch取消",
+            "link": "#_3-1、fetch取消",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "3.2、Ajax取消",
+            "slug": "_3-2、ajax取消",
+            "link": "#_3-2、ajax取消",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "4、页面更新自动刷新页面",
+        "slug": "_4、页面更新自动刷新页面",
+        "link": "#_4、页面更新自动刷新页面",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "5.用户输入法按enter会触发提交事件",
+        "slug": "_5-用户输入法按enter会触发提交事件",
+        "link": "#_5-用户输入法按enter会触发提交事件",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "Vuepress展示数学公式",
+        "slug": "vuepress展示数学公式",
+        "link": "#vuepress展示数学公式",
+        "children": []
+      }
+    ],
+    "path": "/Problems/JavaScript/js%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "埋点",
+    "headers": [
+      {
+        "level": 2,
+        "title": "初始化项目",
+        "slug": "初始化项目",
+        "link": "#初始化项目",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "生成.d.ts文件",
+        "slug": "生成-d-ts文件",
+        "link": "#生成-d-ts文件",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "代码展示",
+        "slug": "代码展示",
+        "link": "#代码展示",
+        "children": []
+      }
+    ],
+    "path": "/Problems/JavaScript/%E5%9F%8B%E7%82%B9.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "pm2",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.问题描述",
+        "slug": "_1-问题描述",
+        "link": "#_1-问题描述",
+        "children": []
+      }
+    ],
+    "path": "/Problems/Node/pm2.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "项目中得到的问题",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.埋点API多平台调用",
+        "slug": "_1-埋点api多平台调用",
+        "link": "#_1-埋点api多平台调用",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "2.高度自动过度",
+        "slug": "_2-高度自动过度",
+        "link": "#_2-高度自动过度",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "3.SEO",
+        "slug": "_3-seo",
+        "link": "#_3-seo",
+        "children": [
+          {
+            "level": 3,
+            "title": "预渲染",
+            "slug": "预渲染",
+            "link": "#预渲染",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "META标签配置",
+            "slug": "meta标签配置",
+            "link": "#meta标签配置",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "robots文件",
+            "slug": "robots文件",
+            "link": "#robots文件",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "sitemap站点地图",
+            "slug": "sitemap站点地图",
+            "link": "#sitemap站点地图",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "内链和外链",
+            "slug": "内链和外链",
+            "link": "#内链和外链",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "网址规范",
+            "slug": "网址规范",
+            "link": "#网址规范",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "301重定向",
+            "slug": "_301重定向",
+            "link": "#_301重定向",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/Problems/Project/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BE%97%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "服务器",
+    "headers": [
+      {
+        "level": 2,
+        "title": "服务器搭建流程",
+        "slug": "服务器搭建流程",
+        "link": "#服务器搭建流程",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "浏览器报错",
+        "slug": "浏览器报错",
+        "link": "#浏览器报错",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "服务器防火墙",
+        "slug": "服务器防火墙",
+        "link": "#服务器防火墙",
+        "children": []
+      }
+    ],
+    "path": "/Problems/Server/%E6%9C%8D%E5%8A%A1%E5%99%A8.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -1131,28 +1480,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "canvas基础",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.Canvas上下文",
-        "slug": "_1-canvas上下文",
-        "link": "#_1-canvas上下文",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "1.填充和路径绘制",
-        "slug": "_1-填充和路径绘制",
-        "link": "#_1-填充和路径绘制",
-        "children": []
-      }
-    ],
-    "path": "/Notes/Canvas/canvas%E5%9F%BA%E7%A1%80.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "你不知道的css",
     "headers": [
       {
@@ -1216,6 +1543,28 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/Css/%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84css.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "canvas基础",
+    "headers": [
+      {
+        "level": 2,
+        "title": "1.Canvas上下文",
+        "slug": "_1-canvas上下文",
+        "link": "#_1-canvas上下文",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "1.填充和路径绘制",
+        "slug": "_1-填充和路径绘制",
+        "link": "#_1-填充和路径绘制",
+        "children": []
+      }
+    ],
+    "path": "/Notes/Canvas/canvas%E5%9F%BA%E7%A1%80.html",
     "pathLocale": "/",
     "extraFields": []
   },
@@ -3773,8 +4122,51 @@ export const searchIndex = [
             "slug": "git-reset-soft",
             "link": "#git-reset-soft",
             "children": []
+          },
+          {
+            "level": 3,
+            "title": "git revert",
+            "slug": "git-revert",
+            "link": "#git-revert",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "git checkout HEAD^",
+            "slug": "git-checkout-head",
+            "link": "#git-checkout-head",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "撤销修改",
+            "slug": "撤销修改",
+            "link": "#撤销修改",
+            "children": [
+              {
+                "level": 4,
+                "title": "撤销暂存区的修改",
+                "slug": "撤销暂存区的修改",
+                "link": "#撤销暂存区的修改",
+                "children": []
+              },
+              {
+                "level": 4,
+                "title": "撤销工作区（本地）的修改",
+                "slug": "撤销工作区-本地-的修改",
+                "link": "#撤销工作区-本地-的修改",
+                "children": []
+              }
+            ]
           }
         ]
+      },
+      {
+        "level": 2,
+        "title": "Rebase和merge",
+        "slug": "rebase和merge",
+        "link": "#rebase和merge",
+        "children": []
       },
       {
         "level": 2,
@@ -7925,341 +8317,6 @@ export const searchIndex = [
       }
     ],
     "path": "/Notes/Web3/Web3.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "CSS相关问题",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.多行文本溢出",
-        "slug": "_1-多行文本溢出",
-        "link": "#_1-多行文本溢出",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.移动端适配解决方案",
-        "slug": "_2-移动端适配解决方案",
-        "link": "#_2-移动端适配解决方案",
-        "children": [
-          {
-            "level": 3,
-            "title": "rem",
-            "slug": "rem",
-            "link": "#rem",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "viewport",
-            "slug": "viewport",
-            "link": "#viewport",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "3.原子化CSS",
-        "slug": "_3-原子化css",
-        "link": "#_3-原子化css",
-        "children": [
-          {
-            "level": 3,
-            "title": "原子化css原理",
-            "slug": "原子化css原理",
-            "link": "#原子化css原理",
-            "children": [
-              {
-                "level": 4,
-                "title": "按需生成",
-                "slug": "按需生成",
-                "link": "#按需生成",
-                "children": []
-              }
-            ]
-          },
-          {
-            "level": 3,
-            "title": "TailwindCSS打包体积大",
-            "slug": "tailwindcss打包体积大",
-            "link": "#tailwindcss打包体积大",
-            "children": [
-              {
-                "level": 4,
-                "title": "Tailwindcss原理",
-                "slug": "tailwindcss原理",
-                "link": "#tailwindcss原理",
-                "children": []
-              },
-              {
-                "level": 4,
-                "title": "TailwindCSS的配置",
-                "slug": "tailwindcss的配置",
-                "link": "#tailwindcss的配置",
-                "children": []
-              },
-              {
-                "level": 4,
-                "title": "压缩",
-                "slug": "压缩",
-                "link": "#压缩",
-                "children": []
-              }
-            ]
-          },
-          {
-            "level": 3,
-            "title": "Unocss",
-            "slug": "unocss",
-            "link": "#unocss",
-            "children": [
-              {
-                "level": 4,
-                "title": "配置",
-                "slug": "配置",
-                "link": "#配置",
-                "children": []
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "4.双飞翼布局",
-        "slug": "_4-双飞翼布局",
-        "link": "#_4-双飞翼布局",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "5.多行文本溢出",
-        "slug": "_5-多行文本溢出",
-        "link": "#_5-多行文本溢出",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Css/CSS%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "js中遇到的问题",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.字符串表情问题",
-        "slug": "_1-字符串表情问题",
-        "link": "#_1-字符串表情问题",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.如何记录用户信息-canvas",
-        "slug": "_2-如何记录用户信息-canvas",
-        "link": "#_2-如何记录用户信息-canvas",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.Ajax和fetch取消请求的方式",
-        "slug": "_3-ajax和fetch取消请求的方式",
-        "link": "#_3-ajax和fetch取消请求的方式",
-        "children": [
-          {
-            "level": 3,
-            "title": "3.1、fetch取消",
-            "slug": "_3-1、fetch取消",
-            "link": "#_3-1、fetch取消",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "3.2、Ajax取消",
-            "slug": "_3-2、ajax取消",
-            "link": "#_3-2、ajax取消",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "4、页面更新自动刷新页面",
-        "slug": "_4、页面更新自动刷新页面",
-        "link": "#_4、页面更新自动刷新页面",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "5.用户输入法按enter会触发提交事件",
-        "slug": "_5-用户输入法按enter会触发提交事件",
-        "link": "#_5-用户输入法按enter会触发提交事件",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "Vuepress展示数学公式",
-        "slug": "vuepress展示数学公式",
-        "link": "#vuepress展示数学公式",
-        "children": []
-      }
-    ],
-    "path": "/Problems/JavaScript/js%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "埋点",
-    "headers": [
-      {
-        "level": 2,
-        "title": "初始化项目",
-        "slug": "初始化项目",
-        "link": "#初始化项目",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "生成.d.ts文件",
-        "slug": "生成-d-ts文件",
-        "link": "#生成-d-ts文件",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "代码展示",
-        "slug": "代码展示",
-        "link": "#代码展示",
-        "children": []
-      }
-    ],
-    "path": "/Problems/JavaScript/%E5%9F%8B%E7%82%B9.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "pm2",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.问题描述",
-        "slug": "_1-问题描述",
-        "link": "#_1-问题描述",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Node/pm2.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "项目中得到的问题",
-    "headers": [
-      {
-        "level": 2,
-        "title": "1.埋点API多平台调用",
-        "slug": "_1-埋点api多平台调用",
-        "link": "#_1-埋点api多平台调用",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "2.高度自动过度",
-        "slug": "_2-高度自动过度",
-        "link": "#_2-高度自动过度",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "3.SEO",
-        "slug": "_3-seo",
-        "link": "#_3-seo",
-        "children": [
-          {
-            "level": 3,
-            "title": "预渲染",
-            "slug": "预渲染",
-            "link": "#预渲染",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "META标签配置",
-            "slug": "meta标签配置",
-            "link": "#meta标签配置",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "robots文件",
-            "slug": "robots文件",
-            "link": "#robots文件",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "sitemap站点地图",
-            "slug": "sitemap站点地图",
-            "link": "#sitemap站点地图",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "内链和外链",
-            "slug": "内链和外链",
-            "link": "#内链和外链",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "网址规范",
-            "slug": "网址规范",
-            "link": "#网址规范",
-            "children": []
-          },
-          {
-            "level": 3,
-            "title": "301重定向",
-            "slug": "_301重定向",
-            "link": "#_301重定向",
-            "children": []
-          }
-        ]
-      }
-    ],
-    "path": "/Problems/Project/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BE%97%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "服务器",
-    "headers": [
-      {
-        "level": 2,
-        "title": "服务器搭建流程",
-        "slug": "服务器搭建流程",
-        "link": "#服务器搭建流程",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "浏览器报错",
-        "slug": "浏览器报错",
-        "link": "#浏览器报错",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "服务器防火墙",
-        "slug": "服务器防火墙",
-        "link": "#服务器防火墙",
-        "children": []
-      }
-    ],
-    "path": "/Problems/Server/%E6%9C%8D%E5%8A%A1%E5%99%A8.html",
     "pathLocale": "/",
     "extraFields": []
   },

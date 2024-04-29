@@ -804,3 +804,13 @@ go get -u gorm.io/driver/sqlite
 
 ## Redis
 
+| 标签               | 描述                                                         |
+| :----------------- | :----------------------------------------------------------- |
+| `foreignKey`       | Specifies the column name of the current model used as a foreign key in the join table. |
+| `references`       | Indicates the column name in the reference table that the foreign key of the join table maps to. |
+| `polymorphic`      | Defines the polymorphic type, typically the model name.      |
+| `polymorphicValue` | Sets the polymorphic value, usually the table name, if not specified otherwise. |
+| `many2many`        | Names the join table used in a many-to-many relationship.    |
+| `joinForeignKey`   | Identifies the foreign key column in the join table that maps back to the current model’s table. |
+| `joinReferences`   | Points to the foreign key column in the join table that links to the reference model’s table. |
+| `constraint`       | Specifies relational constraints like `OnUpdate`, `OnDelete` for the association. |

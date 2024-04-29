@@ -15,14 +15,15 @@ const uploadToServer = () => {
     }, (err, stdout, stderr) => {
         if (err) {
             console.log(`错误${err.toString('utf8')}`)
-            return process.exit(1)
+            process.exit(1)
         }
         if (stderr) {
             console.log(`运行错误${stderr.toString('utf8')}`)
-            return process.exit(1)
+            process.exit(1)
         }
         console.log(stdout.toString('utf8'),'xxx')
         console.log(command, '命令执行完成-------------🔚🔚🔚🔚🔚🔚🔚')
+        
     })
 }
 

@@ -1,5 +1,4 @@
-<template><div><h1 id="git基础" tabindex="-1"><a class="header-anchor" href="#git基础" aria-hidden="true">#</a> Git基础</h1>
-<h1 id="git简介" tabindex="-1"><a class="header-anchor" href="#git简介" aria-hidden="true">#</a> Git简介</h1>
+<template><div><h1 id="git简介" tabindex="-1"><a class="header-anchor" href="#git简介" aria-hidden="true">#</a> Git简介</h1>
 <p>Git是目前世界上最先进的分布式版本控制系统（没有之一）。</p>
 <p>所有的版本控制系统，其实只能<strong>跟踪文本文件的改动</strong>，比如TXT文件，网页，所有的程序代码等等，Git也不例外。版本控制系统可以告诉你每次的改动，比如在第5行加了一个单词“Linux”，在第8行删了一个单词“Windows”。而图片、视频这些二进制文件，虽然也能由版本控制系统管理，但没法跟踪文件的变化，只能把二进制文件每次改动串起来，也就是只知道图片从100KB改成了120KB，但到底改了啥，版本控制系统不知道，也没法知道。</p>
 <h1 id="_1-基本操作步骤" tabindex="-1"><a class="header-anchor" href="#_1-基本操作步骤" aria-hidden="true">#</a> 1.基本操作步骤</h1>
@@ -297,7 +296,90 @@ Your branch is up to <span class="token function">date</span> with <span class="
 Changes to be committed:
   <span class="token punctuation">(</span>use <span class="token string">"git restore --staged &lt;file>..."</span> to unstage<span class="token punctuation">)</span>
         new file:   bbb.md    
-</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h1 id="问题" tabindex="-1"><a class="header-anchor" href="#问题" aria-hidden="true">#</a> 问题</h1>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="git-revert" tabindex="-1"><a class="header-anchor" href="#git-revert" aria-hidden="true">#</a> <code v-pre>git revert</code></h3>
+<p><code v-pre>git revert</code> 命令用于创建一个新的提交，该提交包含了要回滚的提交所引入的更改的相反操作，这样就可以撤销这些更改。这个新提交将成为项目历史记录中的一部分，并且需要被推送到远程仓库以应用这些更改。相较于 <code v-pre>git reset</code> 命令，<code v-pre>git revert</code> 命令更加<strong>安全</strong>，因为它不会删除任何提交，而是创建新的提交（如果想完全撤销更改，需要使用 <code v-pre>git reset</code> 命令。）该命令通常用于<strong>回滚已经推送到远程仓库的提交</strong>。</p>
+<p><img src="/Git/revert1.png" alt=""></p>
+<p>目前我们的工作区只有aaa.md很干净接下来我会创建bbb.md并推送到远程仓库。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">git</span> status
+On branch master
+Your branch is up to <span class="token function">date</span> with <span class="token string">'origin/master'</span><span class="token builtin class-name">.</span>
+
+Untracked files:
+  <span class="token punctuation">(</span>use <span class="token string">"git add &lt;file>..."</span> to include <span class="token keyword">in</span> what will be committed<span class="token punctuation">)</span>
+        bbb.md
+        
+<span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"add bbb.md file"</span>
+<span class="token function">git</span> push origin master
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>然后我们执行<code v-pre>git log</code>查看更改内容</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">git</span> log <span class="token parameter variable">--pretty</span><span class="token operator">=</span>oneline
+0907a85f6b96f7249cfc004e2e663a9e87f0e291 <span class="token punctuation">(</span>HEAD -<span class="token operator">></span> master, origin/master<span class="token punctuation">)</span> <span class="token function">add</span> bbb.md <span class="token function">file</span>
+2e007077746ee5b269c1f5492f8ad0856fcf0a24 Revert <span class="token string">"create bbb.mc"</span>
+f18cf0d07ada4d338564da064aba29925f7b9df0 create bbb.mc
+acc55939b31648f88752729c421f52b3ff587d33 first
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>然后我们执行<code v-pre>git revert</code>开始回滚</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">git</span> revert 0907a85f6b96f7249cfc004e2e663a9e87f0e291
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p><strong>执行完改命令git会帮我们创建一个新的<code v-pre>commit</code>进入<code v-pre>vim</code>模式</strong>，这里就是<code v-pre>commit</code>的信息，我们可以直接<code v-pre>:wq</code>保存退出，此时可以看到如下</p>
+<div class="language-txt line-numbers-mode" data-ext="txt"><pre v-pre class="language-txt"><code>[master a6ad2f8] Revert "add bbb.md file"
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 bbb.md
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>然后我们git status查看状态</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code> <span class="token function">git</span> status
+On branch master
+Your branch is ahead of <span class="token string">'origin/master'</span> by <span class="token number">1</span> commit.
+  <span class="token punctuation">(</span>use <span class="token string">"git push"</span> to publish your <span class="token builtin class-name">local</span> commits<span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以看到已经提交了，此时我们可以push这样就回退了推送到远程仓库的内容了。</p>
+<h3 id="git-checkout-head" tabindex="-1"><a class="header-anchor" href="#git-checkout-head" aria-hidden="true">#</a> <code v-pre>git checkout HEAD^</code></h3>
+<p><code v-pre>git checkout HEAD^</code> 的作用是将当前分支移动到前一个提交（上一个提交）的位置，并更新工作目录中的文件的状态。</p>
+<p>具体而言，<code v-pre>HEAD^</code> 表示当前分支的上一个提交（即父提交）。通过执行 <code v-pre>git checkout HEAD^</code>，将切换到上一个提交并将工作目录中的文件还原为该提交时的状态。</p>
+<p>这种操作在以下场景中可能会有用：</p>
+<ul>
+<li>想撤销最新的提交并回到上一个提交的状态。</li>
+<li>想查看上一个提交的内容或进行比较。</li>
+<li>在切换到上一个提交后，可能会创建新的分支或进行其他操作。</li>
+</ul>
+<p>需要注意的是，<code v-pre>git checkout HEAD^</code> 是一个相对引用，只会移动当前分支的指针而不会影响其他分支。如果希望在移动分支指针的同时也更新其他分支，可以使用 <code v-pre>git checkout -B &lt;分支名&gt; HEAD^</code> 命令。</p>
+<p>请注意，执行 <code v-pre>git checkout HEAD^</code> 后，可以使用 <code v-pre>git checkout -</code> 命令返回到先前的分支位置。</p>
+<h3 id="撤销修改" tabindex="-1"><a class="header-anchor" href="#撤销修改" aria-hidden="true">#</a> 撤销修改</h3>
+<p>撤销修改分两种情况：</p>
+<ol>
+<li>修改后没有执行<code v-pre>git add</code>放到暂存区，现在只要撤销修改就和版本库的一样了。</li>
+<li>已经执行了<code v-pre>git add</code>添加到暂存区了，现在撤销修改就回到添加暂存区后的状态。</li>
+</ol>
+<h4 id="撤销暂存区的修改" tabindex="-1"><a class="header-anchor" href="#撤销暂存区的修改" aria-hidden="true">#</a> 撤销暂存区的修改</h4>
+<p>我们先git status查看一下当前状态。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code> <span class="token function">git</span> status
+On branch master
+Your branch is up to <span class="token function">date</span> with <span class="token string">'origin/master'</span><span class="token builtin class-name">.</span>
+
+Changes to be committed:
+  <span class="token punctuation">(</span>use <span class="token string">"git restore --staged &lt;file>..."</span> to unstage<span class="token punctuation">)</span>
+        new file:   bbb.md
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code v-pre> git reset HEAD &lt;file&gt;</code> 命令既可以回退版本，也可以把暂存区的修改回退到工作区。当我们用<code v-pre>HEAD</code>时，表示最新的版本。<code v-pre>git restore --staged &lt;file&gt;</code>同样也可以将暂存区修改回退到工作区。我们挑一个命令执行然后再看一下状态。</p>
+<div class="language-bash line-numbers-mode" data-ext="sh"><pre v-pre class="language-bash"><code><span class="token function">git</span> status
+On branch master
+Your branch is up to <span class="token function">date</span> with <span class="token string">'origin/master'</span><span class="token builtin class-name">.</span>
+
+Untracked files:
+  <span class="token punctuation">(</span>use <span class="token string">"git add &lt;file>..."</span> to include <span class="token keyword">in</span> what will be committed<span class="token punctuation">)</span>
+        bbb.md
+
+nothing added to commit but untracked files present <span class="token punctuation">(</span>use <span class="token string">"git add"</span> to track<span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="撤销工作区-本地-的修改" tabindex="-1"><a class="header-anchor" href="#撤销工作区-本地-的修改" aria-hidden="true">#</a> 撤销工作区（本地）的修改</h4>
+<p><code v-pre>git checkout -- file</code>命令中的<code v-pre>--</code>很重要，没有<code v-pre>--</code>，就变成了“切换到另一个分支”的命令，我们在后面的分支管理中会再次遇到<code v-pre>git checkout</code>命令。</p>
+<div class="language-txt line-numbers-mode" data-ext="txt"><pre v-pre class="language-txt"><code>aaaaa
+执行 git checkout -- aaa.md将清除掉我这一行
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>然后我们执行<code v-pre>git checkout -- aaa.md</code>，就会发现文件内容就恢复了</p>
+<div class="language-txt line-numbers-mode" data-ext="txt"><pre v-pre class="language-txt"><code>aaaaa
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h2 id="rebase和merge" tabindex="-1"><a class="header-anchor" href="#rebase和merge" aria-hidden="true">#</a> Rebase和merge</h2>
+<p>在上一节我们看到了，多人在同一个分支上协作时，很容易出现冲突。即使没有冲突，后push的童鞋不得不先pull，在本地合并，然后才能push成功。每次合并再push后，分支很乱，有强迫症的童鞋会问：为什么Git的提交历史不能是一条干净的直线？</p>
+<ul>
+<li>rebase操作可以把本地未push的分叉提交历史整理成直线；</li>
+<li>rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。</li>
+</ul>
+<p>git rebase和merge功能一样都是将分支的提交合并到另一个分支上，例如我在<code v-pre>master</code>分支上执行<code v-pre>git merge dev</code>就会将<code v-pre>dev</code>分支的代码合并到<code v-pre>master</code>上，但此时我们<code v-pre>git log --graph --pretty=oneline --abbrev-commit</code>可以查看分支的<code v-pre>commit</code>记录是没有dev分支上的记录的，如果我们希望将<code v-pre>commit</code>记录变成直线就执行<code v-pre>rebase</code>变基就可以了。如下图所示</p>
+<p><img src="/Git/rebase_merge.png" alt=""></p>
+<h1 id="问题" tabindex="-1"><a class="header-anchor" href="#问题" aria-hidden="true">#</a> 问题</h1>
 <h2 id="vscode终端无法使用git" tabindex="-1"><a class="header-anchor" href="#vscode终端无法使用git" aria-hidden="true">#</a> VSCODE终端无法使用git</h2>
 <p>在setting.json中配置git.path指向&quot;C:\Program Files\Git\bin\git.exe&quot;路径即可</p>
 <CommentService/></div></template>

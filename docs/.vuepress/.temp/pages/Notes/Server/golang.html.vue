@@ -562,6 +562,48 @@ go mod tidy
 go get <span class="token parameter variable">-u</span> gorm.io/driver/sqlite
 </code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>创建models文件夹，该文件夹用于gorm创建表</p>
 <h2 id="redis" tabindex="-1"><a class="header-anchor" href="#redis" aria-hidden="true">#</a> Redis</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">标签</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code v-pre>foreignKey</code></td>
+<td style="text-align:left">Specifies the column name of the current model used as a foreign key in the join table.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>references</code></td>
+<td style="text-align:left">Indicates the column name in the reference table that the foreign key of the join table maps to.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>polymorphic</code></td>
+<td style="text-align:left">Defines the polymorphic type, typically the model name.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>polymorphicValue</code></td>
+<td style="text-align:left">Sets the polymorphic value, usually the table name, if not specified otherwise.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>many2many</code></td>
+<td style="text-align:left">Names the join table used in a many-to-many relationship.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>joinForeignKey</code></td>
+<td style="text-align:left">Identifies the foreign key column in the join table that maps back to the current model’s table.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>joinReferences</code></td>
+<td style="text-align:left">Points to the foreign key column in the join table that links to the reference model’s table.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code v-pre>constraint</code></td>
+<td style="text-align:left">Specifies relational constraints like <code v-pre>OnUpdate</code>, <code v-pre>OnDelete</code> for the association.</td>
+</tr>
+</tbody>
+</table>
 </div></template>
 
 

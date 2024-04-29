@@ -4,8 +4,6 @@ title: Git基础
 description: 关键功能
 collapsible: true
 ---
-# Git基础
-
 # Git简介
 
 Git是目前世界上最先进的分布式版本控制系统（没有之一）。
@@ -609,6 +607,81 @@ Changes to be committed:
         new file:   bbb.md    
 ~~~
 
+### `git revert`
+
+`git revert` 命令用于创建一个新的提交，该提交包含了要回滚的提交所引入的更改的相反操作，这样就可以撤销这些更改。这个新提交将成为项目历史记录中的一部分，并且需要被推送到远程仓库以应用这些更改。相较于 `git reset` 命令，`git revert` 命令更加**安全**，因为它不会删除任何提交，而是创建新的提交（如果想完全撤销更改，需要使用 `git reset` 命令。）该命令通常用于**回滚已经推送到远程仓库的提交**。
+
+![](/Git/revert1.png)
+
+目前我们的工作区只有aaa.md很干净接下来我会创建bbb.md并推送到远程仓库。
+
+~~~shell
+git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        bbb.md
+        
+git add .
+git commit -m "add bbb.md file"
+git push origin master
+~~~
+
+然后我们执行`git log`查看更改内容
+
+~~~shell
+git log --pretty=oneline
+0907a85f6b96f7249cfc004e2e663a9e87f0e291 (HEAD -> master, origin/master) add bbb.md file
+2e007077746ee5b269c1f5492f8ad0856fcf0a24 Revert "create bbb.mc"
+f18cf0d07ada4d338564da064aba29925f7b9df0 create bbb.mc
+acc55939b31648f88752729c421f52b3ff587d33 first
+~~~
+
+然后我们执行`git revert`开始回滚
+
+~~~shell
+git revert 0907a85f6b96f7249cfc004e2e663a9e87f0e291
+~~~
+
+**执行完改命令git会帮我们创建一个新的`commit`进入`vim`模式**，这里就是`commit`的信息，我们可以直接`:wq`保存退出，此时可以看到如下
+
+~~~txt
+[master a6ad2f8] Revert "add bbb.md file"
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 bbb.md
+~~~
+
+然后我们git status查看状态
+
+~~~shell
+ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+~~~
+
+可以看到已经提交了，此时我们可以push这样就回退了推送到远程仓库的内容了。
+
+### `git checkout HEAD^`
+
+`git checkout HEAD^` 的作用是将当前分支移动到前一个提交（上一个提交）的位置，并更新工作目录中的文件的状态。
+
+具体而言，`HEAD^` 表示当前分支的上一个提交（即父提交）。通过执行 `git checkout HEAD^`，将切换到上一个提交并将工作目录中的文件还原为该提交时的状态。
+
+这种操作在以下场景中可能会有用：
+
+* 想撤销最新的提交并回到上一个提交的状态。
+* 想查看上一个提交的内容或进行比较。
+* 在切换到上一个提交后，可能会创建新的分支或进行其他操作。
+
+需要注意的是，`git checkout HEAD^` 是一个相对引用，只会移动当前分支的指针而不会影响其他分支。如果希望在移动分支指针的同时也更新其他分支，可以使用 `git checkout -B <分支名> HEAD^` 命令。
+
+请注意，执行 `git checkout HEAD^` 后，可以使用 `git checkout -` 命令返回到先前的分支位置。
+
+
+
 ### 撤销修改
 
 撤销修改分两种情况：
@@ -653,6 +726,30 @@ nothing added to commit but untracked files present (use "git add" to track)
 #### 撤销工作区（本地）的修改
 
 `git checkout -- file`命令中的`--`很重要，没有`--`，就变成了“切换到另一个分支”的命令，我们在后面的分支管理中会再次遇到`git checkout`命令。
+
+~~~txt
+aaaaa
+执行 git checkout -- aaa.md将清除掉我这一行
+~~~
+
+然后我们执行`git checkout -- aaa.md`，就会发现文件内容就恢复了
+
+~~~txt
+aaaaa
+~~~
+
+
+
+## Rebase和merge
+
+在上一节我们看到了，多人在同一个分支上协作时，很容易出现冲突。即使没有冲突，后push的童鞋不得不先pull，在本地合并，然后才能push成功。每次合并再push后，分支很乱，有强迫症的童鞋会问：为什么Git的提交历史不能是一条干净的直线？
+
+* rebase操作可以把本地未push的分叉提交历史整理成直线；
+* rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
+
+git rebase和merge功能一样都是将分支的提交合并到另一个分支上，例如我在`master`分支上执行`git merge dev`就会将`dev`分支的代码合并到`master`上，但此时我们`git log --graph --pretty=oneline --abbrev-commit`可以查看分支的`commit`记录是没有dev分支上的记录的，如果我们希望将`commit`记录变成直线就执行`rebase`变基就可以了。如下图所示
+
+![](/Git/rebase_merge.png)
 
 # 问题
 

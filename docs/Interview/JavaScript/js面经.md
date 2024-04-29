@@ -602,9 +602,88 @@ Promise._all = function (promises) {
         })
     })
 }
+~~~
+
+## 使用timeout模拟interval
+
+~~~js
+        function mySetInterval(fn,delay=1000){
+            let stopFlag = false
+            let timer = null
+            const run = (cb,dealyTime)=>{
+                if(stopFlag) return 
+                timer = setTimeout(()=>{
+                    cb()
+                    run(cb,dealyTime)
+                },delay)
+            }
+            run(fn,delay)
+            return ()=>{
+                clearTimeout(timer)
+                timer = null
+                stopFlag = true
+            }
+        }
+        const stop = mySetInterval(()=>console.log(111))
+        setTimeout(() => {
+            stop()
+        }, 5000);
+~~~
 
 
 
+## 实现indexof，reduce，bind方法
+
+**数组reduce**
+
+~~~js
+        Array.prototype.myReduce = myReduce
+        function myReduce(fn,pre){
+            const arr = this
+            for(let i = 0;i<arr.length;i++){
+                pre = fn(pre,arr[i],i,arr)
+            }
+            return pre
+        }
+        console.log([1,2,3,4].myReduce((pre,cur)=>pre+cur,''))
+~~~
+
+**函数bind**
+
+~~~js
+		function myBind(obj,args){
+            const fn = this
+            return function(){
+                obj.fn = fn
+                const res = obj.fn(...args)
+                delete obj.fn
+                return res
+            }
+        }
+        Function.prototype.myBind = myBind
+        const obj = {name:'1231',age:23}
+        function testBind(...args){
+            console.log(this)
+        }
+        testBind.myBind(obj,'123')()
+~~~
+
+**字符串indexof**
+
+~~~js
+        String.prototype.myIndexOf = myIndexOf
+        function myIndexOf(str){
+            const originStr = this
+            for(let i = 0; i < originStr.length;i++){
+                const end = i + str.length
+                if(end > originStr.length) return -1
+                if(originStr.slice(i,end) === str){
+                    return i
+                }
+            }
+            return -1
+        }
+        console.log('测试字符串'.myIndexOf('测'))
 ~~~
 
 
